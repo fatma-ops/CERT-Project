@@ -9,6 +9,7 @@ import Welcome from '../screens/Welcome'
 import Login from '../screens/Login'
 import AnalyseFlatList from '../screens/AnalyseFlatList'
 import AnalyseDetail from '../screens/AnalyseDetail'
+import Vaccin from '../screens/Vaccin'
 const { darkLight, brand } = Colors;
 
 
@@ -96,8 +97,8 @@ export default function NavBarre() {
                 }} />
 
             <Tab.Screen
-                name="Login"
-                component={Login}
+                name="Vaccin"
+                component={Vaccin}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (

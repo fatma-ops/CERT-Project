@@ -59,7 +59,6 @@ const Welcome = ({navigation}) => {
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditProfileScreen', {nom: nom, prenom: prenom, email: email, allergie: allergie, groupeSanguin: groupeSanguin})} >
         <View style={{flexDirection:'row' , justifyContent:'center'}}>
           <Text style={styles.buttonText}>Modifier profile</Text>
-          <MaterialCommunityIcons name="account-edit-outline" color={primary} size={25}  />
 
           </View>
         </TouchableOpacity>
