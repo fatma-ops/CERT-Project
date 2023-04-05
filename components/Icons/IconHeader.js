@@ -20,7 +20,7 @@ align-self:center;
 `;
 const IconHeader= ({name ,  color , ...props}) => {
     return (
-    <IconBg style = {{...props.style}}><MaterialCommunityIcons name={name} size={ StatusBarHeight * 1.2 } color={color ? color : brand }/>
+    <IconBg style = {{...props.style}}><MaterialCommunityIcons name={name} size={ StatusBarHeight * 1.9} color={color ? color : brand }/>
     
     </IconBg>
     );

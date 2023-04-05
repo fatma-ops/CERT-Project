@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { AntDesign , MaterialCommunityIcons } from '@expo/vector-icons';
+import { StatusBarHeight } from './shared';
 
 const NotFound = () => {
   return (
@@ -18,6 +19,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     opacity: 0.5,
     zIndex: -1,
+    marginTop:StatusBarHeight + 10
+
   },
 });
 

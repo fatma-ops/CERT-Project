@@ -1,86 +1,137 @@
-import React from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import React , {useState , useContext} from 'react';
+import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
+import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from 'expo-status-bar';
+import { Colors, ExtraView } from '../components/styles';
+import SearchBar from '../components/SearchBar';
+import { CredentialsContext } from './../components/CredentialsContext';
+import NotFound from '../components/NotFound';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBarHeight } from '../components/shared';
+const { green, brand, darkLight, primary } = Colors;
+
 
 const ListeVaccin = ({ ...props }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredVaccins, setFilteredVaccins] = useState([]);
+  
+  const handleOnSearchInput = (text) => {
+
+  setSearchQuery(text);
+    const filtered = props.vaccins.filter(
+      (item) =>
+        item &&
+        item.vaccinName &&
+        item.vaccinName.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredVaccins(filtered);
+  };
+  
+  
+ 
   const navigation = useNavigation();
   return (
+
     <View style={[styles.vaccinContainer]}>
-      <View style={styles.headingContainer}>
-        <View style={{ flexDirection: 'row' }}>
-          
-          <TouchableOpacity style={[styles.button]} onPress={() => navigation.navigate('Add')} >
-             <FontAwesome5 name='plus' size={25} color='black' />
-             <Text style={{ marginLeft: 10 }}>Add</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ fontWeight: '700', fontSize: 18, color: "black" }}>
-          Total:
-        </Text>
-        <Text style={{ fontWeight: '700', fontSize: 18, color: "black" }}>
-          {props.vaccins ? props.vaccins.length : 0}
-        </Text>
-      </View>
-      
+    <StatusBar style="Light" />
+    <SearchBar
+      value={searchQuery}
+      onChangeText={handleOnSearchInput}
+      containerStyle={{ marginVertical: 15 }}
+    />
 
-  <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {
-          !props.vaccins || props.vaccins.length === 0
-            ? (
-              <View style={styles.emptyVaccinContainer}>
-                <Text style={styles.emptyVaccinText}>There are no notes yet</Text>
+    <View style={styles.headingContainer}>
+      <View style={{ flexDirection: 'row' }}>
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => navigation.navigate('Add')}
+        >
+          <FontAwesome5 name="plus" size={25} color={brand} />
+          <Text style={{ marginLeft: 4, color: darkLight }}>Ajouter</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
+        Total:
+      </Text>
+      <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
+        {props.vaccins ? props.vaccins.length : 0}
+      </Text>
+    </View>
+    {filteredVaccins.length > 0 ? (
+    <FlatList
+
+      style={styles.scrollView}
+      showsVerticalScrollIndicator={false}
+      data={filteredVaccins}
+      keyExtractor={(item, index) => String(index)}
+      renderItem={({ item, index }) => (
+        <View style={styles.item} key={index}>
+          <View style={styles.vaccin}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Affiche Vaccin', {
+                  selectedVaccin: item,
+                })
+              }
+            >
+              <Text style={styles.text}>{index + 1}</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.vaccin}>{item.vaccinName}</Text>
+                <Text style={styles.vaccin}>{item.vaccinDate}</Text>
+                {item.vaccinImage && (
+                  <Image
+                    source={{ uri: item.vaccinImage }}
+                    style={{ height: 200, width: '100%', zIndex: 1 }}
+                  />
+                )}
               </View>
-            ) : (
-              props.vaccins.map((item, index) =>
-                <View style={styles.item} key={index}>
-                  
-                  <View style={styles.vaccin}>
-                  <TouchableOpacity
-        onPress={() => navigation.navigate('Affiche Vaccin', { selectedVaccin: item })}>
-             <Text style={styles.text}>{index + 1}</Text>
-                    <View style={{ flex: 1 }}>
-                      <Text style={styles.vaccin}>{item.vaccinName}</Text>
-                      <Text style={styles.vaccin}>{item.vaccinDate}</Text>
-                      {item.vaccinImage && (
-              <Image
-                source={{ uri: item.vaccinImage }}
-                style={{ height: 200, width: '100%' }}
-              />
-            )}
-
-                    </View>
-      </TouchableOpacity>
-                 
-                  </View>
-                </View>
-              )
-            )
-        }
-      </ScrollView>
-
+            </TouchableOpacity>
+          </View>
+        </View> 
+      )} 
+      
+      ListEmptyComponent={() => (
+        <View style={styles.emptyVaccinContainer}>
+          <Text style={styles.emptyVaccinText}>
+            Il n'y a pas encore de vaccins.
+          </Text>
+        </View>
+      )}
+    />  ) : (
+      
+      <View style={styles.container}>
+        <MaterialCommunityIcons name='emoticon-sad-outline' size={90} color='black' />
+          <Text style={styles.emptyVaccinText}>
+          Résultat introuvable
+          </Text>
+        </View>
+      
+    )}
+  </View>
+);
 
 
      
 
 
-    </View>
-  )
+    
 }
 
 export const styles = StyleSheet.create({
     vaccinContainer:{
-        paddingTop:10,
+        paddingTop:-4,
         paddingHorizontal:20,
         marginBottom:70,
         opacity:0.9,
     },
     headingContainer:{
         fontWeight:'700',
-        color:'blue',
+        color:brand,
     },
     divider:{
         width:'100%',
@@ -91,8 +142,8 @@ export const styles = StyleSheet.create({
     item:{ 
         marginBottom:20,
         padding:15,
-        color:'balck',
-        opacity:0.8,
+        color:brand,
+        opacity:1,
         marginTop:10,
         shadowOpacity:0.5,
         shadowOffset:{width:0, height:4},
@@ -117,12 +168,14 @@ export const styles = StyleSheet.create({
         width:50,
         borderRadius:100,
         justifyContent:'center',
-        alignItems:'center',
+       
         marginLeft:10,
-        height:50
+        height:50,
+        marginTop : 20,
+        marginBottom : 20
     },
     buttonText:{
-        color:'white',
+        color:brand,
         fontSize:32,
         fontWeight:'800'
     },
@@ -130,16 +183,16 @@ export const styles = StyleSheet.create({
         marginBottom:70,
     },
     vaccin:{
-        flexDirection:'row',
+        //flexDirection:'row',
         width:'75%',
-        color:'black',
+        color:brand,
         fontWeight:'bold',
     },
     text:{
         fontWeight:'700',
         fontSize:17,
        
-       // alignItems:'center',
+       //alignItems:'center',
     },
     delete:{
         fontWeight:'700',
@@ -150,7 +203,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal:20,
         width:'65%',
         fontSize:19,
-        color:'black',
+        color:brand,
         fontWeight:'600',
         opacity:0.8,
         marginTop:0.4,
@@ -158,7 +211,7 @@ export const styles = StyleSheet.create({
         shadowOffset:{width:0, height:4},
         shadowRadius:8,
         elevation:5,
-        backgroundColor:'white',
+        backgroundColor:'#fff',
         borderWidth:2,
         borderRadius:5,
     },
@@ -176,23 +229,33 @@ export const styles = StyleSheet.create({
         height:40
     },
     searchButtonText:{
-        color:'white',
+        color:"#fff",
         fontWeight:'700',
         fontSize:12,
     },
     emptyVaccinContainer:{
         alignItems:'center',
-        marginTop:240,
+        marginTop:140,
     },
     emptyVaccinText:{
         fontWeight:'600',
         fontSize:15,
+        justifyContent:'center',
+        textAlign:'justify'
     },
     dateContainer:{
         marginTop:10,
         flexDirection:'row',
         justifyContent:'space-between',
         marginTop:20
+    },container: {
+   
+      justifyContent: 'center',
+      alignItems: 'center',
+      opacity: 0.5,
+      marginTop:StatusBarHeight 
+  
     },
+    
 }) 
 export default ListeVaccin;

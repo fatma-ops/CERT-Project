@@ -26,52 +26,52 @@ setFilteredProducts(filtered);
 };
 
 
-const loadProducts = async () => {
-  try {
-    const data = await AsyncStorage.getItem('PRODUCTS');
-    if (data !== null) {
-      const products = JSON.parse(data);
-      setFilteredProducts(products);
-    } else {
-      setFilteredProducts(PRODUCTS);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
+//const loadProducts = async () => {
+ // try {
+ //   const data = await AsyncStorage.getItem('PRODUCTS');
+  //  if (data !== null) {
+   //   const products = JSON.parse(data);
+   //   setFilteredProducts(products);
+    //} else {
+    //  setFilteredProducts(PRODUCTS);
+    //}
+  //} catch (error) {
+  //  console.error(error);
+ // }
+//};
 
-useEffect(() => {
-  loadProducts();
-}, []);
+//useEffect(() => {
+ // loadProducts();
+//}, []);
 
 
-const handleOnSave = async (products) => {
-  try {
-    await AsyncStorage.setItem('PRODUCTS', JSON.stringify(products));
-  } catch (error) {
-    console.error(error);
-  }
-};
+//const handleOnSave = async (products) => {
+ // try {
+  //  await AsyncStorage.setItem('PRODUCTS', JSON.stringify(products));
+ // } catch (error) {
+ //   console.error(error);
+ // }
+//};
 
-const handleOnUpdate = (id, product) => {
-  const index = filteredProducts.findIndex(item => item.id === id);
-  if (index !== -1) {
-    const products = [...filteredProducts];
-    products[index] = product;
-    setFilteredProducts(products);
-    handleOnSave(products);
-  }
-};
+//const handleOnUpdate = (id, product) => {
+ // const index = filteredProducts.findIndex(item => item.id === id);
+ // if (index !== -1) {
+  ///  const products = [...filteredProducts];
+    //products[index] = product;
+  //  setFilteredProducts(products);
+  //  handleOnSave(products);
+  //}
+//};
 
-const handleOnDelete = (id) => {
-  const index = filteredProducts.findIndex(item => item.id === id);
-  if (index !== -1) {
-    const products = [...filteredProducts];
-    products.splice(index, 1);
-    setFilteredProducts(products);
-    handleOnSave(products);
-  }
-};
+//const handleOnDelete = (id) => {
+ // const index = filteredProducts.findIndex(item => item.id === id);
+ // if (index !== -1) {
+  //  const products = [...filteredProducts];
+  //  products.splice(index, 1);
+  //  setFilteredProducts(products);
+   // handleOnSave(products);
+  //}
+//};
 
   
     return(
@@ -88,20 +88,20 @@ const handleOnDelete = (id) => {
     {filteredProducts.length > 0 ? (
     <FlatList
     data={filteredProducts}
-      keyExtractor={item => item.id}
-      renderItem={itemData => (
-      <ProductItem image={itemData.item.imageUrl} 
-      title={itemData.item.title} 
-      price={itemData.item.price} 
-      onViewDetail={() => {
-        props.navigation.navigate('AnalyseDetail',
-        {productId:itemData.item.id,
-         productTitle:itemData.item.title,
+          keyExtractor={item => item.id}
+            renderItem={itemData => (
+             <ProductItem image={itemData.item.imageUrl} 
+             title={itemData.item.title} 
+             price={itemData.item.price} 
+             onViewDetail={() => {
+             props.navigation.navigate('AnalyseDetail',
+             {productId:itemData.item.id,
+             productTitle:itemData.item.title,
          
-        })
-      } } 
+            })
+                } } 
       />
-    )}
+               )}
         
     
     

@@ -7,7 +7,7 @@ import { ActivityIndicator, Button } from 'react-native';
 import { Octicons, Ionicons } from '@expo/vector-icons';
 import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
 import { CredentialsContext } from '../components/CredentialsContext';
-import RegularButton2 from '../components/Buttons/RegularButton2';
+import RegularButton from '../components/Buttons/RegularButton';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -27,9 +27,14 @@ import {
     PageSignup,
     StyledContainer2,
     ViewImage,
+    StyledContainer,
+    ExtraView,
+    TextLink,
+    TextLinkContent,
 } from '../components/styles';
 import MessageModalImage from '../components/Modals/MessageModalImage';
 import styled from 'styled-components';
+import RegularButton2 from '../components/Buttons/RegularButton2';
 
 const { green, brand, darkLight, primary } = Colors;
 
@@ -60,11 +65,10 @@ const pickImage = async () => {
 return(
     <ScrollView>
       <KeyboardAvoidingWrapper>
-      <StyledContainer2>
+      <StyledContainer>
                 <StatusBar style="dark" />
                 <InnerContainer>
-                <SubTitle></SubTitle>
-                    <View>
+                   
                             <StyledFormArea>
                                 <Text style={styles.label}>Nom du vaccin</Text>
                                 <StyledTextInput  {...props} 
@@ -76,6 +80,7 @@ return(
                                 />
                                 
                                 <Text style={styles.label}>Date</Text>
+                                
                                 <DatePicker StyledTextInput  {...props} 
                                     icon="calendar"
                                     placeholder="AAAA - MM - JJ"
@@ -95,26 +100,30 @@ return(
                                         marginLeft: 0
                                       },
                                       dateInput: {
-                                        marginLeft: 36
-                                      }
+                                        marginLeft: 36,
+                                        marginBottom:10
+                                      }, 
+                                      
                                     }}
                                     onDateChange={(date) => props.setVaccinDate(date)}
                                 />
+                                <Text style={styles.label}>Résultat du Vaccin</Text>
+
                                 <ViewImage onPress={pickImage}>
 
-<Ionicons name='camera' onPress={pickImage} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-<TouchableOpacity onPress={pickImage} style={{position:'absolute' ,padding:15, paddingLeft:55 , borderRadius: 20 ,fontSize:16 ,height:200,width:'100%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center'}}>
-{props.vaccinImage && <Image source={{ uri: props.vaccinImage }} style={{height:200,width:'100%'}} />}
+                               <Ionicons name='camera' onPress={pickImage} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
+                              <TouchableOpacity onPress={pickImage} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
+                             {props.vaccinImage && <Image source={{ uri: props.vaccinImage }} style={{height:200,width:'199%'}} />}
 
-  </TouchableOpacity> 
+                               </TouchableOpacity> 
 
-<Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
+                              <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
 
-      </ViewImage> 
+                              </ViewImage> 
                               
-                                <ExtraView2>
-                                <RegularButton2 style={{ justifyContent: 'center' }} onPress ={() => {
-                                    if (props.vaccinName === '' || props.vaccinDate === ''|| props.vaccinImage === '') {
+                                
+                                <RegularButton2 style={{ justifyContent: 'center' , alignContent:'center' , alignSelf:'center', marginTop:20}} onPress ={() => {
+                                    if (props.vaccinName === '' ||  props.vaccinImage === '') {
                                     Alert.alert('Please fill in all fields');
                                     } else {
                                     props.handleAdd();
@@ -125,18 +134,25 @@ return(
                                             Enregistrer
                                       </ButtonText>                                    
                                       </RegularButton2>
+                                      <ExtraView>
+                             
+                              <TextLink onPress={() => navigation.goBack()}>
+                                  <TextLinkContent style={{ justifyContent: 'center' , alignContent:'center' , alignSelf:'center'}} >
+                                      Annuler
+                                  </TextLinkContent>
+                              </TextLink>
+                          </ExtraView>
                                     
                                     
-                                </ExtraView2>
+                                
                             </StyledFormArea>
-                            </View>        
-                              <View >
-          </View>
+                            
+                              
         
-        </InnerContainer>
-        </StyledContainer2>
-        </KeyboardAvoidingWrapper>    
-        </ScrollView>
+                         </InnerContainer>
+                         </StyledContainer>
+                         </KeyboardAvoidingWrapper>    
+                         </ScrollView>
     
   );
 };

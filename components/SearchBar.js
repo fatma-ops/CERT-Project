@@ -11,7 +11,7 @@ const SearchBar = ({value, onClear, onChangeText}) => {
       <MaterialIcons name="search" size={30} color={brand} />
       <TextInput
         style={styles.searchBarInput}
-        placeholder="Chercher votre analyse"
+        placeholder="Chercher votre vaccin"
         autoCapitalize="none"
         autoCorrect={false}
         value={value}
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 5,
-    marginTop:StatusBarHeight + 40
+    marginTop:StatusBarHeight +10
   },
   searchBarInput: {
     flex: 1,

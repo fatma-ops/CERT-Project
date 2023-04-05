@@ -32,19 +32,19 @@ const RootStack = () => {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
-              //headerShown : false
+              headerShown : false}}
 
-              headerStyle: {
-                backgroundColor: 'transparent'
-              },
-             headerTintColor: tertiary,
-              headerTransparent: true,
-             headerTitle: '',
-              headerLeftContainerStyle: {
-                paddingLeft: 20,
-              },
+              //headerStyle: {
+              //  backgroundColor: 'transparent'
+              //},
+             //headerTintColor: tertiary,
+             // headerTransparent: true,
+             //headerTitle: '',
+              //headerLeftContainerStyle: {
+               // paddingLeft: 20,
+              //},
 
-            }}
+            //}}
 
 
             initialRouteName="Login"
@@ -59,6 +59,11 @@ const RootStack = () => {
               <Stack.Screen name="AnalyseFlatList" component={AnalyseFlatList} />
               <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
               <Stack.Screen name="EditPasswordScreen" component={EditPasswordScreen} />
+              <Stack.Screen name="Vaccin" component={Vaccin} />
+                <Stack.Screen name="ListeVaccin" component={ListeVaccin} />
+                <Stack.Screen name="AddVaccin" component={AddVaccin} />
+                <Stack.Screen name="AfficheVaccin" component={AfficheVaccin} />
+                
               
 
 
@@ -73,11 +78,7 @@ const RootStack = () => {
                 <Stack.Screen name="EmailVerification" component={EmailVerification} />
                 <Stack.Screen name="RestPassword" component={RestPassword} />
                 <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
-                <Stack.Screen name="Vaccin" component={Vaccin} />
-                <Stack.Screen name="ListeVaccin" component={ListeVaccin} />
-                <Stack.Screen name="AddVaccin" component={AddVaccin} />
-                <Stack.Screen name="AfficheVaccin" component={AfficheVaccin} />
-                
+               
 
 
 

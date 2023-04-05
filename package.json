@@ -11,10 +11,10 @@
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
     "@react-native-async-storage/async-storage": "^1.17.11",
-    "@react-native-community/datetimepicker": "^7.0.1",
+    "@react-native-community/datetimepicker": "6.5.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.5.7",
-    "@react-navigation/native": "^6.1.4",
+    "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.10",
     "@react-navigation/stack": "^6.3.14",
     "add": "^2.0.6",
@@ -52,7 +52,8 @@
     "react-redux": "^8.0.5",
     "redux": "^4.2.1",
     "styled-components": "^5.3.6",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "yet": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
