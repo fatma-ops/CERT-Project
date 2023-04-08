@@ -7,6 +7,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import AddVaccin from "./AddVaccin";
 import AfficheVaccin from "./AfficheVaccin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ModifyVaccin from "./ModifyVaccin";
 
 
 const Stack = createNativeStackNavigator();
@@ -81,11 +82,19 @@ export default function Vaccin (){
         <Stack.Screen 
   name="Affiche Vaccin" 
   component={AfficheVaccin} 
-  initialParams={{ selectedVaccine: null }}
+  initialParams={{ selectedVaccin: null, vaccins:vaccins, setVaccins: setVaccins }}
+  vaccins={vaccins} 
+  />
+
+<Stack.Screen 
+  name="Modifier Vaccin" 
+  component={ModifyVaccin} 
+  initialParams={{ selectedVaccin: null }}
+  
   vaccinName={vaccinName} setVaccinName={setVaccinName}
             vaccinImage={vaccinImage} setVaccinImage={setVaccinImage}
             vaccinDate={vaccinDate} setVaccinDate={setVaccinDate}
-            handleAdd={handleAdd}/>
+            />
 
 
 

@@ -36,26 +36,29 @@ const ListeVaccin = ({ ...props }) => {
   return (
 
     <View style={[styles.vaccinContainer]}>
-    <StatusBar style="Light" />
+   
+
+    <View style={styles.headingContainer}>
+      <View style={{width:280}}>
+      <StatusBar style="Light" />
     <SearchBar
       value={searchQuery}
       onChangeText={handleOnSearchInput}
       containerStyle={{ marginVertical: 15 }}
     />
-
-    <View style={styles.headingContainer}>
-      <View style={{ flexDirection: 'row' }}>
+    </View>
+    <View>
         <TouchableOpacity
           style={[styles.button]}
           onPress={() => navigation.navigate('Add')}
         >
           <FontAwesome5 name="plus" size={25} color={brand} />
-          <Text style={{ marginLeft: 4, color: darkLight }}>Ajouter</Text>
+          <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
         </TouchableOpacity>
-      </View>
+        </View>
     </View>
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
+    <View style={{ flexDirection: 'row', alignContent: 'center' }}>
+      <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
         Total:
       </Text>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
@@ -71,24 +74,20 @@ const ListeVaccin = ({ ...props }) => {
       keyExtractor={(item, index) => String(index)}
       renderItem={({ item, index }) => (
         <View style={styles.item} key={index}>
-          <View style={styles.vaccin}>
+          <View >
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate('Affiche Vaccin', {
                   selectedVaccin: item,
+                  
                 })
               }
             >
-              <Text style={styles.text}>{index + 1}</Text>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.vaccin}>{item.vaccinName}</Text>
-                <Text style={styles.vaccin}>{item.vaccinDate}</Text>
-                {item.vaccinImage && (
-                  <Image
-                    source={{ uri: item.vaccinImage }}
-                    style={{ height: 200, width: '100%', zIndex: 1 }}
-                  />
-                )}
+              <View style={styles.vaccin}>
+              
+                <Text style={styles.text}>{item.vaccinName}</Text>
+                <Text style={styles.dateContainer}>{item.vaccinDate}</Text>
+                
               </View>
             </TouchableOpacity>
           </View>
@@ -115,23 +114,23 @@ const ListeVaccin = ({ ...props }) => {
   </View>
 );
 
-
-     
-
-
     
 }
 
 export const styles = StyleSheet.create({
     vaccinContainer:{
         paddingTop:-4,
-        paddingHorizontal:20,
+        paddingHorizontal:15,
         marginBottom:70,
         opacity:0.9,
+        justifyContent:'space-between',
+
     },
     headingContainer:{
         fontWeight:'700',
         color:brand,
+        justifyContent:'space-between',
+
     },
     divider:{
         width:'100%',
@@ -140,39 +139,40 @@ export const styles = StyleSheet.create({
         marginBottom:5,
     },
     item:{ 
-        marginBottom:20,
-        padding:15,
+        marginBottom:25,
+        padding:20,
         color:brand,
         opacity:1,
         marginTop:10,
-        shadowOpacity:0.5,
-        shadowOffset:{width:0, height:4},
-        shadowRadius:8,
+        shadowOpacity:0.25,
+        shadowOffset:{width:2, height:1},
+        shadowRadius:2,
         elevation:5,
         backgroundColor:'white',
-        borderWidth:2,
-        borderRadius:5,
-        borderLeftWidth:15,
+        borderWidth:0,
+        borderRadius:15,
+       //borderLeftWidth:15,
 
     },
     index:{
         fontSize:20,
         fontWeight:'800',
+        color:brand
     },
     headingContainer:{
         flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
+       justifyContent:'space-between',
+       alignItems:'center',
     },
     button:{
         width:50,
         borderRadius:100,
-        justifyContent:'center',
+        //justifyContent:'space-between',
        
-        marginLeft:10,
-        height:50,
-        marginTop : 20,
-        marginBottom : 20
+        marginLeft:22,
+       // height:50,
+        marginTop :25,
+        //marginBottom : 20
     },
     buttonText:{
         color:brand,
@@ -184,16 +184,24 @@ export const styles = StyleSheet.create({
     },
     vaccin:{
         //flexDirection:'row',
-        width:'75%',
-        color:brand,
+        width:'100%',
+        color:'black',
         fontWeight:'bold',
+        alignItems:'center'
+
     },
     text:{
-        fontWeight:'700',
-        fontSize:17,
-       
-       //alignItems:'center',
+      marginTop:25,
+        fontWeight:'400',
+        fontSize:25,
+        alignItems:'center',
     },
+    dateContainer:{
+      marginTop:10,
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignContent:'center'
+  },
     delete:{
         fontWeight:'700',
         fontSize:15
@@ -243,12 +251,8 @@ export const styles = StyleSheet.create({
         justifyContent:'center',
         textAlign:'justify'
     },
-    dateContainer:{
-        marginTop:10,
-        flexDirection:'row',
-        justifyContent:'space-between',
-        marginTop:20
-    },container: {
+    
+    container: {
    
       justifyContent: 'center',
       alignItems: 'center',
