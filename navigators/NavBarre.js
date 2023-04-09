@@ -1,15 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Analyse from '../screens/AddAnalyse'
 import { Entypo } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 import { Colors } from '../components/styles'
 import Welcome from '../screens/Welcome'
 import Login from '../screens/Login'
 import AnalyseFlatList from '../screens/AnalyseFlatList'
-import AnalyseDetail from '../screens/AnalyseDetail'
 import Vaccin from '../screens/Vaccin'
+import Analyse from '../screens/Analyse'
 const { darkLight, brand } = Colors;
 
 
@@ -82,8 +81,8 @@ export default function NavBarre() {
                 }} />
 
 
-            <Tab.Screen name="AnalyseDetail"
-                component={AnalyseDetail}
+            <Tab.Screen name="Analyse"
+                component={Analyse}
                 options={{
                     
                     tabBarIcon: ({ focused }) => {

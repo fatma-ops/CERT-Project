@@ -24,6 +24,11 @@ import ListeVaccin from '../screens/ListeVaccin';
 import AddVaccin from '../screens/AddVaccin';
 import AfficheVaccin from '../screens/AfficheVaccin';
 import ModifyVaccin from '../screens/ModifyVaccin';
+import Analyse from '../screens//Analyse';
+import ListeAnalyse from '../screens/ListeAnalyse';
+import Add from '../screens/Add';
+import AfficheAnalyse from '../screens/AfficheAnalyse';
+import ModifyAnalyse from '../screens/ModifyAnalyse';
 
 
 const Stack = createNativeStackNavigator();
@@ -66,6 +71,11 @@ const RootStack = () => {
                 <Stack.Screen name="AddVaccin" component={AddVaccin} />
                 <Stack.Screen name="AfficheVaccin" component={AfficheVaccin} />
                 <Stack.Screen name="ModifyVaccin" component={ModifyVaccin} />
+                <Stack.Screen name="Analyse" component={Analyse} />
+                <Stack.Screen name="ListeAnalyse" component={ListeAnalyse} />
+                <Stack.Screen name="Add" component={AddAnalyse} />
+                <Stack.Screen name="AfficheAnalyse" component={AfficheAnalyse} />
+                <Stack.Screen name="ModifyAnalyse" component={ModifyAnalyse} />
 
                 
               

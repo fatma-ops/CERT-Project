@@ -97,7 +97,7 @@ const buttonHandler = () => {
             setSubmitting(true);
 
             axios
-              .post('https://686b-102-159-204-255.eu.ngrok.io/api/v1/user/signup', credentials)
+              .post('https://10d1-102-158-121-0.eu.ngrok.io/api/v1/user/signup', credentials)
               .then((response) => {
                 const { status, data } = response;
                 if (status === 200) {
