@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View, Image } from "react-native";
   import { NavigationContainer, useRoute  } from "@react-navigation/native";
   import { createNativeStackNavigator } from "@react-navigation/native-stack";
-  import Add from "./AddVaccin";
   import React, {useState , useEffect} from 'react';
   import Vaccins from "./ListeVaccin";
-import AddVaccin from "./AddVaccin";
 import AfficheVaccin from "./AfficheVaccin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModifyVaccin from "./ModifyVaccin";
+import Add from "./AddVaccin";
 
 
 const Stack = createNativeStackNavigator();
