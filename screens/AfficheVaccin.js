@@ -1,9 +1,13 @@
 import React, { useState, route } from 'react';
 import { Text, View, ScrollView,Image, StyleSheet, Button, Alert } from "react-native";
-import { Colors, ExtraView } from '../components/styles';
+import { ButtonText, Colors, ExtraView, Line, StyledButton } from '../components/styles';
 import { StatusBar } from 'expo-status-bar';
 import { StatusBarHeight } from '../components/shared';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import RegularButton from '../components/Buttons/RegularButton';
+import RegularButton2 from '../components/Buttons/RegularButton2';
+import RegularButton3 from '../components/Buttons/RegularButton3';
+import RowContainer from '../components/Containers/RowContainer';
 
 
 const { green, brand, darkLight, primary } = Colors;
@@ -79,10 +83,12 @@ const { green, brand, darkLight, primary } = Colors;
             <Image style={styles.imageContainer} source={{ uri: selectedVaccin.vaccinImage }} />
             <Text style={styles.text}>{selectedVaccin.vaccinName}</Text>
             <Text style={styles.dateContainer}>{selectedVaccin.vaccinDate}</Text>
-
             <View style={styles.actions}>
-              <Button color={brand} title="Modifier" onPress={handleEdit} />
-              <Button color={brand} title="Supprimer" onPress={handleDelete} />
+            <RowContainer style = {{justifycontent: 'space-between'}}>
+             <RegularButton3 onPress={handleDelete} style={{justifyContent:'center'}}>{ `Supprimer`}</RegularButton3>
+             <RegularButton3 onPress={handleEdit} style={{justifyContent:'center'}}>{ `Modifier`}</RegularButton3>
+
+             </RowContainer>
             </View>
             </View>}
             </ScrollView>
@@ -154,7 +160,8 @@ const { green, brand, darkLight, primary } = Colors;
           shadowRadius:2,
           elevation:5,
           borderWidth:0,
-          borderRadius:3,
+          borderRadius:10,
+          
         }
         
     }) 

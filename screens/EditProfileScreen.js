@@ -196,7 +196,7 @@ const buttonHandler = () => {
                                 </StyledButton>}
                                 <ExtraView>
                                     
-                                    <TextLink onPress={() => navigation.navigate('Welcome')}>
+                                    <TextLink onPress={() => navigation.goBack()}>
                                         <TextLinkContent>
                                            Annuler
                                         </TextLinkContent>
