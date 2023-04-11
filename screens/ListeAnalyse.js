@@ -33,14 +33,17 @@ const ListeAnalyse = ({ ...props }) => {
   useEffect(() => {  
     const x = async() =>{
       
-     const y =  await AsyncStorage.getItem('vaccins');
+     const y =  await AsyncStorage.getItem('analyses');
      const storedAnalyses = JSON.parse(y) || [];
       setFilteredAnalyses(storedAnalyses)
     }
    x()
   } , [])
-  
- 
+
+ AsyncStorage.removeItem('analyses');
+
+
+
   const navigation = useNavigation();
   return (
 
