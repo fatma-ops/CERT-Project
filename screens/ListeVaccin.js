@@ -1,4 +1,4 @@
-import React , {useState , useContext} from 'react';
+import React , {useState , useContext , useEffect} from 'react';
 import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -16,10 +16,25 @@ const { green, brand, darkLight, primary } = Colors;
 
 const ListeVaccin = ({ ...props }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredVaccins, setFilteredVaccins] = useState([]);
+  const [filteredVaccins, setFilteredVaccins] = useState(props.vaccins);
   
-  const handleOnSearchInput = (text) => {
+  useEffect(() => {  
+    const x = async() =>{
+      
+     const y =  await AsyncStorage.getItem('vaccins');
+     const storedVaccins = JSON.parse(y) || [];
+      setFilteredVaccins(storedVaccins)
+    }
+   x()
+  } , [])
 
+  
+
+
+
+
+
+  const handleOnSearchInput = (text) => {
   setSearchQuery(text);
     const filtered = props.vaccins.filter(
       (item) =>
@@ -33,11 +48,11 @@ const ListeVaccin = ({ ...props }) => {
   
  
   const navigation = useNavigation();
+  console.log('filtred vaccins' , filteredVaccins.length)
+  console.log(props.vaccins.length)
   return (
 
     <View style={[styles.vaccinContainer]}>
-   
-
     <View style={styles.headingContainer}>
       <View style={{width:280}}>
       <StatusBar style="Light" />
@@ -94,14 +109,15 @@ const ListeVaccin = ({ ...props }) => {
         </View> 
       )} 
       
-      ListEmptyComponent={() => (
-        <View style={styles.emptyVaccinContainer}>
-          <Text style={styles.emptyVaccinText}>
-            Il n'y a pas encore de vaccins.
-          </Text>
-        </View>
-      )}
-    />  ) : (
+     
+    />  ) : !searchQuery
+    ? 
+      <View style={styles.emptyVaccinContainer}>
+        <Text style={styles.emptyVaccinText}>
+          Il n'y a pas encore de vaccins.
+        </Text>
+      </View>
+     : (
       
       <View style={styles.container}>
         <MaterialCommunityIcons name='emoticon-sad-outline' size={90} color='black' />

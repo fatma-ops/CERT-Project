@@ -18,7 +18,7 @@ export default function Vaccin (){
   const [vaccins , setVaccins]= useState([]);
   const [filteredVaccins, setFilteredVaccins] = useState([]);
 
-  function handleAdd(){
+  async function handleAdd(){
     let newVaccin = {vaccinName: vaccinName, vaccinImage: vaccinImage, vaccinDate: vaccinDate};
     let newVaccins = [newVaccin, ...vaccins];
     setVaccins(newVaccins);
@@ -27,7 +27,7 @@ export default function Vaccin (){
     setVaccinDate("");
 
     // Update the stored vaccins list in AsyncStorage
-  AsyncStorage.setItem('vaccins', JSON.stringify(newVaccins))
+  await AsyncStorage.setItem('vaccins', JSON.stringify(newVaccins))
   .then(() => {
     console.log('Vaccin added to AsyncStorage:', newVaccin);
   })

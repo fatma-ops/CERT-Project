@@ -5,7 +5,7 @@ import { StatusBarHeight } from './shared';
 import { Colors  } from './styles';
 const {brand , darkLight}=Colors
 
-const SearchBar = ({value, onClear, onChangeText}) => {
+const SearchBar = ({value, onChangeText}) => {
   return (
     <View style={styles.searchBarContainer}>
       <MaterialIcons name="search" size={30} color={brand} />
