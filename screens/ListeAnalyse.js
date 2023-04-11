@@ -1,4 +1,4 @@
-import React , {useState , useContext} from 'react';
+import React , {useState , useContext,useEffect} from 'react';
 import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -30,6 +30,15 @@ const ListeAnalyse = ({ ...props }) => {
     setFilteredAnalyses(filtered);
   };
   
+  useEffect(() => {  
+    const x = async() =>{
+      
+     const y =  await AsyncStorage.getItem('vaccins');
+     const storedAnalyses = JSON.parse(y) || [];
+      setFilteredAnalyses(storedAnalyses)
+    }
+   x()
+  } , [])
   
  
   const navigation = useNavigation();
@@ -94,14 +103,17 @@ const ListeAnalyse = ({ ...props }) => {
         </View> 
       )} 
       
-      ListEmptyComponent={() => (
-        <View style={styles.emptyAnalyseContainer}>
-          <Text style={styles.emptyAnalyseText}>
-            Il n'y a pas encore de analyses.
-          </Text>
-        </View>
-      )}
-    />  ) : (
+      
+    />  ) : !searchQuery 
+    ?
+   
+      <View style={styles.emptyAnalyseContainer}>
+        <Text style={styles.emptyAnalyseText}>
+          Il n'y a pas encore de analyses.
+        </Text>
+      </View>
+    
+     :(
       
       <View style={styles.container}>
         <MaterialCommunityIcons name='emoticon-sad-outline' size={90} color='black' />
