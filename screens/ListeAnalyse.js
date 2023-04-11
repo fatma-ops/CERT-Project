@@ -112,7 +112,7 @@ const ListeAnalyse = ({ ...props }) => {
    
       <View style={styles.emptyAnalyseContainer}>
         <Text style={styles.emptyAnalyseText}>
-          Il n'y a pas encore de analyses.
+          Il n'y a pas encore d'analyses.
         </Text>
       </View>
     
