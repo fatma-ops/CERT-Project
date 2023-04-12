@@ -40,7 +40,7 @@ import { CredentialsContext } from './../components/CredentialsContext';
 
 const { brand, darkLight, primary } = Colors;
 
-const API_URL = 'https://10d1-102-158-121-0.eu.ngrok.io/api/v1/user/';
+const API_URL = 'https://8207-197-29-190-50.eu.ngrok.io/api/v1/user/';
 
 const Login = ({navigation}) => {
   
