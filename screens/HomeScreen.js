@@ -86,14 +86,14 @@ const HomeScreen = () => {
       fontSize: 25,
       fontWeight: 'bold',
       color:brand,
-      marginTop:StatusBarHeight + 40,
+      marginTop:StatusBarHeight + 60,
 
     },
     header2: {
       fontSize: 25,
      
       color:brand,
-      marginTop:StatusBarHeight + 40,
+      marginTop:StatusBarHeight + 60,
     },
     container: {
       paddingHorizontal: 20,
@@ -103,11 +103,11 @@ const HomeScreen = () => {
     },
     item:{ 
       marginBottom: StatusBarHeight + 400,
-      padding:40,
+      padding:30,
       color:darkLight,
       opacity:1,
-      marginLeft:15,
-      marginRight:20,
+      marginLeft:20,
+      marginRight:30,
 
       marginTop:StatusBarHeight ,
       shadowOpacity:0.25,

@@ -43,6 +43,9 @@ const AddMedecin = ({ navigation, ...props }) => {
                    
                             <StyledFormArea>
                                 <Text style={styles.label}>Nom du Medecin</Text>
+                                <LeftIcon>
+                                <Octicons name='person' size={24} color={brand} />
+                                </LeftIcon>
                                 <StyledTextInput  {...props} 
                                     placeholder=" Dr ... "
                                     placeholderTextColor={darkLight}
@@ -51,7 +54,9 @@ const AddMedecin = ({ navigation, ...props }) => {
                                 />
 
                                 <Text style={styles.label}>Adresse</Text>
+                               
                                 <StyledTextInput  {...props} 
+                                
                                     placeholder=" Bizerte centre, Batiment A "
                                     placeholderTextColor={darkLight}
                                     value={props.medecinAdresse}
