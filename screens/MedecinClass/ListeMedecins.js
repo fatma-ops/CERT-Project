@@ -40,7 +40,7 @@ const ListeMedecin = ({ ...props }) => {
    x()
   } , [])
 
- AsyncStorage.removeItem('medecins');
+ //AsyncStorage.removeItem('medecins');
 
 
 

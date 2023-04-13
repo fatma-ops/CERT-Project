@@ -16,17 +16,17 @@ const { green, brand, darkLight, primary } = Colors;
 
 const ListeVaccin = ({ ...props }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredVaccins, setFilteredVaccins] = useState(props.vaccins);
+  const [filteredVaccins, setFilteredVaccins] = useState([]);
   
-  useEffect(() => {  
-    const x = async() =>{
-      
-     const y =  await AsyncStorage.getItem('vaccins');
-     const storedVaccins = JSON.parse(y) || [];
-      setFilteredVaccins(storedVaccins)
-    }
-   x()
-  } , [])
+  useEffect(() => {
+    const getStoredVaccins = async () => {
+      const storedVaccins = await AsyncStorage.getItem('vaccins');
+      if (storedVaccins) {
+        setFilteredVaccins(JSON.parse(storedVaccins));
+      }
+    };
+    getStoredVaccins();
+  }, []);
 
   
 
@@ -48,8 +48,6 @@ const ListeVaccin = ({ ...props }) => {
   
  
   const navigation = useNavigation();
-  console.log('filtred vaccins' , filteredVaccins.length)
-  console.log(props.vaccins.length)
   return (
 
     <View style={[styles.vaccinContainer]}>
@@ -80,7 +78,7 @@ const ListeVaccin = ({ ...props }) => {
         {props.vaccins ? props.vaccins.length : 0}
       </Text>
     </View>
-    {filteredVaccins.length > 0 ? (
+    {filteredVaccins && filteredVaccins.length > 0 ? (
     <FlatList
 
       style={styles.scrollView}
