@@ -187,7 +187,7 @@ const buttonHandler = () => {
                     <Formik
                         initialValues={{ typeAnalyse: '' , date: '', ResultatAnalyse:''  }}
                         onSubmit={(values, { setSubmitting }) => {
-                            if (values.prenom == '' ||values.date == '' || values.email == '' ) {
+                            if (values.typeAnalyse == '' ||values.date == '' || values.Resultat == '' ) {
                                 handleMessage('Veuillez remplir tous les champs');
                                 setSubmitting(false);
                             } 
