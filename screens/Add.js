@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, KeyboardAvoidingView, Keyboard, TextInput, TouchableOpacity, Alert, Platform, Image } from "react-native";
+import { Text, View, Pressable,StyleSheet, ScrollView, KeyboardAvoidingView, Keyboard, TextInput, TouchableOpacity, Alert, Platform, Image } from "react-native";
 import DatePicker from 'react-native-datepicker';
 import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
@@ -9,6 +9,7 @@ import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
 import { CredentialsContext } from '../components/CredentialsContext';
 import RegularButton from '../components/Buttons/RegularButton';
 import DateTimePicker from '@react-native-community/datetimepicker';
+
 import * as ImagePicker from 'expo-image-picker';
 
 import {
@@ -38,11 +39,17 @@ import RegularButton2 from '../components/Buttons/RegularButton2';
 
 const { green, brand, darkLight, primary } = Colors;
 
-const AddAnalyse = ({ navigation, ...props }) => {
-  const showDatePicker = () => {
-    setShow(true);
-}
+const Add = ({ navigation, ...props }) => {
 
+  
+
+
+
+
+
+
+
+const[showPicker , setShowPicker] = useState(false);
 const pickImage = async () => {
   // No permissions request is necessary for launching the image library
   let result = await ImagePicker.launchImageLibraryAsync({
@@ -66,11 +73,14 @@ return(
     <ScrollView>
       <KeyboardAvoidingWrapper>
       <StyledContainer>
-                <StatusBar style="dark" />
+                <StatusBar style="Light" />
                 <InnerContainer>
                    
                             <StyledFormArea>
                                 <Text style={styles.label}>Nom du analyse</Text>
+                                <LeftIcon>
+                                <Octicons name='id-badge' size={24} color={brand} />
+                                </LeftIcon>
                                 <StyledTextInput  {...props} 
                                     placeholder=" analyse corona "
                                     placeholderTextColor={darkLight}
@@ -107,6 +117,13 @@ return(
                                     }}
                                     onDateChange={(date) => props.setAnalyseDate(date)}
                                 />
+
+
+
+
+
+                               
+
                                 <Text style={styles.label}>Résultat du Analyse</Text>
 
                                 <ViewImage onPress={pickImage}>
@@ -127,6 +144,8 @@ return(
                                     Alert.alert('Please fill in all fields');
                                     } else {
                                     props.handleAdd();
+
+                                    
                                     navigation.navigate('Analyses');
                                     }
                                   }}>
@@ -156,6 +175,7 @@ return(
     
   );
 };
+
 const styles = StyleSheet.create({
   container: {
       flex: 1,
@@ -185,4 +205,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default AddAnalyse;
+export default Add;
