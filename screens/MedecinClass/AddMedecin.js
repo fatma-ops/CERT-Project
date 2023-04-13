@@ -31,7 +31,7 @@ import {
 import styled from 'styled-components';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 
-const { green, brand, darkLight, primary } = Colors;
+const { green, brand, darkLight, primary, secondary, tertiary } = Colors;
 
 const AddMedecin = ({ navigation, ...props }) => {
  return(
@@ -73,7 +73,7 @@ const AddMedecin = ({ navigation, ...props }) => {
                                     onChangeText={(text) => props.setMedecinNum(text)}                                   
                                 />
                                 <Text style={styles.label}>Commentaire</Text>
-                                <StyledTextInput  {...props} 
+                                <TextInput style={styles.comentaire} {...props} 
                                     placeholder=" ... "
                                     placeholderTextColor={darkLight}
                                     value={props.medecinCmnt}
@@ -139,10 +139,16 @@ const styles = StyleSheet.create({
       width: '100%',
       marginBottom: 20,
   },
-  image: {
-      width: 200,
-      height: 200,
-      marginTop: 20,
+  comentaire: {
+    backgroundColor :secondary,
+    padding:70,
+    paddingLeft:55,
+    borderRadius: 20,
+    fontSize:16,
+    height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
   },
 });
 

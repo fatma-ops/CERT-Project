@@ -97,8 +97,7 @@ const ListeMedecin = ({ ...props }) => {
             >
               <View style={styles.medecin}>
               
-                <Text style={styles.text}>{item.medecinName}</Text>
-                <Text style={styles.text}>{item.medecinAdresse}</Text>
+                <Text style={styles.index}>{item.medecinName}</Text>
                 <Text style={styles.text}>{item.medecinSpecialisation}</Text>
 
               </View>
@@ -171,9 +170,15 @@ export const styles = StyleSheet.create({
 
     },
     index:{
-        fontSize:20,
-        fontWeight:'800',
+        fontSize:17,
+        fontWeight:'400',
         color:brand
+
+    },
+    text:{
+      //marginTop:25,
+        fontWeight:'400',
+        fontSize:15,
     },
     headingContainer:{
         flexDirection:'row',
@@ -203,15 +208,9 @@ export const styles = StyleSheet.create({
         width:'100%',
         color:'black',
         fontWeight:'bold',
-        alignItems:'center'
 
     },
-    text:{
-      marginTop:25,
-        fontWeight:'400',
-        fontSize:25,
-        alignItems:'center',
-    },
+  
     dateContainer:{
       marginTop:10,
       flexDirection:'row',
