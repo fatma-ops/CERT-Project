@@ -62,7 +62,7 @@ const ListeMedecin = ({ ...props }) => {
     <View>
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('Add  Medecin')}
+          onPress={() => navigation.navigate('Add Medecin')}
         >
           <FontAwesome5 name="plus" size={25} color={brand} />
           <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
