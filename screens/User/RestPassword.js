@@ -3,23 +3,21 @@ import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { View, ActivityIndicator } from 'react-native';
 import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
-import StyledCodeInput from '../components/Inputs/StyledCodeInput';
-import ResendTimer from '../components/Timers/ResendTimer';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import StyledCodeInput from '../../components/Inputs/StyledCodeInput';
+import ResendTimer from '../../components/Timers/ResendTimer';
 import styled from 'styled-components';
-import MessageModal from '../components/Modals/MessageModal';
+import MessageModal from '../../components/Modals/MessageModal';
 import {InnerContainer,StyledFormArea,LeftIcon,RightIcon,StyledButton,StyledInputLabel,StyledTextInput, ButtonText,
-Colors,MsgBox,StyledContainerRestPassword, ExtraText, TextLink, TextLinkContent, ExtraView, Editprofile, PageSignup} from './../components/styles';
-import RegularText from '../components/Texts/RegularText';
+Colors,MsgBox,StyledContainerRestPassword} from '../../components/styles';
+import RegularText from '../../components/Texts/RegularText';
 import axios from 'axios';
-import IconHeader from '../components/Icons/IconHeader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CredentialsContext } from './../components/CredentialsContext';
+import IconHeader from '../../components/Icons/IconHeader';
 
 
 const { brand, darkLight, primary } = Colors;
 
-const EditPasswordScreen = ({ route , navigation }) => {
+const RestPassword = ({ route , navigation }) => {
 const [hidePassword, setHidePassword] = useState(true);
 
 const [message, setMessage] = useState();
@@ -35,17 +33,13 @@ const [modalMessageType , setModalMessageType] = useState('');
 const [headerText , setHeaderText]= useState('');
 const [modalMessage , setModalMessage] = useState('');
 const [buttonText , setButtonText] = useState('');
-const {storedCredentials , setStoredCredentials}=useContext(CredentialsContext);
-
-const {  email, prenom , nom , groupeSanguin, allergie , _id} = storedCredentials;
-console.log(email)
-
+const { code, email } = route.params;
 
 
 const buttonHandler = () => {
     if(modalMessageType === 'success'){
         //do something
-        navigation.goBack();
+        navigation.navigate('Login');
     }
 
     setModalVisible(false);
@@ -60,42 +54,82 @@ const ShowModal = (type , headerText , message , buttonText) => {
       
       const handleOnSubmit = async (credentials, setSubmitting) => {
         try {
-            const response = await axios.post('https://e07e-41-225-159-11.eu.ngrok.io/api/v1/forget_password/change', credentials);
-            if (response.status === 200) {
-              handleMessage('Mot de passe changé avec succès', 'SUCCESS');
-              ShowModal('success', "Réussie", "Mot de passe changé avec succès!", 'OK');
+         
+            handleMessage(null);
+        
+            // Get the email from the navigation state
+            const email = route.params.email;
+            const code = route.params.code;
+            console.log('Verifying code for email:', email);
+            console.log('Verification code:', code);
+            console.log('new password:', credentials.newPassword);
+        
+        
+  
 
-              AsyncStorage.setItem('DossierMedicaleCredentials', JSON.stringify(credentials ))
-            .then(() => {
-              setStoredCredentials(credentials);
-            })
-            } else {
-              handleMessage('Erreur lors du changement de mot de passe');
-            }
-          } catch (error) {
-            handleMessage(error.response.data);
-          }
-          setSubmitting(false);
+    // Send a POST request to your backend server
+    const response = await axios.post(
+      'https://84d6-197-26-59-238.eu.ngrok.io/api/v1/forget_password/rest',
+      {
+        email,
+        otp: code,
+        newPassword: credentials.newPassword,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (response.status === 200 && response.data.passwordrest === true) {
+      console.log('Password reset successful:', response.data);
+
+      setSubmitting(false);
+      ShowModal('success', 'Réussie', 'Votre mot de passe a été réinitialisé');
+    } else {
+      console.log('Password reset failed:', response.data);
+
+      setSubmitting(false);
+      ShowModal(
+        'failed',
+        'échec!',
+        'Une erreur est survenue. Veuillez réessayer.',
+        'Close'
+      );
+    }
+  } catch (error) {
+    console.log('Password reset failed:', error.message);
+
+    setSubmitting(false);
+    ShowModal('failed', 'échec!', error.message, 'Close');
+  }
         };
       
-    
    
+    
     const handleMessage = (message, type = 'FAILED') => {
         setMessage(message);
         setMessageType(type);
-    }
+    };
+
+
+
+
+
+
 
     return (
         <KeyboardAvoidingWrapper> 
             <StyledContainerRestPassword>
-                <StatusBar style="transparent" />
+                <StatusBar style="light" />
                 <IconHeader name ="lock-open" style ={{marginBottom : 30}}/>
 
                 <InnerContainer>
                     <Formik
-                        initialValues={{ password : '',email:email,nom:nom ,prenom:prenom,groupeSanguin:groupeSanguin,allergie:allergie,_id:_id,newPassword:'' , confirmNewPassword:'' }}
+                        initialValues={{ newPassword:'' , confirmNewPassword:'' }}
                         onSubmit={(values, { setSubmitting }) => {
-                            if (values.password == '' ||values.newPassword == '' || values.confirmNewPassword == '') {
+                            if (values.newPassword == '' || values.confirmNewPassword == '') {
                                 handleMessage('Veuillez remplir tous les champs');
                                 setSubmitting(false);
                             } else if (values.newPassword !== values.confirmNewPassword) {
@@ -109,26 +143,6 @@ const ShowModal = (type , headerText , message , buttonText) => {
                         }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (<StyledFormArea>
-                            <MyTextInput
-                                label=" Ancien mot de passe"
-                                icon="unlock"
-                                placeholder="* * * * * * *"
-                                placeholderTextColor={darkLight}
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
-                                value={values.password}
-                                secureTextEntry={hidePassword}
-                                isPassword={true}
-                                hidePassword={hidePassword}
-                                setHidePassword={setHidePassword}
-                            />
-
-                            
-                            
-                            
-                            
-                            
-                            
                             <MyTextInput
                                 label=" Nouveau mot de passe"
                                 icon="unlock"
@@ -168,14 +182,6 @@ const ShowModal = (type , headerText , message , buttonText) => {
                             {isSubmitting && <StyledButton disabled={true}>
                                 <ActivityIndicator size="large" color={primary} />
                             </StyledButton>}
-                            <ExtraView>
-                                    
-                                    <TextLink onPress={() => navigation.goBack()}>
-                                        <TextLinkContent>
-                                            Annuler
-                                        </TextLinkContent>
-                                    </TextLink>
-                                </ExtraView>
                         </StyledFormArea>)}
                     </Formik>
                 </InnerContainer>
@@ -206,4 +212,4 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, .
        </View>
     );
 };
-export default EditPasswordScreen; 
+export default RestPassword; 

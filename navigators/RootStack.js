@@ -3,32 +3,35 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-import Login from './../screens/Login';
+import Login from '../screens/User/Login';
 import { Colors } from './../components/styles';
 const { primary, tertiary , brand} = Colors;
-import Signup from './../screens/Signup';
-import Welcome from './../screens/Welcome';
-import ForgetPassword from '../screens/ForgetPassword';
-import EmailVerification from './../screens/EmailVerification';
-import RestPassword from '../screens/RestPassword';
+import Signup from '../screens/User/Signup';
+import Welcome from '../screens/User/Welcome';
+import ForgetPassword from '../screens/User/ForgetPassword';
+import EmailVerification from '../screens/User/EmailVerification';
+import RestPassword from '../screens/User/RestPassword';
 import { CredentialsContext } from './../components/CredentialsContext';
-import PasswordOtp from '../screens/PasswordOtp';
+import PasswordOtp from '../screens/User/PasswordOtp';
 import NavBarre from './NavBarre';
 import AddAnalyse from '../screens/AddAnalyse';
 import AnalyseDetail from '../screens/AnalyseDetail';
 import AnalyseFlatList from '../screens/AnalyseFlatList'
-import EditProfileScreen from '../screens/EditProfileScreen';
-import EditPasswordScreen from '../screens/EditPasswordScreen';
-import Vaccin from '../screens/Vaccin';
-import ListeVaccin from '../screens/ListeVaccin';
-import AddVaccin from '../screens/AddVaccin';
-import AfficheVaccin from '../screens/AfficheVaccin';
-import ModifyVaccin from '../screens/ModifyVaccin';
-import Analyse from '../screens//Analyse';
-import ListeAnalyse from '../screens/ListeAnalyse';
-import Add from '../screens/Add';
-import AfficheAnalyse from '../screens/AfficheAnalyse';
-import ModifyAnalyse from '../screens/ModifyAnalyse';
+import EditProfileScreen from '../screens/User/EditProfileScreen';
+import EditPasswordScreen from '../screens/User/EditPasswordScreen';
+import Vaccin from '../screens/VaccinClass/Vaccin';
+import ListeVaccin from '../screens/VaccinClass/ListeVaccin';
+import AddVaccin from '../screens/VaccinClass/AddVaccin';
+import AfficheVaccin from '../screens/VaccinClass/AfficheVaccin';
+import ModifyVaccin from '../screens/VaccinClass/ModifyVaccin';
+import Analyse from '../screens/AnalyseClass/Analyse';
+import ListeAnalyse from '../screens/AnalyseClass/ListeAnalyse';
+import Add from '../screens/AnalyseClass/Add';
+import AfficheAnalyse from '../screens/AnalyseClass/AfficheAnalyse';
+import ModifyAnalyse from '../screens/AnalyseClass/ModifyAnalyse';
+import Medecin from '../screens/MedecinClass/Medecin';
+import ListeMedecin from '../screens/MedecinClass/ListeMedecins';
+import AddMedecin from '../screens/MedecinClass/AddMedecin';
 
 
 const Stack = createNativeStackNavigator();
@@ -76,7 +79,9 @@ const RootStack = () => {
                 <Stack.Screen name="Add" component={AddAnalyse} />
                 <Stack.Screen name="AfficheAnalyse" component={AfficheAnalyse} />
                 <Stack.Screen name="ModifyAnalyse" component={ModifyAnalyse} />
-
+                <Stack.Screen name="Medecin" component={Medecin} />
+                <Stack.Screen name="ListeMedecin" component={ListeMedecin} />
+                <Stack.Screen name="AddMedecin" component={AddMedecin} />
                 
               
 

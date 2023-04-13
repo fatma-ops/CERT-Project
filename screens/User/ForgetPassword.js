@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { View, ActivityIndicator } from 'react-native';
 import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import {
     InnerContainer,
 
@@ -23,10 +23,10 @@ import {
     TextLinkContent,
     ExtraText
    
-} from './../components/styles';
+} from '../../components/styles';
 //Api Client
-import IconHeader from '../components/Icons/IconHeader';
-import RegularText from '../components/Texts/RegularText';
+import IconHeader from '../../components/Icons/IconHeader';
+import RegularText from '../../components/Texts/RegularText';
 import axios from 'axios';
 
 const { brand, darkLight, primary } = Colors;

@@ -1,16 +1,16 @@
 import React, { useState , useContext} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, ActivityIndicator } from 'react-native';
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
-import MainContainer from '../components/Containers/MainContainer';
-import RegularText from '../components/Texts/RegularText';
-import {StyledButton,ButtonText,Colors} from './../components/styles';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import MainContainer from '../../components/Containers/MainContainer';
+import RegularText from '../../components/Texts/RegularText';
+import {StyledButton,ButtonText,Colors} from '../../components/styles';
 //Api Client
 
-import IconHeader from '../components/Icons/IconHeader';
-import StyledCodeInput from '../components/Inputs/StyledCodeInput';
-import ResendTimer from '../components/Timers/ResendTimer';
-import MessageModal from '../components/Modals/MessageModal';
+import IconHeader from '../../components/Icons/IconHeader';
+import StyledCodeInput from '../../components/Inputs/StyledCodeInput';
+import ResendTimer from '../../components/Timers/ResendTimer';
+import MessageModal from '../../components/Modals/MessageModal';
 import axios from 'axios';
 
 const { brand, darkLight, primary , secondary } = Colors;

@@ -1,11 +1,11 @@
 import React , {useContext,useState}  from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { TextInput } from 'react-native';
 import EditProfileScreen from './EditProfileScreen';
 import { Modal } from 'react-native';
-import { StatusBarHeight } from '../components/shared';
+import { StatusBarHeight } from '../../components/shared';
 import {  Octicons, AntDesign, Fontisto , Entypo , MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -17,10 +17,10 @@ import {
   
 
 
-} from './../components/styles';
+} from '../../components/styles';
 const { brand, darkLight, primary , green, red} = Colors;
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CredentialsContext } from './../components/CredentialsContext';
+import { CredentialsContext } from '../../components/CredentialsContext';
 
 const Welcome = ({navigation}) => {
 //context
@@ -52,7 +52,7 @@ const Welcome = ({navigation}) => {
       <View style={styles.header}>
         <Image
           style={styles.avatar}
-          source={require('./../assets/img/logo3.png')}
+          source={require('../../assets/img/logo3.png')}
         />
               </View>
       <View style={styles.body}>

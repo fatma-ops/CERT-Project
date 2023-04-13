@@ -3,13 +3,13 @@ import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { View, ActivityIndicator,Text  } from 'react-native';
 import { Octicons, Ionicons } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CredentialsContext } from './../components/CredentialsContext';
-import Login from './../screens/Login';
+import { CredentialsContext } from '../../components/CredentialsContext';
+import Login from './Login';
 import { ToastAndroid ,StyleSheet} from 'react-native';
-import MessageModal from '../components/Modals/MessageModal';
+import MessageModal from '../../components/Modals/MessageModal';
 
 
 
@@ -39,7 +39,7 @@ import {
     StyledContainer2
 
 
-} from '../components/styles';
+} from '../../components/styles';
 const { green, brand, darkLight, primary } = Colors;
 
 

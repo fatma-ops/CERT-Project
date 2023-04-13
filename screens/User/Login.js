@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { View, ActivityIndicator } from 'react-native';
 import {  Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import * as Google from 'expo-google-app-auth'
 import {
     StyledContainer,
@@ -31,12 +31,12 @@ import {
     TextLinkContent,
     Motdepasse,
     ViewMot,
-} from './../components/styles';
+} from '../../components/styles';
 
 //Api Client
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CredentialsContext } from './../components/CredentialsContext';
+import { CredentialsContext } from '../../components/CredentialsContext';
 
 const { brand, darkLight, primary } = Colors;
 

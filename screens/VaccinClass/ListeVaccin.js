@@ -1,55 +1,58 @@
-import React , {useState , useContext,useEffect} from 'react';
+import React , {useState , useContext , useEffect} from 'react';
 import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
-import { Colors, ExtraView } from '../components/styles';
-import SearchBar from '../components/SearchBar';
-import { CredentialsContext } from './../components/CredentialsContext';
-import NotFound from '../components/NotFound';
+import { Colors, ExtraView } from '../../components/styles';
+import SearchBar from '../../components/SearchBar';
+import { CredentialsContext } from '../../components/CredentialsContext';
+import NotFound from '../../components/NotFound';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StatusBarHeight } from '../components/shared';
+import { StatusBarHeight } from '../../components/shared';
 const { green, brand, darkLight, primary } = Colors;
 
 
-const ListeAnalyse = ({ ...props }) => {
+const ListeVaccin = ({ ...props }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredAnalyses, setFilteredAnalyses] = useState([]);
-  
-  const handleOnSearchInput = (text) => {
-
-  setSearchQuery(text);
-    const filtered = props.analyses.filter(
-      (item) =>
-        item &&
-        item.analyseName &&
-        item.analyseName.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredAnalyses(filtered);
-  };
+  const [filteredVaccins, setFilteredVaccins] = useState(props.vaccins);
   
   useEffect(() => {  
     const x = async() =>{
       
-     const y =  await AsyncStorage.getItem('analyses');
-     const storedAnalyses = JSON.parse(y) || [];
-      setFilteredAnalyses(storedAnalyses)
+     const y =  await AsyncStorage.getItem('vaccins');
+     const storedVaccins = JSON.parse(y) || [];
+      setFilteredVaccins(storedVaccins)
     }
    x()
   } , [])
 
- AsyncStorage.removeItem('analyses');
+  
 
 
 
+
+
+  const handleOnSearchInput = (text) => {
+  setSearchQuery(text);
+    const filtered = props.vaccins.filter(
+      (item) =>
+        item &&
+        item.vaccinName &&
+        item.vaccinName.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredVaccins(filtered);
+  };
+  
+  
+ 
   const navigation = useNavigation();
+  console.log('filtred vaccins' , filteredVaccins.length)
+  console.log(props.vaccins.length)
   return (
 
-    <View style={[styles.analyseContainer]}>
-   
-
+    <View style={[styles.vaccinContainer]}>
     <View style={styles.headingContainer}>
       <View style={{width:280}}>
       <StatusBar style="Light" />
@@ -74,31 +77,31 @@ const ListeAnalyse = ({ ...props }) => {
         Total:
       </Text>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
-        {props.analyses ? props.analyses.length : 0}
+        {props.vaccins ? props.vaccins.length : 0}
       </Text>
     </View>
-    {filteredAnalyses.length > 0 ? (
+    {filteredVaccins.length > 0 ? (
     <FlatList
 
       style={styles.scrollView}
       showsVerticalScrollIndicator={false}
-      data={filteredAnalyses}
+      data={filteredVaccins}
       keyExtractor={(item, index) => String(index)}
       renderItem={({ item, index }) => (
         <View style={styles.item} key={index}>
           <View >
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Affiche Analyse', {
-                  selectedAnalyse: item,
+                navigation.navigate('Affiche Vaccin', {
+                  selectedVaccin: item,
                   
                 })
               }
             >
-              <View style={styles.analyse}>
+              <View style={styles.vaccin}>
               
-                <Text style={styles.text}>{item.analyseName}</Text>
-                <Text style={styles.dateContainer}>{item.analyseDate}</Text>
+                <Text style={styles.text}>{item.vaccinName}</Text>
+                <Text style={styles.dateContainer}>{item.vaccinDate}</Text>
                 
               </View>
             </TouchableOpacity>
@@ -106,21 +109,19 @@ const ListeAnalyse = ({ ...props }) => {
         </View> 
       )} 
       
-      
-    />  ) : !searchQuery 
-    ?
-   
-      <View style={styles.emptyAnalyseContainer}>
-        <Text style={styles.emptyAnalyseText}>
-          Il n'y a pas encore d'analyses.
+     
+    />  ) : !searchQuery
+    ? 
+      <View style={styles.emptyVaccinContainer}>
+        <Text style={styles.emptyVaccinText}>
+          Il n'y a pas encore de vaccins.
         </Text>
       </View>
-    
-     :(
+     : (
       
       <View style={styles.container}>
         <MaterialCommunityIcons name='emoticon-sad-outline' size={90} color='black' />
-          <Text style={styles.emptyAnalyseText}>
+          <Text style={styles.emptyVaccinText}>
           Résultat introuvable
           </Text>
         </View>
@@ -133,7 +134,7 @@ const ListeAnalyse = ({ ...props }) => {
 }
 
 export const styles = StyleSheet.create({
-    analyseContainer:{
+    vaccinContainer:{
         paddingTop:-4,
         paddingHorizontal:15,
         marginBottom:70,
@@ -197,7 +198,7 @@ export const styles = StyleSheet.create({
     scrollView:{
         marginBottom:70,
     },
-    analyse:{
+    vaccin:{
         //flexDirection:'row',
         width:'100%',
         color:'black',
@@ -256,11 +257,11 @@ export const styles = StyleSheet.create({
         fontWeight:'700',
         fontSize:12,
     },
-    emptyAnalyseContainer:{
+    emptyVaccinContainer:{
         alignItems:'center',
         marginTop:140,
     },
-    emptyAnalyseText:{
+    emptyVaccinText:{
         fontWeight:'600',
         fontSize:15,
         justifyContent:'center',
@@ -277,4 +278,4 @@ export const styles = StyleSheet.create({
     },
     
 }) 
-export default ListeAnalyse;
+export default ListeVaccin;

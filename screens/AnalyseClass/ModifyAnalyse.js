@@ -5,20 +5,15 @@ import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { ActivityIndicator, Button } from 'react-native';
 import { Octicons, Ionicons } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
-import { CredentialsContext } from '../components/CredentialsContext';
-import RegularButton from '../components/Buttons/RegularButton';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import { CredentialsContext } from '../../components/CredentialsContext';
+import RegularButton from '../../components/Buttons/RegularButton';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 
 import {
     InnerContainer,
-    SubTitle,
     StyledFormArea,
-    LeftIcon,
-    RightIcon,
-    StyledButton,
-    StyledInputLabel2,
     StyledTextInput,
     ButtonText,
     Colors,
@@ -31,20 +26,48 @@ import {
     ExtraView,
     TextLink,
     TextLinkContent,
-} from '../components/styles';
-import MessageModalImage from '../components/Modals/MessageModalImage';
+} from '../../components/styles';
+import MessageModalImage from '../../components/Modals/MessageModalImage';
 import styled from 'styled-components';
-import RegularButton2 from '../components/Buttons/RegularButton2';
+import RegularButton2 from '../../components/Buttons/RegularButton2';
 
 const { green, brand, darkLight, primary } = Colors;
 
-const AddConsultation = ({ navigation, ...props }) => {
-  const showDatePicker = () => {
-    setShow(true);
-}
 
-  const [show, setShow] = useState(false);
-return(
+
+const ModifyAnalyse = ({ route, navigation, ...props }) => {
+  const { selectedAnalyse } = route.params;
+  const [analyseName, setAnalyseName] = useState(selectedAnalyse.analyseName);
+  const [analyseDate, setAnalyseDate] = useState(selectedAnalyse.analyseDate);
+  const [analyseImage, setAnalyseImage] = useState(selectedAnalyse.analyseImage);
+
+  const handleSave = () => {
+    // update the selected analysee with the new values
+    const updatedAnalyse = {
+      ...selectedAnalyse,
+      analyseName,
+      analyseDate,
+      analyseImage,
+    };
+    // navigate back to the previous screen and pass the updated analysee as a parameter
+    navigation.navigate('AfficheAnalyse', { selectedAnalyse: updatedAnalyse });
+  };
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+     console.log(result);
+  
+    if (!result.canceled) {
+      setAnalyseImage(result.assets[0].uri);
+    }
+  };
+  return (
+  
     <ScrollView>
       <KeyboardAvoidingWrapper>
       <StyledContainer>
@@ -52,18 +75,18 @@ return(
                 <InnerContainer>
                    
                             <StyledFormArea>
-                                <Text style={styles.label}>type</Text>
-                                <StyledTextInput  {...props} 
-                                    placeholder=" vaccin corona "
+                                <Text style={styles.label}>Nom du analyse</Text>
+                                <StyledTextInput  
+                                    placeholder=" analyse corona "
                                     placeholderTextColor={darkLight}
-                                    value={props.vaccinName}
-                                    onChangeText={(text) => props.setVaccinName(text)}                                   
+                                    value={analyseName}
+                                    onChangeText={(text) => setAnalyseName(text)}                                   
 
                                 />
                                 
                                 <Text style={styles.label}>Date</Text>
                                 
-                                <DatePicker StyledTextInput  {...props} 
+                                <DatePicker StyledTextInput  
                                     icon="calendar"
                                     placeholder="AAAA - MM - JJ"
                                     placeholderTextColor={darkLight}
@@ -71,7 +94,7 @@ return(
                                     cancelBtnText="Cancel"
                                     editable={false}
                                     DatePicker={DatePicker}
-                                    date={props.vaccinDate}
+                                    date={analyseDate}
                                     mode="date"
                                     format="YYYY-MM-DD"
                                     customStyles={{
@@ -87,15 +110,15 @@ return(
                                       }, 
                                       
                                     }}
-                                    onDateChange={(date) => props.setVaccinDate(date)}
+                                    onDateChange={(date) => setAnalyseDate(date)}
                                 />
-                                <Text style={styles.label}>Résultat du Vaccin</Text>
+                                <Text style={styles.label}>Résultat du Analyse</Text>
 
                                 <ViewImage onPress={pickImage}>
 
                                <Ionicons name='camera' onPress={pickImage} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
                               <TouchableOpacity onPress={pickImage} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
-                             {props.vaccinImage && <Image source={{ uri: props.vaccinImage }} style={{height:200,width:'199%'}} />}
+                             {analyseImage && <Image source={{ uri: analyseImage }} style={{height:200,width:'199%'}} />}
 
                                </TouchableOpacity> 
 
@@ -105,11 +128,10 @@ return(
                               
                                 
                                 <RegularButton2 style={{ justifyContent: 'center' , alignContent:'center' , alignSelf:'center', marginTop:20}} onPress ={() => {
-                                    if (props.vaccinName === '' ||  props.vaccinImage === '') {
+                                    if (analyseName === '' ||  analyseImage === '') {
                                     Alert.alert('Please fill in all fields');
                                     } else {
-                                    props.handleAdd();
-                                    navigation.navigate('Vaccins');
+                                    handleSave();
                                     }
                                   }}>
                                       <ButtonText>
@@ -135,9 +157,10 @@ return(
                          </StyledContainer>
                          </KeyboardAvoidingWrapper>    
                          </ScrollView>
-    
   );
 };
+
+
 const styles = StyleSheet.create({
   container: {
       flex: 1,
@@ -165,6 +188,4 @@ const styles = StyleSheet.create({
       marginTop: 20,
   },
 });
-
-
-export default AddConsultation;
+export default ModifyAnalyse;

@@ -1,58 +1,55 @@
-import React , {useState , useContext , useEffect} from 'react';
+import React , {useState , useContext,useEffect} from 'react';
 import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
-import { Colors, ExtraView } from '../components/styles';
-import SearchBar from '../components/SearchBar';
-import { CredentialsContext } from './../components/CredentialsContext';
-import NotFound from '../components/NotFound';
+import { Colors, ExtraView } from '../../components/styles';
+import SearchBar from '../../components/SearchBar';
+import { CredentialsContext } from '../../components/CredentialsContext';
+import NotFound from '../../components/NotFound';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StatusBarHeight } from '../components/shared';
+import { StatusBarHeight } from '../../components/shared';
 const { green, brand, darkLight, primary } = Colors;
 
 
-const ListeVaccin = ({ ...props }) => {
+const ListeMedecin = ({ ...props }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredVaccins, setFilteredVaccins] = useState(props.vaccins);
+  const [filteredMedecins, setFilteredMedecins] = useState([]);
+  
+  const handleOnSearchInput = (text) => {
+
+  setSearchQuery(text);
+    const filtered = props.medecins.filter(
+      (item) =>
+        item &&
+        item.medecinName &&
+        item.medecinName.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredMedecins(filtered);
+  };
   
   useEffect(() => {  
     const x = async() =>{
       
-     const y =  await AsyncStorage.getItem('vaccins');
-     const storedVaccins = JSON.parse(y) || [];
-      setFilteredVaccins(storedVaccins)
+     const y =  await AsyncStorage.getItem('medecins');
+     const storedMedecins = JSON.parse(y) || [];
+      setFilteredMedecins(storedMedecins)
     }
    x()
   } , [])
 
-  
+ AsyncStorage.removeItem('medecins');
 
 
 
-
-
-  const handleOnSearchInput = (text) => {
-  setSearchQuery(text);
-    const filtered = props.vaccins.filter(
-      (item) =>
-        item &&
-        item.vaccinName &&
-        item.vaccinName.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredVaccins(filtered);
-  };
-  
-  
- 
   const navigation = useNavigation();
-  console.log('filtred vaccins' , filteredVaccins.length)
-  console.log(props.vaccins.length)
   return (
 
-    <View style={[styles.vaccinContainer]}>
+    <View style={[styles.medecinContainer]}>
+   
+
     <View style={styles.headingContainer}>
       <View style={{width:280}}>
       <StatusBar style="Light" />
@@ -65,7 +62,7 @@ const ListeVaccin = ({ ...props }) => {
     <View>
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('Add')}
+          onPress={() => navigation.navigate('Add  Medecin')}
         >
           <FontAwesome5 name="plus" size={25} color={brand} />
           <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
@@ -77,51 +74,54 @@ const ListeVaccin = ({ ...props }) => {
         Total:
       </Text>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
-        {props.vaccins ? props.vaccins.length : 0}
+        {props.medecins ? props.medecins.length : 0}
       </Text>
     </View>
-    {filteredVaccins.length > 0 ? (
+    {filteredMedecins.length > 0 ? (
     <FlatList
 
       style={styles.scrollView}
       showsVerticalScrollIndicator={false}
-      data={filteredVaccins}
+      data={filteredMedecins}
       keyExtractor={(item, index) => String(index)}
       renderItem={({ item, index }) => (
         <View style={styles.item} key={index}>
           <View >
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Affiche Vaccin', {
-                  selectedVaccin: item,
+                navigation.navigate('Affiche Medecin', {
+                  selectedMedecin: item,
                   
                 })
               }
             >
-              <View style={styles.vaccin}>
+              <View style={styles.medecin}>
               
-                <Text style={styles.text}>{item.vaccinName}</Text>
-                <Text style={styles.dateContainer}>{item.vaccinDate}</Text>
-                
+                <Text style={styles.text}>{item.medecinName}</Text>
+                <Text style={styles.text}>{item.medecinAdresse}</Text>
+                <Text style={styles.text}>{item.medecinSpecialisation}</Text>
+
               </View>
             </TouchableOpacity>
           </View>
         </View> 
       )} 
       
-     
-    />  ) : !searchQuery
-    ? 
-      <View style={styles.emptyVaccinContainer}>
-        <Text style={styles.emptyVaccinText}>
-          Il n'y a pas encore de vaccins.
+      
+    />  ) : !searchQuery 
+    ?
+   
+      <View style={styles.emptyMedecinContainer}>
+        <Text style={styles.emptyMedecinText}>
+          Il n'y a pas encore de medecin.
         </Text>
       </View>
-     : (
+    
+     :(
       
       <View style={styles.container}>
         <MaterialCommunityIcons name='emoticon-sad-outline' size={90} color='black' />
-          <Text style={styles.emptyVaccinText}>
+          <Text style={styles.emptyMedecinText}>
           Résultat introuvable
           </Text>
         </View>
@@ -134,7 +134,7 @@ const ListeVaccin = ({ ...props }) => {
 }
 
 export const styles = StyleSheet.create({
-    vaccinContainer:{
+    medecinContainer:{
         paddingTop:-4,
         paddingHorizontal:15,
         marginBottom:70,
@@ -198,7 +198,7 @@ export const styles = StyleSheet.create({
     scrollView:{
         marginBottom:70,
     },
-    vaccin:{
+    medecin:{
         //flexDirection:'row',
         width:'100%',
         color:'black',
@@ -257,11 +257,11 @@ export const styles = StyleSheet.create({
         fontWeight:'700',
         fontSize:12,
     },
-    emptyVaccinContainer:{
+    emptyMedecinContainer:{
         alignItems:'center',
         marginTop:140,
     },
-    emptyVaccinText:{
+    emptyMedecinText:{
         fontWeight:'600',
         fontSize:15,
         justifyContent:'center',
@@ -278,4 +278,4 @@ export const styles = StyleSheet.create({
     },
     
 }) 
-export default ListeVaccin;
+export default ListeMedecin;

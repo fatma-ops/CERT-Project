@@ -1,15 +1,15 @@
 import React , {useContext,useState}  from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { TextInput } from 'react-native';
 import { Modal } from 'react-native';
-import { StatusBarHeight } from '../components/shared';
+import { StatusBarHeight } from '../../components/shared';
 import {  Octicons, AntDesign, Fontisto , Entypo , MaterialCommunityIcons } from '@expo/vector-icons';
 import { Formik } from 'formik';
-import MessageModal from '../components/Modals/MessageModal';
+import MessageModal from '../../components/Modals/MessageModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CredentialsContext } from './../components/CredentialsContext';
+import { CredentialsContext } from '../../components/CredentialsContext';
 
 
 
@@ -19,8 +19,8 @@ import
   
 
 
-} from './../components/styles';
-import IconHeader from '../components/Icons/IconHeader';
+} from '../../components/styles';
+import IconHeader from '../../components/Icons/IconHeader';
 const { brand, darkLight, primary , green, red} = Colors;
 
 const EditProfileScreen = ({navigation , route}) => {

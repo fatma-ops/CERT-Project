@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { NavigationContainer, useRoute } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+  import { NavigationContainer, useRoute  } from "@react-navigation/native";
+  import { createNativeStackNavigator } from "@react-navigation/native-stack";
+  import React, {useState , useEffect} from 'react';
+  import Analyses from "./ListeAnalyse";
+  import Add from "./Add";
 
-import React, { useState, useEffect } from 'react';
-import Analyses from "./ListeAnalyse";
 import AfficheAnalyse from "./AfficheAnalyse";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModifyAnalyse from "./ModifyAnalyse";
-import Add from "./Add";
 
 
 const Stack = createNativeStackNavigator();

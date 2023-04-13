@@ -5,9 +5,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { ActivityIndicator, Button } from 'react-native';
 import { Octicons, Ionicons } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
-import { CredentialsContext } from '../components/CredentialsContext';
-import RegularButton from '../components/Buttons/RegularButton';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import { CredentialsContext } from '../../components/CredentialsContext';
+import RegularButton from '../../components/Buttons/RegularButton';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -32,10 +32,10 @@ import {
     ExtraView,
     TextLink,
     TextLinkContent,
-} from '../components/styles';
-import MessageModalImage from '../components/Modals/MessageModalImage';
+} from '../../components/styles';
+import MessageModalImage from '../../components/Modals/MessageModalImage';
 import styled from 'styled-components';
-import RegularButton2 from '../components/Buttons/RegularButton2';
+import RegularButton2 from '../../components/Buttons/RegularButton2';
 
 const { green, brand, darkLight, primary } = Colors;
 

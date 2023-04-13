@@ -1,11 +1,11 @@
 import React, { useState, route } from 'react';
 import { Text, View, ScrollView,Image, StyleSheet, Button, Alert } from "react-native";
-import { Colors, ExtraView } from '../components/styles';
+import { Colors, ExtraView } from '../../components/styles';
 import { StatusBar } from 'expo-status-bar';
-import { StatusBarHeight } from '../components/shared';
+import { StatusBarHeight } from '../../components/shared';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import RowContainer from '../components/Containers/RowContainer';
-import RegularButton3 from '../components/Buttons/RegularButton3';
+import RowContainer from '../../components/Containers/RowContainer';
+import RegularButton3 from '../../components/Buttons/RegularButton3';
 
 
 const { green, brand, darkLight, primary } = Colors;

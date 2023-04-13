@@ -4,11 +4,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Entypo } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 import { Colors } from '../components/styles'
-import Welcome from '../screens/Welcome'
-import AnalyseFlatList from '../screens/AnalyseFlatList'
-import Vaccin from '../screens/Vaccin'
-import Analyse from '../screens/Analyse'
+import Welcome from '../screens/User/Welcome'
 import HomeScreen from '../screens/HomeScreen'
+import AnalyseFlatList from '../screens/AnalyseFlatList'
+import Vaccin from '../screens/VaccinClass/Vaccin'
+import Analyse from '../screens/AnalyseClass/Analyse'
+import Medecin from '../screens/MedecinClass/Medecin'
+
 const { darkLight, brand } = Colors;
 
 
@@ -32,8 +34,8 @@ export default function NavBarre() {
 
         <Tab.Navigator screenOptions={screenOptions}>
             <Tab.Screen
-                name="AnalyseFlatList"
-                component={Welcome}
+                name="Medecin"
+                component={Medecin}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => {
@@ -47,7 +49,7 @@ export default function NavBarre() {
                 }}
             />
             <Tab.Screen
-                name="HomeScreen"
+                name="Home"
                 component={HomeScreen} options={{
                     tabBarIcon: ({ focused }) => {
                         return (
