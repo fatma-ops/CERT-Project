@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { View, ActivityIndicator,Text  } from 'react-native';
-import { Octicons, Ionicons } from '@expo/vector-icons';
+import { Octicons, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -91,13 +91,40 @@ const buttonHandler = () => {
 
     };
     
+
+    const MyTextInput2 = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+        return (
+            <View>
+                <StyledInputLabel> {label}</StyledInputLabel>
+                <StyledTextInput  {...props} />
+                <LeftIcon>
+                    <MaterialCommunityIcons name={icon} size={24} color={brand} />
+                </LeftIcon>
+                {isPassword && (
+                    <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                        <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
+                    </RightIcon>
+
+                )}
+
+            </View>
+        );
+
+    };
+    
+
+
+
+
+
+
       
     const handleSignup = (credentials, setSubmitting) => {
       
             setSubmitting(true);
 
             axios
-              .post('https://8207-197-29-190-50.eu.ngrok.io/api/v1/user/signup', credentials)
+              .post('https://f072-197-15-199-158.ngrok-free.app/api/v1/user/signup', credentials)
               .then((response) => {
                 const { status, data } = response;
                 if (status === 200) {
@@ -216,9 +243,9 @@ const buttonHandler = () => {
 
                                     keyboardType="email-address"
                                 />
-                                <MyTextInput
+                                <MyTextInput2
                                     label="Groupe Sanguin"
-                                    icon=""
+                                    icon="blood-bag"
                                     placeholder="Entrer votre groupe sanguin"
                                     placeholderTextColor={darkLight}
                                     onChangeText={handleChange('groupeSanguin')}
@@ -227,10 +254,10 @@ const buttonHandler = () => {
                                     
                                     
                                 />
-                                <MyTextInput
+                                <MyTextInput2
                                     label="Allergie"
-                                    icon=""
-                                    placeholder=""
+                                    icon="allergy"
+                                    placeholder="Entrer votre allergie"
                                     placeholderTextColor={darkLight}
                                     onChangeText={handleChange('allergie')}
                                     onBlur={handleBlur('allergie')}

@@ -9,7 +9,7 @@ import ResendTimer from '../../components/Timers/ResendTimer';
 import styled from 'styled-components';
 import MessageModal from '../../components/Modals/MessageModal';
 import {InnerContainer,StyledFormArea,LeftIcon,RightIcon,StyledButton,StyledInputLabel,StyledTextInput, ButtonText,
-Colors,MsgBox,StyledContainerRestPassword} from '../../components/styles';
+Colors,MsgBox,StyledContainerRestPassword, ExtraView, TextLink, TextLinkContent} from '../../components/styles';
 import RegularText from '../../components/Texts/RegularText';
 import axios from 'axios';
 import IconHeader from '../../components/Icons/IconHeader';
@@ -69,7 +69,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
 
     // Send a POST request to your backend server
     const response = await axios.post(
-      'https://84d6-197-26-59-238.eu.ngrok.io/api/v1/forget_password/rest',
+      'https://f072-197-15-199-158.ngrok-free.app/api/v1/forget_password/rest',
       {
         email,
         otp: code,
@@ -182,6 +182,14 @@ const ShowModal = (type , headerText , message , buttonText) => {
                             {isSubmitting && <StyledButton disabled={true}>
                                 <ActivityIndicator size="large" color={primary} />
                             </StyledButton>}
+                            <ExtraView>
+                                    
+                                    <TextLink onPress={() => navigation.navigate('ForgetPassword')}>
+                                        <TextLinkContent>
+                                           Annuler
+                                        </TextLinkContent>
+                                    </TextLink>
+                                </ExtraView>
                         </StyledFormArea>)}
                     </Formik>
                 </InnerContainer>

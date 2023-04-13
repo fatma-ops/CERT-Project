@@ -41,7 +41,7 @@ const ForgetPassword = ({ navigation }) => {
             handleMessage(null);
             setSubmitting(true);
       
-            const response = await axios.post('https://84d6-197-26-59-238.eu.ngrok.io/api/v1/forget_password', { email: credentials.email });
+            const response = await axios.post('https://f072-197-15-199-158.ngrok-free.app/api/v1/forget_password', { email: credentials.email });
       
             setSubmitting(false);
       
@@ -116,11 +116,11 @@ const ForgetPassword = ({ navigation }) => {
                             <Line />
                             <ExtraView>
                               <ExtraText>
-                                  Retour à la page  
+                                   
                               </ExtraText>
                               <TextLink onPress={() => navigation.navigate('Login')}>
                                   <TextLinkContent >
-                                     connexion
+                                  Retour à la page connexion
                                   </TextLinkContent>
                               </TextLink>
                           </ExtraView>
