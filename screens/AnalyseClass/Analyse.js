@@ -65,7 +65,7 @@ export default function Analyse() {
   return (
     //<NavigationContainer>
     <Stack.Navigator>
-      <Stack.Screen name="analyses">
+      <Stack.Screen name="Analyses">
         {props => <Analyses analyses={analyses} setAnalyses={setAnalyses}
           analyseName={analyseName} setAnalyseName={setAnalyseName}
           analyseImage={analyseImage} setAnalyseImage={setAnalyseImage}

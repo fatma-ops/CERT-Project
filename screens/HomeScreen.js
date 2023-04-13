@@ -103,10 +103,10 @@ const HomeScreen = () => {
     },
     item:{ 
       marginBottom: StatusBarHeight + 400,
-      padding:30,
+      padding:20,
       color:darkLight,
       opacity:1,
-      marginLeft:20,
+      marginLeft:30,
       marginRight:30,
 
       marginTop:StatusBarHeight ,
@@ -130,8 +130,8 @@ const HomeScreen = () => {
   },
   avatar: {
     
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     alignItems:'center',
     alignSelf:'center',
     alignContent:'center',
