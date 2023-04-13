@@ -130,8 +130,8 @@ const HomeScreen = () => {
   },
   avatar: {
     
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     alignItems:'center',
     alignSelf:'center',
     alignContent:'center',
