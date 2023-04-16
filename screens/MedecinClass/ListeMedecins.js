@@ -1,6 +1,6 @@
 import React , {useState , useContext,useEffect} from 'react';
 import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
-import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
@@ -46,6 +46,7 @@ const ListeMedecin = ({ ...props }) => {
 
   const navigation = useNavigation();
   return (
+    <View >
 
     <View style={[styles.medecinContainer]}>
    
@@ -64,8 +65,8 @@ const ListeMedecin = ({ ...props }) => {
           style={[styles.button]}
           onPress={() => navigation.navigate('Add Medecin')}
         >
-          <FontAwesome5 name="plus" size={25} color={brand} />
-          <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
+          <MaterialIcons name="add" size={30} color={brand} />
+          <Text style={{ marginLeft: -10, color: darkLight }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
     </View>
@@ -98,7 +99,7 @@ const ListeMedecin = ({ ...props }) => {
               <View style={styles.medecin}>
               
                 <Text style={styles.index}>{item.medecinName}</Text>
-                <Text style={styles.text}>{item.medecinSpecialisation}</Text>
+                <Text style={styles.text}>{item.medecinSpecialite}</Text>
 
               </View>
             </TouchableOpacity>
@@ -127,12 +128,19 @@ const ListeMedecin = ({ ...props }) => {
       
     )}
   </View>
+  </View>
 );
 
     
 }
 
 export const styles = StyleSheet.create({
+   container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      marginBottom:60
+      
+    },
     medecinContainer:{
         paddingTop:-4,
         paddingHorizontal:15,
@@ -145,6 +153,7 @@ export const styles = StyleSheet.create({
         fontWeight:'700',
         color:brand,
         justifyContent:'space-between',
+        
 
     },
     divider:{
@@ -154,19 +163,19 @@ export const styles = StyleSheet.create({
         marginBottom:5,
     },
     item:{ 
-        marginBottom:25,
-        padding:20,
+        marginBottom:10,
+        padding:15,
         color:brand,
         opacity:1,
         marginTop:10,
         shadowOpacity:0.25,
-        shadowOffset:{width:2, height:1},
-        shadowRadius:2,
+        shadowOffset:{width:0.5,height:2},
+        shadowRadius:1,
         elevation:5,
         backgroundColor:'white',
         borderWidth:0,
-        borderRadius:15,
-       //borderLeftWidth:15,
+        borderRadius:10,
+        
 
     },
     index:{
@@ -186,14 +195,9 @@ export const styles = StyleSheet.create({
        alignItems:'center',
     },
     button:{
-        width:50,
-        borderRadius:100,
-        //justifyContent:'space-between',
-       
-        marginLeft:22,
-       // height:50,
-        marginTop :25,
-        //marginBottom : 20
+      marginLeft:22,
+      height:40,
+       marginTop :StatusBarHeight -10,
     },
     buttonText:{
         color:brand,
