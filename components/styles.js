@@ -198,10 +198,14 @@ border-radius: 20px;
 font-size:16px;
 height:60px;
 margin-vertical:3px;
+font-width:'b
 margin-bottom:10px;
 color:${tertiary};
 
 `;
+
+
+
 
 export const StyledInputLabel = styled.Text`
 color:${tertiary};

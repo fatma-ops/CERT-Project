@@ -40,7 +40,7 @@ const ListeAnalyse = ({ ...props }) => {
    x()
   } , [])
 
- AsyncStorage.removeItem('analyses');
+ //AsyncStorage.removeItem('analyses');
 
 
 

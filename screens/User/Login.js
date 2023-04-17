@@ -40,7 +40,7 @@ import { CredentialsContext } from '../../components/CredentialsContext';
 
 const { brand, darkLight, primary } = Colors;
 
-const API_URL = 'https://f072-197-15-199-158.ngrok-free.app/api/v1/user/';
+const API_URL = 'https://cd7d-197-26-78-80.ngrok-free.app/api/v1/user/';
 
 const Login = ({navigation}) => {
   
@@ -153,7 +153,8 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
                           }
                       }}
                   >
-                      {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (<StyledFormArea>
+                      {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
+                      <StyledFormArea>
                           <MyTextInput
                               label="Adresse Email"
                               icon='mail'

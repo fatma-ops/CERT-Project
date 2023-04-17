@@ -13,11 +13,9 @@ width : 45%
 justify-content:center;
 align-items:center;
 border-radius:10px;
-height:50px;
+height:60px;
 flex-direction:row;
 justify-content: space-between;
-margin-top:2px;
-
 
 
 

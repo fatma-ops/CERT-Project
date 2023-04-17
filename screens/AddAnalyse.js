@@ -1,94 +1,57 @@
-import React, { useState, useContext } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { Formik } from 'formik';
-import { View, ActivityIndicator,Text , TouchableOpacity ,Image, TextInput, Button } from 'react-native';
-import { Octicons, Ionicons , FontAwesome5 } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
-import { CredentialsContext } from '../components/CredentialsContext';
-import { ToastAndroid ,StyleSheet} from 'react-native';
-import MessageModal from '../components/Modals/MessageModal';
-import RegularButton2 from '../components/Buttons/RegularButton2';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useContext , useState } from 'react';
+import { View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
+import { Formik } from 'formik';
+import {  Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 
+import MessageModal from './../components/Modals/MessageModal';
 
-
-import {
-    StyledContainer,
-    InnerContainer,
-    PageLogo,
-    PageTitle,
-    SubTitle,
-    StyledFormArea,
-    LeftIcon,
-    RightIcon,
-    StyledButton,
-    StyledInputLabel2,
-    StyledTextInput,
-    ButtonText,
-    Colors,
-    MsgBox,
-    ExtraView2,
-    PageSignup,
-    ViewImage,
-    StyledContainer3
-
-
-} from '../components/styles';
-import MessageModalImage from '../components/Modals/MessageModalImage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CredentialsContext } from './../components/CredentialsContext';
+import { KeyboardAvoidingView } from 'react-native-web';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle} from '../components/styles';
+import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
+import { ActivityIndicator } from 'react-native';
+import { StyleSheet } from 'react-native';
 import RegularButton3 from '../components/Buttons/RegularButton3';
-const { green, brand, darkLight, primary } = Colors;
+import DateTimePicker from '@react-native-community/datetimepicker';
 
+const { brand, darkLight, primary } = Colors;
 
-const AddAnalyse = ({ navigation }) => {
-    const [message, setMessage] = useState();
-    const [messageType, setMessageType] = useState();
-    const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
-    const [show , setShow] = useState(false);
-    const [date , setDate] = useState(new Date(2000,0,1));
-const [modalVisible , setModalVisible] = useState(false);
-const [modalMessageType , setModalMessageType] = useState('');
-const [headerText , setHeaderText]= useState('');
-const [modalMessage , setModalMessage] = useState('');
-const [buttonText , setButtonText] = useState('');
+const  AddAnalyse = ({navigation}) =>  {
+  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+  const [message, setMessage] = useState();
+  const [messageType, setMessageType] = useState();
+      
 
-
-//date 
-
+  const { email } = storedCredentials;
+  console.log(email);
+//date
+const [date , setDate] = useState(new Date(2000,0,1));
 const [dob , setDob] = useState() ; 
-
+const [show , setShow] = useState(false);
 const onChange = (event , selectedDate) => {
- const currentDate = selectedDate || date ;
- setShow(false);
- setDate(currentDate);
- setDob(currentDate);
-}
-
-const showDatePicker = () =>{
-    setShow(true);
-}
-const [image, setImage] = useState(null);
-
+    const currentDate = selectedDate || date ;
+    setShow(false);
+    setDate(currentDate);
+    setDob(currentDate);
+   }
+   
+   const showDatePicker = () =>{
+       setShow(true);
+   }
 
 
+  const [modalVisible , setModalVisible] = useState(false);
+  const [modalMessageType , setModalMessageType] = useState('');
+  const [headerText , setHeaderText]= useState('');
+  const [modalMessage , setModalMessage] = useState('');
+  const [buttonText , setButtonText] = useState('');
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
 
-    console.log(result);
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
-const buttonHandler = () => {
+  const buttonHandler = () => {
     if(modalMessageType === 'success'){
         //do something
     }
@@ -104,68 +67,70 @@ const buttonHandler = () => {
         setModalVisible(true);
         }
 
-    const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, isDate ,isImage , showDatePicker , ...props }) => {
-        return (
-            <View>
-                <StyledInputLabel2> {label}</StyledInputLabel2>
-                {!isDate && <StyledTextInput  {...props} />}
-                {isDate && (
-                <TouchableOpacity onPress={showDatePicker}> 
-                    
-                    <StyledTextInput  {...props} />
-                    </TouchableOpacity>)}
-                <LeftIcon>
-                    <Octicons name={icon} size={24} color={brand} />
-                </LeftIcon>
-                {isPassword && (
-                    <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-                        <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
-                    </RightIcon>
-                    
-
-                )} 
-                {isImage && (
-                    <RightIcon onPress={handleTakePhoto}>
-                        <Ionicons name={'image'} size={24} color={brand} />
-                    </RightIcon>
-                    
-
-                )} 
-               
-              
-                  
 
 
-            </View>
-        );
-
-    };
-    
-      
-    const handleAddAnalyse = (credentials, setSubmitting) => {
-      
-            
-    };
-
-
-    const handleOpen = async () => {
-       return ShowModal('echec' , 'hello' , 'merci');
-    };   
-
-          
-    const handleMessage = (message, type = 'FAILED') => {
-        setMessage(message);
-        setMessageType(type);
+  const pickImage = async (setFieldValue) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
+      return;
     }
-    
-    
 
-    return (
-        <KeyboardAvoidingWrapper>
-            <StyledContainer3>
-                <StatusBar style="dark" />
-                <InnerContainer>
-                    <PageSignup>  </PageSignup>
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setFieldValue('image', result.uri);
+    }
+  };
+
+  const submitAnalyse = async (values ,setSubmitting) => {
+    handleMessage(null);
+    setSubmitting(true);
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('date', values.date);
+    formData.append('testimage', {
+      uri: values.image,
+      name: 'image.png',
+      type: 'image/png'
+    });
+    formData.append('userEmail', email);
+
+    try {
+      const response = await axios.post('https://1417-41-225-217-34.ngrok-free.app/api/v1/analyse/add', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log(response.data);
+      navigation.navigate('AnalyseFlatList')
+
+      setSubmitting(false);
+
+    } catch (error) {
+    setSubmitting(false);
+    handleMessage(error.message);
+
+      console.error(error);
+    }
+  };
+  const handleMessage = (message, type = 'FAILED') => {
+    setMessage(message);
+    setMessageType(type);
+};
+
+
+  return (
+    <KeyboardAvoidingWrapper>
+        <StyledContainer>
+        <StatusBar style="dark" />
+
+     <InnerContainer>  
                     <SubTitle></SubTitle>
                    
                     {show && (
@@ -181,34 +146,37 @@ const buttonHandler = () => {
 
 
                     )}
-                     
 
-           
-                    <Formik
-                        initialValues={{ typeAnalyse: '' , date: '', ResultatAnalyse:''  }}
-                        onSubmit={(values, { setSubmitting }) => {
-                            if (values.typeAnalyse == '' ||values.date == '' || values.Resultat == '' ) {
-                                handleMessage('Veuillez remplir tous les champs');
-                                setSubmitting(false);
-                            } 
-                            else { 
-                                handleSignup(values, setSubmitting);
-                            }
-                        }}
-                    >
-                        {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
-                            <StyledFormArea>
-                                <MyTextInput
-                                    label="Type d'analyse"
-                                    icon="id-badge"
-                                    placeholder=" analyse du sang "
-                                    placeholderTextColor={darkLight}
-                                    onChangeText={handleChange('typeAnalyse')}
-                                    onBlur={handleBlur('typeAnalyse')}
-                                    value={values.typeAnalyse}
 
-                                />
-                                 <MyTextInput
+
+    <Formik
+      initialValues={{ title: '', date: '', image: null }}
+      onSubmit={(values, { setSubmitting }) => {
+        if (values.title == '' ) {
+            handleMessage('Veuillez remplir  les champs');
+            setSubmitting(false);
+        } else {
+            submitAnalyse(values, setSubmitting);
+
+        }
+    
+      }}
+    >
+      {({ handleChange, handleBlur, handleSubmit, setFieldValue, values , isSubmitting }) => (
+        <StyledFormArea>
+          
+         
+          <MyTextInput
+           label="Nom d'analyse"
+           icon="id-badge"
+           placeholder="Analyse"
+           placeholderTextColor={darkLight}
+           onChangeText={handleChange('title')}
+           onBlur={handleBlur('title')}
+           value={values.title}
+                              
+                          />
+           <MyTextInput
                                     label="date"
                                     icon="calendar"
                                     placeholder = "AAAA - MM - JJ"
@@ -223,69 +191,78 @@ const buttonHandler = () => {
 
                                 
                                 />
-                                <Text style={styles.label}>Résultat d'analyse</Text>
 
-                                <ViewImage onPress={pickImage}>
+           <Text style={styles.label}>Résultat d'analyse</Text>
+            <ViewImage >
 
-                              <Ionicons name='camera' onPress={pickImage} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-                             <TouchableOpacity onPress={pickImage} style={{position:'absolute' ,padding:15, paddingLeft:55 , borderRadius: 20 ,fontSize:16 ,height:200,width:'100%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center'}}>
-                             {image && <Image source={{ uri: image }} style={{height:200,width:'100%'}} />}
-                                </TouchableOpacity> 
+            <Ionicons name='camera' onPress={() => pickImage(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
+            <TouchableOpacity onPress={() => pickImage(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
+            {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
+            </TouchableOpacity> 
 
-                              <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre Résultat d'analyse</Text>
+                <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
 
-                                    </ViewImage> 
+            </ViewImage>
 
 
-                              
-                                
-                                <MsgBox type={messageType}>
-                                    {message}
-                                </MsgBox>
-                               <ExtraView2>
-                                {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{justifyContent:'center'}}>
+          <MsgBox type={messageType}>
+                              {message}
+                          </MsgBox>
+                          <View style={{ justifyContent: 'center'}}>
+                          {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf:'center'}}>
                                     <ButtonText>
-                                      Annuler     
-                                    </ButtonText>
-                                </RegularButton3>}
-
-                                {isSubmitting && <RegularButton2 disabled={true}>
-                                    <ActivityIndicator size="large" color={primary} />
-                                </RegularButton2>}
-
-
-                                {!isSubmitting && <RegularButton3 onPress={handleSubmit}>
-                                    <ButtonText>
-                                      Enregistrer
+                                      Ajouter
                                     </ButtonText>
                                 </RegularButton3>}
 
                                 {isSubmitting && <RegularButton3 disabled={true}>
                                     <ActivityIndicator size="large" color={primary} />
                                 </RegularButton3>}
-                                </ExtraView2>
-                               
-                                
-                            </StyledFormArea>)}
-                    </Formik>
-                </InnerContainer>
-                <MessageModalImage 
-                            modalVisible={modalVisible} 
-                            buttonHandler = {buttonHandler} 
-                            type = {modalMessageType} 
-                            headerText = {headerText}
-                            message={modalMessage}
-                            buttonText={buttonText} /> 
-            </StyledContainer3>
-        
-        </KeyboardAvoidingWrapper>
+                                </View>
+                                <ExtraView>
+                             
+                              <TextLink onPress={() => navigation.goBack()}>
+                                  <TextLinkContent style={{ justifyContent: 'center' , alignContent:'center' , alignSelf:'center'}} >
+                                      Annuler
+                                  </TextLinkContent>
+                              </TextLink>
+                          </ExtraView>
+          </StyledFormArea>
+      )}
+    </Formik>
+    </InnerContainer> 
+    </StyledContainer>
+    </KeyboardAvoidingWrapper>
+  );
+}
 
-
+const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePicker, setHidePassword, ...props }) => {
+    return (
+        <View>
+            <LeftIcon>
+                <Octicons name={icon} size={24} color={brand} />
+  
+            </LeftIcon>
+            
+            <StyledInputLabel2> {label}</StyledInputLabel2>
+                {!isDate && <StyledTextInput  {...props} />}
+                {isDate && (
+                <TouchableOpacity onPress={showDatePicker}> 
+                    
+                    <StyledTextInput  {...props} />
+                    </TouchableOpacity>)}
+            {isPassword && (
+                <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
+                </RightIcon>
+  
+            )}
+  
+        </View>
     );
-
-    
-};
-const styles = StyleSheet.create({
+  
+  }
+  const styles = StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'center',
@@ -311,5 +288,4 @@ const styles = StyleSheet.create({
       marginTop: 20,
     },
   });
-
-export default AddAnalyse; 
+  export default AddAnalyse; 

@@ -10,6 +10,7 @@ import AnalyseFlatList from '../screens/AnalyseFlatList'
 import Vaccin from '../screens/VaccinClass/Vaccin'
 import Analyse from '../screens/AnalyseClass/Analyse'
 import Medecin from '../screens/MedecinClass/Medecin'
+import AddAnalyse from '../screens/AddAnalyse'
 
 const { darkLight, brand } = Colors;
 
@@ -34,8 +35,8 @@ export default function NavBarre() {
 
         <Tab.Navigator screenOptions={screenOptions}>
             <Tab.Screen
-                name="Medecin"
-                component={Medecin}
+                name="AddAnalyse"
+                component={AddAnalyse}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => {
@@ -61,8 +62,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="Vaccin"
-                component={Vaccin}
+            <Tab.Screen name="AnalyseFlatList"
+                component={AnalyseFlatList}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
