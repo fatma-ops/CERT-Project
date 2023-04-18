@@ -10,6 +10,7 @@ import AnalyseFlatList from '../screens/AnalyseFlatList'
 import Vaccin from '../screens/VaccinClass/Vaccin'
 import Analyse from '../screens/AnalyseClass/Analyse'
 import Medecin from '../screens/MedecinClass/Medecin'
+import AddAnalyse from '../screens/AddAnalyse'
 
 const { darkLight, brand } = Colors;
 
@@ -34,14 +35,15 @@ export default function NavBarre() {
 
         <Tab.Navigator screenOptions={screenOptions}>
             <Tab.Screen
-                name="Medecin"
-                component={Medecin}
+                name="AddAnalyse"
+                component={AddAnalyse}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='folder' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} > Dossier </Text>
                             </View>
                         )
                     }
@@ -54,13 +56,14 @@ export default function NavBarre() {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='home' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} >     Home     </Text>
                             </View>
                         )
                     }
                 }} />
 
-            <Tab.Screen name="Vaccin"
-                component={Vaccin}
+            <Tab.Screen name="AnalyseFlatList"
+                component={AnalyseFlatList}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -89,6 +92,7 @@ export default function NavBarre() {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='bell' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} >   Notification   </Text>
                             </View>
                         )
                     }
@@ -102,6 +106,7 @@ export default function NavBarre() {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='user' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} >   Profile   </Text>
                             </View>
                         )
                     }

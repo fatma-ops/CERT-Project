@@ -1,106 +1,108 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Button, Alert } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import Product from '../data/dummy-data';
+import React from 'react';
+import { View, Text,StyleSheet,Image } from 'react-native';
+import RegularButton3 from '../components/Buttons/RegularButton3';
 import { Colors } from '../components/styles';
-const { brand } = Colors;
+import { ScrollView } from 'react-native';
+import RowContainer from './../components/Containers/RowContainer';
 
-const AnalyseDetail = (props) => {
-  const route = useRoute();
-  const id = route.params.productId;
-  const navigation = useNavigation();
+const { brand, darkLight, primary } = Colors;
 
-  const [analyse, setAnalyse] = useState(Product.find((analyse) => analyse.id === id));
-
-  const handleEdit = () => {
-    // Navigate to the edit screen and pass the current analyse as a parameter
-    navigation.navigate('EditAnalyse', { analyse });
-  };
-
-  const handleDelete = () => {
-    // Show an alert to confirm deletion
-    Alert.alert(
-      'Supprimer l\'analyse',
-      'Êtes-vous sûr de vouloir supprimer cette analyse ?',
-      [
-        { text: 'Annuler', style: 'cancel' },
-        {
-          text: 'Supprimer',
-          style: 'destructive',
-          onPress: () => {
-            // Filter out the current analyse from the products list and save it
-            const updatedProducts = Product.filter((product) => product.id !== id);
-            setAnalyse(null); // set the current analyse to null to trigger a re-render
-            saveProducts(updatedProducts);
-            navigation.goBack(); // go back to the previous screen
-          },
-        },
-      ],
-      { cancelable: true },
-    );
-  };
-
-  const saveProducts = (products) => {
-    // Save the updated products list to local storage
-    // You can implement this using AsyncStorage or another local storage solution
-  };
-
-  if (!analyse) {
-    // If the analyse has been deleted, show a message
-    return (
-      <View style={styles.container}>
-        <Text style={styles.deleted}>Cette analyse a été supprimée</Text>
-      </View>
-    );
-  }
-
+const AnalyseDetail = ({ route }) => {
+  const { selectedAnalyse } = route.params;
+  
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: analyse.imageUrl }} />
-      <Text style={styles.title}>{analyse.title}</Text>
-      <Text style={styles.price}>{analyse.price}</Text>
-      <View style={styles.actions}>
-        <Button color={brand} title="Modifier" onPress={handleEdit} />
-        <Button color={brand} title="Supprimer" onPress={handleDelete} />
-      </View>
-    </View>
-  );
-};
+   
+            <View style={styles.vaccin}>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: '90%',
-    height: 300,
-    borderRadius:10
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  price: {
-    fontSize: 20,
-    color: '#888',
-    textAlign: 'center',
-    marginVertical: 20,
-  },
-  actions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  deleted: {
-    fontSize: 20,
-    color: '#888',
-    textAlign: 'center',
-    marginVertical: 20,
-  },
-});
+            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>{
+              <View style={styles.vaccin}>
+            <Text style={styles.dateContainer}>{selectedAnalyse.date}</Text>
+            <Text >{selectedAnalyse.tile}</Text>
+
+            <View style={styles.actions}>
+            <RowContainer style = {{justifycontent: 'space-between'}}>
+             <RegularButton3 style={{justifyContent:'center'}}>{ `Supprimer`}</RegularButton3>
+             <RegularButton3  style={{justifyContent:'center'}}>{ `Modifier`}</RegularButton3>
+
+             </RowContainer>
+            </View>
+            </View>}
+            </ScrollView>
+          </View>
+        );
+      };
+      
+      const styles = StyleSheet.create({
+        actions: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        },
+        deleted: {
+          fontSize: 20,
+          color: '#888',
+          textAlign: 'center',
+          marginVertical: 20,
+        },
+     
+        vaccinContainer:{
+            paddingTop:-4,
+            paddingHorizontal:15,
+            marginBottom:70,
+            //opacity:0.9,
+        },
+        headingContainer:{
+            fontWeight:'700',
+            color:brand,
+        },
+     
+    
+        scrollView:{
+           // marginBottom:100,
+        },
+        vaccin:{
+            width:'100%',
+            alignItems:'center',
+            marginBottom:100
+    
+        },
+        text:{
+          marginTop:15,
+            fontWeight:'400',
+            fontSize:25,
+            alignItems:'center',
+        },
+        dateContainer:{
+          marginTop:10,
+          flexDirection:'row',
+          justifyContent:'space-between',
+          alignContent:'center',
+          marginBottom:10,
+          fontWeight:'300',
+            fontSize:20,
+            color:'grey'
+      },
+        delete:{
+            fontWeight:'700',
+            fontSize:15
+        },
+  
+        imageContainer:{
+          height: 400, 
+          width: '90%',
+          marginTop:20,
+          shadowOpacity:0.25,
+          shadowOffset:{width:2, height:1},
+          shadowRadius:2,
+          elevation:5,
+          borderWidth:0,
+          borderRadius:10,
+          
+        }
+        
+    })    
+
+
 
 export default AnalyseDetail;
 

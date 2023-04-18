@@ -36,7 +36,7 @@ import MessageModalImage from '../../components/Modals/MessageModalImage';
 import styled from 'styled-components';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 
-const { green, brand, darkLight, primary, secondary, tertiary } = Colors;
+const { green, brand, darkLight, primary } = Colors;
 
 const AddVaccin = ({ navigation, ...props }) => {
 
@@ -84,14 +84,6 @@ return(
                                     onChangeText={(text) => props.setVaccinName(text)}                                   
 
                                 />
-                                <Text style={styles.label}>Maladie ciblee</Text>
-                                <StyledTextInput  {...props} 
-                                    placeholder=" covid "
-                                    placeholderTextColor={darkLight}
-                                    value={props.vaccinMaladie}
-                                    onChangeText={(text) => props.setVaccinMaladie(text)}                                   
-
-                                />
                                 
                                 <Text style={styles.label}>Date</Text>
                                 <TouchableOpacity  style={styles.date} onPress={handlePress}>
@@ -128,7 +120,7 @@ return(
                                 <ViewImage onPress={pickImage}>
 
                                <Ionicons name='camera' onPress={pickImage} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-                              <TouchableOpacity onPress={pickImage} style={styles.image}>
+                              <TouchableOpacity onPress={pickImage} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
                              {props.vaccinImage && <Image source={{ uri: props.vaccinImage }} style={{height:200,width:'199%'}} />}
 
                                </TouchableOpacity> 
