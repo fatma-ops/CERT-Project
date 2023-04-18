@@ -16,7 +16,7 @@ export default function Vaccin (){
   const [vaccinImage, setVaccinImage] = useState();
   const [vaccinMaladie, setVaccinMaladie] = useState();
   const [vaccinCmnt, setVaccinCmnt] = useState();
-  const [vaccinDate, setVaccinDate] = useState();
+  const [vaccinDate, setVaccinDate] = useState(new Date());
   const [vaccins , setVaccins]= useState([]);
   const [filteredVaccins, setFilteredVaccins] = useState([]);
 

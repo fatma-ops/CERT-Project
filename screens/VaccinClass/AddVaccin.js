@@ -10,7 +10,7 @@ import { CredentialsContext } from '../../components/CredentialsContext';
 import RegularButton from '../../components/Buttons/RegularButton';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
-
+import moment from 'moment';
 import {
     InnerContainer,
     SubTitle,
@@ -39,9 +39,7 @@ import RegularButton2 from '../../components/Buttons/RegularButton2';
 const { green, brand, darkLight, primary, secondary, tertiary } = Colors;
 
 const AddVaccin = ({ navigation, ...props }) => {
-  const showDatePicker = () => {
-    setShow(true);
-}
+
 
 const pickImage = async () => {
   // No permissions request is necessary for launching the image library
@@ -58,8 +56,16 @@ const pickImage = async () => {
   }
 };
 
+ 
+ const showDatePicker = () =>{
+     setShow(true);
+ }
+ const [showPicker, setShowPicker] = useState(false);
+ const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-
+ const handlePress = () => {
+  setShowPicker(true);
+};
 
   const [show, setShow] = useState(false);
 return(
@@ -88,33 +94,28 @@ return(
                                 />
                                 
                                 <Text style={styles.label}>Date</Text>
-                                
-                                <DatePicker StyledTextInput  {...props} 
-                                    icon="calendar"
-                                    placeholder="AAAA - MM - JJ"
-                                    placeholderTextColor={darkLight}
-                                    confirmBtnText="Confirm"
-                                    cancelBtnText="Cancel"
-                                    editable={false}
-                                    DatePicker={DatePicker}
-                                    date={props.vaccinDate}
-                                    mode="date"
-                                    format="YYYY-MM-DD"
-                                    customStyles={{
-                                      dateIcon: {
-                                        position: 'absolute',
-                                        left: 0,
-                                        top: 4,
-                                        marginLeft: 0
-                                      },
-                                      dateInput: {
-                                        marginLeft: 36,
-                                        marginBottom:10
-                                      }, 
-                                      
-                                    }}
-                                    onDateChange={(date) => props.setVaccinDate(date)}
+                                <TouchableOpacity  style={styles.date} onPress={handlePress}>
+        <Text>
+        <DateTimePicker 
+                                  mode="date"
+                                  display="default"
+                                  testID= "dateTimePicker"
+         
+                                  date={new Date(props.vaccinDate)}
+                                  value={props.vaccinDate}
+                                  onConfirm={(selectedDate) => {
+                                    const formattedDate =moment(selectedDate).format("YYYY-MM-DD");
+
+                                    props.setDate(formattedDate);
+
+                                    setDatePickerVisibility(false);
+                                  }}
+                                  onCancel={() => setDatePickerVisibility(false)}
+
                                 />
+        </Text>
+      </TouchableOpacity>
+     
                                 <Text style={styles.label}>Commentaire</Text>
                                 <TextInput style={styles.comentaire} {...props} 
                                     placeholder=" ... "
@@ -172,6 +173,22 @@ return(
   );
 };
 const styles = StyleSheet.create({
+  date:{
+    backgroundColor :secondary,
+    padding:15,
+    paddingLeft:55,
+    height:60,
+    borderRadius:20,
+    fontSize:16,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:0.5,height:2},
+    shadowRadius:1,
+    marginRight:-10,
+    marginLeft:-10,
+  },
   container: {
       flex: 1,
       alignItems: 'center',
@@ -184,13 +201,9 @@ const styles = StyleSheet.create({
       marginBottom: 0,
 
   },
-  input: {
-      borderWidth: 1,
-      borderColor: '#ccc',
-      padding: 10,
-      borderRadius: 5,
-      width: '100%',
-      marginBottom: 20,
+  text: {
+      fontSize:20,
+      fontWeight:'bold'
   },
   image: {
     position:'absolute' ,
@@ -209,7 +222,9 @@ const styles = StyleSheet.create({
     shadowOpacity:0.25,
     shadowOffset:{width:0.5,height:2},
     shadowRadius:1,
-    marginRight:-10
+    marginRight:-10,
+    marginLeft:-10,
+
   },
   comentaire: {
     backgroundColor :secondary,
@@ -225,7 +240,9 @@ const styles = StyleSheet.create({
     shadowOpacity:0.25,
     shadowOffset:{width:0.5,height:2},
     shadowRadius:1,
-    marginRight:-10
+    marginRight:-10,
+        marginLeft:-10,
+
   },
 });
 

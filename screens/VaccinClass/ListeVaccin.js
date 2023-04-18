@@ -44,7 +44,8 @@ const ListeVaccin = ({ ...props }) => {
     );
     setFilteredVaccins(filtered);
   };
-  
+  // AsyncStorage.removeItem('vaccins');
+
   
  
   const navigation = useNavigation();
@@ -90,17 +91,13 @@ const ListeVaccin = ({ ...props }) => {
           <View >
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Affiche Vaccin', {
-                  selectedVaccin: item,
-                  
-                })
+                navigation.navigate('Affiche Vaccin', {selectedVaccin: item,})
               }
             >
               <View style={styles.vaccin}>
               
                 <Text style={styles.text}>{item.vaccinName}</Text>
                 <Text style={styles.text}>{item.vaccinMaladie}</Text>
-
                 <Text style={styles.dateContainer}>{item.vaccinDate}</Text>
                 
               </View>
