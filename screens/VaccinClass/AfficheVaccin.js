@@ -82,7 +82,11 @@ const { green, brand, darkLight, primary } = Colors;
               <View style={styles.vaccin}>
             <Image style={styles.imageContainer} source={{ uri: selectedVaccin.vaccinImage }} />
             <Text style={styles.text}>{selectedVaccin.vaccinName}</Text>
+            <Text style={styles.text}>{selectedVaccin.vaccinMaladie}</Text>
+
             <Text style={styles.dateContainer}>{selectedVaccin.vaccinDate}</Text>
+            <Text style={styles.text}>{selectedVaccin.vaccinCmnt}</Text>
+
             <View style={styles.actions}>
             <RowContainer style = {{justifycontent: 'space-between'}}>
              <RegularButton3 onPress={handleDelete} style={{justifyContent:'center'}}>{ `Supprimer`}</RegularButton3>
@@ -161,6 +165,7 @@ const { green, brand, darkLight, primary } = Colors;
           elevation:5,
           borderWidth:0,
           borderRadius:10,
+          
           
         }
         
