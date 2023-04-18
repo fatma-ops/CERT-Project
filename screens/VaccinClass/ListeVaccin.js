@@ -1,6 +1,6 @@
 import React , {useState , useContext , useEffect} from 'react';
 import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
@@ -60,13 +60,13 @@ const ListeVaccin = ({ ...props }) => {
       containerStyle={{ marginVertical: 15 }}
     />
     </View>
-    <View >
+    <View>
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('Ajouter vaccin')}
+          onPress={() => navigation.navigate('Add')}
         >
-          <MaterialIcons name="add" size={30} color={brand} />
-          <Text style={{ marginLeft: -10, color: darkLight }}> Ajouter</Text>
+          <FontAwesome5 name="plus" size={25} color={brand} />
+          <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
     </View>
@@ -99,8 +99,6 @@ const ListeVaccin = ({ ...props }) => {
               <View style={styles.vaccin}>
               
                 <Text style={styles.text}>{item.vaccinName}</Text>
-                <Text style={styles.text}>{item.vaccinMaladie}</Text>
-
                 <Text style={styles.dateContainer}>{item.vaccinDate}</Text>
                 
               </View>
@@ -140,30 +138,34 @@ export const styles = StyleSheet.create({
         marginBottom:70,
         opacity:0.9,
         justifyContent:'space-between',
-        
+
     },
-   
+    headingContainer:{
+        fontWeight:'700',
+        color:brand,
+        justifyContent:'space-between',
+
+    },
     divider:{
         width:'100%',
         height:2,
         marginTop:5,
         marginBottom:5,
-        
     },
     item:{ 
-      marginBottom:10,
-      padding:10,
-      color:brand,
-      opacity:1,
-      marginTop:10,
-      shadowOpacity:0.25,
-      shadowOffset:{width:0.5,height:2},
-      shadowRadius:1,
-      elevation:5,
-      backgroundColor:'white',
-      borderWidth:0,
-      
-      borderRadius:10,
+        marginBottom:25,
+        padding:20,
+        color:brand,
+        opacity:1,
+        marginTop:10,
+        shadowOpacity:0.25,
+        shadowOffset:{width:2, height:1},
+        shadowRadius:2,
+        elevation:5,
+        backgroundColor:'white',
+        borderWidth:0,
+        borderRadius:15,
+       //borderLeftWidth:15,
 
     },
     index:{
@@ -175,13 +177,16 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
        justifyContent:'space-between',
        alignItems:'center',
-       
     },
     button:{
+        width:50,
+        borderRadius:100,
+        //justifyContent:'space-between',
        
         marginLeft:22,
-       height:40,
-        marginTop :StatusBarHeight -10,
+       // height:50,
+        marginTop :25,
+        //marginBottom : 20
     },
     buttonText:{
         color:brand,
@@ -200,18 +205,16 @@ export const styles = StyleSheet.create({
 
     },
     text:{
-      marginTop:10,
+      marginTop:25,
         fontWeight:'400',
-        fontSize:20,
+        fontSize:25,
         alignItems:'center',
     },
     dateContainer:{
-      fontWeight:'200',
       marginTop:10,
       flexDirection:'row',
       justifyContent:'space-between',
-      alignContent:'center',
-      fontSize:15
+      alignContent:'center'
   },
     delete:{
         fontWeight:'700',

@@ -58,7 +58,7 @@ const resendEmail = async (triggerTimer) => {
     try {
       setResendingEmail(true);
       console.log('Verifying code for email:', email);
-      const response = await fetch('https://05ab-160-159-246-109.eu.ngrok.io/api/v1/email_verification/', {
+      const response = await fetch('https://f072-197-15-199-158.ngrok-free.app/api/v1/email_verification/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

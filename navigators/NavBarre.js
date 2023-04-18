@@ -43,6 +43,7 @@ export default function NavBarre() {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='folder' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} > Dossier </Text>
                             </View>
                         )
                     }
@@ -55,6 +56,7 @@ export default function NavBarre() {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='home' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} >     Home     </Text>
                             </View>
                         )
                     }
@@ -90,6 +92,7 @@ export default function NavBarre() {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='bell' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} >   Notification   </Text>
                             </View>
                         )
                     }
@@ -103,6 +106,7 @@ export default function NavBarre() {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
                                 <Entypo name='user' size={24} color={focused ? brand : darkLight} />
+                                <Text style={{ fontSize: 12, color: "grey" }} >   Profile   </Text>
                             </View>
                         )
                     }

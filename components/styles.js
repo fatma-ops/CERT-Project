@@ -201,13 +201,6 @@ margin-vertical:3px;
 font-width:'b
 margin-bottom:10px;
 color:${tertiary};
-shadow-Opacity:0.25px;
-shadow-offset:2px;
-shadow-radius:1px;
-margin-left:-10px;
-margin-right:-10px;
-
-
 
 `;
 
@@ -257,18 +250,11 @@ justify-content: center;
 align-items: center;
 border-radius: 20px;
 margin-vertical: 5px ;
-height: 50px;
-shadow-Opacity:0.25px;
-shadow-offset:2px;
-shadow-radius:1px;
-margin-left:50px;
-margin-right:50px;
+height: 60px;
 ${(props) => props.google == true && `
 background-color:${green};
 flex-direction:row;
 justify-content:center;
-
-
 
 
 `}
@@ -295,7 +281,6 @@ export const ButtonText = styled.Text`
 color:${primary};
 font-size:16px;
 Text-align:center;
-
 
 ${(props) => props.google == true && `
   padding: 5px;

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
   import React, {useState , useEffect} from 'react';
   import Medecins from "./ListeMedecins";
   import AddMedecin from "./AddMedecin";
-  import AfficheMedecin from "./AfficheMedecin";
+//import AfficheMedecin from "./AfficheMedecin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //import ModifyMedecin from "./ModifyMedecin";
@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function Medecin (){
   const [medecinName, setMedecinName] = useState();
   const [medecinAdresse, setMedecinAdresse] = useState();
-  const [medecinSpecialite, setMedecinSpecialite] = useState();
+  const [medecinSpecialisation, setMedecinSpecialisation] = useState();
   const [medecinNum, setMedecinNum] = useState();
   const [medecinCmnt, setMedecinCmnt] = useState();
   const [medecins , setMedecins]= useState([]);
@@ -23,12 +23,12 @@ export default function Medecin (){
 
   function handleAdd(){
     let newMedecin = {medecinName: medecinName, medecinAdresse: medecinAdresse, 
-        medecinSpecialite: medecinSpecialite, medecinNum:medecinNum,medecinCmnt:medecinCmnt};
+        medecinSpecialisation: medecinSpecialisation, medecinNum:medecinNum,medecinCmnt:medecinCmnt};
     let newMedecins = [newMedecin, ...medecins];
     setMedecins(newMedecins);
     setMedecinName("");
     setMedecinAdresse("");
-    setMedecinSpecialite("");
+    setMedecinSpecialisation("");
     setMedecinNum("");
     setMedecinCmnt("");
 
@@ -75,7 +75,7 @@ export default function Medecin (){
           {props => <Medecins medecins={medecins} setMedecins={setMedecins} 
                              medecinName={medecinName} setMedecinName={setMedecinName}
                              medecinAdresse={medecinAdresse} setMedecinAdresse={setMedecinAdresse}
-                             medecinSpecialite={medecinSpecialite} setMedecinSpecialite={setMedecinSpecialite}
+                             medecinSpecialisation={medecinSpecialisation} setMedecinSpecialisation={setMedecinSpecialisation}
                              medecinNum={medecinNum} setMedecinNum={setMedecinNum}
                              medecinCmnt={medecinCmnt} setMedecinCmnt={setMedecinCmnt}
                              />}
@@ -84,17 +84,11 @@ export default function Medecin (){
           {props => <AddMedecin {...props}
             medecinName={medecinName} setMedecinName={setMedecinName}
             medecinAdresse={medecinAdresse} setMedecinAdresse={setMedecinAdresse}
-            medecinSpecialite={medecinSpecialite} setMedecinSpecialite={setMedecinSpecialite}
+            medecinSpecialisation={medecinSpecialisation} setMedecinSpecialisation={setMedecinSpecialisation}
             medecinNum={medecinNum} setMedecinNum={setMedecinNum}
             medecinCmnt={medecinCmnt} setMedecinCmnt={setMedecinCmnt}
             handleAdd={handleAdd}/>}
         </Stack.Screen>
-        <Stack.Screen 
-  name="Affiche Medecin" 
-  component={AfficheMedecin} 
-  initialParams={{ selectedMedecin: null, medecins:medecins, setMedecins: setMedecins }}
-  medecins={medecins} 
-  />
       </Stack.Navigator>
     //</NavigationContainer>
   )
