@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-  import { NavigationContainer, useRoute  } from "@react-navigation/native";
-  import { createNativeStackNavigator } from "@react-navigation/native-stack";
-  import React, {useState , useEffect} from 'react';
-  import Vaccins from "./ListeVaccin";
+import { NavigationContainer, useRoute  } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, {useState , useEffect} from 'react';
+import Vaccins from "./ListeVaccin";
 import AfficheVaccin from "./AfficheVaccin";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModifyVaccin from "./ModifyVaccin";
@@ -21,12 +21,17 @@ export default function Vaccin (){
   const [filteredVaccins, setFilteredVaccins] = useState([]);
 
   async function handleAdd(){
-    let newVaccin = {vaccinName: vaccinName, vaccinImage: vaccinImage, vaccinDate: vaccinDate};
+    let newVaccin = {vaccinName: vaccinName, vaccinImage: vaccinImage, vaccinDate: vaccinDate,
+      vaccinMaladie: vaccinMaladie, vaccinCmnt: vaccinCmnt};
     let newVaccins = [newVaccin, ...vaccins];
     setVaccins(newVaccins);
     setVaccinName("");
     setVaccinImage("");
     setVaccinDate("");
+    setVaccinMaladie("");
+    setVaccinCmnt("");
+
+
 
     // Update the stored vaccins list in AsyncStorage
   await AsyncStorage.setItem('vaccins', JSON.stringify(newVaccins))
@@ -71,13 +76,17 @@ export default function Vaccin (){
                              vaccinName={vaccinName} setVaccinName={setVaccinName}
                              vaccinImage={vaccinImage} setVaccinImage={setVaccinImage}
                              vaccinDate={vaccinDate} setVaccinDate={setVaccinDate}
+                             vaccinMaladie={vaccinMaladie} setVaccinMaladie={setVaccinMaladie}
+                             vaccinCmnt={vaccinCmnt} setVaccinCmnt={setVaccinCmnt}
                              />}
         </Stack.Screen>
-        <Stack.Screen name="Add">
+        <Stack.Screen name="Ajouter vaccin">
           {props => <Add {...props} 
             vaccinName={vaccinName} setVaccinName={setVaccinName}
             vaccinImage={vaccinImage} setVaccinImage={setVaccinImage}
             vaccinDate={vaccinDate} setVaccinDate={setVaccinDate}
+            vaccinMaladie={vaccinMaladie} setVaccinMaladie={setVaccinMaladie}
+            vaccinCmnt={vaccinCmnt} setVaccinCmnt={setVaccinCmnt}
             handleAdd={handleAdd}/>}
         </Stack.Screen>
         <Stack.Screen 
@@ -95,6 +104,8 @@ export default function Vaccin (){
   vaccinName={vaccinName} setVaccinName={setVaccinName}
             vaccinImage={vaccinImage} setVaccinImage={setVaccinImage}
             vaccinDate={vaccinDate} setVaccinDate={setVaccinDate}
+            vaccinMaladie={vaccinMaladie} setVaccinMaladie={setVaccinMaladie}
+            vaccinCmnt={vaccinCmnt} setVaccinCmnt={setVaccinCmnt}
             />
 
 

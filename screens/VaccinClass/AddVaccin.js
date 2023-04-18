@@ -36,7 +36,7 @@ import MessageModalImage from '../../components/Modals/MessageModalImage';
 import styled from 'styled-components';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 
-const { green, brand, darkLight, primary } = Colors;
+const { green, brand, darkLight, primary,secondary, tertiary } = Colors;
 
 const AddVaccin = ({ navigation, ...props }) => {
 

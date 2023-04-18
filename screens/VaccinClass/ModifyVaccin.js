@@ -31,13 +31,15 @@ import MessageModalImage from '../../components/Modals/MessageModalImage';
 import styled from 'styled-components';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 
-const { green, brand, darkLight, primary } = Colors;
+const { green, brand, darkLight, primary, secondary, tertiary } = Colors;
 
 
 
 const ModifyVaccin = ({ route, navigation, ...props }) => {
   const { selectedVaccin } = route.params;
   const [vaccinName, setVaccinName] = useState(selectedVaccin.vaccinName);
+  const [vaccinMaladie, setVaccinMaladie] = useState(selectedVaccin.vaccinMaladie);
+  const [vaccinCmnt, setVaccinCmnt] = useState(selectedVaccin.vaccinCmnt);
   const [vaccinDate, setVaccinDate] = useState(selectedVaccin.vaccinDate);
   const [vaccinImage, setVaccinImage] = useState(selectedVaccin.vaccinImage);
 
@@ -48,6 +50,8 @@ const ModifyVaccin = ({ route, navigation, ...props }) => {
       vaccinName,
       vaccinDate,
       vaccinImage,
+      vaccinMaladie,
+      vaccinCmnt
     };
     // navigate back to the previous screen and pass the updated vaccine as a parameter
     navigation.navigate('AfficheVaccin', { selectedVaccin: updatedVaccin });
@@ -83,6 +87,14 @@ const ModifyVaccin = ({ route, navigation, ...props }) => {
                                     onChangeText={(text) => setVaccinName(text)}                                   
 
                                 />
+                                 <Text style={styles.label}>Maladie ciblee</Text>
+                                <StyledTextInput 
+                                    placeholder=" covid"
+                                    placeholderTextColor={darkLight}
+                                    value={vaccinMaladie}
+                                    onChangeText={(text) => setVaccinMaladie(text)}                                   
+
+                                />
                                 
                                 <Text style={styles.label}>Date</Text>
                                 
@@ -112,7 +124,15 @@ const ModifyVaccin = ({ route, navigation, ...props }) => {
                                     }}
                                     onDateChange={(date) => setVaccinDate(date)}
                                 />
-                                <Text style={styles.label}>Résultat du Vaccin</Text>
+                                 <Text style={styles.label}>Commentaire</Text>
+                                <TextInput style={styles.comentaire}
+                                    placeholder=" ... "
+                                    placeholderTextColor={darkLight}
+                                    value={vaccinCmnt}
+                                    onChangeText={(text) => setVaccinCmnt(text)}                                   
+
+                                />
+                                <Text style={styles.label}>Document du Vaccin</Text>
 
                                 <ViewImage onPress={pickImage}>
 
@@ -167,6 +187,22 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       padding: 10,
+  },
+  comentaire: {
+    backgroundColor :secondary,
+    //padding:7,
+    paddingLeft:55,
+    height:100,
+    borderRadius: 20,
+    fontSize:16,
+    //height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:0.5,height:2},
+    shadowRadius:1,
+    marginRight:-10
   },
   label: {
       fontSize: 16,

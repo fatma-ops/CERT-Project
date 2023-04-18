@@ -38,7 +38,6 @@ const AddMedecin = ({ navigation, ...props }) => {
     <ScrollView>
       <KeyboardAvoidingWrapper>
       <StyledContainer>
-                <StatusBar style="dark" />
                 <InnerContainer>
                    
                             <StyledFormArea>
@@ -63,12 +62,12 @@ const AddMedecin = ({ navigation, ...props }) => {
                                     onChangeText={(text) => props.setMedecinAdresse(text)}                                   
                                 />
 
-                                <Text style={styles.label}>Specialisation</Text>
+                                <Text style={styles.label}>Specialite</Text>
                                 <StyledTextInput  {...props} 
                                     placeholder=" Genereliste "
                                     placeholderTextColor={darkLight}
-                                    value={props.medecinSpecialisation}
-                                    onChangeText={(text) => props.setMedecinSpecialisation(text)}                                   
+                                    value={props.medecinSpecialite}
+                                    onChangeText={(text) => props.setMedecinSpecialite(text)}                                   
                                 />
                                 <Text style={styles.label}>Numero</Text>
                                 <StyledTextInput  {...props} 

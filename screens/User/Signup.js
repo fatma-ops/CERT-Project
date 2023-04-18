@@ -124,7 +124,7 @@ const buttonHandler = () => {
             setSubmitting(true);
 
             axios
-              .post('https://f072-197-15-199-158.ngrok-free.app/api/v1/user/signup', credentials)
+              .post('https://05ab-160-159-246-109.eu.ngrok.io/api/v1/user/signup', credentials)
               .then((response) => {
                 const { status, data } = response;
                 if (status === 200) {

@@ -162,7 +162,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
                             </MsgBox>
                             {!isSubmitting && <StyledButton  onPress={handleSubmit}>
                                 <ButtonText>
-                                    Changer de mot de passe
+                                Confirmer                            
                                 </ButtonText>
                             </StyledButton>}
                             {isSubmitting && <StyledButton disabled={true}>

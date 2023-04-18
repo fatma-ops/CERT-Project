@@ -1,6 +1,6 @@
 import React , {useState , useContext,useEffect} from 'react';
 import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
-import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
@@ -64,8 +64,8 @@ const ListeAnalyse = ({ ...props }) => {
           style={[styles.button]}
           onPress={() => navigation.navigate('Add')}
         >
-          <FontAwesome5 name="plus" size={25} color={brand} />
-          <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
+         <MaterialIcons name="add" size={30} color={brand} />
+          <Text style={{ marginLeft: -10, color: darkLight }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
     </View>
@@ -154,19 +154,18 @@ export const styles = StyleSheet.create({
         marginBottom:5,
     },
     item:{ 
-        marginBottom:25,
-        padding:20,
-        color:brand,
-        opacity:1,
-        marginTop:10,
-        shadowOpacity:0.25,
-        shadowOffset:{width:2, height:1},
-        shadowRadius:2,
-        elevation:5,
-        backgroundColor:'white',
-        borderWidth:0,
-        borderRadius:15,
-       //borderLeftWidth:15,
+      marginBottom:10,
+      padding:10,
+      color:brand,
+      opacity:1,
+      marginTop:10,
+      shadowOpacity:0.25,
+      shadowOffset:{width:0.5,height:2},
+      shadowRadius:1,
+      elevation:5,
+      backgroundColor:'white',
+      borderWidth:0,
+      borderRadius:10,
 
     },
     index:{
@@ -180,14 +179,9 @@ export const styles = StyleSheet.create({
        alignItems:'center',
     },
     button:{
-        width:50,
-        borderRadius:100,
-        //justifyContent:'space-between',
-       
-        marginLeft:22,
-       // height:50,
-        marginTop :25,
-        //marginBottom : 20
+      marginLeft:22,
+      height:40,
+       marginTop :StatusBarHeight -10,
     },
     buttonText:{
         color:brand,
@@ -196,6 +190,7 @@ export const styles = StyleSheet.create({
     },
     scrollView:{
         marginBottom:70,
+        //marginRight:-50
     },
     analyse:{
         //flexDirection:'row',
@@ -206,16 +201,18 @@ export const styles = StyleSheet.create({
 
     },
     text:{
-      marginTop:25,
-        fontWeight:'400',
-        fontSize:25,
-        alignItems:'center',
+      marginTop:10,
+      fontWeight:'400',
+      fontSize:20,
+      alignItems:'center',
     },
     dateContainer:{
+      fontWeight:'200',
       marginTop:10,
       flexDirection:'row',
       justifyContent:'space-between',
-      alignContent:'center'
+      alignContent:'center',
+      fontSize:15
   },
     delete:{
         fontWeight:'700',
