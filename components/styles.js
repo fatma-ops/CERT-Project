@@ -200,7 +200,7 @@ height:60px;
 margin-vertical:3px;
 margin-bottom:10px;
 color:${tertiary};
-shadow-Opacity:0.25px;
+shadow-Opacity:0.25;
 shadow-offset:2px;
 shadow-radius:1px;
 margin-left:-10px;
