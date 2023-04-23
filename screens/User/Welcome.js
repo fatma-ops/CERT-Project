@@ -6,7 +6,7 @@ import { TextInput } from 'react-native';
 import EditProfileScreen from './EditProfileScreen';
 import { Modal } from 'react-native';
 import { StatusBarHeight } from '../../components/shared';
-import {  Octicons, AntDesign, Fontisto , Entypo , MaterialCommunityIcons } from '@expo/vector-icons';
+import {  Octicons, AntDesign, Fontisto , Entypo , MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 
 
@@ -21,6 +21,7 @@ import {
 const { brand, darkLight, primary , green, red} = Colors;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
+import RowContainer from '../../components/Containers/RowContainer';
 
 const Welcome = ({navigation}) => {
 //context
@@ -51,13 +52,20 @@ const Welcome = ({navigation}) => {
       <View style={styles.body}>
        
         <View style={styles.section}>
-        <Text style={styles.sectionTitleP}>Profile</Text>
-
+        <Text style={styles.sectionTitleP}>{nom} {prenom}</Text>
+       
         <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen', {nom: nom, prenom: prenom, email: email, allergie: allergie, groupeSanguin: groupeSanguin})}>
-        <View style={{ marginLeft:300 , marginTop:-55}}>
-                                <Entypo name='pencil' size={30} color={brand} />
-                            </View>
+        <View style={{ marginLeft:280 , marginTop:-55}}>
+        <Entypo name='pencil' size={30} color={brand} />
+        </View>
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={clearLogin}>
+        <View style={{ marginLeft:320 , marginTop:-55}}>
+        <MaterialCommunityIcons name='logout' size={30} color={brand}/>
+        </View>
+        </TouchableOpacity>
+        
         <Text style={styles.sectionTitle}>Informations personnelles</Text>
 
           <View style={styles.sectionContent}>
@@ -110,19 +118,20 @@ const Welcome = ({navigation}) => {
 <View style={styles.sectionContent}>
         <TouchableOpacity onPress={() => navigation.navigate('EditPasswordScreen' , {email : email})}>
           
-        <View style={{ marginLeft:280 , marginBottom:-30}}>
+        <View style={{ marginLeft:300 , marginBottom:-30}}>
         <Entypo name='chevron-right' size={30} color={brand}/>
         </View>
+       
         <Text style={styles.sectionTitle2}>Changer le mot de passe </Text>
         </TouchableOpacity>
         </View>
         </View>
         </View>
-        <TouchableOpacity style={styles.button} onPress={clearLogin}>
+       
+      </View>
+      <TouchableOpacity style={styles.button} onPress={clearLogin}>
           <Text style={styles.buttonText} onPress={clearLogin}>Se déconnecter</Text>
         </TouchableOpacity>
-      </View>
-     
     </View>
       </KeyboardAvoidingWrapper>
 
@@ -135,7 +144,8 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      marginBottom:60
+      marginBottom:60,
+      marginTop:StatusBarHeight
       
     },
     header: {

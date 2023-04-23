@@ -41,7 +41,7 @@ const ForgetPassword = ({ navigation }) => {
             handleMessage(null);
             setSubmitting(true);
       
-            const response = await axios.post('https://f072-197-15-199-158.ngrok-free.app/api/v1/forget_password', { email: credentials.email });
+            const response = await axios.post('https://8f95-197-15-244-61.ngrok-free.app/api/v1/forget_password', { email: credentials.email });
       
             setSubmitting(false);
       

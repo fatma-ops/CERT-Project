@@ -160,9 +160,9 @@ const buttonHandler = () => {
 
                       />
                      
-                      <MyTextInput
+                      <MyTextInput2
                           label="Groupe Sanguin"
-                          icon=""
+                          icon="blood-bag"
                           placeholder="Entrer votre groupe sanguin"
                           placeholderTextColor={darkLight}
                           onChangeText={handleChange('groupeSanguin')}
@@ -171,9 +171,9 @@ const buttonHandler = () => {
                           
                           
                       />
-                      <MyTextInput
+                      <MyTextInput2
                           label="Allergie"
-                          icon=""
+                          icon="allergy"
                           placeholder=""
                           placeholderTextColor={darkLight}
                           onChangeText={handleChange('allergie')}
@@ -235,6 +235,26 @@ const MyTextInput = ({ label, icon,  ...props }) => {
   );
 
 };
+const MyTextInput2 = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+  return (
+      <View>
+          <StyledInputLabel> {label}</StyledInputLabel>
+          <StyledTextInput  {...props} />
+          <LeftIcon>
+              <MaterialCommunityIcons name={icon} size={24} color={brand} />
+          </LeftIcon>
+          {isPassword && (
+              <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                  <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
+              </RightIcon>
+
+          )}
+
+      </View>
+  );
+
+};
+
 
 export default EditProfileScreen; 
 const styles = StyleSheet.create({

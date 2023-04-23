@@ -209,7 +209,6 @@ margin-right:-10px;
 
 
 `;
-
 export const StyledInputLabel = styled.Text`
 color:${tertiary};
 font-size:13px;
@@ -253,20 +252,16 @@ justify-content: center;
 align-items: center;
 border-radius: 20px;
 margin-vertical: 5px ;
-height: 50px;
-shadow-Opacity:0.25px;
+height:60px;
+shadow-Opacity:0.25;
 shadow-offset:2px;
 shadow-radius:1px;
-margin-left:50px;
-margin-right:50px;
+margin-left:-10px;
+margin-right:-10px;
 ${(props) => props.google == true && `
 background-color:${green};
 flex-direction:row;
 justify-content:center;
-
-
-
-
 `}
 `;
 export const StyledButton2 = styled.TouchableOpacity`
