@@ -10,17 +10,19 @@ import { Formik } from 'formik';
 import MessageModal from '../../components/Modals/MessageModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
+import RowContainer from '../../components/Containers/RowContainer'
 
 
 
 import
   
-    {Colors , StyledInputLabel, StyledTextInput,LeftIcon, StyledContainer, InnerContainer, StyledFormArea, PageSignup, SubTitle, Editprofile, MsgBox, ButtonText, StyledButton, StyledContainer2, ExtraView, ExtraText, TextLink, TextLinkContent, StyledContainerRestPassword
+    {Colors , StyledInputLabel, StyledTextInput,LeftIcon, StyledContainer, InnerContainer, StyledFormArea, PageSignup, SubTitle, Editprofile, MsgBox, ButtonText, StyledButton, StyledContainer2, ExtraView, ExtraText, TextLink, TextLinkContent, StyledContainerRestPassword, StyledEtoile
   
 
 
 } from '../../components/styles';
 import IconHeader from '../../components/Icons/IconHeader';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 const { brand, darkLight, primary , green, red} = Colors;
 
 const EditProfileScreen = ({navigation , route}) => {
@@ -128,7 +130,7 @@ const buttonHandler = () => {
               initialValues={{_id:_id, prenom: prenom , nom: nom,email:email ,groupeSanguin:groupeSanguin , allergie:allergie  }}
               onSubmit={(values, { setSubmitting }) => {
                   if (values.prenom == '' ||values.nom == '' ) {
-                    handleMessage('Veuillez remplir le nom et le prenom');
+                    handleMessage('Veuillez remplir tous les champs obligatoire');
                     setSubmitting(false);
                       
                   }
@@ -141,6 +143,7 @@ const buttonHandler = () => {
                   <StyledFormArea>
                       <MyTextInput
                           label="Nom"
+                          etoile="*"
                           icon="person"
                           placeholder=" Entrer votre nom "
                           placeholderTextColor={darkLight}
@@ -151,6 +154,7 @@ const buttonHandler = () => {
                       />
                        <MyTextInput
                           label="Prénom"
+                          etoile="*"
                           icon="person"
                           placeholder="Entrer votre prénom"
                           placeholderTextColor={darkLight}
@@ -160,9 +164,9 @@ const buttonHandler = () => {
 
                       />
                      
-                      <MyTextInput
+                      <MyTextInput2
                           label="Groupe Sanguin"
-                          icon=""
+                          icon="blood-bag"
                           placeholder="Entrer votre groupe sanguin"
                           placeholderTextColor={darkLight}
                           onChangeText={handleChange('groupeSanguin')}
@@ -171,9 +175,9 @@ const buttonHandler = () => {
                           
                           
                       />
-                      <MyTextInput
+                      <MyTextInput2
                           label="Allergie"
-                          icon=""
+                          icon="allergy"
                           placeholder=""
                           placeholderTextColor={darkLight}
                           onChangeText={handleChange('allergie')}
@@ -220,14 +224,17 @@ const buttonHandler = () => {
 
 );
 };
-const MyTextInput = ({ label, icon,  ...props }) => {
+const MyTextInput = ({ label, icon , etoile,  ...props  }) => {
   return (
       <View>
           <LeftIcon>
               <Octicons name={icon} size={24} color={brand} />
 
           </LeftIcon>
-          <StyledInputLabel> {label}</StyledInputLabel>
+          <RowContainer2>
+          <StyledInputLabel> {label}  </StyledInputLabel>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>
           <StyledTextInput  {...props} />
          
 
@@ -235,6 +242,26 @@ const MyTextInput = ({ label, icon,  ...props }) => {
   );
 
 };
+const MyTextInput2 = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+  return (
+      <View>
+          <StyledInputLabel> {label} </StyledInputLabel>
+          <StyledTextInput  {...props} />
+          <LeftIcon>
+              <MaterialCommunityIcons name={icon} size={24} color={brand} />
+          </LeftIcon>
+          {isPassword && (
+              <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                  <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
+              </RightIcon>
+
+          )}
+
+      </View>
+  );
+
+};
+
 
 export default EditProfileScreen; 
 const styles = StyleSheet.create({

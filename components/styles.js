@@ -210,9 +210,14 @@ elevation:5;
 
 
 `;
-
 export const StyledInputLabel = styled.Text`
 color:${tertiary};
+font-size:13px;
+text-align:left;
+
+`;
+export const StyledEtoile = styled.Text`
+color:${red};
 font-size:13px;
 text-align:left;
 

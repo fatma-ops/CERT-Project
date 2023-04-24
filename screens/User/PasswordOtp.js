@@ -52,7 +52,7 @@ const handleCodeVerification = async () => {
     const email = route.params.email;
     console.log('Verifying code for email:', email);
     console.log('Verification code:', code);
-    const response = await fetch('https://8887-102-157-67-100.eu.ngrok.io/api/v1/otp/verify',{
+    const response = await fetch('https://8f95-197-15-244-61.ngrok-free.app/api/v1/otp/verify',{
       method: 'POST',
       headers: {
         Accept: 'application/json',

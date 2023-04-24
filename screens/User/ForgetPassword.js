@@ -21,13 +21,15 @@ import {
     ExtraView, 
     TextLink,
     TextLinkContent,
-    ExtraText
+    ExtraText,
+    StyledEtoile
    
 } from '../../components/styles';
 //Api Client
 import IconHeader from '../../components/Icons/IconHeader';
 import RegularText from '../../components/Texts/RegularText';
 import axios from 'axios';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 
 const { brand, darkLight, primary } = Colors;
 
@@ -41,7 +43,7 @@ const ForgetPassword = ({ navigation }) => {
             handleMessage(null);
             setSubmitting(true);
       
-            const response = await axios.post('https://8887-102-157-67-100.eu.ngrok.io/api/v1/forget_password', { email: credentials.email });
+            const response = await axios.post('https://8f95-197-15-244-61.ngrok-free.app/api/v1/forget_password', { email: credentials.email });
       
             setSubmitting(false);
       
@@ -83,7 +85,7 @@ const ForgetPassword = ({ navigation }) => {
                         initialValues={{ email: '' }}
                         onSubmit={(values, { setSubmitting }) => {
                             if (values.email == '') {
-                                handleMessage('Veuillez remplir tous les champs');
+                                handleMessage('Veuillez remplir le champs');
                                 setSubmitting(false);
                             } else {
                                 handleOnSubmit(values, setSubmitting);
@@ -93,6 +95,7 @@ const ForgetPassword = ({ navigation }) => {
                         {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (<StyledFormArea>
                             <MyTextInput
                                 label="Adresse Email"
+                                etoile="*"
                                 icon='mail'
                                 placeholder="andyj@gmail.com"
                                 placeholderTextColor={darkLight}
@@ -133,13 +136,16 @@ const ForgetPassword = ({ navigation }) => {
 
     );
 };
-const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+const MyTextInput = ({ label,etoile, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
     return (
         <View>
             <LeftIcon>
                 <Octicons name={icon} size={24} color={brand} />
             </LeftIcon>
-            <StyledInputLabel> {label}</StyledInputLabel>
+            <RowContainer2>
+          <StyledInputLabel> {label}  </StyledInputLabel>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>
             <StyledTextInput  {...props} />
             {isPassword && (
                 <RightIcon onPress={() => setHidePassword(!hidePassword)}>

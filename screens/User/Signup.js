@@ -36,10 +36,12 @@ import {
     TextLink,
     TextLinkContent,
     PageSignup,
-    StyledContainer2
+    StyledContainer2,
+    StyledEtoile
 
 
 } from '../../components/styles';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 const { green, brand, darkLight, primary } = Colors;
 
 
@@ -71,10 +73,13 @@ const buttonHandler = () => {
         setModalVisible(true);
         }
 
-    const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+    const MyTextInput = ({ label,etoile, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
         return (
             <View>
-                <StyledInputLabel> {label}</StyledInputLabel>
+                 <RowContainer2>
+          <StyledInputLabel> {label}  </StyledInputLabel>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>
                 <StyledTextInput  {...props} />
                 <LeftIcon>
                     <Octicons name={icon} size={24} color={brand} />
@@ -92,10 +97,13 @@ const buttonHandler = () => {
     };
     
 
-    const MyTextInput2 = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+    const MyTextInput2 = ({ label,etoile ,icon, isPassword, hidePassword, setHidePassword, ...props }) => {
         return (
             <View>
-                <StyledInputLabel> {label}</StyledInputLabel>
+                  <RowContainer2>
+          <StyledInputLabel> {label}  </StyledInputLabel>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>
                 <StyledTextInput  {...props} />
                 <LeftIcon>
                     <MaterialCommunityIcons name={icon} size={24} color={brand} />
@@ -198,8 +206,8 @@ const buttonHandler = () => {
                     <Formik
                         initialValues={{ prenom: '' , nom: '', email: '', groupeSanguin:'' , allergie:'', password: '', confirmPassword: '' }}
                         onSubmit={(values, { setSubmitting }) => {
-                            if (values.prenom == '' ||values.nom == '' || values.email == '' ||values.groupeSanguin == ''|| values.allergie == '' || values.password == '' || values.confirmPassword == '') {
-                                handleMessage('Veuillez remplir tous les champs');
+                            if (values.prenom == '' ||values.nom == '' || values.email == '' || values.password == '' || values.confirmPassword == '') {
+                                handleMessage('Veuillez remplir tous les champs obligatoires');
                                 setSubmitting(false);
                             } else if (values.password !== values.confirmPassword) {
                                 handleMessage('Les mots de passe ne correspondent pas.');
@@ -214,6 +222,7 @@ const buttonHandler = () => {
                             <StyledFormArea>
                                 <MyTextInput
                                     label="Nom"
+                                    etoile="*"
                                     icon="person"
                                     placeholder=" Entrer votre nom "
                                     placeholderTextColor={darkLight}
@@ -224,6 +233,7 @@ const buttonHandler = () => {
                                 />
                                  <MyTextInput
                                     label="Prénom"
+                                    etoile="*"
                                     icon="person"
                                     placeholder="Entrer votre prénom"
                                     placeholderTextColor={darkLight}
@@ -234,6 +244,7 @@ const buttonHandler = () => {
                                 />
                                 <MyTextInput
                                     label="Adresse Email"
+                                    etoile="*"
                                     icon="mail"
                                     placeholder="Entrer votre adresse email"
                                     placeholderTextColor={darkLight}
@@ -268,6 +279,7 @@ const buttonHandler = () => {
 
                                 <MyTextInput
                                     label="Mot de passe"
+                                    etoile="*"
                                     icon="lock"
                                     placeholder="Entrer votre mot de passe"
                                     placeholderTextColor={darkLight}
@@ -281,6 +293,7 @@ const buttonHandler = () => {
                                 />
                                 <MyTextInput
                                     label="Confirmer mot de passe"
+                                    etoile="*"
                                     icon="lock"
                                     placeholder="Confirmer votre mot de passe"
                                     placeholderTextColor={darkLight}
