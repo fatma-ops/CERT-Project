@@ -9,10 +9,11 @@ import ResendTimer from '../../components/Timers/ResendTimer';
 import styled from 'styled-components';
 import MessageModal from '../../components/Modals/MessageModal';
 import {InnerContainer,StyledFormArea,LeftIcon,RightIcon,StyledButton,StyledInputLabel,StyledTextInput, ButtonText,
-Colors,MsgBox,StyledContainerRestPassword, ExtraView, TextLink, TextLinkContent} from '../../components/styles';
+Colors,MsgBox,StyledContainerRestPassword, ExtraView, TextLink, TextLinkContent, StyledEtoile} from '../../components/styles';
 import RegularText from '../../components/Texts/RegularText';
 import axios from 'axios';
 import IconHeader from '../../components/Icons/IconHeader';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 
 
 const { brand, darkLight, primary } = Colors;
@@ -145,6 +146,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
                         {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (<StyledFormArea>
                             <MyTextInput
                                 label=" Nouveau mot de passe"
+                                etoile="*"
                                 icon="unlock"
                                 placeholder="* * * * * * *"
                                 placeholderTextColor={darkLight}
@@ -159,6 +161,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
 
                             <MyTextInput
                                 label="Confirmer nouveau mot de passe"
+                                etoile="*"
                                 icon="unlock"
                                 placeholder="* * * * * * *"
                                 placeholderTextColor={darkLight}
@@ -204,13 +207,16 @@ const ShowModal = (type , headerText , message , buttonText) => {
         </KeyboardAvoidingWrapper>
     );
 };
-const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+const MyTextInput = ({ label,etoile ,icon, isPassword, hidePassword, setHidePassword, ...props }) => {
     return (
         <View>
             <LeftIcon>
                 <Octicons name={icon} size={24} color={brand} />
             </LeftIcon>
-            <StyledInputLabel> {label}</StyledInputLabel>
+            <RowContainer2>
+          <StyledInputLabel> {label}  </StyledInputLabel>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>
             <StyledTextInput  {...props} />
             {isPassword && (
                 <RightIcon onPress={() => setHidePassword(!hidePassword)}>

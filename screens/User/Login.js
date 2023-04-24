@@ -31,12 +31,14 @@ import {
     TextLinkContent,
     Motdepasse,
     ViewMot,
+    StyledEtoile,
 } from '../../components/styles';
 
 //Api Client
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 
 const { brand, darkLight, primary } = Colors;
 
@@ -156,6 +158,7 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
                       {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (<StyledFormArea>
                           <MyTextInput
                               label="Adresse Email"
+                              etoile="*"
                               icon='mail'
                               placeholder="andyj@gmail.com"
                               placeholderTextColor={darkLight}
@@ -166,6 +169,7 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
                           />
                           <MyTextInput
                               label="Mot de passe"
+                              etoile="*"
                               icon="lock"
                               placeholder="* * * * * * *"
                               placeholderTextColor={darkLight}
@@ -235,14 +239,17 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
 
   );
 };
-const MyTextInput = ({ label, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+const MyTextInput = ({ label, etoile,icon, isPassword, hidePassword, setHidePassword, ...props }) => {
   return (
       <View>
           <LeftIcon>
               <Octicons name={icon} size={24} color={brand} />
 
           </LeftIcon>
-          <StyledInputLabel> {label}</StyledInputLabel>
+          <RowContainer2>
+          <StyledInputLabel> {label}  </StyledInputLabel>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>
           <StyledTextInput  {...props} />
           {isPassword && (
               <RightIcon onPress={() => setHidePassword(!hidePassword)}>

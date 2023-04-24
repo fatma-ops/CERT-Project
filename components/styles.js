@@ -215,6 +215,12 @@ font-size:13px;
 text-align:left;
 
 `;
+export const StyledEtoile = styled.Text`
+color:${red};
+font-size:13px;
+text-align:left;
+
+`;
 export const StyledInputLabel2 = styled.Text`
 color:${tertiary};
 font-size:15px;
