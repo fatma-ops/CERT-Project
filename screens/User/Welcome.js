@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
       shadowRadius:1,
       marginLeft:90,
       marginRight:90,
+      elevation:5,
 
     },
     buttonText: {
@@ -213,6 +214,7 @@ const styles = StyleSheet.create({
       shadowOpacity:0.25,
       shadowOffset:{width:0.5,height:2},
       shadowRadius:1,
+      elevation:5,
     },
     sectionItem: {
       fontSize: 16,

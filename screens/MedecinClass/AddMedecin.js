@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, ScrollView, KeyboardAvoidingView, Keyboard, TextInput, TouchableOpacity, Alert, Platform, Image } from "react-native";
+import { picker } from '@react-native-picker/picker';
 import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { ActivityIndicator, Button } from 'react-native';
@@ -63,12 +64,7 @@ const AddMedecin = ({ navigation, ...props }) => {
                                 />
 
                                 <Text style={styles.label}>Specialite</Text>
-                                <StyledTextInput  {...props} 
-                                    placeholder=" Genereliste "
-                                    placeholderTextColor={darkLight}
-                                    value={props.medecinSpecialite}
-                                    onChangeText={(text) => props.setMedecinSpecialite(text)}                                   
-                                />
+                         
                                 <Text style={styles.label}>Numero</Text>
                                 <StyledTextInput  {...props} 
                                     placeholder="12345678"

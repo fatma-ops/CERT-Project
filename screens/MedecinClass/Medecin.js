@@ -13,6 +13,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createNativeStackNavigator();
   
 export default function Medecin (){
+  const specialties = [
+    'Cardiologie',
+    'Dermatologie',
+    'Endocrinologie',
+    'Gastro-entérologie',
+    'Hématologie',
+    'Infectiologie',
+    'Médecine interne',
+    'Neurologie',
+    'Ophtalmologie',
+    'Pédiatrie',
+    'Psychiatrie',
+    'Rhumatologie',
+  ];
   const [medecinName, setMedecinName] = useState();
   const [medecinAdresse, setMedecinAdresse] = useState();
   const [medecinSpecialite, setMedecinSpecialite] = useState();
@@ -28,7 +42,7 @@ export default function Medecin (){
     setMedecins(newMedecins);
     setMedecinName("");
     setMedecinAdresse("");
-    setMedecinSpecialite("");
+    setMedecinSpecialite(specialties);
     setMedecinNum("");
     setMedecinCmnt("");
 

@@ -69,7 +69,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
 
     // Send a POST request to your backend server
     const response = await axios.post(
-      'https://f072-197-15-199-158.ngrok-free.app/api/v1/forget_password/rest',
+      'https://8887-102-157-67-100.eu.ngrok.io/api/v1/forget_password/rest',
       {
         email,
         otp: code,

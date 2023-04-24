@@ -10,6 +10,8 @@ import AnalyseFlatList from '../screens/AnalyseFlatList'
 import Vaccin from '../screens/VaccinClass/Vaccin'
 import Analyse from '../screens/AnalyseClass/Analyse'
 import Medecin from '../screens/MedecinClass/Medecin'
+//import AddAnalyse from '../screens/AddAnalyse'
+
 
 const { darkLight, brand } = Colors;
 

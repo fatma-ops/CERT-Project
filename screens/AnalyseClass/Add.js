@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, Pressable,StyleSheet, ScrollView, KeyboardAvoidingView, Keyboard, TextInput, TouchableOpacity, Alert, Platform, Image } from "react-native";
-import DatePicker from 'react-native-datepicker';
+import DatePicker from '@react-native-community/datetimepicker';
 import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { ActivityIndicator, Button } from 'react-native';

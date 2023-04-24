@@ -97,7 +97,7 @@ const handleEmailVerification = async () => {
         setVerifing(true);
         console.log('Verifying code for email:', email);
         console.log('Verification code:', code);
-        const response = await fetch('https://f072-197-15-199-158.ngrok-free.app/api/v1/email_verification/verify',{
+        const response = await fetch('https://8887-102-157-67-100.eu.ngrok.io/api/v1/email_verification/verify',{
           method: 'POST',
           headers: {
             Accept: 'application/json',

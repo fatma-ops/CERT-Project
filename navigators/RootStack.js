@@ -79,7 +79,7 @@ const RootStack = () => {
                 <Stack.Screen name="ModifyVaccin" component={ModifyVaccin} />
                 <Stack.Screen name="Analyse" component={Analyse} />
                 <Stack.Screen name="ListeAnalyse" component={ListeAnalyse} />
-                <Stack.Screen name="Add" component={AddAnalyse} />
+                <Stack.Screen name="Add" component={Add} />
                 <Stack.Screen name="AfficheAnalyse" component={AfficheAnalyse} />
                 <Stack.Screen name="ModifyAnalyse" component={ModifyAnalyse} />
                 <Stack.Screen name="Medecin" component={Medecin} />
