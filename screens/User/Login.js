@@ -42,7 +42,7 @@ import RowContainer2 from '../../components/Containers/RowContainer2';
 
 const { brand, darkLight, primary } = Colors;
 
-const API_URL = 'https://134c-197-15-221-173.ngrok-free.app/api/v1/user/';
+const API_URL = 'https://4574-41-225-241-147.ngrok-free.app/api/v1/user/';
 
 const Login = ({navigation}) => {
   

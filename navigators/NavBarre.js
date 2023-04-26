@@ -9,6 +9,7 @@ import HomeScreen from '../screens/HomeScreen'
 import AnalyseFlatList from '../screens/AnalyseFlatList'
 import Vaccin from '../screens/VaccinClass/Vaccin'
 import Analyse from '../screens/AnalyseClass/Analyse'
+import ListeMedecins from '../screens/MedecinClass/ListeMedecins'
 import Medecin from '../screens/MedecinClass/Medecin'
 
 const { darkLight, brand } = Colors;
@@ -81,8 +82,8 @@ export default function NavBarre() {
                 }} />
 
 
-            <Tab.Screen name="Analyse"
-                component={Analyse}
+            <Tab.Screen name="AnalyseFlatList"
+                component={AnalyseFlatList}
                 options={{
 
                     tabBarIcon: ({ focused }) => {

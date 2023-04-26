@@ -39,7 +39,7 @@ const AnalyseFlatList = ({ navigation }) => {
 
 
   useEffect(() => {
-    axios.get(`https://1417-41-225-217-34.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
+    axios.get(`https://4574-41-225-241-147.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
   }, [email]);
