@@ -145,7 +145,8 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       marginBottom:60,
-      marginTop:StatusBarHeight
+      marginRight:-10,
+      //marginTop:StatusBarHeight
       
     },
     header: {

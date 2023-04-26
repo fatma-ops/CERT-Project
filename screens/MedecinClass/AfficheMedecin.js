@@ -76,12 +76,12 @@ const { green, brand, darkLight, primary } = Colors;
         <View style={styles.section}>
         <Text style={styles.sectionTitleP}>{selectedMedecin.medecinName}</Text>
 
-        <TouchableOpacity onPress={handleDelete}>
+        <TouchableOpacity onPress={handleEdit}>
         <View style={{ marginLeft:260 , marginTop:-55}}>
                                 <Entypo name='pencil' size={32} color={brand} />
                             </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleEdit}>
+        <TouchableOpacity onPress={handleDelete}>
         <View style={{ marginLeft:300 , marginTop:-55}}>
                                 <Entypo name='trash' size={30} color={brand} />
                             </View>

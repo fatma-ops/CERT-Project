@@ -16,7 +16,12 @@ border-radius:10px;
 height:60px;
 flex-direction:row;
 justify-content: space-between;
-
+shadow-Opacity:0.25;
+shadow-offset:2px;
+shadow-radius:1px;
+elevation:5;
+margin-left:-10px;
+margin-right:-10px;
 
 
 

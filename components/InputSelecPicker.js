@@ -10,7 +10,6 @@ const HomeNavigation = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Sélectionnez un pays :</Text>
       <View style={styles.dropdownContainer}>
         <SelectDropdown
           data={countries}
@@ -30,10 +29,10 @@ const HomeNavigation = () => {
           rowTextStyle={styles.dropdownRowText}
         />
       </View>
-      <Text style={styles.selectedValue}>Vous avez sélectionné : {selectedValue}</Text>
     </View>
   );
 };
+//      <Text style={styles.selectedValue}>Vous avez sélectionné : {selectedValue}</Text>
 
 const styles = StyleSheet.create({
   container: {

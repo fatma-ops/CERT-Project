@@ -84,7 +84,7 @@ export default function NavBarre() {
 
 
             <Tab.Screen name="Analyse"
-                component={Analyse}
+                component={AnalyseFlatList}
                 options={{
 
                     tabBarIcon: ({ focused }) => {

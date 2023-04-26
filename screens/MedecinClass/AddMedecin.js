@@ -8,6 +8,8 @@ import { Octicons, Ionicons } from '@expo/vector-icons';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import RegularButton from '../../components/Buttons/RegularButton';
+import SelectDropdown from 'react-native-select-dropdown';
+
 import {
     InnerContainer,
     SubTitle,
@@ -27,7 +29,7 @@ import {
     StyledContainer,
     ExtraView,
     TextLink,
-    TextLinkContent,
+    TextLinkContent,SelectDropdownStyle,
 } from '../../components/styles';
 import styled from 'styled-components';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
@@ -35,6 +37,26 @@ import RegularButton2 from '../../components/Buttons/RegularButton2';
 const { green, brand, darkLight, primary, secondary, tertiary } = Colors;
 
 const AddMedecin = ({ navigation, ...props }) => {
+        const [selectedValue, setSelectedValue] = useState('option1');
+        const specialitie = [
+            'Cardiologie',
+            'Dentiste',
+            'Dermatologie',
+            'Endocrinologie',
+            'Gastro-entérologie',
+            'Generaliste',
+            'Hématologie',
+            'Infectiologie',
+            'Médecine interne',
+            'Neurologie',
+            'Ophtalmologie',
+            'Pédiatrie',
+            'Psychiatrie',
+            'Rhumatologie',
+          ]
+      
+    
+       
  return(
     <ScrollView>
       <KeyboardAvoidingWrapper>
@@ -52,7 +74,28 @@ const AddMedecin = ({ navigation, ...props }) => {
                                     value={props.medecinName}
                                    onChangeText={(text)=> props.setMedecinName(text)}                                
                                 />
-
+                                <Text style={styles.label}>Specialite</Text>
+                                <SelectDropdownStyle>
+                                    <SelectDropdown 
+                                        selectedItem= {props.medecinSpecialite}
+                                        data={specialitie}
+                                        onSelect={(selectedItem, index) => {
+                                        props.setMedecinSpecialite(selectedItem)
+                                        setSelectedValue(selectedItem)
+                                        }}
+                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                        return selectedItem
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                        return item
+                                        }}
+                                        buttonStyle={styles.dropdownButton}
+                                        buttonTextStyle={styles.dropdownButtonText}
+                                        dropdownStyle={styles.dropdown}
+                                        rowStyle={styles.dropdownRow}
+                                        rowTextStyle={styles.dropdownRowText}
+                                    />
+                                </SelectDropdownStyle>
                                 <Text style={styles.label}>Adresse</Text>
                                
                                 <StyledTextInput  {...props} 
@@ -63,8 +106,6 @@ const AddMedecin = ({ navigation, ...props }) => {
                                     onChangeText={(text) => props.setMedecinAdresse(text)}                                   
                                 />
 
-                                <Text style={styles.label}>Specialite</Text>
-                         
                                 <Text style={styles.label}>Numero</Text>
                                 <StyledTextInput  {...props} 
                                     placeholder="12345678"
@@ -76,13 +117,11 @@ const AddMedecin = ({ navigation, ...props }) => {
                                 <TextInput style={styles.comentaire} {...props} 
                                     placeholder=" ... "
                                     placeholderTextColor={darkLight}
+                                    multiline={true}
                                     value={props.medecinCmnt}
                                     onChangeText={(text) => props.setMedecinCmnt(text)}                                   
                                 />
                                 
-                                
-                                
-                              
                                 
                                 <RegularButton2 style={{ justifyContent: 'center' , alignContent:'center' , alignSelf:'center', marginTop:20}} onPress ={() => {
                                     if (props.medecinName === '' ) {
@@ -140,16 +179,72 @@ const styles = StyleSheet.create({
       marginBottom: 20,
   },
   comentaire: {
+    //flex:1,
     backgroundColor :secondary,
-    padding:70,
+    padding:25,
     paddingLeft:55,
     borderRadius: 20,
     fontSize:16,
+    height:100,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    marginLeft:-10,
+    marginRight:-10, 
+    elevation:5,
+    marginLeft:-10,
+    marginRight:-10,
+  },
+  dropdownContainer: {
+    backgroundColor: secondary,
+    padding:15,
+    paddingLeft:55,
+    borderRadius: 20,
     height:60,
     marginVertical:3,
     marginBottom:10,
     color:tertiary,
-  },
+    shadowOpacity:0.25,
+    shadowOffset:2,
+    shadowRadius:1,
+    marginLeft:-10,
+    marginRight:-10
+ 
+   },
+   dropdownButton: {
+     backgroundColor: secondary,
+     alignItems:'center',
+     marginTop:-10,
+     
+     
+   },
+   dropdownButtonText: {
+     fontSize: 16,
+     color: '#333',
+   
+   },
+   dropdown: {
+     borderWidth: 1,
+     borderColor: '#ccc',
+     borderRadius: 20,
+     backgroundColor: '#fafafa',
+     justifyContent:'center'
+   },
+   dropdownRow: {
+     paddingVertical: 10,
+     paddingHorizontal: 5,
+   },
+   dropdownRowText: {
+     fontSize: 16,
+     color: '#333',
+   },
+   selectedValue: {
+     fontSize: 18,
+     marginTop: 20,
+   },
 });
 
 

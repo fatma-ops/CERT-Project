@@ -16,8 +16,9 @@ import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
 import RegularButton3 from '../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RegularButton2 from '../components/Buttons/RegularButton2';
 
-const { brand, darkLight, primary } = Colors;
+const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 const  AddAnalyse = ({navigation}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -102,7 +103,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://1417-41-225-217-34.ngrok-free.app/api/v1/analyse/add', formData, {
+      const response = await axios.post('https://fd0f-197-14-226-31.eu.ngrok.io/api/v1/analyse/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -193,7 +194,7 @@ const onChange = (event , selectedDate) => {
                                 />
 
            <Text style={styles.label}>Résultat d'analyse</Text>
-            <ViewImage >
+            <ViewImage style={styles.imageContainer}>
 
             <Ionicons name='camera' onPress={() => pickImage(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
             <TouchableOpacity onPress={() => pickImage(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
@@ -209,15 +210,15 @@ const onChange = (event , selectedDate) => {
                               {message}
                           </MsgBox>
                           <View style={{ justifyContent: 'center'}}>
-                          {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf:'center'}}>
+                          {!isSubmitting && <RegularButton2 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf:'center'}}>
                                     <ButtonText>
                                       Ajouter
                                     </ButtonText>
-                                </RegularButton3>}
+                                </RegularButton2>}
 
-                                {isSubmitting && <RegularButton3 disabled={true}>
+                                {isSubmitting && <RegularButton2 disabled={true}>
                                     <ActivityIndicator size="large" color={primary} />
-                                </RegularButton3>}
+                                </RegularButton2>}
                                 </View>
                                 <ExtraView>
                              
@@ -287,5 +288,22 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
       height: 200,
       marginTop: 20,
     },
+    imageContainer:
+    { backgroundColor:secondary,
+    padding:15,
+    paddingLeft:55,
+    borderRadius: 20,
+    fontSize:16,
+    height:200,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft:-10,
+    marginRight:-10,
+  }
   });
   export default AddAnalyse; 

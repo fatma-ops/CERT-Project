@@ -8,8 +8,10 @@ import { Colors } from '../components/styles';
 const { green, brand, darkLight, primary } = Colors;
 import { StatusBarHeight } from '../components/shared';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { SearchBar } from 'react-native-screens';
+//import { SearchBar } from 'react-native-screens';
 import { StatusBar } from 'react-native';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import SearchBar from '../components/SearchBar';
 
 
 
@@ -21,37 +23,28 @@ const AnalyseFlatList = ({ navigation }) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredAnalyses, setFilteredAnalyses] = useState([]);
-  
-  
   const handleOnSearchInput = (text) => {
-
-  setSearchQuery(text);
-    const filtered = analyses.filter(
-      (item) =>
-        item &&
-        item.title &&
-        item.title.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredAnalyses(filtered);
-  };
-
-
-
-
+    setSearchQuery(text);
+      const filtered = analyses.filter(
+        (item) =>
+          item &&
+          item.title &&
+          item.title.toLowerCase().includes(text.toLowerCase())
+      );
+      setFilteredAnalyses(filtered);
+    };
   useEffect(() => {
-    axios.get(`https://1417-41-225-217-34.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
+    axios.get(`https://fd0f-197-14-226-31.eu.ngrok.io/api/v1/analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
   }, [email]);
 
   const renderAnalyse = ({ item }) => {
     return (
-      <View style={styles.analyseContainer}>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text>{item.date}</Text>
-          
-
+      <View style={styles.item}>
+        <View style={styles.analyse}>
+          <Text style={styles.text}>{item.title}</Text>
+          <Text style={styles.dateContainer}>{item.date}</Text>
         </View>
       </View>
     );
@@ -61,10 +54,12 @@ const AnalyseFlatList = ({ navigation }) => {
    
     <View style={[styles.analyseContainer]}>
       <View style={styles.headingContainer}>
-      <View style={{width:280 , height:150}}>
+      <View style={{width:280 }}>
       <StatusBar style="Light" />
       <SearchBar
-            containerStyle={{ marginVertical: 15 }}
+           value={searchQuery}
+            onChangeText={handleOnSearchInput}
+            containerStyle={{ marginVertical: 15, marginTop:25}}
             />
      
     </View>
@@ -73,8 +68,8 @@ const AnalyseFlatList = ({ navigation }) => {
           style={[styles.button]}
           onPress={() => navigation.navigate('AddAnalyse')}
         >
-          <FontAwesome5 name="plus" size={25} color={brand} />
-          <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
+          <MaterialIcons name="add" size={30} color={brand} />
+          <Text style={{ marginLeft: -10, color: darkLight }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
     </View>
@@ -127,7 +122,7 @@ const AnalyseFlatList = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   analyseContainer:{
-    paddingTop:-4,
+    paddingTop:40,
     paddingHorizontal:15,
     marginBottom:70,
     opacity:0.9,
