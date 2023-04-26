@@ -226,7 +226,25 @@ margin-left:-10px;
 margin-right:-10px;
 
 `;
+export const StyledTextCommentaire = styled.TextInput`
+background-color:${secondary};
+padding:15px;
+padding-left:55px;
+border-radius: 20px;
+font-size:16px;
+height:190px;
+margin-vertical:3px;
+margin-bottom:10px;
+color:${tertiary};
+shadow-Opacity:0.25;
+shadow-offset:2px;
+shadow-radius:1px;
+margin-left:-10px;
+margin-right:-10px;
 
+
+
+`;
 export const StyledInputLabel = styled.Text`
 color:${tertiary};
 font-size:13px;
