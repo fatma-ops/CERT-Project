@@ -16,22 +16,32 @@ const AfficheMedecin = ({ navigation , route }) => {
   const [modalMessage , setModalMessage] = useState('');
   const [buttonText , setButtonText] = useState('');
 
+  const [result, setResult] = useState('');
 
 
   const buttonHandler = () => {
     if(modalMessageType === 'success'){
         handleDelete();
+        navigation.navigate('ListeMedecin');
+    }else  if(modalMessageType === 'close'){
+      navigation.navigate('AfficheMedecin');
     }
     
         setModalVisible(false);
     };
 
+    
+  
     const openModal = () => {
       ShowModal('success', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
     }
+    const openModalClose = () => {
+      ShowModal('close', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
+    }
 
-    const handleDelete = async (id) => {
+    const handleDelete = async () => {
       try {
+<<<<<<< Updated upstream
         const response = await axios.delete(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/delete/${id}`);
         console.log(response.data);
         navigation.navigate('ListeMedecin')
@@ -40,6 +50,16 @@ const AfficheMedecin = ({ navigation , route }) => {
       } catch (error) {
         console.error(error);
         // faire quelque chose en cas d'erreur
+=======
+        const response = await fetch(`https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/delete/${id}`, {
+          method: 'DELETE'
+        });
+        const data = await response.json();
+        setResult(data);
+      } catch (err) {
+        console.error(err);
+        setResult('Erreur');
+>>>>>>> Stashed changes
       }
     };
 
@@ -90,10 +110,10 @@ const AfficheMedecin = ({ navigation , route }) => {
          
         </View>
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.editButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('ModifyMedecin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})} style={styles.editButton}>
             <Entypo name="edit" size={24} color={brand} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={openModal} style={styles.deleteButton}>
+          <TouchableOpacity  onPress={openModal} style={styles.deleteButton}>
             <AntDesign name="delete" size={24} color={red} />
           </TouchableOpacity>
         </View>

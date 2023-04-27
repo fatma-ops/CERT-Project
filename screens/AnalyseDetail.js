@@ -17,7 +17,7 @@ const AnalyseDetail = ({ route }) => {
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>{
               <View style={styles.vaccin}>
             <Text style={styles.dateContainer}>{selectedAnalyse.date}</Text>
-            <Text >{selectedAnalyse.tile}</Text>
+            <Text >{selectedAnalyse.title}</Text>
 
             <View style={styles.actions}>
             <RowContainer style = {{justifycontent: 'space-between'}}>

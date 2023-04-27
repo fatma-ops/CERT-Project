@@ -1,11 +1,13 @@
 import React, { useContext , useState } from 'react';
-import { View,  StatusBar, TouchableOpacity, Text, TextInput } from 'react-native';
+import { View,  StatusBar, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+
 import MessageModal from '../../components/Modals/MessageModal';
+
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle} from '../../components/styles';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -13,13 +15,20 @@ import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { StatusBarHeight } from '../../components/shared';
 
-const { brand, darkLight, primary , secondary, tertiary} = Colors;
+const { brand, darkLight, primary , secondary } = Colors;
 
-const  AddMedecin = ({navigation}) =>  {
+const  ModifyMedecin = ({navigation , route}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
   const [selectedValue, setSelectedValue] = useState('option1');
+  const [nom, setNom] = useState(route.params.nom);
+  const [id, setId] = useState(route.params.id);
+
+    const [adresse, setAdresse] = useState(route.params.adresse);
+    const [specialite, setSpecialite] = useState(route.params.specialite);
+    const [numero, setNumero] = useState(route.params.numero);
+    const [commentaire, setCommenataire] = useState(route.params.commentaire);
       
   const specialities = [
     "Cardiologie",
@@ -56,6 +65,7 @@ const  AddMedecin = ({navigation}) =>  {
   const buttonHandler = () => {
     if(modalMessageType === 'success'){
         //do something
+        navigation.navigate('ListeMedecin');
     }
     
         setModalVisible(false);
@@ -69,43 +79,60 @@ const  AddMedecin = ({navigation}) =>  {
         setModalVisible(true);
         }
 
-        const submitMedecin = async (values, setSubmitting) => {
-          handleMessage(null);
-          setSubmitting(true);
-        
-          const data = {
-            nom: values.nom,
-            adresse: values.adresse,
-            specialite: values.specialite,
-            userEmail: email,
-            numero: values.numero,
-            commentaire: values.commentaire
-          };
-        
-          try {
-            const response = await axios.post(
-<<<<<<< Updated upstream
-              'https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/add',
-=======
-              'https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/add',
->>>>>>> Stashed changes
-              data,
-              {
-                headers: {
-                  'Content-Type': 'application/json'
-                }
-              }
-            );
-            console.log(response.data);
-            navigation.navigate('ListeMedecin')
 
-            setSubmitting(false);
-          } catch (error) {
-            setSubmitting(false);
-            handleMessage(error.message);
-            console.error(error);
+
+ 
+
+        const ModifyMedecin = async (values, setSubmitting) => {
+            setSubmitting(true);
+      
+        try {
+          const response = await fetch(`https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/put/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+             
+              nom: values.nom,
+              adresse: values.adresse,
+              specialite: values.specialite,
+              numero: values.numero,
+              commentaire: values.commentaire
+            })
+          });
+      
+          const data = await response.json();
+      
+          if (response.ok) {
+            // Update the state with the updated user information
+            setNom(data.nom);
+            
+            setSpecialite(data.specialite);
+            setAdresse(data.adresse);
+            setNumero(data.numero);
+            setCommenataire(data.commenataire);
+      
+            // Show a success message to the user
+           // ShowModal('success', "Contact mis à jour", "Votre contact a été mis à jour avec succès !", 'OK');
+           navigation.navigate('Medecin')
+          } else {
+            // Show an error message to the user
+            handleMessage(data.message, 'FAILED');
           }
-        };
+        } catch (error) {
+          console.error(error);
+          // Show an error message to the user
+          handleMessage('Erreur de serveur. Veuillez réessayer ultérieurement.', 'FAILED');
+        } finally {
+          setSubmitting(false);
+        }
+      };
+         
+      
+
+
+
   const handleMessage = (message, type = 'FAILED') => {
     setMessage(message);
     setMessageType(type);
@@ -118,24 +145,27 @@ const  AddMedecin = ({navigation}) =>  {
         <StatusBar style="dark" />
        
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <AntDesign name="left" size={25} color={brand} />
+        <TouchableOpacity onPress={() => navigation.navigate('ListeMedecin')} style={styles.backButton}>
+          <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>             Ajouter un contact</Text>
+        <Text style={styles.headerTitle}>Ajouter un contact</Text>
       </View>
      
 
      <InnerContainer>  
                     <SubTitle></SubTitle>
                    
+                    
+
+
     <Formik
-      initialValues={{ nom: '', adresse: '', specialite: '', numero:'' , commentaire:'' }}
+      initialValues={{ nom: nom, id:id , adresse: adresse, specialite: specialite, numero:numero , commentaire:commentaire }}
       onSubmit={(values, { setSubmitting }) => {
         if (values.nom == ''||values.adresse == ''||values.specialite == ''||values.numero == '' ) {
             handleMessage('Veuillez remplir  les champs');
             setSubmitting(false);
         } else {
-            submitMedecin(values, setSubmitting);
+            ModifyMedecin(values, setSubmitting);
 
         }
     
@@ -148,75 +178,81 @@ const  AddMedecin = ({navigation}) =>  {
           <MyTextInput
            label="Nom du médecin"
            icon="person"
-           placeholder="Dr..."
+           placeholder="Analyse"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('nom')}
            onBlur={handleBlur('nom')}
-           value={values.nom}                    
-          />
+           value={values.nom}
+                              
+                          />
          
-         <Text style={styles.label}>Spécialité</Text> 
-         <SelectDropdownStyle>              
-         <SelectDropdown
-            label="Specialité"
-            data={specialities}
-            onSelect={(selectedItem, index) => {
-              setFieldValue('specialite', selectedItem);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-            buttonStyle={styles.dropdownButton}
-            buttonTextStyle={styles.dropdownButtonText}
-            dropdownStyle={styles.dropdown}
-            rowStyle={styles.dropdownRow}
-            rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir la spécialité"
-          />
-          </SelectDropdownStyle>
+         <Text style={styles.label}>Spécialité</Text>
+             
+                          
+          <SelectDropdown
+  label="Specialité"
+  data={specialities}
+  onSelect={(selectedItem, index) => {
+    setFieldValue('specialite', selectedItem);
+  }}
+  buttonTextAfterSelection={(selectedItem, index) => {
+    return selectedItem;
+  }}
+  rowTextForSelection={(item, index) => {
+    return item;
+  }}
+  buttonStyle={styles.dropdownButton}
+  buttonTextStyle={styles.dropdownButtonText}
+  dropdownStyle={styles.dropdown}
+  rowStyle={styles.dropdownRow}
+  rowTextStyle={styles.dropdownRowText}
+  defaultButtonText="Choisir la spécialité"
+/>
+
         
-            <MyTextInput
+                           <MyTextInput
            label="Adresse"
            icon="location"
-           placeholder="ville,rue"
+           placeholder="Analyse"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('adresse')}
            onBlur={handleBlur('adresse')}
            value={values.adresse}
-            />
-
-            <MyTextInput
-           label="Numero"
+                              
+                          />
+                           <MyTextInput
+           label="numero"
            icon2="call-outline"
-           placeholder="+216 ** *** *** "
+           placeholder="+216 *** *** *** ** "
            placeholderTextColor={darkLight}
            onChangeText={handleChange('numero')}
            onBlur={handleBlur('numero')}
            value={values.numero}
            keyboardType="phone-pad"
-           />
-
-          <Text style={styles.label}>Commentaire</Text>               
-            <TextInput style={styles.comentaire}
-          //label="Commenataire"
-           placeholder="..."
+           
+                              
+                          />
+                           <MyTextInput2
+           label="commenataire"
+          
+           placeholder=""
            placeholderTextColor={darkLight}
-           multiline={true}
            onChangeText={handleChange('commentaire')}
            onBlur={handleBlur('commenataire')}
            value={values.commentaire}
-            />
+                              
+                          />
           
+
+           
+
           <MsgBox type={messageType}>
                               {message}
                           </MsgBox>
                           <View style={{ justifyContent: 'center' }}>
                           {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center' , alignSelf:'center'}}>
                                     <ButtonText >
-                                      Ajouter
+                                     Enregistrer
                                     </ButtonText>
                                 </RegularButton3>}
 
@@ -236,6 +272,13 @@ const  AddMedecin = ({navigation}) =>  {
       )}
     </Formik>
     </InnerContainer> 
+    <MessageModal 
+                  modalVisible={modalVisible} 
+                  buttonHandler = {buttonHandler} 
+                  type = {modalMessageType} 
+                  headerText = {headerText}
+                  message={modalMessage}
+                  buttonText={buttonText} /> 
     </StyledContainer>
     </KeyboardAvoidingWrapper>
   );
@@ -269,12 +312,20 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
         <View>
             <LeftIcon>
                 <Octicons name={icon} size={24} color={brand} />
+  
             </LeftIcon>
             <LeftIcon>
                 <Ionicons name={icon2} size={24} color={brand} />
+  
             </LeftIcon>
+            
             <StyledInputLabel2> {label}</StyledInputLabel2>
-            <StyledTextCommentaire  {...props} />
+                
+                    
+                    <StyledTextCommentaire  {...props} />
+                    
+            
+  
         </View>
     );
   
@@ -290,21 +341,21 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop:StatusBarHeight -40,
+      
+       
+        marginTop:StatusBarHeight -100,
         paddingBottom: 20,
         borderBottomWidth: 1,
+        
         borderBottomColor: darkLight,
       },
       backButton: {
         marginRight: 10,
-        marginLeft: -9,
+        marginLeft: -9
       },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        alignSelf:'centre',
-        color:brand
-
       },
    
    
@@ -335,77 +386,21 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
     dropdown: {
       borderWidth: 1,
       borderColor: '#ccc',
-      padding: 10,
-      borderRadius: 5,
-      width: '100%',
-      marginBottom: 20,
-  },
-  comentaire: {
-    //flex:1,
-    backgroundColor :secondary,
-    padding:25,
-    paddingLeft:55,
-    borderRadius: 20,
-    fontSize:16,
-    height:100,
-    marginVertical:3,
-    marginBottom:10,
-    color:tertiary,
-    shadowOpacity:0.25,
-    shadowOffset:{width:2, height:4},
-    shadowRadius:1,
-    elevation:5,
-    marginLeft:-10,
-    marginRight:-10,
-  },
-  dropdownContainer: {
-    backgroundColor: secondary,
-    padding:15,
-    paddingLeft:55,
-    borderRadius: 20,
-    height:60,
-    marginVertical:3,
-    marginBottom:10,
-    color:tertiary,
-    shadowOpacity:0.25,
-    shadowOffset:2,
-    shadowRadius:1,
-    marginLeft:-10,
-    marginRight:-10
- 
-   },
-   dropdownButton: {
-     backgroundColor: secondary,
-     alignItems:'center',
-     marginTop:-10,
-     
-     
-   },
-   dropdownButtonText: {
-     fontSize: 16,
-     color: '#333',
-   
-   },
-   dropdown: {
-     borderWidth: 1,
-     borderColor: '#ccc',
-     borderRadius: 20,
-     backgroundColor: '#fafafa',
-     justifyContent:'center'
-   },
-   dropdownRow: {
-     paddingVertical: 10,
-     paddingHorizontal: 5,
-   },
-   dropdownRowText: {
-     fontSize: 16,
-     color: '#333',
-   },
-   selectedValue: {
-     fontSize: 18,
-     marginTop: 20,
-   },
-});
-
-
-export default AddMedecin;
+      borderRadius: 20,
+      backgroundColor: '#fafafa',
+      justifyContent:'center'
+    },
+    dropdownRow: {
+      paddingVertical: 10,
+      paddingHorizontal: 5,
+    },
+    dropdownRowText: {
+      fontSize: 16,
+      color: '#333',
+    },
+    selectedValue: {
+      fontSize: 18,
+      marginTop: 20,
+    },
+  });
+  export default ModifyMedecin; 

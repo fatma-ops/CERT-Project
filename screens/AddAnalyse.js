@@ -104,7 +104,11 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
+<<<<<<< Updated upstream
       const response = await axios.post('https://7d49-102-159-72-228.eu.ngrok.io/api/v1/analyse/add', formData, {
+=======
+      const response = await axios.post('https://3a73-41-225-241-147.ngrok-free.app/api/v1/analyse/add', formData, {
+>>>>>>> Stashed changes
         headers: {
           'Content-Type': 'multipart/form-data'
         }

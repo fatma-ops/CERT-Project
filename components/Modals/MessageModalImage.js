@@ -39,7 +39,7 @@ shadow-radius:4px;
 
 
 `;
-const MessageModalImage = ({ modalVisible , buttonHandler , type , headerText , message , buttonText }) => {
+const MessageModalImage = ({ modalVisible , buttonHandler ,buttonHandler2, type , headerText , message , buttonText }) => {
     return  <Modal animationType = 'slide' visible={modalVisible}
     transparent={true} >
         <ModalPressableContainer onPress={buttonHandler}> 
