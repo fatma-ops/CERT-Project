@@ -4,7 +4,7 @@ import { Colors } from '../../components/styles';
 import { useState } from 'react';
 import MessageModalImage from '../../components/Modals/MessageModalImage';
 import axios from 'axios';
-const { brand, darkLight, primary, red } = Colors;
+const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 
 const AfficheMedecin = ({ navigation , route }) => {
   const { selectedAnalyse } = route.params;
@@ -32,7 +32,7 @@ const AfficheMedecin = ({ navigation , route }) => {
 
     const handleDelete = async (id) => {
       try {
-        const response = await axios.delete(`https://9616-41-225-241-147.ngrok-free.app/api/v1/medecin/delete/${id}`);
+        const response = await axios.delete(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/delete/${id}`);
         console.log(response.data);
         navigation.navigate('ListeMedecin')
 
@@ -54,59 +54,40 @@ const AfficheMedecin = ({ navigation , route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text></Text>
-              </View>
-      <View style={styles.body}>
-       
-        <View style={styles.section}>
-        <Text style={styles.sectionTitleP}>{selectedMedecin.medecinName}</Text>
-
-        <TouchableOpacity onPress={handleEdit}>
-        <View style={{ marginLeft:260 , marginTop:-55}}>
-                                <Entypo name='pencil' size={32} color={brand} />
-                            </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleDelete}>
-        <View style={{ marginLeft:300 , marginTop:-55}}>
-                                <Entypo name='trash' size={30} color={brand} />
-                            </View>
-        </TouchableOpacity>
-
-          <View style={styles.sectionContent}>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Specialite: </Text>
-            <Text style={styles.sectionItem}>{selectedMedecin.medecinSpecialite}</Text>
-            </View>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Numero: </Text>
-            <Text style={styles.sectionItem}>{selectedMedecin.medecinNum}</Text>
-            </View>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Adresse: </Text>
-            <Text style={styles.sectionItem}>{selectedMedecin.medecinAdresse}</Text>
-            </View>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Commentaire: </Text>
-            <Text style={styles.sectionItem}>{selectedMedecin.medecinCmnt}</Text>
-            </View>
-        
-          </View>
-          </View>
-          </View>
-          <View>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Détails du médecin</Text>
+        <Text style={styles.headerTitle}>         Détails du médecin</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.moreButton}>
+          <Entypo name="dots-three-vertical" size={26} color={brand} />
+        </TouchableOpacity>
       </View>
       <View style={styles.content}>
         <Image source={require('../../assets/img/user.png')} style={styles.doctorImage} />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{selectedAnalyse.nom}</Text>
-          <Text style={styles.specialite}>{selectedAnalyse.specialite}</Text>
-          <Text style={styles.adresse}>{selectedAnalyse.adresse}</Text>
-          <Text style={styles.numero}>{selectedAnalyse.numero}</Text>
-          <Text style={styles.commentaire}>{selectedAnalyse.commentaire}</Text>
+        <View style={styles.sectionContent}>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Nom du medecin: </Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.nom}</Text>
+            </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Spécialité: </Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.specialite}</Text>
+            </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Adresse: </Text>
+            <Text style={styles.sectionItem}> {selectedAnalyse.adresse}</Text>
+            </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Numero: </Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.numero}</Text>
+            </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Commenataire: </Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.commentaire}</Text>
+            </View>
+          </View>
+         
         </View>
         <View style={styles.actions}>
           <TouchableOpacity style={styles.editButton}>
@@ -117,6 +98,7 @@ const AfficheMedecin = ({ navigation , route }) => {
           </TouchableOpacity>
         </View>
       </View>
+
       <MessageModalImage 
                             modalVisible={modalVisible} 
                             buttonHandler = {buttonHandler} 
@@ -136,19 +118,34 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    
     paddingTop: 20,
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: darkLight,
   },
+  sectionItem: {
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  sectionItem2: {
+    fontSize: 18,
+   // marginLeft:-70,
+   marginBottom: 5,
+    fontWeight: 'bold',
+    color:brand
+  },
   backButton: {
     padding: 10,
     marginRight: 10,
   },
+  moreButton: {
+    padding: 10,
+    marginLeft:40,
+  },
   headerTitle: {
     fontWeight: 'bold',
     fontSize: 20,
+    color:brand,
   },
   content: {
     flex: 1,
@@ -206,6 +203,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: red,
   },
+  heelo:{
+    flexDirection:'row',
+    borderBottomColor:secondary,
+    borderBottomWidth:2,
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
+    borderBottomLarge:9,
+    marginTop:20,
+    marginLeft:-5,
+    marginBottom:15,
+   }
 });
 
 export default AfficheMedecin

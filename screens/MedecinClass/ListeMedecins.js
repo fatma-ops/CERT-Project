@@ -10,6 +10,7 @@ import { StatusBarHeight } from '../../components/shared';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
 import { StatusBar } from 'react-native';
+import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 
 
@@ -39,17 +40,17 @@ const ListeMedecins = ({ navigation }) => {
 
 
   useEffect(() => {
-    axios.get(`https://9616-41-225-241-147.ngrok-free.app/api/v1/medecin/${email}?cache_bust=123456789`)
+    axios.get(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/${email}?cache_bust=123456789`)
       .then(response => setMedecins(response.data))
       .catch(error => console.log(error));
   }, [email]);
 
   const renderAnalyse = ({ item }) => {
     return (
-      <View style={styles.analyseContainer}>
-        <View style={styles.textContainer}>
+      <View style={styles.item}>
+        <View style={styles.analyse}>
           <Text style={styles.title}>{item.nom}</Text>
-          <Text>{item.specialite}</Text>
+          <Text style={styles.text}>{item.specialite}</Text>
           
 
         </View>
@@ -62,9 +63,11 @@ const ListeMedecins = ({ navigation }) => {
     <View style={[styles.analyseContainer]}>
       
       <View style={styles.headingContainer}>
-      <View style={{width:280 , height:150}}>
+      <View style={{width:280 }}>
       <StatusBar style="Light" />
-      
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>                      Mes contacts</Text>
+      </View>
       <SearchBar
       value={searchQuery}
       onChangeText={handleOnSearchInput}
@@ -105,7 +108,7 @@ const ListeMedecins = ({ navigation }) => {
     >
       <View style={styles.item} key={index}>
         <View style={styles.analyse}>
-          <Text style={styles.text}>{item.nom}</Text>
+          <Text style={styles.title}>{item.nom}</Text>
           <Text style={styles.dateContainer}>{item.specialite}</Text>
           
         </View>
@@ -125,7 +128,7 @@ const ListeMedecins = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   analyseContainer:{
-    paddingTop:-4,
+    paddingTop:40,
     paddingHorizontal:15,
     marginBottom:70,
     opacity:0.9,
@@ -139,6 +142,27 @@ headingContainer:{
     
 
 },
+header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop:StatusBarHeight -30,
+  paddingBottom: 20,
+  borderBottomWidth: 1,
+  borderBottomColor: darkLight,
+  marginRight:-50,
+  marginLeft:10
+},
+headerTitle: {
+  fontWeight: 'bold',
+  fontSize: 20,
+  alignSelf:'centre',
+  color:brand
+
+},
+backButton: {
+  marginRight: 10,
+  marginLeft: -9,
+},
 divider:{
     width:'100%',
     height:2,
@@ -146,14 +170,14 @@ divider:{
     marginBottom:5,
 },
 item:{ 
-    marginBottom:25,
-    padding:20,
+    marginBottom:5,
+    padding:15,
     color:brand,
     opacity:1,
     marginTop:10,
     shadowOpacity:0.25,
-    shadowOffset:{width:2, height:1},
-    shadowRadius:2,
+    shadowOffset:{width:0, height:2},
+    shadowRadius:1,
     elevation:5,
     backgroundColor:'white',
     borderWidth:0,
@@ -178,7 +202,7 @@ button:{
    
     marginLeft:22,
    // height:50,
-    marginTop :25,
+    marginTop :55,
     //marginBottom : 20
 },
 buttonText:{
@@ -193,21 +217,30 @@ analyse:{
     //flexDirection:'row',
     width:'100%',
     color:'black',
-    fontWeight:'bold',
-    alignItems:'center'
+    //fontWeight:'bold',
+    //alignItems:'center'
 
 },
 text:{
-  marginTop:25,
+  //marginTop:25,
     fontWeight:'400',
-    fontSize:25,
-    alignItems:'center',
+    fontSize:10,
+    color:'black',
+    //alignItems:'center',
+},
+title:{
+  //marginTop:25,
+    fontWeight:'400',
+    fontSize:15,
+    color:brand,
+    //alignItems:'center',
 },
 dateContainer:{
-  marginTop:10,
-  flexDirection:'row',
-  justifyContent:'space-between',
-  alignContent:'center'
+  fontSize:15,
+  marginTop:3,
+  //flexDirection:'row',
+  //justifyContent:'space-between',
+  //alignContent:'center'
 },
 delete:{
     fontWeight:'700',

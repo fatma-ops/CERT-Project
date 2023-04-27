@@ -1,13 +1,11 @@
 import React, { useContext , useState } from 'react';
-import { View,  StatusBar, TouchableOpacity, Text } from 'react-native';
+import { View,  StatusBar, TouchableOpacity, Text, TextInput } from 'react-native';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
-
 import MessageModal from '../../components/Modals/MessageModal';
-
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire} from '../../components/styles';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -15,7 +13,7 @@ import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { StatusBarHeight } from '../../components/shared';
 
-const { brand, darkLight, primary , secondary } = Colors;
+const { brand, darkLight, primary , secondary, tertiary} = Colors;
 
 const  AddMedecin = ({navigation}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -71,10 +69,6 @@ const  AddMedecin = ({navigation}) =>  {
         setModalVisible(true);
         }
 
-
-
- 
-
         const submitMedecin = async (values, setSubmitting) => {
           handleMessage(null);
           setSubmitting(true);
@@ -90,7 +84,7 @@ const  AddMedecin = ({navigation}) =>  {
         
           try {
             const response = await axios.post(
-              'https://9616-41-225-241-147.ngrok-free.app/api/v1/medecin/add',
+              'https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/add',
               data,
               {
                 headers: {
@@ -121,18 +115,15 @@ const  AddMedecin = ({navigation}) =>  {
        
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <AntDesign name="left" size={28} color={brand} />
+          <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter un contact</Text>
+        <Text style={styles.headerTitle}>             Ajouter un contact</Text>
       </View>
      
 
      <InnerContainer>  
                     <SubTitle></SubTitle>
                    
-                    
-
-
     <Formik
       initialValues={{ nom: '', adresse: '', specialite: '', numero:'' , commentaire:'' }}
       onSubmit={(values, { setSubmitting }) => {
@@ -153,74 +144,68 @@ const  AddMedecin = ({navigation}) =>  {
           <MyTextInput
            label="Nom du médecin"
            icon="person"
-           placeholder="Analyse"
+           placeholder="Dr..."
            placeholderTextColor={darkLight}
            onChangeText={handleChange('nom')}
            onBlur={handleBlur('nom')}
-           value={values.nom}
-                              
-                          />
+           value={values.nom}                    
+          />
          
-         <Text style={styles.label}>Spécialité</Text>
-             
-                          
-          <SelectDropdown
-  label="Specialité"
-  data={specialities}
-  onSelect={(selectedItem, index) => {
-    setFieldValue('specialite', selectedItem);
-  }}
-  buttonTextAfterSelection={(selectedItem, index) => {
-    return selectedItem;
-  }}
-  rowTextForSelection={(item, index) => {
-    return item;
-  }}
-  buttonStyle={styles.dropdownButton}
-  buttonTextStyle={styles.dropdownButtonText}
-  dropdownStyle={styles.dropdown}
-  rowStyle={styles.dropdownRow}
-  rowTextStyle={styles.dropdownRowText}
-  defaultButtonText="Choisir la spécialité"
-/>
-
+         <Text style={styles.label}>Spécialité</Text> 
+         <SelectDropdownStyle>              
+         <SelectDropdown
+            label="Specialité"
+            data={specialities}
+            onSelect={(selectedItem, index) => {
+              setFieldValue('specialite', selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText="Choisir la spécialité"
+          />
+          </SelectDropdownStyle>
         
-                           <MyTextInput
+            <MyTextInput
            label="Adresse"
            icon="location"
-           placeholder="Analyse"
+           placeholder="ville,rue"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('adresse')}
            onBlur={handleBlur('adresse')}
            value={values.adresse}
-                              
-                          />
-                           <MyTextInput
-           label="numero"
+            />
+
+            <MyTextInput
+           label="Numero"
            icon2="call-outline"
-           placeholder="+216 *** *** *** ** "
+           placeholder="+216 ** *** *** "
            placeholderTextColor={darkLight}
            onChangeText={handleChange('numero')}
            onBlur={handleBlur('numero')}
            value={values.numero}
            keyboardType="phone-pad"
-           
-                              
-                          />
-                           <MyTextInput2
-           label="commenataire"
-          
-           placeholder=""
+           />
+
+          <Text style={styles.label}>Commentaire</Text>               
+            <TextInput style={styles.comentaire}
+          //label="Commenataire"
+           placeholder="..."
            placeholderTextColor={darkLight}
+           multiline={true}
            onChangeText={handleChange('commentaire')}
            onBlur={handleBlur('commenataire')}
            value={values.commentaire}
-                              
-                          />
+            />
           
-
-           
-
           <MsgBox type={messageType}>
                               {message}
                           </MsgBox>
@@ -280,20 +265,12 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
         <View>
             <LeftIcon>
                 <Octicons name={icon} size={24} color={brand} />
-  
             </LeftIcon>
             <LeftIcon>
                 <Ionicons name={icon2} size={24} color={brand} />
-  
             </LeftIcon>
-            
             <StyledInputLabel2> {label}</StyledInputLabel2>
-                
-                    
-                    <StyledTextCommentaire  {...props} />
-                    
-            
-  
+            <StyledTextCommentaire  {...props} />
         </View>
     );
   
@@ -309,21 +286,21 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-      
-       
-        marginTop:StatusBarHeight -100,
+        marginTop:StatusBarHeight -40,
         paddingBottom: 20,
         borderBottomWidth: 1,
-        
         borderBottomColor: darkLight,
       },
       backButton: {
         marginRight: 10,
-        marginLeft: -9
+        marginLeft: -9,
       },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
+        alignSelf:'centre',
+        color:brand
+
       },
    
    
@@ -373,8 +350,6 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
     shadowOpacity:0.25,
     shadowOffset:{width:2, height:4},
     shadowRadius:1,
-    marginLeft:-10,
-    marginRight:-10, 
     elevation:5,
     marginLeft:-10,
     marginRight:-10,

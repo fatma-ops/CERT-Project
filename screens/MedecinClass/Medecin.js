@@ -7,7 +7,6 @@ import AfficheMedecin from "./AfficheMedecin";
 
 
 const Stack = createNativeStackNavigator();
-
 const Medecin = () => {
     return(
     <Stack.Navigator screenOptions={{

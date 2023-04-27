@@ -230,16 +230,11 @@ const styles = StyleSheet.create({
     sectionItem: {
       fontSize: 16,
       marginBottom: 5,
-     
-      
-     
     },
     sectionItem2: {
       fontSize: 16,
       marginBottom: 5,
       fontWeight: 'bold',
-      
-     
     },
    heelo:{
     flexDirection:'row'

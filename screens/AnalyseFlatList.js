@@ -12,6 +12,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
+import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 
 
@@ -34,7 +35,7 @@ const AnalyseFlatList = ({ navigation }) => {
       setFilteredAnalyses(filtered);
     };
   useEffect(() => {
-    axios.get(`https://fd0f-197-14-226-31.eu.ngrok.io/api/v1/analyse/${email}?cache_bust=123456789`)
+    axios.get(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -56,6 +57,9 @@ const AnalyseFlatList = ({ navigation }) => {
       <View style={styles.headingContainer}>
       <View style={{width:280 }}>
       <StatusBar style="Light" />
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>                      Mes analyses</Text>
+      </View>
       <SearchBar
            value={searchQuery}
             onChangeText={handleOnSearchInput}
@@ -68,8 +72,8 @@ const AnalyseFlatList = ({ navigation }) => {
           style={[styles.button]}
           onPress={() => navigation.navigate('AddAnalyse')}
         >
-          <MaterialIcons name="add" size={30} color={brand} />
-          <Text style={{ marginLeft: -10, color: darkLight }}> Ajouter</Text>
+          <MaterialIcons name="add" size={25} color={brand} />
+          <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
     </View>
@@ -129,6 +133,27 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
 
 },
+header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop:StatusBarHeight -30,
+  paddingBottom: 20,
+  borderBottomWidth: 1,
+  borderBottomColor: darkLight,
+  marginRight:-50,
+  marginLeft:10
+},
+headerTitle: {
+  fontWeight: 'bold',
+  fontSize: 20,
+  alignSelf:'centre',
+  color:brand
+
+},
+backButton: {
+  marginRight: 10,
+  marginLeft: -9,
+},
 headingContainer:{
     fontWeight:'700',
     color:brand,
@@ -175,7 +200,7 @@ button:{
    
     marginLeft:22,
    // height:50,
-    marginTop :25,
+    marginTop :55,
     //marginBottom : 20
 },
 buttonText:{

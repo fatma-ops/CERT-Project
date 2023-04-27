@@ -3,9 +3,10 @@ import { View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } fro
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
-import {  Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
+import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 import MessageModal from './../components/Modals/MessageModal';
+import { StatusBarHeight } from '../components/shared';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from './../components/CredentialsContext';
@@ -103,7 +104,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://fd0f-197-14-226-31.eu.ngrok.io/api/v1/analyse/add', formData, {
+      const response = await axios.post('https://7d49-102-159-72-228.eu.ngrok.io/api/v1/analyse/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -130,8 +131,14 @@ const onChange = (event , selectedDate) => {
     <KeyboardAvoidingWrapper>
         <StyledContainer>
         <StatusBar style="dark" />
-
+ <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="left" size={25} color={brand} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>          Ajouter une analyse</Text>
+      </View>
      <InnerContainer>  
+    
                     <SubTitle></SubTitle>
                    
                     {show && (
@@ -274,6 +281,25 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 5,
+      },
+      header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop:StatusBarHeight -40,
+        paddingBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: darkLight,
+      },
+      headerTitle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        alignSelf:'centre',
+        color:brand
+
+      },
+      backButton: {
+        marginRight: 10,
+        marginLeft: -9,
       },
     input: {
       borderWidth: 1,
