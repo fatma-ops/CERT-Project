@@ -1,276 +1,314 @@
-import React , {useState , useContext , useEffect} from 'react';
-import {FlatList, Text, StyleSheet, View, TouchableOpacity, TextInput, ScrollView , Image} from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-
-import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from 'expo-status-bar';
-import { Colors, ExtraView } from '../../components/styles';
-import SearchBar from '../../components/SearchBar';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import axios from 'axios';
+import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import NotFound from '../../components/NotFound';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StatusBarHeight } from '../../components/shared';
+import { TouchableOpacity } from 'react-native';
+import { Colors } from '../../components/styles';
 const { green, brand, darkLight, primary } = Colors;
+import { StatusBarHeight } from '../../components/shared';
+import { Entypo, FontAwesome5 } from '@expo/vector-icons';
+//import { SearchBar } from 'react-native-screens';
+import { StatusBar } from 'react-native';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import SearchBar from '../../components/SearchBar';
+import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 
-const ListeVaccin = ({ ...props }) => {
+
+const ListeVaccin = ({ navigation }) => {
+  const [vaccins, setVaccins] = useState([]);
+  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+
+  const { email } = storedCredentials;
+
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredVaccins, setFilteredVaccins] = useState([]);
-  
-  useEffect(() => {
-    const getStoredVaccins = async () => {
-      const storedVaccins = await AsyncStorage.getItem('vaccins');
-      if (storedVaccins) {
-        setFilteredVaccins(JSON.parse(storedVaccins));
-      }
-    };
-    getStoredVaccins();
-  }, []);
-
-  
-
-
-
-
-
   const handleOnSearchInput = (text) => {
-  setSearchQuery(text);
-    const filtered = props.vaccins.filter(
-      (item) =>
-        item &&
-        item.vaccinName &&
-        item.vaccinName.toLowerCase().includes(text.toLowerCase())
+    setSearchQuery(text);
+      const filtered = vaccins.filter(
+        (item) =>
+          item &&
+          item.title &&
+          item.title.toLowerCase().includes(text.toLowerCase())
+      );
+      setFilteredVaccins(filtered);
+    };
+  useEffect(() => {
+    axios.get(`https://f973-197-15-82-75.ngrok-free.app/api/v1/vaccin/${email}?cache_bust=123456789`)
+      .then(response => setVaccins(response.data))
+      .catch(error => console.log(error));
+  }, [email]);
+
+  const renderAnalyse = ({ item }) => {
+    return (
+      <View style={styles.item}>
+        <View style={styles.analyse}>
+          <Text style={styles.text}>{item.title}</Text>
+          <Text style={styles.dateContainer}>{item.date}</Text>
+        </View>
+      </View>
     );
-    setFilteredVaccins(filtered);
   };
-  
-  
- 
-  const navigation = useNavigation();
+
   return (
 
-    <View style={[styles.vaccinContainer]}>
-    <View style={styles.headingContainer}>
-      <View style={{width:280}}>
+    <View style={[styles.analyseContainer2]}>
+         <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="left" size={28} color={brand} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>         Détails du médecin</Text>
+        
+      </View>
+      <View style={styles.headingContainer}>
+      
+        
+     
+
+      <View style={{width:280  , paddingHorizontal:12}}>
       <StatusBar style="Light" />
-    <SearchBar
-      value={searchQuery}
-      onChangeText={handleOnSearchInput}
-      containerStyle={{ marginVertical: 15 }}
-    />
+     
+      <SearchBar
+           value={searchQuery}
+            onChangeText={handleOnSearchInput}
+            containerStyle={{ marginVertical: 15, marginTop:25}}
+            />
+     
     </View>
+
     <View >
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('Ajouter vaccin')}
+          onPress={() => navigation.navigate('AddVaccin')}
         >
-          <MaterialIcons name="add" size={30} color={brand} />
-          <Text style={{ marginLeft: -10, color: darkLight }}> Ajouter</Text>
+          <MaterialIcons name="add" size={25} color='white' />
+          <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
+
     </View>
-    <View style={{ flexDirection: 'row', alignContent: 'center' }}>
+
+    <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
-        Total:
+        Totale:
       </Text>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
-        {props.vaccins ? props.vaccins.length : 0}
+        {vaccins ? vaccins.length : 0}
       </Text>
     </View>
-    {filteredVaccins && filteredVaccins.length > 0 ? (
-    <FlatList
+    <View style={[styles.analyseContainer]}>
 
-      style={styles.scrollView}
-      showsVerticalScrollIndicator={false}
-      data={filteredVaccins}
-      keyExtractor={(item, index) => String(index)}
-      renderItem={({ item, index }) => (
-        <View style={styles.item} key={index}>
-          <View >
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Affiche Vaccin', {
-                  selectedVaccin: item,
-                  
-                })
-              }
-            >
-              <View style={styles.vaccin}>
-              
-                <Text style={styles.text}>{item.vaccinName}</Text>
-                <Text style={styles.text}>{item.vaccinMaladie}</Text>
-
-                <Text style={styles.dateContainer}>{item.vaccinDate}</Text>
-                
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View> 
-      )} 
-      
-     
-    />  ) : !searchQuery
-    ? 
-      <View style={styles.emptyVaccinContainer}>
-        <Text style={styles.emptyVaccinText}>
-          Il n'y a pas encore de vaccins.
-        </Text>
-      </View>
-     : (
-      
-      <View style={styles.container}>
-        <MaterialCommunityIcons name='emoticon-sad-outline' size={90} color='black' />
-          <Text style={styles.emptyVaccinText}>
-          Résultat introuvable
-          </Text>
+<FlatList
+  style={styles.scrollView}
+  showsVerticalScrollIndicator={false}
+  data={vaccins}
+  keyExtractor={(item, index) => String(index)}
+  renderItem={({ item, index }) => (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("AfficheVaccin", {
+          selectedAnalyse: item,
+        })
+      }
+    >
+      <View style={styles.item} key={index}>
+        <View style={styles.analyse}>
+          <Text style={styles.text}>{item.title}</Text>
+          <Text style={styles.dateContainer}>{item.date}</Text>
+          
         </View>
-      
+      </View>
+      {item.image && (
+      <Image
+        source={{ uri: `data:${item.image.contentType};base64,${item.image.data.toString('base64')}` }}
+        style={styles.image}
+      />
     )}
-  </View>
-);
-
+    </TouchableOpacity>
     
-}
+  )}
+/>
+</View>
+</View>
 
-export const styles = StyleSheet.create({
-    vaccinContainer:{
-        paddingTop:-4,
-        paddingHorizontal:15,
-        marginBottom:70,
-        opacity:0.9,
-        justifyContent:'space-between',
-        
-    },
-   
-    divider:{
-        width:'100%',
-        height:2,
-        marginTop:5,
-        marginBottom:5,
-        
-    },
-    item:{ 
-      marginBottom:10,
-      padding:10,
-      color:brand,
-      opacity:1,
-      marginTop:10,
-      shadowOpacity:0.25,
-      shadowOffset:{width:0.5,height:2},
-      shadowRadius:1,
-      elevation:5,
-      backgroundColor:'white',
-      borderWidth:0,
-      
-      borderRadius:10,
-
-    },
-    index:{
-        fontSize:20,
-        fontWeight:'800',
-        color:brand
-    },
-    headingContainer:{
-        flexDirection:'row',
-       justifyContent:'space-between',
-       alignItems:'center',
-       
-    },
-    button:{
-       
-        marginLeft:22,
-       height:40,
-        marginTop :StatusBarHeight -10,
-    },
-    buttonText:{
-        color:brand,
-        fontSize:32,
-        fontWeight:'800'
-    },
-    scrollView:{
-        marginBottom:70,
-    },
-    vaccin:{
-        //flexDirection:'row',
-        width:'100%',
-        color:'black',
-        fontWeight:'bold',
-        alignItems:'center'
-
-    },
-    text:{
-      marginTop:10,
-        fontWeight:'400',
-        fontSize:20,
-        alignItems:'center',
-    },
-    dateContainer:{
-      fontWeight:'200',
-      marginTop:10,
-      flexDirection:'row',
-      justifyContent:'space-between',
-      alignContent:'center',
-      fontSize:15
-  },
-    delete:{
-        fontWeight:'700',
-        fontSize:15
-    },
-    input:{
-        height:40,
-        paddingHorizontal:20,
-        width:'65%',
-        fontSize:19,
-        color:brand,
-        fontWeight:'600',
-        opacity:0.8,
-        marginTop:0.4,
-        shadowOpacity:0.5,
-        shadowOffset:{width:0, height:4},
-        shadowRadius:8,
-        elevation:5,
-        backgroundColor:'#fff',
-        borderWidth:2,
-        borderRadius:5,
-    },
-    searchContainer:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
-        marginVertical:8,
-    },
-    searchButton:{
-        alignItems:"center",
-        justifyContent:'center',
-        width:60,
-        borderRadius:5,
-        height:40
-    },
-    searchButtonText:{
-        color:"#fff",
-        fontWeight:'700',
-        fontSize:12,
-    },
-    emptyVaccinContainer:{
-        alignItems:'center',
-        marginTop:140,
-    },
-    emptyVaccinText:{
-        fontWeight:'600',
-        fontSize:15,
-        justifyContent:'center',
-        textAlign:'justify'
-    },
+ 
     
-    container: {
-   
-      justifyContent: 'center',
-      alignItems: 'center',
-      opacity: 0.5,
-      marginTop:StatusBarHeight 
+  );
+};
+
+const styles = StyleSheet.create({
+  analyseContainer:{
+    paddingTop:10,
+    paddingHorizontal:15,
+    marginBottom:70,
+    opacity:0.9,
+    justifyContent:'space-between',
+
+},
+analyseContainer2:{
   
-    },
-    
+  marginBottom:70,
+  opacity:0.9,
+  justifyContent:'space-between',
+
+},
+header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop:StatusBarHeight -30,
+
+  paddingBottom: 20,
+  borderBottomWidth: 1,
+  borderBottomColor: darkLight,
+
+  marginRight:-50,
+  marginLeft:10,
+},
+headerTitle: {
+  fontWeight: 'bold',
+  fontSize: 20,
+  color:brand
+
+},
+backButton: {
+  marginRight: 10,
+  marginLeft: -9,
+},
+
+divider:{
+    width:'100%',
+    height:2,
+    marginTop:5,
+    marginBottom:5,
+},
+item:{ 
+    marginBottom:25,
+    padding:20,
+    color:brand,
+    opacity:1,
+    marginTop:10,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:1},
+    shadowRadius:2,
+    elevation:5,
+    backgroundColor:'white',
+    borderWidth:0,
+    borderRadius:15,
+   //borderLeftWidth:15,
+
+},
+index:{
+    fontSize:20,
+    fontWeight:'800',
+    color:brand
+},
+headingContainer:{
+   flexDirection:'row',
+   justifyContent:'space-between',
+      alignItems:'center',
+
+     backgroundColor:brand,
+     height:150
+   
+   
+},
+button:{
+    width:50,
+    borderRadius:100,
+    //justifyContent:'space-between',
+   
+    marginLeft:22,
+   // height:50,
+    marginTop :55,
+    //marginBottom : 20
+},
+buttonText:{
+    color:brand,
+    fontSize:32,
+    fontWeight:'800'
+},
+scrollView:{
+    marginBottom:70,
+},
+analyse:{
+    //flexDirection:'row',
+    width:'100%',
+    color:'black',
+    fontWeight:'bold',
+    alignItems:'center'
+
+},
+text:{
+  marginTop:25,
+    fontWeight:'400',
+    fontSize:25,
+    alignItems:'center',
+},
+dateContainer:{
+  marginTop:10,
+  flexDirection:'row',
+  justifyContent:'space-between',
+  alignContent:'center'
+},
+delete:{
+    fontWeight:'700',
+    fontSize:15
+},
+input:{
+    height:40,
+    paddingHorizontal:20,
+    width:'65%',
+    fontSize:19,
+    color:brand,
+    fontWeight:'600',
+    opacity:0.8,
+    marginTop:0.4,
+    shadowOpacity:0.5,
+    shadowOffset:{width:0, height:4},
+    shadowRadius:8,
+    elevation:5,
+    backgroundColor:'#fff',
+    borderWidth:2,
+    borderRadius:5,
+},
+searchContainer:{
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between',
+    marginVertical:8,
+},
+searchButton:{
+    alignItems:"center",
+    justifyContent:'center',
+    width:60,
+    borderRadius:5,
+    height:40
+},
+searchButtonText:{
+    color:"#fff",
+    fontWeight:'700',
+    fontSize:12,
+},
+emptyAnalyseContainer:{
+    alignItems:'center',
+    marginTop:140,
+},
+emptyAnalyseText:{
+    fontWeight:'600',
+    fontSize:15,
+    justifyContent:'center',
+    textAlign:'justify'
+},
+
+container: {
+
+  justifyContent: 'center',
+  alignItems: 'center',
+  opacity: 0.5,
+  marginTop:StatusBarHeight 
+
+},
 }) 
+
 export default ListeVaccin;

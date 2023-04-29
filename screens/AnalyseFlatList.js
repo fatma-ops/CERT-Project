@@ -8,11 +8,7 @@ import { Colors } from '../components/styles';
 const { green, brand, darkLight, primary } = Colors;
 import { StatusBarHeight } from '../components/shared';
 import { FontAwesome5 } from '@expo/vector-icons';
-<<<<<<< Updated upstream
 //import { SearchBar } from 'react-native-screens';
-=======
-import  SearchBar from '../components/SearchBar';
->>>>>>> Stashed changes
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../components/SearchBar';
@@ -39,11 +35,7 @@ const AnalyseFlatList = ({ navigation }) => {
       setFilteredAnalyses(filtered);
     };
   useEffect(() => {
-<<<<<<< Updated upstream
-    axios.get(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/analyse/${email}?cache_bust=123456789`)
-=======
-    axios.get(`https://3a73-41-225-241-147.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
->>>>>>> Stashed changes
+    axios.get(`https://7783-196-232-115-1.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -154,7 +146,6 @@ header: {
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  alignSelf:'centre',
   color:brand
 
 },

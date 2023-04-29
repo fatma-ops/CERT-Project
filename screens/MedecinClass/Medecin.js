@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 const Medecin = () => {
     return(
     <Stack.Navigator screenOptions={{
-        headerShown : false}} >
+        headerShown : false  }} >
         <Stack.Screen name="ListeMedecins" component={ListeMedecins} />
         <Stack.Screen name="AddMedecin" component={AddMedecin}  />
         <Stack.Screen name="AfficheMedecin" component={AfficheMedecin}  />

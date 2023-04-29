@@ -1,156 +1,282 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, KeyboardAvoidingView, Keyboard, TextInput, TouchableOpacity, Alert, Platform, Image } from "react-native";
-import DatePicker from 'react-native-datepicker';
-import { StatusBar } from 'expo-status-bar';
-import { Formik } from 'formik';
-import { ActivityIndicator, Button } from 'react-native';
-import { Octicons, Ionicons } from '@expo/vector-icons';
-import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
-import { CredentialsContext } from '../../components/CredentialsContext';
-import RegularButton from '../../components/Buttons/RegularButton';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useContext , useState } from 'react';
+import { View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import moment from 'moment';
-import {
-    InnerContainer,
-    SubTitle,
-    StyledFormArea,
-    LeftIcon,
-    RightIcon,
-    StyledButton,
-    StyledInputLabel2,
-    StyledTextInput,
-    ButtonText,
-    Colors,
-    MsgBox,
-    ExtraView2,
-    PageSignup,
-    StyledContainer2,
-    ViewImage,
-    StyledContainer,
-    ExtraView,
-    TextLink,
-    TextLinkContent,
-} from '../../components/styles';
-import MessageModalImage from '../../components/Modals/MessageModalImage';
-import styled from 'styled-components';
+import axios from 'axios';
+import { Formik } from 'formik';
+import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+
+import MessageModal from '../../components/Modals/MessageModal';
+import { StatusBarHeight } from '../../components/shared';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CredentialsContext } from '../../components/CredentialsContext';
+import { KeyboardAvoidingView } from 'react-native-web';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle} from '../../components/styles';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import { ActivityIndicator } from 'react-native';
+import { StyleSheet } from 'react-native';
+import RegularButton3 from '../../components/Buttons/RegularButton3';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
+import SelectDropdown from 'react-native-select-dropdown';
 
-const { green, brand, darkLight, primary, secondary, tertiary } = Colors;
+const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
-const AddVaccin = ({ navigation, ...props }) => {
+const  AddVaccin = ({navigation}) =>  {
+  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+  const [message, setMessage] = useState();
+  const [messageType, setMessageType] = useState();
+      
+
+  const { email } = storedCredentials;
+  console.log(email);
+//date
+const [date , setDate] = useState(new Date(2000,0,1));
+const [dob , setDob] = useState() ; 
+const [show , setShow] = useState(false);
+
+const specialities = [
+  "Cardiologie",
+  "Dermatologie",
+  "Endocrinologie",
+  "Gastro-entérologie",
+  "Gynécologie",
+  "Neurologie",
+  "Ophtalmologie",
+  "Oncologie",
+  "Oto-rhino-laryngologie",
+  "Pédiatrie",
+  "Psychiatrie",
+  "Rhumatologie",
+  "Urologie"
+];
+const onChange = (event , selectedDate) => {
+    const currentDate = selectedDate || date ;
+    setShow(false);
+    setDate(currentDate);
+    setDob(currentDate);
+   }
+   
+   const showDatePicker = () =>{
+       setShow(true);
+   }
 
 
-const pickImage = async () => {
-  // No permissions request is necessary for launching the image library
-  let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-  });
-   console.log(result);
+  const [modalVisible , setModalVisible] = useState(false);
+  const [modalMessageType , setModalMessageType] = useState('');
+  const [headerText , setHeaderText]= useState('');
+  const [modalMessage , setModalMessage] = useState('');
+  const [buttonText , setButtonText] = useState('');
 
-  if (!result.canceled) {
-    props.setVaccinImage(result.assets[0].uri);
-  }
+
+
+  const buttonHandler = () => {
+    if(modalMessageType === 'success'){
+        //do something
+    }
+    
+        setModalVisible(false);
+    };
+
+    const ShowModal = (type , headerText , message , buttonText) => {
+        setModalMessageType(type);
+        setHeaderText(headerText);
+        setModalMessage(message);
+        setButtonText(buttonText);
+        setModalVisible(true);
+        }
+
+
+
+  const pickImage = async (setFieldValue) => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setFieldValue('image', result.uri);
+    }
+  };
+
+  const submitAnalyse = async (values ,setSubmitting) => {
+    handleMessage(null);
+    setSubmitting(true);
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('date', values.date);
+    formData.append('testimage', {
+      uri: values.image,
+      name: 'image.png',
+      type: 'image/png'
+    });
+    formData.append('userEmail', email);
+
+    try {
+      const response = await axios.post('https://7783-196-232-115-1.ngrok-free.app/api/v1/vaccin/add', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      console.log(response.data);
+      navigation.navigate('ListeVaccin')
+
+      setSubmitting(false);
+
+    } catch (error) {
+    setSubmitting(false);
+    handleMessage(error.message);
+
+      console.error(error);
+    }
+  };
+  const handleMessage = (message, type = 'FAILED') => {
+    setMessage(message);
+    setMessageType(type);
 };
 
- 
- const showDatePicker = () =>{
-     setShow(true);
- }
- const [showPicker, setShowPicker] = useState(false);
- const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
- const handlePress = () => {
-  setShowPicker(true);
-};
-
-  const [show, setShow] = useState(false);
-return(
-    <ScrollView>
-      <KeyboardAvoidingWrapper>
-      <StyledContainer>
-                <StatusBar style="dark" />
-                <InnerContainer>
+  return (
+    <KeyboardAvoidingWrapper>
+        <StyledContainer>
+        <StatusBar style="light" />
+        <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="left" size={25} color={brand} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>          Ajouter un vaccin</Text>
+      </View>
+     <InnerContainer>  
+    
+                    <SubTitle></SubTitle>
                    
-                            <StyledFormArea>
-                                <Text style={styles.label}>Nom du vaccin</Text>
-                                <StyledTextInput  {...props} 
-                                    placeholder=" vaccin corona "
-                                    placeholderTextColor={darkLight}
-                                    value={props.vaccinName}
-                                    onChangeText={(text) => props.setVaccinName(text)}                                   
+                    {show && (
+                   <DateTimePicker
+                   testID= "dateTimePicker"
+                   value={date}
+                   mode='date'
+                   is24Hour={true}
+                   display="default"
+                   onChange={onChange}
 
-                                />
-                                <Text style={styles.label}>Maladie ciblee</Text>
-                                <StyledTextInput  {...props} 
-                                    placeholder=" covid "
-                                    placeholderTextColor={darkLight}
-                                    value={props.vaccinMaladie}
-                                    onChangeText={(text) => props.setVaccinMaladie(text)}                                   
+                   />
 
-                                />
-                                
-                                <Text style={styles.label}>Date</Text>
-                                <TouchableOpacity  style={styles.date} onPress={handlePress}>
-        <Text>
-        <DateTimePicker 
-                                  mode="date"
-                                  display="default"
-                                  testID= "dateTimePicker"
+
+                    )}
+
+
+
+    <Formik
+      initialValues={{ title: '',maladieCible:'', date: '',commentaire:'', image: null }}
+      onSubmit={(values, { setSubmitting }) => {
+        if (values.title == '' , values.maladieCible =='' ) {
+            handleMessage('Veuillez remplir  les champs obligatoire');
+            setSubmitting(false);
+        } else {
+            submitAnalyse(values, setSubmitting);
+
+        }
+    
+      }}
+    >
+      {({ handleChange, handleBlur, handleSubmit, setFieldValue, values , isSubmitting }) => (
+        <StyledFormArea>
+          
          
-                                  date={new Date(props.vaccinDate)}
-                                  value={props.vaccinDate}
-                                  onConfirm={(selectedDate) => {
-                                    const formattedDate =moment(selectedDate).format("YYYY-MM-DD");
-
-                                    props.setDate(formattedDate);
-
-                                    setDatePickerVisibility(false);
-                                  }}
-                                  onCancel={() => setDatePickerVisibility(false)}
-
-                                />
-        </Text>
-      </TouchableOpacity>
-     
-                                <Text style={styles.label}>Commentaire</Text>
-                                <TextInput style={styles.comentaire} {...props} 
-                                    placeholder=" ... "
-                                    placeholderTextColor={darkLight}
-                                    value={props.vaccinCmnt}
-                                    onChangeText={(text) => props.setVaccinCmnt(text)}                                   
-                                />
-                                <Text style={styles.label}>Résultat du Vaccin</Text>
-
-                                <ViewImage onPress={pickImage}>
-
-                               <Ionicons name='camera' onPress={pickImage} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-                              <TouchableOpacity onPress={pickImage} style={styles.image}>
-                             {props.vaccinImage && <Image source={{ uri: props.vaccinImage }} style={{height:200,width:'199%'}} />}
-
-                               </TouchableOpacity> 
-
-                              <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
-
-                              </ViewImage> 
+          <MyTextInput
+           label="Vaccin"
+           icon="id-badge"
+           placeholder="Analyse"
+           placeholderTextColor={darkLight}
+           onChangeText={handleChange('title')}
+           onBlur={handleBlur('title')}
+           value={values.title}
                               
+                          />
+                          <Text style={styles.label}>Maladie cible</Text> 
+         <SelectDropdownStyle>              
+         <SelectDropdown
+            label="Maladie cible"
+            data={specialities}
+            onSelect={(selectedItem, index) => {
+              setFieldValue('specialite', selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText="Choisir la maladie cible"
+          />
+          </SelectDropdownStyle>
+           <MyTextInput
+                                    label="Date"
+                                    icon="calendar"
+                                    placeholder = "AAAA - MM - JJ"
+                                    placeholderTextColor={darkLight}
+                                    onChangeText={handleChange('date')}
+                                    onBlur={handleBlur('date')}
+                                    value={dob ? dob.toDateString() : '' }
+                                    isDate={true}
+                                    editable={false}
+                                    showDatePicker={showDatePicker}
+                                    
+
                                 
-                                <RegularButton2 style={{ justifyContent: 'center' , alignContent:'center' , alignSelf:'center', marginTop:20}} onPress ={() => {
-                                    if (props.vaccinName === '' ||  props.vaccinImage === '') {
-                                    Alert.alert('Please fill in all fields');
-                                    } else {
-                                    props.handleAdd();
-                                    navigation.navigate('Vaccins');
-                                    }
-                                  }}>
-                                      <ButtonText>
-                                            Enregistrer
-                                      </ButtonText>                                    
-                                      </RegularButton2>
-                                      <ExtraView>
+                                />
+
+           <Text style={styles.label}>Résultat du vaccin</Text>
+            <ViewImage style={styles.imageContainer}>
+
+            <Ionicons name='camera' onPress={() => pickImage(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
+            <TouchableOpacity onPress={() => pickImage(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
+            {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
+            </TouchableOpacity> 
+
+                <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
+
+            </ViewImage>
+            <Text style={styles.label}>Commentaire</Text>               
+            <TextInput style={styles.comentaire}
+          //label="Commenataire"
+           placeholder="..."
+           placeholderTextColor={darkLight}
+           multiline={true}
+           onChangeText={handleChange('commentaire')}
+           onBlur={handleBlur('commentaire')}
+           value={values.commentaire}
+            />
+
+
+          <MsgBox type={messageType}>
+                              {message}
+                          </MsgBox>
+                          <View style={{ justifyContent: 'center'}}>
+                          {!isSubmitting && <RegularButton2 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf:'center'}}>
+                                    <ButtonText>
+                                      Ajouter
+                                    </ButtonText>
+                                </RegularButton2>}
+
+                                {isSubmitting && <RegularButton2 disabled={true}>
+                                    <ActivityIndicator size="large" color={primary} />
+                                </RegularButton2>}
+                                </View>
+                                <ExtraView>
                              
                               <TextLink onPress={() => navigation.goBack()}>
                                   <TextLinkContent style={{ justifyContent: 'center' , alignContent:'center' , alignSelf:'center'}} >
@@ -158,93 +284,165 @@ return(
                                   </TextLinkContent>
                               </TextLink>
                           </ExtraView>
-                                    
-                                    
-                                
-                            </StyledFormArea>
-                            
-                              
-        
-                         </InnerContainer>
-                         </StyledContainer>
-                         </KeyboardAvoidingWrapper>    
-                         </ScrollView>
-    
+          </StyledFormArea>
+      )}
+    </Formik>
+    </InnerContainer> 
+    </StyledContainer>
+    </KeyboardAvoidingWrapper>
   );
-};
-const styles = StyleSheet.create({
-  date:{
-    backgroundColor :secondary,
-    padding:15,
-    paddingLeft:55,
-    height:60,
-    borderRadius:20,
-    fontSize:16,
-    marginVertical:3,
-    marginBottom:10,
-    color:tertiary,
-    shadowOpacity:0.25,
-    shadowOffset:{width:0.5,height:2},
-    shadowRadius:1,
-    marginRight:-10,
-    marginLeft:-10,
-  },
-  container: {
+}
+
+const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePicker, setHidePassword, ...props }) => {
+    return (
+        <View>
+            <LeftIcon>
+                <Octicons name={icon} size={24} color={brand} />
+  
+            </LeftIcon>
+            
+            <StyledInputLabel2> {label}</StyledInputLabel2>
+                {!isDate && <StyledTextInput  {...props} />}
+                {isDate && (
+                <TouchableOpacity onPress={showDatePicker}> 
+                    
+                    <StyledTextInput  {...props} />
+                    </TouchableOpacity>)}
+            {isPassword && (
+                <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
+                </RightIcon>
+  
+            )}
+  
+        </View>
+    );
+  
+  }
+  const styles = StyleSheet.create({
+    container: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      padding: 20,
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop:StatusBarHeight -40,
+        paddingBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: darkLight,
+        
+      },
+      headerTitle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        color:brand
+
+      },
+      backButton: {
+        marginRight: 10,
+        marginLeft: -9,
+      },
+    input: {
+      borderWidth: 1,
+      borderColor: '#ccc',
       padding: 10,
-  },
-  label: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      marginBottom: 0,
-
-  },
-  text: {
-      fontSize:20,
-      fontWeight:'bold'
-  },
-  image: {
-    position:'absolute' ,
-    padding:25,left:70, 
-    paddingRight:65 ,
-    paddingLeft:15, 
-    borderRadius: 20 ,
-    fontSize:16 ,
-    height:200,
-    width:'90%',
-    zIndex:1,
-    marginVertical:3 , 
-    justifyContent:'center' , 
-    alignSelf:'center',
-    alignItems:'center',
-    shadowOpacity:0.25,
-    shadowOffset:{width:0.5,height:2},
-    shadowRadius:1,
-    marginRight:-10,
-    marginLeft:-10,
-
-  },
-  comentaire: {
-    backgroundColor :secondary,
-    //padding:7,
+      borderRadius: 5,
+      width: '100%',
+      marginBottom: 20,
+    },
+    image: {
+      width: 200,
+      height: 200,
+      marginTop: 20,
+    },
+    imageContainer:
+    { backgroundColor:secondary,
+    padding:15,
     paddingLeft:55,
-    height:100,
     borderRadius: 20,
     fontSize:16,
-    //height:60,
+    height:200,
     marginVertical:3,
     marginBottom:10,
     color:tertiary,
     shadowOpacity:0.25,
-    shadowOffset:{width:0.5,height:2},
+    shadowOffset:{width:2, height:4},
     shadowRadius:1,
-    marginRight:-10,
+    elevation:5,
     marginLeft:-10,
-
+    marginRight:-10,
   },
-});
-
-
-export default AddVaccin;
+  dropdownContainer: {
+    backgroundColor: secondary,
+    padding:15,
+    paddingLeft:55,
+    borderRadius: 20,
+    height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:2,
+    shadowRadius:1,
+    marginLeft:-10,
+    marginRight:-10
+ 
+   },
+   dropdownButton: {
+     backgroundColor: secondary,
+     alignItems:'center',
+     marginTop:-10,
+     
+     
+   },
+   dropdownButtonText: {
+     fontSize: 16,
+     color: '#333',
+   
+   },
+   dropdown: {
+     borderWidth: 1,
+     borderColor: '#ccc',
+     borderRadius: 20,
+     backgroundColor: '#fafafa',
+     justifyContent:'center'
+   },
+   dropdownRow: {
+     paddingVertical: 10,
+     paddingHorizontal: 5,
+   },
+   dropdownRowText: {
+     fontSize: 16,
+     color: '#333',
+   },
+   selectedValue: {
+     fontSize: 18,
+     marginTop: 20,
+   },comentaire: {
+    //flex:1,
+    backgroundColor :secondary,
+    padding:25,
+    paddingLeft:55,
+    borderRadius: 20,
+    fontSize:16,
+    height:100,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft:-10,
+    marginRight:-10,
+  },
+  });
+  export default AddVaccin; 

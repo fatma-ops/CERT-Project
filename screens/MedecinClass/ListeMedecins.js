@@ -6,7 +6,7 @@ import { CredentialsContext } from '../../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
 import { Colors } from '../../components/styles';
 const { green, brand, darkLight, primary } = Colors;
-import { StatusBarHeight } from '../../components/shared';
+import { StatusBarHeight , ScreenWidth } from '../../components/shared';
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
 import { StatusBar } from 'react-native';
@@ -14,7 +14,7 @@ import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 
 
-const ListeMedecins = ({ navigation }) => {
+const ListeMedecins = ({ navigation  }) => {
   const [medecins, setMedecins] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 
@@ -40,11 +40,7 @@ const ListeMedecins = ({ navigation }) => {
 
 
   useEffect(() => {
-<<<<<<< Updated upstream
-    axios.get(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/${email}?cache_bust=123456789`)
-=======
-    axios.get(`https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/${email}?cache_bust=123456789`)
->>>>>>> Stashed changes
+    axios.get(`https://f973-197-15-82-75.ngrok-free.app/api/v1/medecin/${email}?cache_bust=123456789`)
       .then(response => setMedecins(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -63,32 +59,41 @@ const ListeMedecins = ({ navigation }) => {
   };
 
   return (
-   
-    <View style={[styles.analyseContainer]}>
-      
+    
+    <View style={[styles.analyseContainer2]}>
+              <StatusBar style="white" />
+              
       <View style={styles.headingContainer}>
-      <View style={{width:280 }}>
-      <StatusBar style="Light" />
+        <View style ={{flexDirection:'column'}}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>                      Mes contacts</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="left" size={28} color='white' />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>         Détails du médecin</Text>
+        
       </View>
+      <View style={{width:280 , paddingHorizontal:12 }}>
+      <StatusBar style="Light" />
+      
       <SearchBar
       value={searchQuery}
       onChangeText={handleOnSearchInput}
       containerStyle={{ marginVertical: 15 }}
     />
     </View>
+    </View>
+
     <View>
         <TouchableOpacity
           style={[styles.button]}
           onPress={() => navigation.navigate('AddMedecin')}
         >
-          <MaterialIcons name="add" size={25} color={brand} />
-          <Text style={{ marginLeft: -15, color: darkLight }}> Ajouter</Text>
+          <MaterialIcons name="add" size={25} color='white' />
+          <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
     </View>
-    <View style={{ flexDirection: 'row', alignContent: 'center' }}>
+    <View style={{ flexDirection: 'row', alignContent: 'center' , marginTop:5 , paddingHorizontal:12 }}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
         Totale:
       </Text>
@@ -96,8 +101,9 @@ const ListeMedecins = ({ navigation }) => {
         {medecins ? medecins.length : 0}
       </Text>
     </View>
+    <View style={[styles.analyseContainer]}>
 
-<FlatList
+    <FlatList
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
   data={medecins}
@@ -112,17 +118,24 @@ const ListeMedecins = ({ navigation }) => {
     >
       <View style={styles.item} key={index}>
         <View style={styles.analyse}>
-          <Text style={styles.title}>{item.nom}</Text>
-          <Text style={styles.dateContainer}>{item.specialite}</Text>
-          
+
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={require('../../assets/img/doctorr.png')}
+              resizeMode="cover"
+            />
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>{item.nom}</Text>
+            <Text style={styles.specialty}>{item.specialite}</Text>
+          </View>
         </View>
       </View>
-     
     </TouchableOpacity>
-    
   )}
 />
-
+</View>
 </View>
 
  
@@ -132,11 +145,16 @@ const ListeMedecins = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   analyseContainer:{
-    paddingTop:40,
     paddingHorizontal:15,
     marginBottom:70,
     opacity:0.9,
     justifyContent:'space-between',
+
+},
+analyseContainer2:{
+  marginBottom:70,
+  opacity:0.9,
+  justifyContent:'space-between',
 
 },
 headingContainer:{
@@ -149,18 +167,18 @@ headingContainer:{
 header: {
   flexDirection: 'row',
   alignItems: 'center',
-  marginTop:StatusBarHeight -30,
-  paddingBottom: 20,
-  borderBottomWidth: 1,
-  borderBottomColor: darkLight,
-  marginRight:-50,
-  marginLeft:10
+  justifyContent: 'center', // To center the header
+ 
+  marginHorizontal:-10 , // To remove the left and right padding
+  paddingHorizontal: 10, // To add the padding back
 },
+
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  alignSelf:'centre',
-  color:brand
+  color:'white',
+  marginLeft:8,
+  
 
 },
 backButton: {
@@ -198,6 +216,8 @@ headingContainer:{
     flexDirection:'row',
    justifyContent:'space-between',
    alignItems:'center',
+   backgroundColor:brand,
+   height:150
 },
 button:{
     width:50,
@@ -218,7 +238,7 @@ scrollView:{
     marginBottom:70,
 },
 analyse:{
-    //flexDirection:'row',
+    flexDirection:'row',
     width:'100%',
     color:'black',
     //fontWeight:'bold',
@@ -303,6 +323,31 @@ container: {
   opacity: 0.5,
   marginTop:StatusBarHeight 
 
+},
+imageContainer: {
+  width: 70,
+  height: 70,
+  borderRadius: 35,
+  overflow: 'hidden',
+  marginRight: 10,
+ 
+},
+image: {
+  width: '100%',
+  height: '100%',
+},
+textContainer: {
+  flex: 1,
+},
+title: {
+  fontWeight: '400',
+  fontSize: 15,
+  color: brand,
+},
+specialty: {
+  fontSize: 13,
+  color: '#555',
+  marginTop: 3,
 },
 }) 
 

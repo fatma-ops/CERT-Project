@@ -1,20 +1,17 @@
 import React , { useEffect, useState , useContext } from 'react';
-import { Dimensions, Image } from 'react-native';
-import {Text , StyleSheet , StatusBar , View , TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity,StatusBar, View, Text, Image } from 'react-native';
+import { Colors } from '../components/styles';
 import { CredentialsContext } from './../components/CredentialsContext';
-import { ScreenHeight, StatusBarHeight } from '../components/shared';
-import { CenterIcon, Colors } from '../components/styles';
-import RowContainer from '../components/Containers/RowContainer';
-import { useNavigation } from '@react-navigation/native';
-const {brand , darkLight} = Colors
+import { StatusBarHeight } from '../components/shared';
+import RowContainer2 from '../components/Containers/RowContainer2';
+
+const {brand , secondary , darkLight , red} = Colors
 
 
-const { width } = Dimensions.get("window");
-
-const HomeScreen = () => {
-
-
-  const navigation = useNavigation();
+export default function HomeScreen({ navigation }) {
+  const handleCubePress = (screenName) => {
+    navigation.navigate(screenName);
+  };
   const [greet, setGreet] = useState('');
  
   useEffect(() => {
@@ -26,101 +23,80 @@ const HomeScreen = () => {
     };
     findGreet();
   }, []);
-  
-    
   const {storedCredentials , setStoredCredentials}=useContext(CredentialsContext);
 
-    const {nom,prenom} = storedCredentials;
-    console.log(nom , prenom)
-    return (
+  const {nom,prenom} = storedCredentials;
+  console.log(nom , prenom)
+  return (
+    
       <>
-        <StatusBar barStyle='dark-content' />
-        <View style={styles.container}>
-            <Text style={styles.header}>{`${greet}  `}</Text>
+      
+        <View style={styles.container2}>
+        <StatusBar style= {brand} />
+            <Text style={styles.header}>{`${greet} `}</Text>
             <Text style={styles.header2}>{`${prenom} !`}</Text>
+          
           </View>
-        
-          <RowContainer>
-          <View style={styles.item}  >
-         
-            <TouchableOpacity onPress={() => navigation.navigate('Vaccin')}>
-            <Image
+          <View  style={styles.container}>
+          <View style={styles.row}>
+      
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin')}>
+        <Image
           style={styles.avatar}
-          source={require('./../assets/img/vaccinewhite.png')}
+          source={require('./../assets/img/bleuVaccin.png')}
         />
-        <Text style={styles.Text} >Mes vaccins</Text>
-
-            </TouchableOpacity>
-         
-        </View>
-        <View style={styles.item}  >
-         
-            <TouchableOpacity  onPress={() => navigation.navigate('Analyse')}  >
-            <Image
-           
+          <Text style={styles.text}>Mes Vaccins</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Screen2')}>
+        <Image
           style={styles.avatar}
-          source={require('./../assets/img/analysewhite.png')}
+          source={require('./../assets/img/pills.png')}
         />
-        <Text style={styles.Text} >Mes analyses</Text>
-        
-             
-            </TouchableOpacity>
-         
-        </View> 
-        </RowContainer>
-
-
-        
-         
+          <Text style={styles.text}>Mes médicaments</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.row}>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Screen3')}>
+        <Image
+          style={styles.avatar}
+          source={require('./../assets/img/consultation.png')}
+        />
+          <Text style={styles.text}>Mes Consultations</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AnalyseFlatList')}>
+        <Image
+          style={styles.avatar}
+          source={require('./../assets/img/medical-history.png')}
+        />
+          <Text style={styles.text}>Mes analyses</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.row}>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Medecin')}>
+        <Image
+          style={styles.avatar}
+          source={require('./../assets/img/doctor.png')}
+        />
+          <Text style={styles.text}>Mes médecins</Text>
+        </TouchableOpacity>
        
-       
-        
-
-       
+      </View>
+      </View>
       </>
     );
   }
   
   const styles = StyleSheet.create({
-    header: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      color:brand,
-      marginTop:StatusBarHeight + 60,
-
-    },
-    header2: {
-      fontSize: 25,
-     
-      color:brand,
-      marginTop:StatusBarHeight + 60,
-    },
-    container: {
+    
+    
+    container2: {
       paddingHorizontal: 20,
-      flex: 1,
-      zIndex: 1,
-      flexDirection:'row'
+
+      flexDirection:'row',
+      marginTop:StatusBarHeight-90,
+
     },
-    item:{ 
-      marginBottom: StatusBarHeight + 400,
-      padding:20,
-      color:darkLight,
-      opacity:1,
-      marginLeft:30,
-      marginRight:30,
-
-      marginTop:StatusBarHeight ,
-      shadowOpacity:0.25,
-      shadowOffset:{width:2, height:1},
-      shadowRadius:2,
-      elevation:5,
-      
-      backgroundColor:brand,
-      borderWidth:0,
-      borderRadius:15,
-     //borderLeftWidth:15,
-
-  },
+    
   Text: {
    
     
@@ -130,8 +106,8 @@ const HomeScreen = () => {
   },
   avatar: {
     
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     alignItems:'center',
     alignSelf:'center',
     alignContent:'center',
@@ -139,14 +115,52 @@ const HomeScreen = () => {
     
     
     
-  }
+  },container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+  row: {
+    flexDirection: 'row',
+    
+  },
+  cube: {
+    width: 150,
+    height: 150,
+
+    backgroundColor: secondary,
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:20,
+    shadowOpacity:14,
+    shadowOpacity:0.25,
+shadowOffset:2,
+shadowRadius:1,
+elevation:5
+  },
+  text: {
+    color: brand,
+    fontWeight: 'bold',
+    marginTop:10
+  },
+  header: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color:brand,
+    marginTop:StatusBarHeight + 60,
+
+  },
+  header2: {
+    fontSize: 25,
+    marginTop:StatusBarHeight + 60,
+
+    color: brand,
+   
+  },
+  
     
   });
-  
-  export default HomeScreen;
-   
-
-
 
 
 
