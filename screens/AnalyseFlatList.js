@@ -8,7 +8,7 @@ import { Colors } from '../components/styles';
 const { green, brand, darkLight, primary } = Colors;
 import { StatusBarHeight } from '../components/shared';
 import { FontAwesome5 } from '@expo/vector-icons';
-import  SearchBar from '../components/SearchBar';
+//import { SearchBar } from 'react-native-screens';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
@@ -34,7 +34,7 @@ const AnalyseFlatList = ({ navigation }) => {
       setFilteredAnalyses(filtered);
     };
   useEffect(() => {
-    axios.get(`https://ffdc-102-159-72-228.eu.ngrok.io/api/v1/analyse/${email}?cache_bust=123456789`)
+    axios.get(`https://7783-196-232-115-1.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -145,7 +145,6 @@ header: {
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  alignSelf:'centre',
   color:brand
 
 },

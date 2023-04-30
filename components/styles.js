@@ -11,7 +11,7 @@ export const Colors = {
   darkLight: "#9CA3AF",
   brand: '#034c81',
   green: '#42bd86',
-  red: '#EF4444',
+  red: '#D80027',
   accent :'#00ADB5',
   black:'#111111'
 };

@@ -104,7 +104,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://ffdc-102-159-72-228.eu.ngrok.io/api/v1/analyse/add', formData, {
+      const response = await axios.post('https://7783-196-232-115-1.ngrok-free.app/api/v1/analyse/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -293,7 +293,6 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        alignSelf:'centre',
         color:brand
 
       },

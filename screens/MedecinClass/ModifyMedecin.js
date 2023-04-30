@@ -7,7 +7,7 @@ import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import MessageModal from '../../components/Modals/MessageModal';
 
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire} from '../../components/styles';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -15,7 +15,7 @@ import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { StatusBarHeight } from '../../components/shared';
 
-const { brand, darkLight, primary , secondary } = Colors;
+const { brand, darkLight, primary , secondary , tertiary } = Colors;
 
 const  ModifyMedecin = ({navigation , route}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -87,7 +87,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
             setSubmitting(true);
       
         try {
-          const response = await fetch(`https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/put/${id}`, {
+          const response = await fetch(`https://7783-196-232-115-1.ngrok-free.app/api/v1/medecin/put/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'
@@ -98,7 +98,8 @@ const  ModifyMedecin = ({navigation , route}) =>  {
               adresse: values.adresse,
               specialite: values.specialite,
               numero: values.numero,
-              commentaire: values.commentaire
+              commentaire: values.commentaire,
+              userEmail:values.email
             })
           });
       
@@ -112,10 +113,9 @@ const  ModifyMedecin = ({navigation , route}) =>  {
             setAdresse(data.adresse);
             setNumero(data.numero);
             setCommenataire(data.commenataire);
-      
             // Show a success message to the user
            // ShowModal('success', "Contact mis à jour", "Votre contact a été mis à jour avec succès !", 'OK');
-           navigation.navigate('Medecin')
+           navigation.navigate('ListeMedecin')
           } else {
             // Show an error message to the user
             handleMessage(data.message, 'FAILED');
@@ -142,13 +142,13 @@ const  ModifyMedecin = ({navigation , route}) =>  {
   return (
     <KeyboardAvoidingWrapper>
         <StyledContainer>
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
        
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('ListeMedecin')} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter un contact</Text>
+        <Text style={styles.headerTitle}>Modifier un contact</Text>
       </View>
      
 
@@ -159,7 +159,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
 
 
     <Formik
-      initialValues={{ nom: nom, id:id , adresse: adresse, specialite: specialite, numero:numero , commentaire:commentaire }}
+      initialValues={{ nom: nom, id:id ,email:email, adresse: adresse, specialite: specialite, numero:numero , commentaire:commentaire }}
       onSubmit={(values, { setSubmitting }) => {
         if (values.nom == ''||values.adresse == ''||values.specialite == ''||values.numero == '' ) {
             handleMessage('Veuillez remplir  les champs');
@@ -188,7 +188,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
          
          <Text style={styles.label}>Spécialité</Text>
              
-                          
+         <SelectDropdownStyle>          
           <SelectDropdown
   label="Specialité"
   data={specialities}
@@ -208,6 +208,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
   rowTextStyle={styles.dropdownRowText}
   defaultButtonText="Choisir la spécialité"
 />
+</SelectDropdownStyle>
 
         
                            <MyTextInput
@@ -359,48 +360,52 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       },
    
    
-    dropdownButton: {
-      backgroundColor: secondary,
-      alignItems:'center',
-      borderRadius:20,
-      padding:15,
-      paddingLeft:55,
-      height:60,
-      marginVertical:3,
-       marginBottom:10,
-      shadowOpacity:0.25,
-       shadowOffset:2,
+      dropdownContainer: {
+        backgroundColor: secondary,
+        padding:15,
+        paddingLeft:55,
+        borderRadius: 20,
+        height:60,
+        marginVertical:3,
+        marginBottom:10,
+        color:tertiary,
+        shadowOpacity:0.25,
+        shadowOffset:2,
         shadowRadius:1,
-      marginLeft:-10,
-       marginRight:-10,
+        marginLeft:-10,
+        marginRight:-10
+     
+       },
+       dropdownButton: {
+         backgroundColor: secondary,
+         alignItems:'center',
+         marginTop:-10,
+         
+         
+       },
+       dropdownButtonText: {
+         fontSize: 16,
+         color: '#333',
        
-      
-      
-      
-    },
-    dropdownButtonText: {
-      fontSize: 17,
-      color: '#333',
-    
-    },
-    dropdown: {
-      borderWidth: 1,
-      borderColor: '#ccc',
-      borderRadius: 20,
-      backgroundColor: '#fafafa',
-      justifyContent:'center'
-    },
-    dropdownRow: {
-      paddingVertical: 10,
-      paddingHorizontal: 5,
-    },
-    dropdownRowText: {
-      fontSize: 16,
-      color: '#333',
-    },
-    selectedValue: {
-      fontSize: 18,
-      marginTop: 20,
-    },
+       },
+       dropdown: {
+         borderWidth: 1,
+         borderColor: '#ccc',
+         borderRadius: 20,
+         backgroundColor: '#fafafa',
+         justifyContent:'center'
+       },
+       dropdownRow: {
+         paddingVertical: 10,
+         paddingHorizontal: 5,
+       },
+       dropdownRowText: {
+         fontSize: 16,
+         color: '#333',
+       },
+       selectedValue: {
+         fontSize: 18,
+         marginTop: 20,
+       },
   });
   export default ModifyMedecin; 

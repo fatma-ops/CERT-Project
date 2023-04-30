@@ -52,7 +52,7 @@ const handleCodeVerification = async () => {
     const email = route.params.email;
     console.log('Verifying code for email:', email);
     console.log('Verification code:', code);
-    const response = await fetch('https://8f95-197-15-244-61.ngrok-free.app/api/v1/otp/verify',{
+    const response = await fetch('https://7783-196-232-115-1.ngrok-free.app/api/v1/otp/verify',{
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -85,7 +85,7 @@ const resendEmail = async (triggerTimer) => {
     const email = route.params.email;
 
     console.log('Verifying code for email:', email);
-    const response = await fetch('https://f072-197-15-199-158.ngrok-free.app/api/v1/forget_password', {
+    const response = await fetch('https://7783-196-232-115-1.ngrok-free.app/api/v1/forget_password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

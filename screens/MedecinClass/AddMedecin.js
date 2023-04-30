@@ -84,7 +84,7 @@ const  AddMedecin = ({navigation}) =>  {
         
           try {
             const response = await axios.post(
-              'https://ffdc-102-159-72-228.eu.ngrok.io/api/v1/medecin/add',
+              'https://7783-196-232-115-1.ngrok-free.app/api/v1/medecin/add',
               data,
               {
                 headers: {
@@ -93,7 +93,7 @@ const  AddMedecin = ({navigation}) =>  {
               }
             );
             console.log(response.data);
-            navigation.navigate('ListeMedecin')
+            navigation.navigate('ListeMedecin');
 
             setSubmitting(false);
           } catch (error) {
@@ -127,7 +127,7 @@ const  AddMedecin = ({navigation}) =>  {
     <Formik
       initialValues={{ nom: '', adresse: '', specialite: '', numero:'' , commentaire:'' }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.nom == ''||values.adresse == ''||values.specialite == ''||values.numero == '' ) {
+        if (values.nom == ''||values.specialite == '' ) {
             handleMessage('Veuillez remplir  les champs');
             setSubmitting(false);
         } else {
@@ -203,7 +203,7 @@ const  AddMedecin = ({navigation}) =>  {
            placeholderTextColor={darkLight}
            multiline={true}
            onChangeText={handleChange('commentaire')}
-           onBlur={handleBlur('commenataire')}
+           onBlur={handleBlur('commentaire')}
            value={values.commentaire}
             />
           
@@ -299,7 +299,6 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        alignSelf:'centre',
         color:brand
 
       },

@@ -22,7 +22,6 @@ const AfficheMedecin = ({ navigation , route }) => {
   const buttonHandler = () => {
     if(modalMessageType === 'success'){
         handleDelete();
-        navigation.navigate('ListeMedecin');
     }else  if(modalMessageType === 'close'){
       navigation.navigate('AfficheMedecin');
     }
@@ -41,11 +40,13 @@ const AfficheMedecin = ({ navigation , route }) => {
 
     const handleDelete = async () => {
       try {
-        const response = await fetch(`https://ffdc-102-159-72-228.eu.ngrok.io/api/v1/medecin/delete/${id}`, {
+        const response = await fetch(`https://7783-196-232-115-1.ngrok-free.app/api/v1/medecin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
         setResult(data);
+        navigation.navigate('ListeMedecin');
+
       } catch (err) {
         console.error(err);
         setResult('Erreur');
@@ -72,7 +73,7 @@ const AfficheMedecin = ({ navigation , route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Image source={require('../../assets/img/user.png')} style={styles.doctorImage} />
+        <Image source={require('../../assets/img/doctorr.png')} style={styles.doctorImage} />
         <View style={styles.infoContainer}>
         <View style={styles.sectionContent}>
             <View style={styles.heelo}>

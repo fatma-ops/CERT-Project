@@ -61,7 +61,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
       
       const handleOnSubmit = async (credentials, setSubmitting) => {
         try {
-            const response = await axios.post('https://8887-102-157-67-100.eu.ngrok.io/api/v1/forget_password/change', credentials);
+            const response = await axios.post('https://7783-196-232-115-1.ngrok-free.app/api/v1/forget_password/change', credentials);
             if (response.status === 200) {
               handleMessage('Mot de passe changé avec succès', 'SUCCESS');
               ShowModal('success', "Réussie", "Mot de passe changé avec succès!", 'OK');

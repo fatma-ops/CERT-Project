@@ -14,7 +14,7 @@ import Medecin from '../screens/MedecinClass/Medecin'
 //import AddAnalyse from '../screens/AddAnalyse'
 
 
-const { darkLight, brand } = Colors;
+const { darkLight, brand , red } = Colors;
 
 
 const Tab = createBottomTabNavigator();
@@ -74,7 +74,7 @@ export default function NavBarre() {
                                 borderRadius: Platform.OS == "ios" ? 25 : 30,
                                 alignItems: "center",
                                 justifyContent: 'center',
-                                backgroundColor: brand
+                                backgroundColor:brand
                             }}>
                                 <FontAwesome name='plus' size={24} color='white' />
 
