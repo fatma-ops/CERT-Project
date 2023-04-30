@@ -84,11 +84,7 @@ const  AddMedecin = ({navigation}) =>  {
         
           try {
             const response = await axios.post(
-<<<<<<< Updated upstream
-              'https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/add',
-=======
-              'https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/add',
->>>>>>> Stashed changes
+              'https://ffdc-102-159-72-228.eu.ngrok.io/api/v1/medecin/add',
               data,
               {
                 headers: {
@@ -177,7 +173,17 @@ const  AddMedecin = ({navigation}) =>  {
             defaultButtonText="Choisir la spécialité"
           />
           </SelectDropdownStyle>
-        
+          <MyTextInput
+           label="Numero"
+           icon2="call-outline"
+           placeholder="+216 ** *** *** "
+           placeholderTextColor={darkLight}
+           onChangeText={handleChange('numero')}
+           onBlur={handleBlur('numero')}
+           value={values.numero}
+           keyboardType="phone-pad"
+           />
+           
             <MyTextInput
            label="Adresse"
            icon="location"
@@ -188,16 +194,7 @@ const  AddMedecin = ({navigation}) =>  {
            value={values.adresse}
             />
 
-            <MyTextInput
-           label="Numero"
-           icon2="call-outline"
-           placeholder="+216 ** *** *** "
-           placeholderTextColor={darkLight}
-           onChangeText={handleChange('numero')}
-           onBlur={handleBlur('numero')}
-           value={values.numero}
-           keyboardType="phone-pad"
-           />
+           
 
           <Text style={styles.label}>Commentaire</Text>               
             <TextInput style={styles.comentaire}

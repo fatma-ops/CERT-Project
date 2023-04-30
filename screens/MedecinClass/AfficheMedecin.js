@@ -41,17 +41,7 @@ const AfficheMedecin = ({ navigation , route }) => {
 
     const handleDelete = async () => {
       try {
-<<<<<<< Updated upstream
-        const response = await axios.delete(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/delete/${id}`);
-        console.log(response.data);
-        navigation.navigate('ListeMedecin')
-
-        // faire quelque chose en cas de suppression réussie
-      } catch (error) {
-        console.error(error);
-        // faire quelque chose en cas d'erreur
-=======
-        const response = await fetch(`https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/delete/${id}`, {
+        const response = await fetch(`https://ffdc-102-159-72-228.eu.ngrok.io/api/v1/medecin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
@@ -59,7 +49,6 @@ const AfficheMedecin = ({ navigation , route }) => {
       } catch (err) {
         console.error(err);
         setResult('Erreur');
->>>>>>> Stashed changes
       }
     };
 
@@ -134,6 +123,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    marginBottom:50,
   },
   header: {
     flexDirection: 'row',

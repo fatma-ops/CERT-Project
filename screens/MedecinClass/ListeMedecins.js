@@ -40,11 +40,7 @@ const ListeMedecins = ({ navigation }) => {
 
 
   useEffect(() => {
-<<<<<<< Updated upstream
-    axios.get(`https://7d49-102-159-72-228.eu.ngrok.io/api/v1/medecin/${email}?cache_bust=123456789`)
-=======
-    axios.get(`https://3a73-41-225-241-147.ngrok-free.app/api/v1/medecin/${email}?cache_bust=123456789`)
->>>>>>> Stashed changes
+    axios.get(`https://ffdc-102-159-72-228.eu.ngrok.io/api/v1/medecin/${email}?cache_bust=123456789`)
       .then(response => setMedecins(response.data))
       .catch(error => console.log(error));
   }, [email]);
