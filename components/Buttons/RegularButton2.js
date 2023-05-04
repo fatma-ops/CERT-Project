@@ -21,8 +21,7 @@ shadow-Opacity:0.25;
 shadow-offset:2px;
 shadow-radius:1px;
 elevation:5;
-margin-left:1px;
-margin-right:90px;
+
 
 
 

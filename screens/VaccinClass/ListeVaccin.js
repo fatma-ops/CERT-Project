@@ -35,7 +35,7 @@ const ListeVaccin = ({ navigation }) => {
       setFilteredVaccins(filtered);
     };
   useEffect(() => {
-    axios.get(`https://1fd3-197-14-252-72.eu.ngrok.io/api/v1/vaccin/${email}?cache_bust=123456789`)
+    axios.get(`https://7131-102-159-92-143.eu.ngrok.io/api/v1/vaccin/${email}?cache_bust=123456789`)
       .then(response => setVaccins(response.data))
       .catch(error => console.log(error));
   }, [email]);

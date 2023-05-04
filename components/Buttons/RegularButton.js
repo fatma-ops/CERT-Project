@@ -9,11 +9,20 @@ const ButtonView = styled.TouchableOpacity`
 
 padding: 15px;
 background-color:${brand};
-width : 100%
+width : 105%
+justify-content:center;
+align-items:center;
 border-radius:10px;
-left : 10px;
-height:60px;
-
+height:50px;
+flex-direction:row;
+justify-content: space-between;
+margin-top:10px;
+shadow-Opacity:0.25;
+shadow-offset:2px;
+shadow-radius:1px;
+elevation:5;
+margin-left:-10px;
+margin-right:-10px;
 
 `;
 const RegularButton = (props) => {

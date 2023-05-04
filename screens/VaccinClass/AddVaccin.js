@@ -3,7 +3,7 @@ import { Alert,View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
-import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+import {  Fontisto,Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 
 import MessageModal from '../../components/Modals/MessageModal';
 import { StatusBarHeight } from '../../components/shared';
@@ -150,7 +150,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://1fd3-197-14-252-72.eu.ngrok.io/api/v1/vaccin/add', formData, {
+      const response = await axios.post('https://7131-102-159-92-143.eu.ngrok.io/api/v1/vaccin/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -224,35 +224,23 @@ const onChange = (event , selectedDate) => {
           <MyTextInput
            label="Vaccin"
            icon="id-badge"
-           placeholder="Analyse"
+           placeholder="Pfizer dose 1"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('title')}
            onBlur={handleBlur('title')}
            value={values.title}
                               
                           />
-                          <Text style={styles.label}>Maladie cible</Text> 
-         <SelectDropdownStyle>              
-         <SelectDropdown
-            label="Maladie cible"
-            data={specialities}
-            onSelect={(selectedItem, index) => {
-              setFieldValue('specialite', selectedItem);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-            buttonStyle={styles.dropdownButton}
-            buttonTextStyle={styles.dropdownButtonText}
-            dropdownStyle={styles.dropdown}
-            rowStyle={styles.dropdownRow}
-            rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir la maladie cible"
-          />
-          </SelectDropdownStyle>
+          <MyTextInput
+          label="Maladie ciblée"
+           icon2="injection-syringe"
+           placeholder="Covid-19"
+           placeholderTextColor={darkLight}
+           onChangeText={handleChange('title')}
+           onBlur={handleBlur('title')}
+           value={values.title}
+                              
+                          />
            <MyTextInput
                                     label="Date"
                                     icon="calendar"
@@ -269,9 +257,8 @@ const onChange = (event , selectedDate) => {
                                 
                                 />
 
-           <Text style={styles.label}>Résultat du vaccin</Text>
+           <Text style={styles.label}>Preuve de vaccination</Text>
             <ViewImage style={styles.imageContainer}>
-
             <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
             <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
             {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
@@ -280,9 +267,8 @@ const onChange = (event , selectedDate) => {
                 <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
 
             </ViewImage>
-            <Text style={styles.label}>Commentaire</Text>               
-            <TextInput style={styles.comentaire}
-          //label="Commenataire"
+            <MyTextInput style={styles.comentaire}
+          label="Commenataire"
            placeholder="..."
            placeholderTextColor={darkLight}
            multiline={true}
@@ -296,11 +282,11 @@ const onChange = (event , selectedDate) => {
                               {message}
                           </MsgBox>
                           <View style={{ justifyContent: 'center'}}>
-                          {!isSubmitting && <RegularButton2 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf:'center'}}>
+                          {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf:'center'}}>
                                     <ButtonText>
                                       Ajouter
                                     </ButtonText>
-                                </RegularButton2>}
+                                </RegularButton>}
 
                                 {isSubmitting && <RegularButton2 disabled={true}>
                                     <ActivityIndicator size="large" color={primary} />
@@ -323,15 +309,16 @@ const onChange = (event , selectedDate) => {
   );
 }
 
-const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePicker, setHidePassword, ...props }) => {
+const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showDatePicker, setHidePassword, ...props }) => {
     return (
         <View>
+            <StyledInputLabel2> {label}</StyledInputLabel2>
             <LeftIcon>
                 <Octicons name={icon} size={24} color={brand} />
-  
             </LeftIcon>
-            
-            <StyledInputLabel2> {label}</StyledInputLabel2>
+            <LeftIcon>
+                <Fontisto name={icon2} size={25} color={brand} marginTop='10' />
+            </LeftIcon>
                 {!isDate && <StyledTextInput  {...props} />}
                 {isDate && (
                 <TouchableOpacity onPress={showDatePicker}> 

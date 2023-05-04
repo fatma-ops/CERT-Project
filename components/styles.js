@@ -15,13 +15,11 @@ export const Colors = {
   accent :'#00ADB5',
   black:'#111111'
 };
-const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
+const { primary, secondary, tertiary, darkLight, brand, green, red,black } = Colors;
 export const StyledContainer = styled.View`
-flex: 1;
 padding: 25px;
 padding-top: ${StatusBarHeight +30 }px;
 backgroud-color: ${primary};
-
 `;
 
 export const StyledContainer2 = styled.View`
@@ -258,8 +256,8 @@ text-align:left;
 
 `;
 export const StyledInputLabel2 = styled.Text`
-color:${tertiary};
-font-size:15px;
+color:${black};
+font-size:16px;
 text-align:left;
 font-Weight: bold;
 
