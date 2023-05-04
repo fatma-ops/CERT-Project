@@ -9,6 +9,7 @@ const { green, brand, darkLight, primary } = Colors;
 import { StatusBarHeight } from '../components/shared';
 import { FontAwesome5 } from '@expo/vector-icons';
 //import { SearchBar } from 'react-native-screens';
+import SearchBar from '../components/SearchBar';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
@@ -53,18 +54,21 @@ const AnalyseFlatList = ({ navigation }) => {
   return (
    
     <View style={[styles.analyseContainer]}>
+                    <StatusBar style="white" />
       <View style={styles.headingContainer}>
-      <View style={{width:280 }}>
-      <StatusBar style="Light" />
+      <View style ={{flexDirection:'column'}}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>                      Mes analyses</Text>
       </View>
+      <View style={{width:280 , paddingHorizontal:12 }}>
+      <StatusBar style="Light" />
+
       <SearchBar
            value={searchQuery}
             onChangeText={handleOnSearchInput}
-            containerStyle={{ marginVertical: 15, marginTop:25}}
+            containerStyle={{ marginVertical: 15}}
             />
-     
+     </View>
     </View>
     <View>
         <TouchableOpacity
@@ -126,12 +130,13 @@ const AnalyseFlatList = ({ navigation }) => {
 const styles = StyleSheet.create({
   analyseContainer:{
     paddingTop:40,
-    paddingHorizontal:15,
+    paddingHorizontal:7,
     marginBottom:70,
     opacity:0.9,
     justifyContent:'space-between',
 
 },
+
 header: {
   flexDirection: 'row',
   alignItems: 'center',

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     borderColor:brand ,
     height: 40,
     borderRadius: 10,
-    marginHorizontal: 1,
+    marginHorizontal: -30,
     marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',

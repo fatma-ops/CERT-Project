@@ -5,7 +5,6 @@ import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
 import { Colors } from '../../components/styles';
-const { green, brand, darkLight, primary } = Colors;
 import { StatusBarHeight } from '../../components/shared';
 import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 //import { SearchBar } from 'react-native-screens';
@@ -14,6 +13,7 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 
+const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 
 const ListeVaccin = ({ navigation }) => {
@@ -35,7 +35,7 @@ const ListeVaccin = ({ navigation }) => {
       setFilteredVaccins(filtered);
     };
   useEffect(() => {
-    axios.get(`https://f973-197-15-82-75.ngrok-free.app/api/v1/vaccin/${email}?cache_bust=123456789`)
+    axios.get(`https://1fd3-197-14-252-72.eu.ngrok.io/api/v1/vaccin/${email}?cache_bust=123456789`)
       .then(response => setVaccins(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -54,27 +54,22 @@ const ListeVaccin = ({ navigation }) => {
   return (
 
     <View style={[styles.analyseContainer2]}>
-         <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <AntDesign name="left" size={28} color={brand} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>         Détails du médecin</Text>
-        
-      </View>
-      <View style={styles.headingContainer}>
-      
-        
-     
+                    <StatusBar style="white" />
 
-      <View style={{width:280  , paddingHorizontal:12}}>
+         <View style={styles.headingContainer}>
+         <View style ={{flexDirection:'column'}}>
+         <View style={styles.header2}>
+        <Text style={styles.headerTitle}>                    Mes vaccins</Text>
+      </View>
+      <View style={{width:280 , paddingHorizontal:12 }}>
       <StatusBar style="Light" />
-     
       <SearchBar
            value={searchQuery}
             onChangeText={handleOnSearchInput}
             containerStyle={{ marginVertical: 15, marginTop:25}}
             />
      
+    </View>
     </View>
 
     <View >
@@ -88,6 +83,7 @@ const ListeVaccin = ({ navigation }) => {
         </View>
 
     </View>
+    <View style={[styles.analyseContainer]}>
 
     <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
@@ -97,7 +93,7 @@ const ListeVaccin = ({ navigation }) => {
         {vaccins ? vaccins.length : 0}
       </Text>
     </View>
-    <View style={[styles.analyseContainer]}>
+  
 
 <FlatList
   style={styles.scrollView}
@@ -113,11 +109,9 @@ const ListeVaccin = ({ navigation }) => {
       }
     >
       <View style={styles.item} key={index}>
-        <View style={styles.analyse}>
           <Text style={styles.text}>{item.title}</Text>
           <Text style={styles.dateContainer}>{item.date}</Text>
           
-        </View>
       </View>
       {item.image && (
       <Image
@@ -140,18 +134,28 @@ const ListeVaccin = ({ navigation }) => {
 const styles = StyleSheet.create({
   analyseContainer:{
     paddingTop:10,
-    paddingHorizontal:15,
+    paddingHorizontal:0,
     marginBottom:70,
     opacity:0.9,
     justifyContent:'space-between',
+    //backgroundColor:'white',
+    height:900,
 
 },
 analyseContainer2:{
   
   marginBottom:70,
-  opacity:0.9,
+  opacity:1,
   justifyContent:'space-between',
 
+},
+header2: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center', // To center the header
+ 
+  marginHorizontal:-10 , // To remove the left and right padding
+  paddingHorizontal: 10, // To add the padding back
 },
 header: {
   flexDirection: 'row',
@@ -168,7 +172,7 @@ header: {
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  color:brand
+  color:'white'
 
 },
 backButton: {
@@ -185,31 +189,39 @@ divider:{
 item:{ 
     marginBottom:25,
     padding:20,
-    color:brand,
+    marginRight:15,
+    marginLeft:15,
+    //color:brand,
     opacity:1,
     marginTop:10,
     shadowOpacity:0.25,
-    shadowOffset:{width:2, height:1},
+    shadowOffset:{width:0.75, height:2},
     shadowRadius:2,
     elevation:5,
     backgroundColor:'white',
+   // backgroundColor: '#E2E9EB',
     borderWidth:0,
     borderRadius:15,
-   //borderLeftWidth:15,
-
+    alignItems:'center',
 },
 index:{
     fontSize:20,
     fontWeight:'800',
     color:brand
 },
+headingContainer2:{
+  fontWeight:'700',
+  color:brand,
+  justifyContent:'space-between',
+  
+
+},
 headingContainer:{
    flexDirection:'row',
    justifyContent:'space-between',
-      alignItems:'center',
-
-     backgroundColor:brand,
-     height:150
+   alignItems:'center',
+   backgroundColor:brand,
+   height:150
    
    
 },
@@ -218,9 +230,9 @@ button:{
     borderRadius:100,
     //justifyContent:'space-between',
    
-    marginLeft:22,
+    marginLeft:10,
    // height:50,
-    marginTop :55,
+    marginTop :40,
     //marginBottom : 20
 },
 buttonText:{
@@ -236,7 +248,8 @@ analyse:{
     width:'100%',
     color:'black',
     fontWeight:'bold',
-    alignItems:'center'
+    alignItems:'center',
+    backgroundColor:{brand}
 
 },
 text:{
@@ -260,7 +273,6 @@ input:{
     paddingHorizontal:20,
     width:'65%',
     fontSize:19,
-    color:brand,
     fontWeight:'600',
     opacity:0.8,
     marginTop:0.4,
@@ -268,7 +280,7 @@ input:{
     shadowOffset:{width:0, height:4},
     shadowRadius:8,
     elevation:5,
-    backgroundColor:'#fff',
+    backgroundColor:{brand},
     borderWidth:2,
     borderRadius:5,
 },

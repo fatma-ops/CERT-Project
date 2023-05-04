@@ -84,7 +84,7 @@ const  AddMedecin = ({navigation}) =>  {
         
           try {
             const response = await axios.post(
-              'https://7783-196-232-115-1.ngrok-free.app/api/v1/medecin/add',
+              'https://118c-102-157-71-197.eu.ngrok.io/api/v1/medecin/add',
               data,
               {
                 headers: {

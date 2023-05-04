@@ -1,5 +1,5 @@
 import React, { useContext , useState } from 'react';
-import { View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
+import { Alert,View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
@@ -18,6 +18,8 @@ import { StyleSheet } from 'react-native';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
+import RegularButton from '../../components/Buttons/RegularButton';
+
 import SelectDropdown from 'react-native-select-dropdown';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
@@ -88,24 +90,51 @@ const onChange = (event , selectedDate) => {
 
 
 
-  const pickImage = async (setFieldValue) => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setFieldValue('image', result.uri);
-    }
-  };
+        const takeImageHandler = async (setFieldValue) => {
+          let img;
+          const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+        
+          if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+            alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
+            return;
+          }
+        
+          Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+            {
+              text: 'Depuis la galerie',
+              onPress: async () => {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                  //allowsEditing: true,
+                  aspect: [16, 9],
+                  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                  base64: true,
+                  quality: 1,
+                  allowsMultipleSelection: true,
+                });
+                if (!result.canceled) {
+                  setFieldValue('image', result.uri);
+                }
+              },
+            },
+            {
+              text: 'Ouvrir la caméra',
+              onPress: async () => {
+                let result = await ImagePicker.launchCameraAsync({
+                  allowsEditing: true,
+                  aspect: [24, 9],
+                  base64: true,
+                  quality: 0.5,
+                });
+                if (!result.canceled) {
+                  setFieldValue('image', result.uri);
+                }
+              },
+            },
+            { text: 'Annuler', style: 'cancel' },
+          ]);
+        };
+        
 
   const submitAnalyse = async (values ,setSubmitting) => {
     handleMessage(null);
@@ -121,7 +150,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://7783-196-232-115-1.ngrok-free.app/api/v1/vaccin/add', formData, {
+      const response = await axios.post('https://1fd3-197-14-252-72.eu.ngrok.io/api/v1/vaccin/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -152,7 +181,7 @@ const onChange = (event , selectedDate) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>          Ajouter un vaccin</Text>
+        <Text style={styles.headerTitle}>Ajouter un vaccin</Text>
       </View>
      <InnerContainer>  
     
@@ -168,6 +197,7 @@ const onChange = (event , selectedDate) => {
                    onChange={onChange}
 
                    />
+                   
 
 
                     )}
@@ -242,8 +272,8 @@ const onChange = (event , selectedDate) => {
            <Text style={styles.label}>Résultat du vaccin</Text>
             <ViewImage style={styles.imageContainer}>
 
-            <Ionicons name='camera' onPress={() => pickImage(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-            <TouchableOpacity onPress={() => pickImage(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
+            <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
+            <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
             {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
             </TouchableOpacity> 
 
@@ -334,21 +364,24 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop:StatusBarHeight -40,
-        paddingBottom: 20,
-        borderBottomWidth: 1,
+        //justifyContent:'space-between',
+        marginTop:StatusBarHeight -42,
+        paddingBottom: 15,
+        borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        
+        marginLeft:-25,
+        marginRight:-25,
+
       },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        color:brand
+        color:brand,
 
       },
       backButton: {
-        marginRight: 10,
-        marginLeft: -9,
+        marginRight: 70,
+        marginLeft: 9,
       },
     input: {
       borderWidth: 1,

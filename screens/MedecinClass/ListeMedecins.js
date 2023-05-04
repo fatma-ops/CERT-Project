@@ -40,7 +40,7 @@ const ListeMedecins = ({ navigation  }) => {
 
 
   useEffect(() => {
-    axios.get(`https://f973-197-15-82-75.ngrok-free.app/api/v1/medecin/${email}?cache_bust=123456789`)
+    axios.get(`https://118c-102-157-71-197.eu.ngrok.io/api/v1/medecin/${email}?cache_bust=123456789`)
       .then(response => setMedecins(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -66,10 +66,8 @@ const ListeMedecins = ({ navigation  }) => {
       <View style={styles.headingContainer}>
         <View style ={{flexDirection:'column'}}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <AntDesign name="left" size={28} color='white' />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>         Détails du médecin</Text>
+        
+        <Text style={styles.headerTitle}>                  Mes contacts</Text>
         
       </View>
       <View style={{width:280 , paddingHorizontal:12 }}>
@@ -223,10 +221,9 @@ button:{
     width:50,
     borderRadius:100,
     //justifyContent:'space-between',
-   
-    marginLeft:22,
+    marginLeft:10,
    // height:50,
-    marginTop :55,
+    marginTop :40,
     //marginBottom : 20
 },
 buttonText:{

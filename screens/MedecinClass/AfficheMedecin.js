@@ -40,7 +40,7 @@ const AfficheMedecin = ({ navigation , route }) => {
 
     const handleDelete = async () => {
       try {
-        const response = await fetch(`https://7783-196-232-115-1.ngrok-free.app/api/v1/medecin/delete/${id}`, {
+        const response = await fetch(`https://118c-102-157-71-197.eu.ngrok.io/api/v1/medecin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
