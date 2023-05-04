@@ -122,6 +122,7 @@ const buttonHandler = () => {
   <KeyboardAvoidingWrapper>
   <StyledContainerRestPassword>
       <StatusBar style="transparent" />
+      
       <IconHeader name ="account-edit-outline" style ={{marginBottom : 30 , marginTop:StatusBarHeight-90}} />
 
       <InnerContainer>

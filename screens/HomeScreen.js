@@ -30,13 +30,26 @@ export default function HomeScreen({ navigation }) {
   return (
     
       <>
-      
-        <View style={styles.container2}>
-        <StatusBar style= {brand} />
-            <Text style={styles.header}>{`${greet} `}</Text>
-            <Text style={styles.header2}>{`${prenom} !`}</Text>
+              <StatusBar style= {brand} />
+
+      <View style={{
+      backgroundColor: brand,
+      height: '13%',
+      borderBottomLeftRadius: 20,
+      borderBottomRightRadius: 20,
+      paddingHorizontal: 20,
+      flexDirection: 'row',
+      alignItems: 'center'
+    }}>  
+           <Text style={styles.header}>{`${greet} `}</Text>
+           <Text style={styles.header2}>{`${prenom} !`}</Text>
+         
+
+  </View>
+       
           
-          </View>
+        
+            
           <View  style={styles.container}>
           <View style={styles.row}>
       
@@ -147,15 +160,15 @@ elevation:5
   header: {
     fontSize: 25,
     fontWeight: 'bold',
-    color:brand,
-    marginTop:StatusBarHeight + 60,
+    color:'white',
+    marginTop:StatusBarHeight-10,
 
   },
   header2: {
     fontSize: 25,
-    marginTop:StatusBarHeight + 60,
+    marginTop:StatusBarHeight-10 ,
 
-    color: brand,
+    color: "white",
    
   },
   

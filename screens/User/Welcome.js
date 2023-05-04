@@ -49,22 +49,43 @@ const Welcome = ({navigation}) => {
         <KeyboardAvoidingWrapper>
 
           <View style={styles.container}>
+          <View style={{
+      backgroundColor: brand,
+      height: '18%',
+      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 40,
+      paddingHorizontal: 20,
+      flexDirection: 'row',
+      alignItems: 'center'
+    }}>
+      <Image
+        source={require('../../assets/img/user2.png')}
+        style={{
+          width: 50,
+          height: 50,
+          borderRadius: 25,
+          marginRight: 10
+        }}
+      />
+          <Text style={styles.sectionTitleName}>{nom} {prenom}</Text>
+       <View style={{flexDirection:'row'}}>
+       <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen', {nom: nom, prenom: prenom, email: email, allergie: allergie, groupeSanguin: groupeSanguin})}>
+       <View style={{ marginLeft:30 , marginTop:StatusBarHeight+30}}>
+       <MaterialCommunityIcons name='account-edit' size={30} color='white' />
+       </View>
+       </TouchableOpacity>
+
+       <TouchableOpacity onPress={clearLogin}>
+       <View style={{ marginLeft:8 , marginTop:StatusBarHeight +30}}>
+       <MaterialCommunityIcons name='logout-variant' size={30} color='white'/>
+       </View>
+       </TouchableOpacity>
+       </View>
+</View>
       <View style={styles.body}>
        
         <View style={styles.section}>
-        <Text style={styles.sectionTitleP}>{nom} {prenom}</Text>
-       
-        <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen', {nom: nom, prenom: prenom, email: email, allergie: allergie, groupeSanguin: groupeSanguin})}>
-        <View style={{ marginLeft:280 , marginTop:-55}}>
-        <Entypo name='pencil' size={30} color={brand} />
-        </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={clearLogin}>
-        <View style={{ marginLeft:320 , marginTop:-55}}>
-        <MaterialCommunityIcons name='logout' size={30} color={brand}/>
-        </View>
-        </TouchableOpacity>
+        
         
         <Text style={styles.sectionTitle}>Informations personnelles</Text>
 
@@ -209,14 +230,19 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 5,
-      marginTop:5,
     },
     sectionTitleP: {
       fontSize: 30,
       fontWeight: 'bold',
-      marginBottom: 20,
-      color:brand,
-      marginTop:20,
+      marginBottom: 10,
+      color: brand,
+    },
+    sectionTitleName:{
+      fontSize: 30,
+      fontWeight: 'bold',
+      marginBottom: 40,
+      color: 'white',
+      marginTop:StatusBarHeight,
     },
     sectionContent: {
       backgroundColor: '#f0f0f0',
