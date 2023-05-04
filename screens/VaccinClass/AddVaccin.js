@@ -141,16 +141,21 @@ const onChange = (event , selectedDate) => {
     setSubmitting(true);
     const formData = new FormData();
     formData.append('title', values.title);
+    formData.append('maladieCible', values.maladieCible);
+
     formData.append('date', values.date);
+
     formData.append('testimage', {
       uri: values.image,
       name: 'image.png',
       type: 'image/png'
     });
     formData.append('userEmail', email);
+    formData.append('commentaire', values.commentaire);
+
 
     try {
-      const response = await axios.post('https://7131-102-159-92-143.eu.ngrok.io/api/v1/vaccin/add', formData, {
+      const response = await axios.post('https://910d-197-15-82-75.ngrok-free.app/api/v1/vaccin/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -236,9 +241,9 @@ const onChange = (event , selectedDate) => {
            icon2="injection-syringe"
            placeholder="Covid-19"
            placeholderTextColor={darkLight}
-           onChangeText={handleChange('title')}
-           onBlur={handleBlur('title')}
-           value={values.title}
+           onChangeText={handleChange('maladieCible')}
+           onBlur={handleBlur('maladieCible')}
+           value={values.maladieCible}
                               
                           />
            <MyTextInput
