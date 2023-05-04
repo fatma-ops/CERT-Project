@@ -35,7 +35,7 @@ const AnalyseFlatList = ({ navigation }) => {
       setFilteredAnalyses(filtered);
     };
   useEffect(() => {
-    axios.get(`https://7783-196-232-115-1.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
+    axios.get(`https://e922-197-15-82-75.ngrok-free.app/api/v1/analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
   }, [email]);

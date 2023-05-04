@@ -11,97 +11,93 @@ const AnalyseDetail = ({ route }) => {
   const { selectedAnalyse } = route.params;
   
   return (
-   
-            <View style={styles.vaccin}>
 
-            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>{
-              <View style={styles.vaccin}>
-            <Text style={styles.dateContainer}>{selectedAnalyse.date}</Text>
-            <Text >{selectedAnalyse.title}</Text>
+    <View style={styles.container}> 
+    <View style={{
+      backgroundColor: brand,
+      height: '30%',
+      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 40,
+      paddingHorizontal: 20,
+      flexDirection: 'row',
+      alignItems: 'center'
+    }}>  
+        
+          <Text style={styles.titre}>{selectedAnalyse.title}</Text>
+          </View> 
+          <View style={styles.header}>
+        <Text style={styles.resultat}>Date: {selectedAnalyse.date}</Text>
+        <Text style={styles.resultat}>Contact: {selectedAnalyse.contact}</Text>
+        <Text style={styles.resultat}>Commentaire: {selectedAnalyse.commentaire}</Text>
 
-            <View style={styles.actions}>
-            <RowContainer style = {{justifycontent: 'space-between'}}>
-             <RegularButton3 style={{justifyContent:'center'}}>{ `Supprimer`}</RegularButton3>
-             <RegularButton3  style={{justifyContent:'center'}}>{ `Modifier`}</RegularButton3>
+      </View>
+      <Text style={styles.resultat}>Résultat d'analyse</Text>
 
-             </RowContainer>
-            </View>
-            </View>}
-            </ScrollView>
-          </View>
-        );
+      <View style={styles.imageContainer}>
+
+        <Image source={require('../assets/img/logo3.png')} style={styles.image} />
+      </View>
+    </View>
+  );
+  
       };
       
       const styles = StyleSheet.create({
-        actions: {
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+        container: {
+          backgroundColor: '#FFFFFF',
+          borderRadius: 8,
+          marginBottom: 16,
+          shadowColor: '#000000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
         },
-        deleted: {
+        header: {
+          padding: 16,
+          borderBottomColor: '#CCCCCC',
+          borderBottomWidth: 1,
+        },
+        barreBleue: {
+          backgroundColor: brand,
+          padding: 8,
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          marginBottom: 8,
+        },
+        titre: {
+          fontSize: 24,
+          fontWeight: 'bold',
+          color: '#FFFFFF',
+        },
+        date: {
+          fontSize: 16,
+          color: '#555555',
+          marginBottom: 8,
+        },
+        contact: {
+          fontSize: 16,
+          color: '#555555',
+          marginBottom: 8,
+        },
+        imageContainer: {
+          padding: 16,
+        },
+        image: {
+          width: '100%',
+          height: 200,
+          borderRadius: 8,
+          marginTop: 30,
+        },
+        resultat: {
           fontSize: 20,
-          color: '#888',
-          textAlign: 'center',
-          marginVertical: 20,
+          fontWeight: 'bold',
+          color: '#555555',
         },
-     
-        vaccinContainer:{
-            paddingTop:-4,
-            paddingHorizontal:15,
-            marginBottom:70,
-            //opacity:0.9,
-        },
-        headingContainer:{
-            fontWeight:'700',
-            color:brand,
-        },
-     
-    
-        scrollView:{
-           // marginBottom:100,
-        },
-        vaccin:{
-            width:'100%',
-            alignItems:'center',
-            marginBottom:100
-    
-        },
-        text:{
-          marginTop:15,
-            fontWeight:'400',
-            fontSize:25,
-            alignItems:'center',
-        },
-        dateContainer:{
-          marginTop:10,
-          flexDirection:'row',
-          justifyContent:'space-between',
-          alignContent:'center',
-          marginBottom:10,
-          fontWeight:'300',
-            fontSize:20,
-            color:'grey'
-      },
-        delete:{
-            fontWeight:'700',
-            fontSize:15
-        },
-  
-        imageContainer:{
-          height: 400, 
-          width: '90%',
-          marginTop:20,
-          shadowOpacity:0.25,
-          shadowOffset:{width:2, height:1},
-          shadowRadius:2,
-          elevation:5,
-          borderWidth:0,
-          borderRadius:10,
-          
-        }
-        
-    })    
-
+      });
 
 
 export default AnalyseDetail;

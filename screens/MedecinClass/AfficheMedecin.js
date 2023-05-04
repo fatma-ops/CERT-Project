@@ -90,7 +90,7 @@ const AfficheMedecin = ({ navigation , route }) => {
             </View>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Numero: </Text>
-            <Text style={styles.sectionItem}>{selectedAnalyse.numero}</Text>
+            <Text style={styles.sectionItem}>+216 {selectedAnalyse.numero}</Text>
             </View>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Commenataire: </Text>

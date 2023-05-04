@@ -104,7 +104,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://7783-196-232-115-1.ngrok-free.app/api/v1/analyse/add', formData, {
+      const response = await axios.post('https://e922-197-15-82-75.ngrok-free.app/api/v1/analyse/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
