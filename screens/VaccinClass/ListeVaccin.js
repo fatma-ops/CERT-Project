@@ -35,7 +35,7 @@ const ListeVaccin = ({ navigation }) => {
       setFilteredVaccins(filtered);
     };
   useEffect(() => {
-    axios.get(`https://7131-102-159-92-143.eu.ngrok.io/api/v1/vaccin/${email}?cache_bust=123456789`)
+    axios.get(`https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/vaccin/${email}?cache_bust=123456789`)
       .then(response => setVaccins(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -83,7 +83,6 @@ const ListeVaccin = ({ navigation }) => {
         </View>
 
     </View>
-    <View style={[styles.analyseContainer]}>
 
     <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
@@ -94,7 +93,8 @@ const ListeVaccin = ({ navigation }) => {
       </Text>
     </View>
   
-
+    <View style={styles.analyseContainer}>
+<View style={styles.liste}>
 <FlatList
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
@@ -110,7 +110,8 @@ const ListeVaccin = ({ navigation }) => {
     >
       <View style={styles.item} key={index}>
           <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>{item.date}</Text>
+          <Text style={styles.dateContainer}>30 avr 2023</Text>
+          <Text style={styles.text2}>{item.title}</Text>
           
       </View>
       {item.image && (
@@ -120,14 +121,12 @@ const ListeVaccin = ({ navigation }) => {
       />
     )}
     </TouchableOpacity>
-    
   )}
 />
 </View>
 </View>
-
  
-    
+</View>
   );
 };
 
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
     opacity:0.9,
     justifyContent:'space-between',
     //backgroundColor:'white',
-    height:900,
+    height:1000,
 
 },
 analyseContainer2:{
@@ -147,6 +146,8 @@ analyseContainer2:{
   marginBottom:70,
   opacity:1,
   justifyContent:'space-between',
+  height:1000,
+
 
 },
 header2: {
@@ -186,23 +187,48 @@ divider:{
     marginTop:5,
     marginBottom:5,
 },
+dateContainer:{
+  //marginTop:10,
+  flexDirection:'row',
+  justifyContent:'space-between',
+  alignContent:'center',
+  marginLeft:230,
+  marginTop:-20,
+},
+text:{
+  marginTop:15,
+   // fontWeight:'400',
+    fontSize:20,
+},
+text2:{
+ marginTop:5,
+    fontSize:15,
+    color:brand,
+},
 item:{ 
-    marginBottom:25,
-    padding:20,
-    marginRight:15,
-    marginLeft:15,
-    //color:brand,
-    opacity:1,
-    marginTop:10,
-    shadowOpacity:0.25,
-    shadowOffset:{width:0.75, height:2},
-    shadowRadius:2,
-    elevation:5,
-    backgroundColor:'white',
-   // backgroundColor: '#E2E9EB',
-    borderWidth:0,
-    borderRadius:15,
-    alignItems:'center',
+  marginTop:-1,
+    marginLeft:10,
+    marginRight:10,
+    //alignItems:'center',
+    borderTopWidth: 1,
+    borderTopColor: darkLight,
+    marginBottom:15
+},
+liste:{
+  
+  fontSize:19,
+  fontWeight:'600',
+  opacity:0.8,
+  marginTop:0.4,
+  shadowOpacity:0.25,
+  shadowOffset:{width:0.75, height:2},
+  shadowRadius:2,
+  elevation:5,
+  backgroundColor:'white',
+  borderRadius:15,
+  marginLeft:15,
+  marginRight:15,
+
 },
 index:{
     fontSize:20,
@@ -241,7 +267,7 @@ buttonText:{
     fontWeight:'800'
 },
 scrollView:{
-    marginBottom:70,
+    marginBottom:10,
 },
 analyse:{
     //flexDirection:'row',
@@ -252,38 +278,13 @@ analyse:{
     backgroundColor:{brand}
 
 },
-text:{
-  marginTop:25,
-    fontWeight:'400',
-    fontSize:25,
-    alignItems:'center',
-},
-dateContainer:{
-  marginTop:10,
-  flexDirection:'row',
-  justifyContent:'space-between',
-  alignContent:'center'
-},
+
+
 delete:{
     fontWeight:'700',
     fontSize:15
 },
-input:{
-    height:40,
-    paddingHorizontal:20,
-    width:'65%',
-    fontSize:19,
-    fontWeight:'600',
-    opacity:0.8,
-    marginTop:0.4,
-    shadowOpacity:0.5,
-    shadowOffset:{width:0, height:4},
-    shadowRadius:8,
-    elevation:5,
-    backgroundColor:{brand},
-    borderWidth:2,
-    borderRadius:5,
-},
+
 searchContainer:{
     flexDirection:'row',
     alignItems:'center',

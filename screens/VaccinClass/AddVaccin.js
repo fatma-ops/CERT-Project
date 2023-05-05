@@ -37,21 +37,6 @@ const [date , setDate] = useState(new Date(2000,0,1));
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
 
-const specialities = [
-  "Cardiologie",
-  "Dermatologie",
-  "Endocrinologie",
-  "Gastro-entérologie",
-  "Gynécologie",
-  "Neurologie",
-  "Ophtalmologie",
-  "Oncologie",
-  "Oto-rhino-laryngologie",
-  "Pédiatrie",
-  "Psychiatrie",
-  "Rhumatologie",
-  "Urologie"
-];
 const onChange = (event , selectedDate) => {
     const currentDate = selectedDate || date ;
     setShow(false);
@@ -150,7 +135,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://7131-102-159-92-143.eu.ngrok.io/api/v1/vaccin/add', formData, {
+      const response = await axios.post('https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/vaccin/add', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -236,9 +221,9 @@ const onChange = (event , selectedDate) => {
            icon2="injection-syringe"
            placeholder="Covid-19"
            placeholderTextColor={darkLight}
-           onChangeText={handleChange('title')}
-           onBlur={handleBlur('title')}
-           value={values.title}
+           onChangeText={handleChange('maladieCible')}
+           onBlur={handleBlur('maladieCible')}
+           value={values.maladieCible}
                               
                           />
            <MyTextInput
@@ -252,9 +237,6 @@ const onChange = (event , selectedDate) => {
                                     isDate={true}
                                     editable={false}
                                     showDatePicker={showDatePicker}
-                                    
-
-                                
                                 />
 
            <Text style={styles.label}>Preuve de vaccination</Text>

@@ -14,36 +14,17 @@ import AddVaccin from "./AddVaccin";
 const Stack = createNativeStackNavigator();
   
 export default function Vaccin (){
- 
-
-  
-
-  
-  
   return(
     //<NavigationContainer>
       <Stack.Navigator screenOptions={{
         headerShown : false  }}>
-        <Stack.Screen name="Vaccins" component={ListeVaccin}>
-         
-                            
-        </Stack.Screen>
-        <Stack.Screen name="Ajouter vaccin" component={AddVaccin} >
-         
-        </Stack.Screen>
-        <Stack.Screen 
-  name="Affiche Vaccin" 
-  component={AfficheVaccin} 
-  
-  />
+        <Stack.Screen name="Vaccins" component={ListeVaccin}/>
 
-<Stack.Screen 
-  name="Modifier Vaccin" 
-  component={ModifyVaccin} 
+        <Stack.Screen name="Ajouter vaccin" component={AddVaccin}/>
 
-            />
+        <Stack.Screen name="Affiche Vaccin" component={AfficheVaccin} />
 
-
+        <Stack.Screen name="Modifier Vaccin" component={ModifyVaccin}/>
 
       </Stack.Navigator>
     //</NavigationContainer>

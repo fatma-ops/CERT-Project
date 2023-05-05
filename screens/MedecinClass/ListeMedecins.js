@@ -40,7 +40,7 @@ const ListeMedecins = ({ navigation  }) => {
 
 
   useEffect(() => {
-    axios.get(`https://e922-197-15-82-75.ngrok-free.app/api/v1/medecin/${email}?cache_bust=123456789`)
+    axios.get(`https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/medecin/${email}?cache_bust=123456789`)
       .then(response => setMedecins(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
 },
 analyseContainer2:{
   marginBottom:70,
-  opacity:0.9,
+  opacity:1,
   justifyContent:'space-between',
 
 },

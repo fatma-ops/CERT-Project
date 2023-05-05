@@ -87,7 +87,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
             setSubmitting(true);
       
         try {
-          const response = await fetch(`https://7783-196-232-115-1.ngrok-free.app/api/v1/medecin/put/${id}`, {
+          const response = await fetch(`https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/medecin/put/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'

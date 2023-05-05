@@ -23,7 +23,6 @@ const AfficheMedecin = ({ navigation , route }) => {
     if(modalMessageType === 'success'){
         handleDelete();
     }else  if(modalMessageType === 'close'){
-      navigation.navigate('AfficheMedecin');
     }
     
         setModalVisible(false);
@@ -33,14 +32,13 @@ const AfficheMedecin = ({ navigation , route }) => {
   
     const openModal = () => {
       ShowModal('success', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
-    }
-    const openModalClose = () => {
       ShowModal('close', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
+
     }
 
     const handleDelete = async () => {
       try {
-        const response = await fetch(`https://118c-102-157-71-197.eu.ngrok.io/api/v1/medecin/delete/${id}`, {
+        const response = await fetch(`https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/medecin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
