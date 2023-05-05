@@ -126,13 +126,18 @@ const onChange = (event , selectedDate) => {
     setSubmitting(true);
     const formData = new FormData();
     formData.append('title', values.title);
+    formData.append('maladieCible', values.maladieCible);
+
     formData.append('date', values.date);
+
     formData.append('testimage', {
       uri: values.image,
       name: 'image.png',
       type: 'image/png'
     });
     formData.append('userEmail', email);
+    formData.append('commentaire', values.commentaire);
+
 
     try {
       const response = await axios.post('https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/vaccin/add', formData, {
