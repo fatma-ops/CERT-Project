@@ -108,12 +108,7 @@ const AnalyseFlatList = ({ navigation }) => {
           </View>
         </View>
       </View>
-      {item.image && (
-      <Image
-        source={{ uri: `data:${item.image.contentType};base64,${item.image.data.toString('base64')}` }}
-        style={styles.image}
-      />
-    )}
+      
     </TouchableOpacity>
     
   )}
