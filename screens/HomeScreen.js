@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }) {
     const findGreet = () => {
       const hrs = new Date().getHours();
       if (hrs === 0 || hrs < 12) return setGreet('Bonjour');
-      if (hrs === 1 || hrs < 17) return setGreet('bonne après-midi');
+      if (hrs === 1 || hrs < 17) return setGreet('Bonne après-midi');
       setGreet('Bonsoir');
     };
     findGreet();
@@ -28,14 +28,14 @@ export default function HomeScreen({ navigation }) {
   console.log(nom , prenom)
   return (
     
-      <>
+      <View style={styles.page}>
               <StatusBar style= {brand} />
 
       <View style={{
       backgroundColor: brand,
-      height: '13%',
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
+      height: '20%',
+      borderBottomLeftRadius: 50,
+      borderBottomRightRadius: 50,
       paddingHorizontal: 20,
       flexDirection: 'row',
       alignItems: 'center'
@@ -68,7 +68,7 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.row}>
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Screen3')}>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Consultation')}>
         <Image
           style={styles.avatar}
           source={require('./../assets/img/consultation.png')}
@@ -94,16 +94,15 @@ export default function HomeScreen({ navigation }) {
        
       </View>
       </View>
-      </>
+      </View>
+      
     );
-  }
+}
   
   const styles = StyleSheet.create({
     
-    
     container2: {
       paddingHorizontal: 20,
-
       flexDirection:'row',
       marginTop:StatusBarHeight-90,
 
@@ -127,9 +126,21 @@ export default function HomeScreen({ navigation }) {
     
     
     
-  },container: {
+  },
+  page: {
+   
+   backgroundColor:'white',
+    borderTopLeftRadius: 150,
+    borderTopRightRadius: 150,
+
+  },
+  container: {
     alignItems: 'center',
     justifyContent: 'center',
+   // backgroundColor:'white',
+    borderTopLeftRadius: 150,
+    borderTopRightRadius: 150,
+    marginTop:-50,
 
   },
   row: {
@@ -137,8 +148,8 @@ export default function HomeScreen({ navigation }) {
     
   },
   cube: {
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
 
     backgroundColor: secondary,
     margin: 20,
@@ -160,13 +171,13 @@ elevation:5
     fontSize: 25,
     fontWeight: 'bold',
     color:'white',
-    marginTop:StatusBarHeight-10,
+    marginTop:StatusBarHeight-30,
+marginLeft:25,
 
   },
   header2: {
     fontSize: 25,
-    marginTop:StatusBarHeight-10 ,
-
+    marginTop:StatusBarHeight-30 ,
     color: "white",
    
   },

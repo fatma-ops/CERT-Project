@@ -34,6 +34,12 @@ import ListeMedecin from '../screens/MedecinClass/ListeMedecins';
 import AddMedecin from '../screens/MedecinClass/AddMedecin';
 import AfficheMedecin from '../screens/MedecinClass/AfficheMedecin';
 
+import Consultation from '../screens/ConsultationClass/Consultation';
+import ListeConsultation from '../screens/ConsultationClass/ListeConsultation';
+import AddConsultation from '../screens/ConsultationClass/AddConsultation';
+import AfficheConsultation from '../screens/ConsultationClass/AfficheConsultation';
+import ModifyConsultation from '../screens/ConsultationClass/ModifyConsultation';
+
 import HomeScreen from '../screens/HomeScreen';
 import ModifyMedecin from '../screens/MedecinClass/ModifyMedecin';
 
@@ -89,6 +95,11 @@ const RootStack = () => {
                 <Stack.Screen name="AfficheMedecin" component={AfficheMedecin} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen name="ModifyMedecin" component={ModifyMedecin} />
+                <Stack.Screen name="Consultation" component={Consultation} />
+                <Stack.Screen name="ListeConsultation" component={ListeConsultation} />
+                <Stack.Screen name="AddConsultation" component={AddConsultation} />
+                <Stack.Screen name="AfficheConsultation" component={AfficheConsultation} />
+                <Stack.Screen name="ModifyConsultation" component={ModifyConsultation} />
 
                 
               

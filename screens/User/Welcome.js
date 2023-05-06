@@ -51,9 +51,9 @@ const Welcome = ({navigation}) => {
           <View style={styles.container}>
           <View style={{
       backgroundColor: brand,
-      height: '18%',
-      borderBottomLeftRadius: 40,
-      borderBottomRightRadius: 40,
+      height: '25%',
+      //borderBottomLeftRadius: 40,
+      //borderBottomRightRadius: 40,
       paddingHorizontal: 20,
       flexDirection: 'row',
       alignItems: 'center'
@@ -61,23 +61,17 @@ const Welcome = ({navigation}) => {
       <Image
         source={require('../../assets/img/user2.png')}
         style={{
-          width: 50,
-          height: 50,
+          width: 70,
+          height: 70,
           borderRadius: 25,
           marginRight: 10
         }}
       />
-          <Text style={styles.sectionTitleName}>{nom} {prenom}</Text>
        <View style={{flexDirection:'row'}}>
-       <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen', {nom: nom, prenom: prenom, email: email, allergie: allergie, groupeSanguin: groupeSanguin})}>
-       <View style={{ marginLeft:30 , marginTop:StatusBarHeight+30}}>
-       <MaterialCommunityIcons name='account-edit' size={30} color='white' />
-       </View>
-       </TouchableOpacity>
-
+       <Text style={styles.sectionTitleName}>{nom} {prenom}</Text>
        <TouchableOpacity onPress={clearLogin}>
-       <View style={{ marginLeft:8 , marginTop:StatusBarHeight +30}}>
-       <MaterialCommunityIcons name='logout-variant' size={30} color='white'/>
+       <View style={{ marginLeft:20 , marginTop:StatusBarHeight }}>
+       <MaterialCommunityIcons name='logout-variant' size={40} color='white'/>
        </View>
        </TouchableOpacity>
        </View>
@@ -88,8 +82,13 @@ const Welcome = ({navigation}) => {
         
         
         <Text style={styles.sectionTitle}>Informations personnelles</Text>
-
+        <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen', {nom: nom, prenom: prenom, email: email, allergie: allergie, groupeSanguin: groupeSanguin})}>
+       <View style={{ marginLeft:300 , marginTop:-40}}>
+       <MaterialCommunityIcons name='account-edit' size={35} color={brand}/>
+       </View>
+       </TouchableOpacity>
           <View style={styles.sectionContent}>
+            
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Nom: </Text>
             <Text style={styles.sectionItem}>{nom}</Text>
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       marginBottom:60,
-      marginRight:-10,
+     // marginRight:10,
       //marginTop:StatusBarHeight
       
     },
@@ -194,8 +193,16 @@ const styles = StyleSheet.create({
       marginTop: 8,
     },
     body: {
+      marginTop:-35,
       padding: 20,
       marginBottom:300,
+      paddingLeft:20,
+      paddingRight:20,
+      borderTopLeftRadius:40,
+      borderTopRightRadius:40,
+      backgroundColor: 'white',
+
+
     },
     button: {
       backgroundColor: brand,
@@ -240,13 +247,15 @@ const styles = StyleSheet.create({
     sectionTitleName:{
       fontSize: 30,
       fontWeight: 'bold',
-      marginBottom: 40,
+      marginBottom: 20,
       color: 'white',
       marginTop:StatusBarHeight,
+      alignItems:'center'
     },
     sectionContent: {
       backgroundColor: '#f0f0f0',
       padding: 10,
+      paddingRight:-10,
       borderRadius: 20,
       shadowOpacity:0.25,
       shadowOffset:{width:0.5,height:2},

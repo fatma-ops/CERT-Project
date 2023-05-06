@@ -7,7 +7,6 @@ import { TouchableOpacity } from 'react-native';
 import { Colors } from '../../components/styles';
 import { StatusBarHeight } from '../../components/shared';
 import { Entypo, FontAwesome5 } from '@expo/vector-icons';
-//import { SearchBar } from 'react-native-screens';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';

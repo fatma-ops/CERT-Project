@@ -136,7 +136,7 @@ const onChange = (event , selectedDate) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>          Ajouter une analyse</Text>
+        <Text style={styles.headerTitle}>Ajouter une analyse</Text>
       </View>
      <InnerContainer>  
     
@@ -212,6 +212,24 @@ const onChange = (event , selectedDate) => {
                 <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
 
             </ViewImage>
+            <Text style={styles.label}>Dépenses</Text>
+            <Text style={styles.label2}>Coût                                    Remboursement</Text>
+
+            <View style={styles.depense}>
+                  <TextInput style={styles.cout}
+                placeholder="100.0"
+                placeholderTextColor={darkLight}
+                onChangeText={handleChange('cout')}
+                onBlur={handleBlur('cout')}
+                value={values.cout}/>
+
+                 <TextInput style={styles.remboursement}
+                placeholder="70.0"
+                placeholderTextColor={darkLight}
+                onChangeText={handleChange('rembourcement')}
+                onBlur={handleBlur('rembourecemnt')}
+                value={values.remboursement}/>
+            </View>
 
 
           <MsgBox type={messageType}>
@@ -250,7 +268,6 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
         <View>
             <LeftIcon>
                 <Octicons name={icon} size={24} color={brand} />
-  
             </LeftIcon>
             
             <StyledInputLabel2> {label}</StyledInputLabel2>
@@ -281,39 +298,39 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
     label: {
         fontSize: 16,
         fontWeight: 'bold',
-        marginBottom: 5,
+       // marginBottom: 0,
+        marginTop:5,
+      },
+      label2: {
+        fontSize: 15,
+        fontWeight: 'bold',
+       // marginBottom: 1,
+       color:brand,
+        marginTop:5,
       },
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop:StatusBarHeight -40,
-        paddingBottom: 20,
-        borderBottomWidth: 1,
+        //justifyContent:'space-between',
+        marginTop:StatusBarHeight -42,
+        paddingBottom: 15,
+        borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
+        marginLeft:-25,
+        marginRight:-25,
+
       },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        color:brand
+        color:brand,
 
       },
       backButton: {
-        marginRight: 10,
-        marginLeft: -9,
+        marginRight: 70,
+        marginLeft: 9,
       },
-    input: {
-      borderWidth: 1,
-      borderColor: '#ccc',
-      padding: 10,
-      borderRadius: 5,
-      width: '100%',
-      marginBottom: 20,
-    },
-    image: {
-      width: 200,
-      height: 200,
-      marginTop: 20,
-    },
+
     imageContainer:
     { backgroundColor:secondary,
     padding:15,
@@ -330,6 +347,65 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
     elevation:5,
     marginLeft:-10,
     marginRight:-10,
-  }
+  },
+  depense:{
+    flexDirection: 'row',
+    alignContent:'space-between'
+  },
+  cout:{
+    backgroundColor :secondary,
+    padding:25,
+    //paddingLeft:55,
+    paddingRight:75,
+    borderRadius: 20,
+    fontSize:16,
+    height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft:-10,
+    marginRight:10,
+  },
+  remboursement:{
+    backgroundColor :secondary,
+    padding:25,
+    //paddingLeft:55,
+    paddingRight:75,
+    borderRadius: 20,
+    fontSize:16,
+    height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft:25,
+    marginRight:0,
+  },
+
+   comentaire: {
+    //flex:1,
+    backgroundColor :secondary,
+    padding:25,
+    paddingLeft:55,
+    borderRadius: 20,
+    fontSize:16,
+    height:100,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft:-10,
+    marginRight:-10,
+  },
   });
   export default AddAnalyse; 

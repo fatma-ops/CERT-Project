@@ -173,6 +173,7 @@ const  AddMedecin = ({navigation}) =>  {
             defaultButtonText="Choisir la spécialité"
           />
           </SelectDropdownStyle>
+          
           <MyTextInput
            label="Numero"
            icon2="call-outline"
@@ -317,11 +318,7 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
        shadowOffset:2,
         shadowRadius:1,
       marginLeft:-10,
-       marginRight:-10,
-       
-      
-      
-      
+       marginRight:-10, 
     },
     dropdownButtonText: {
       fontSize: 17,

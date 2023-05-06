@@ -2,39 +2,40 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
-import { CredentialsContext } from '../components/CredentialsContext';
+import { CredentialsContext } from '../../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
-import { Colors } from '../components/styles';
-const { green, brand, darkLight, primary, secondary,tertiary } = Colors;
-import { StatusBarHeight } from '../components/shared';
-import { FontAwesome5 } from '@expo/vector-icons';
-import SearchBar from '../components/SearchBar';
+import { Colors } from '../../components/styles';
+import { StatusBarHeight } from '../../components/shared';
+import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ngrokLink } from '../config';
+import SearchBar from '../../components/SearchBar';
+import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+import { ngrokLink } from '../../config';
 
+const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
-const AnalyseFlatList = ({ navigation }) => {
-  const [analyses, setAnalyses] = useState([]);
+const ListeConsultation = ({ navigation }) => {
+  const [consultations, setConsultations] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 
   const { email } = storedCredentials;
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredAnalyses, setFilteredAnalyses] = useState([]);
+  const [filteredConsultations, setFilteredConsultations] = useState([]);
   const handleOnSearchInput = (text) => {
     setSearchQuery(text);
-      const filtered = analyses.filter(
+      const filtered = consultations.filter(
         (item) =>
           item &&
           item.title &&
           item.title.toLowerCase().includes(text.toLowerCase())
       );
-      setFilteredAnalyses(filtered);
+      setFilteredConsultations(filtered);
     };
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/analyse/${email}?cache_bust=123456789`)
-      .then(response => setAnalyses(response.data))
+    axios.get(`${ngrokLink}/api/v1/consultation/${email}?cache_bust=123456789`)
+      .then(response => setConsultations(response.data))
       .catch(error => console.log(error));
   }, [email]);
 
@@ -50,63 +51,67 @@ const AnalyseFlatList = ({ navigation }) => {
   };
 
   return (
-   
+
     <View style={[styles.analyseContainer2]}>
                     <StatusBar style="white" />
-      <View style={styles.headingContainer}>
-      <View style ={{flexDirection:'column'}}>
-      <View style={styles.header2}>
-        <Text style={styles.headerTitle}>                      Mes analyses</Text>
+
+         <View style={styles.headingContainer}>
+         <View style ={{flexDirection:'column'}}>
+         <View style={styles.header2}>
+        <Text style={styles.headerTitle}>                    Mes consultations</Text>
       </View>
       <View style={{width:280 , paddingHorizontal:12 }}>
       <StatusBar style="Light" />
-
       <SearchBar
            value={searchQuery}
             onChangeText={handleOnSearchInput}
             containerStyle={{ marginVertical: 15, marginTop:25}}
             />
-     </View>
+     
     </View>
-    <View>
+    </View>
+
+    <View >
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('AddAnalyse')}
+          onPress={() => navigation.navigate('AddConsultation')}
         >
           <MaterialIcons name="add" size={25} color='white' />
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
+
     </View>
-    <View style={{ flexDirection: 'row',alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
+
+    <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
         Totale:
       </Text>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
-        {analyses ? analyses.length : 0}
+        {consultations ? consultations.length : 0}
       </Text>
     </View>
+  
     <View style={styles.analyseContainer}>
+<View style={styles.liste}>
 <FlatList
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
-  data={analyses}
+  data={consultations}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("AnalyseDetail", {
+        navigation.navigate("AfficheConsultation", {
           selectedAnalyse: item,
         })
       }
     >
-      <View  key={index}>
-      <View style={styles.liste}>
-        <View style={styles.analyse}>
+      <View style={styles.item} key={index}>
           <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>{item.date}</Text>
-          </View>
-        </View>
+          <Text style={styles.dateContainer}>30 avr 2023</Text>
+          <Text style={styles.text2}>{item.title}</Text>
+          
       </View>
       {item.image && (
       <Image
@@ -115,14 +120,12 @@ const AnalyseFlatList = ({ navigation }) => {
       />
     )}
     </TouchableOpacity>
-    
   )}
 />
-
 </View>
 </View>
  
-    
+</View>
   );
 };
 
@@ -193,9 +196,8 @@ dateContainer:{
 },
 text:{
   marginTop:15,
-   //fontWeight:'400',
+   // fontWeight:'400',
     fontSize:20,
-    //marginLeft:-20,
 },
 text2:{
  marginTop:5,
@@ -216,7 +218,7 @@ liste:{
   fontSize:19,
   fontWeight:'600',
   opacity:0.8,
-  marginTop:10,
+  marginTop:0.4,
   shadowOpacity:0.25,
   shadowOffset:{width:0.75, height:2},
   shadowRadius:2,
@@ -225,7 +227,6 @@ liste:{
   borderRadius:15,
   marginLeft:15,
   marginRight:15,
-  height:70,
 
 },
 index:{
@@ -321,4 +322,5 @@ container: {
 
 },
 }) 
-export default AnalyseFlatList;
+
+export default ListeConsultation;

@@ -196,7 +196,7 @@ border-radius: 20px;
 font-size:16px;
 height:60px;
 margin-vertical:3px;
-margin-bottom:10px;
+margin-bottom:15px;
 color:${tertiary};
 shadow-Opacity:0.25;
 shadow-offset:2px;
@@ -209,7 +209,8 @@ margin-right:-10px;
 export const SelectDropdownStyle = styled.View`
 background-color:${secondary};
 padding:15px;
-padding-left:55px;
+padding-left:50px;
+padding-right:-50px;
 border-radius: 20px;
 font-size:16px;
 height:60px;

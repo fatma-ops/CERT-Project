@@ -4,10 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Fontisto,Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
-
 import MessageModal from '../../components/Modals/MessageModal';
 import { StatusBarHeight } from '../../components/shared';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { KeyboardAvoidingView } from 'react-native-web';
@@ -24,40 +22,49 @@ import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
-const  AddVaccin = ({navigation}) =>  {
+const  AddConsultation = ({navigation}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
-      
-
   const { email } = storedCredentials;
-  console.log(email);
+  const specialities = [
+    "Cardiologie",
+    "Dermatologie",
+    "Endocrinologie",
+    "Gastro-entérologie",
+    "Gynécologie",
+    "Neurologie",
+    "Ophtalmologie",
+    "Oncologie",
+    "Oto-rhino-laryngologie",
+    "Pédiatrie",
+    "Psychiatrie",
+    "Rhumatologie",
+    "Urologie"
+  ];
+  //console.log(email);
 //date
 const [date , setDate] = useState(new Date(2000,0,1));
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
-
 const onChange = (event , selectedDate) => {
     const currentDate = selectedDate || date ;
     setShow(false);
     setDate(currentDate);
     setDob(currentDate);
    }
-   
    const showDatePicker = () =>{
        setShow(true);
    }
 
 
-  const [modalVisible , setModalVisible] = useState(false);
-  const [modalMessageType , setModalMessageType] = useState('');
-  const [headerText , setHeaderText]= useState('');
-  const [modalMessage , setModalMessage] = useState('');
-  const [buttonText , setButtonText] = useState('');
+const [modalVisible , setModalVisible] = useState(false);
+const [modalMessageType , setModalMessageType] = useState('');
+const [headerText , setHeaderText]= useState('');
+const [modalMessage , setModalMessage] = useState('');
+const [buttonText , setButtonText] = useState('');
 
-
-
-  const buttonHandler = () => {
+const buttonHandler = () => {
     if(modalMessageType === 'success'){
         //do something
     }
@@ -65,7 +72,7 @@ const onChange = (event , selectedDate) => {
         setModalVisible(false);
     };
 
-    const ShowModal = (type , headerText , message , buttonText) => {
+const ShowModal = (type , headerText , message , buttonText) => {
         setModalMessageType(type);
         setHeaderText(headerText);
         setModalMessage(message);
@@ -75,7 +82,7 @@ const onChange = (event , selectedDate) => {
 
 
 
-        const takeImageHandler = async (setFieldValue) => {
+const takeImageHandler = async (setFieldValue) => {
           let img;
           const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
           const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
@@ -121,7 +128,7 @@ const onChange = (event , selectedDate) => {
         };
         
 
-  const submitAnalyse = async (values ,setSubmitting) => {
+const submitAnalyse = async (values ,setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
     const formData = new FormData();
@@ -140,13 +147,13 @@ const onChange = (event , selectedDate) => {
 
 
     try {
-      const response = await axios.post(`${ngrokLink}/api/v1/vaccin/add`, formData, {
+      const response = await axios.post(`${ngrokLink}/api/v1/consultation/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
       console.log(response.data);
-      navigation.navigate('ListeVaccin')
+      navigation.navigate('ListeConsultation')
 
       setSubmitting(false);
 
@@ -171,7 +178,7 @@ const onChange = (event , selectedDate) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter un vaccin</Text>
+        <Text style={styles.headerTitle}>Ajouter un consultation</Text>
       </View>
      <InnerContainer>  
     
@@ -212,48 +219,77 @@ const onChange = (event , selectedDate) => {
           
          
           <MyTextInput
-           label="Vaccin"
-           icon="id-badge"
-           placeholder="Pfizer dose 1"
+           label="Consultation"
+          // icon="id-badge"
+           placeholder=""
            placeholderTextColor={darkLight}
            onChangeText={handleChange('title')}
            onBlur={handleBlur('title')}
            value={values.title}
-                              
-                          />
-          <MyTextInput
-          label="Maladie ciblée"
-           icon2="injection-syringe"
-           placeholder="Covid-19"
-           placeholderTextColor={darkLight}
-           onChangeText={handleChange('maladieCible')}
-           onBlur={handleBlur('maladieCible')}
-           value={values.maladieCible}
-                              
-                          />
+         />
+          <Text style={styles.label}>Médecin</Text> 
+         <SelectDropdownStyle>              
+         <SelectDropdown
+            //label="Specialité"
+            data={specialities}
+            onSelect={(selectedItem, index) => {
+              setFieldValue('specialite', selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText="Choisir votre médecin"
+          />
+          </SelectDropdownStyle>
            <MyTextInput
-                                    label="Date"
-                                    icon="calendar"
-                                    placeholder = "AAAA - MM - JJ"
-                                    placeholderTextColor={darkLight}
-                                    onChangeText={handleChange('date')}
-                                    onBlur={handleBlur('date')}
-                                    value={dob ? dob.toDateString() : '' }
-                                    isDate={true}
-                                    editable={false}
-                                    showDatePicker={showDatePicker}
+            label="Date"
+            icon="calendar"
+            placeholder = "AAAA - MM - JJ"
+            placeholderTextColor={darkLight}
+            onChangeText={handleChange('date')}
+            onBlur={handleBlur('date')}
+            value={dob ? dob.toDateString() : '' }
+            isDate={true}
+            editable={false}
+            showDatePicker={showDatePicker}
                                 />
 
-           <Text style={styles.label}>Preuve de vaccination</Text>
+           <Text style={styles.label}>Ordonnance(s)</Text>
             <ViewImage style={styles.imageContainer}>
-            <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-            <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
-            {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
+            <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 15,paddingLeft:70, justifyContent:'center',alignItems:'center'}} />
+            <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{position:'absolute' ,padding:25,left:70,paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
+            {values.image && <Image source={{ uri: values.image }} style={{ width: '100%', height: 150, marginTop:-55 }} />}
             </TouchableOpacity> 
 
-                <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
+                <Text style={{textAlign:'center', paddingRight:30, color:darkLight}}>Ajouter votre document</Text>
 
             </ViewImage>
+            <Text style={styles.label}>Dépenses</Text>
+            <Text style={styles.label2}>Coût                                    Remboursement</Text>
+
+            <View style={styles.depense}>
+                  <TextInput style={styles.cout}
+                placeholder="100.0"
+                placeholderTextColor={darkLight}
+                onChangeText={handleChange('cout')}
+                onBlur={handleBlur('cout')}
+                value={values.cout}/>
+
+                 <TextInput style={styles.remboursement}
+                placeholder="70.0"
+                placeholderTextColor={darkLight}
+                onChangeText={handleChange('rembourcement')}
+                onBlur={handleBlur('rembourecemnt')}
+                value={values.remboursement}/>
+            </View>
             <MyTextInput style={styles.comentaire}
           label="Commenataire"
            placeholder="..."
@@ -325,73 +361,176 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
   }
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 20,
-    },
-    label: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5,
-      },
-      header: {
-        flexDirection: 'row',
+        flex: 1,
         alignItems: 'center',
-        //justifyContent:'space-between',
-        marginTop:StatusBarHeight -42,
-        paddingBottom: 15,
-        borderBottomWidth: 0.25,
-        borderBottomColor: darkLight,
-        marginLeft:-25,
-        marginRight:-25,
-
+        justifyContent: 'center',
+        padding: 20,
       },
-      headerTitle: {
-        fontWeight: 'bold',
-        fontSize: 20,
-        color:brand,
-
+      label: {
+          fontSize: 16,
+          fontWeight: 'bold',
+         // marginBottom: 0,
+          marginTop:5,
+        },
+        label2: {
+          fontSize: 15,
+          fontWeight: 'bold',
+         // marginBottom: 1,
+         color:brand,
+          marginTop:5,
+        },
+        header: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          //justifyContent:'space-between',
+          marginTop:StatusBarHeight -42,
+          paddingBottom: 15,
+          borderBottomWidth: 0.25,
+          borderBottomColor: darkLight,
+          marginLeft:-25,
+          marginRight:-25,
+  
+        },
+        headerTitle: {
+          fontWeight: 'bold',
+          fontSize: 20,
+          color:brand,
+  
+        },
+        backButton: {
+          marginRight: 70,
+          marginLeft: 9,
+        },
+  
+      imageContainer:
+      { backgroundColor:secondary,
+      padding:15,
+      paddingLeft:55,
+      borderRadius: 20,
+      fontSize:16,
+      height:150,
+      marginVertical:3,
+      marginBottom:10,
+      color:tertiary,
+      shadowOpacity:0.25,
+      shadowOffset:{width:2, height:4},
+      shadowRadius:1,
+      elevation:5,
+      marginLeft:-10,
+      marginRight:-10,
+    },
+    depense:{
+      flexDirection: 'row',
+      alignContent:'space-between'
+    },
+    cout:{
+      backgroundColor :secondary,
+      padding:25,
+      //paddingLeft:55,
+      paddingRight:75,
+      borderRadius: 20,
+      fontSize:16,
+      height:60,
+      marginVertical:3,
+      marginBottom:10,
+      color:tertiary,
+      shadowOpacity:0.25,
+      shadowOffset:{width:2, height:4},
+      shadowRadius:1,
+      elevation:5,
+      marginLeft:-10,
+      marginRight:10,
+    },
+    remboursement:{
+      backgroundColor :secondary,
+      padding:25,
+      //paddingLeft:55,
+      paddingRight:75,
+      borderRadius: 20,
+      fontSize:16,
+      height:60,
+      marginVertical:3,
+      marginBottom:10,
+      color:tertiary,
+      shadowOpacity:0.25,
+      shadowOffset:{width:2, height:4},
+      shadowRadius:1,
+      elevation:5,
+      marginLeft:25,
+      marginRight:0,
+    },
+  
+     comentaire: {
+      //flex:1,
+      backgroundColor :secondary,
+      padding:25,
+      paddingLeft:55,
+      borderRadius: 20,
+      fontSize:16,
+      height:80,
+      marginVertical:3,
+      marginBottom:10,
+      color:tertiary,
+      shadowOpacity:0.25,
+      shadowOffset:{width:2, height:4},
+      shadowRadius:1,
+      elevation:5,
+      marginLeft:-10,
+      marginRight:-10,
+    },
+    dropdownContainer: {
+        backgroundColor: secondary,
+        padding:15,
+        paddingLeft:55,
+        borderRadius: 20,
+        height:60,
+        marginVertical:3,
+        marginBottom:10,
+        color:tertiary,
+        marginLeft:-10,
+        marginRight:-10
+     
+       },
+    dropdownButton: {
+        backgroundColor: secondary,
+        alignItems:'center',
+        borderRadius:20,
+        padding:15,
+        //paddingLeft:55,
+        paddingRight:0,
+        height:50,
+        marginVertical:-7,
+        marginBottom:10,
+        shadowOpacity:0.25,
+        shadowOffset:2,
+        shadowRadius:1,
+       marginLeft:-10,
+        marginRight:-10,
       },
-      backButton: {
-        marginRight: 70,
-        marginLeft: 9,
+      dropdownButtonText: {
+        fontSize: 16,
+        color: '#333',
+        //paddingHorizontal:-50,
+        paddingRight:-90,
       },
-
-    imageContainer:
-    { backgroundColor:secondary,
-    padding:15,
-    paddingLeft:55,
-    borderRadius: 20,
-    fontSize:16,
-    height:200,
-    marginVertical:3,
-    marginBottom:10,
-    color:tertiary,
-    shadowOpacity:0.25,
-    shadowOffset:{width:2, height:4},
-    shadowRadius:1,
-    elevation:5,
-    marginLeft:-10,
-    marginRight:-10,
-  },
-   comentaire: {
-    //flex:1,
-    backgroundColor :secondary,
-    padding:25,
-    paddingLeft:55,
-    borderRadius: 20,
-    fontSize:16,
-    height:100,
-    marginVertical:3,
-    marginBottom:10,
-    color:tertiary,
-    shadowOpacity:0.25,
-    shadowOffset:{width:2, height:4},
-    shadowRadius:1,
-    elevation:5,
-    marginLeft:-10,
-    marginRight:-10,
-  },
-  });
-  export default AddVaccin; 
+      dropdown: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 20,
+        backgroundColor: '#fafafa',
+        justifyContent:'center'
+    },
+    dropdownRow: {
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+      },
+      dropdownRowText: {
+        fontSize: 16,
+        color: '#333',
+      },
+      selectedValue: {
+        fontSize: 18,
+        marginTop: 20,
+      },
+    });
+  export default AddConsultation; 
