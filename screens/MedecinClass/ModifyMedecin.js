@@ -14,6 +14,7 @@ import { StyleSheet } from 'react-native';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { StatusBarHeight } from '../../components/shared';
+import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary , secondary , tertiary } = Colors;
 
@@ -87,7 +88,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
             setSubmitting(true);
       
         try {
-          const response = await fetch(`https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/medecin/put/${id}`, {
+          const response = await fetch(`${ngrokLink}/api/v1/medecin/put/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'

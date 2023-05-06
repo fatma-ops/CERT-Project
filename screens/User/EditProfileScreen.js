@@ -11,7 +11,7 @@ import MessageModal from '../../components/Modals/MessageModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import RowContainer from '../../components/Containers/RowContainer'
-
+import { ngrokLink } from '../../config';
 
 
 import
@@ -75,7 +75,7 @@ const buttonHandler = () => {
         setSubmitting(true);
       
         try {
-          const response = await fetch(`https://7783-196-232-115-1.ngrok-free.app/api/v1/user/${_id}`, {
+          const response = await fetch(`${ngrokLink}/api/v1/user/${_id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'

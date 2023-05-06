@@ -25,6 +25,7 @@ import {
     StyledEtoile
    
 } from '../../components/styles';
+import { ngrokLink } from '../../config';
 //Api Client
 import IconHeader from '../../components/Icons/IconHeader';
 import RegularText from '../../components/Texts/RegularText';
@@ -43,7 +44,7 @@ const ForgetPassword = ({ navigation }) => {
             handleMessage(null);
             setSubmitting(true);
       
-            const response = await axios.post('https://7783-196-232-115-1.ngrok-free.app/api/v1/forget_password', { email: credentials.email });
+            const response = await axios.post(`${ngrokLink}/api/v1/forget_password`, { email: credentials.email });
       
             setSubmitting(false);
       

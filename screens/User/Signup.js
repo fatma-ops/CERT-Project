@@ -10,7 +10,7 @@ import { CredentialsContext } from '../../components/CredentialsContext';
 import Login from './Login';
 import { ToastAndroid ,StyleSheet} from 'react-native';
 import MessageModal from '../../components/Modals/MessageModal';
-
+import { ngrokLink } from '../../config';
 
 
 
@@ -132,7 +132,7 @@ const buttonHandler = () => {
             setSubmitting(true);
 
             axios
-              .post('https://7783-196-232-115-1.ngrok-free.app/api/v1/user/signup', credentials)
+              .post(`${ngrokLink}/api/v1/user/signup`, credentials)
               .then((response) => {
                 const { status, data } = response;
                 if (status === 200) {

@@ -5,6 +5,7 @@ import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import MainContainer from '../../components/Containers/MainContainer';
 import RegularText from '../../components/Texts/RegularText';
 import {StyledButton,ButtonText,Colors} from '../../components/styles';
+import { ngrokLink } from '../../config';
 //Api Client
 
 import IconHeader from '../../components/Icons/IconHeader';
@@ -52,7 +53,7 @@ const handleCodeVerification = async () => {
     const email = route.params.email;
     console.log('Verifying code for email:', email);
     console.log('Verification code:', code);
-    const response = await fetch('https://7783-196-232-115-1.ngrok-free.app/api/v1/otp/verify',{
+    const response = await fetch(`${ngrokLink}/api/v1/otp/verify`,{
       method: 'POST',
       headers: {
         Accept: 'application/json',

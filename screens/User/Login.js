@@ -33,6 +33,7 @@ import {
     ViewMot,
     StyledEtoile,
 } from '../../components/styles';
+import { ngrokLink } from '../../config';
 
 //Api Client
 import axios from 'axios';
@@ -42,7 +43,7 @@ import RowContainer2 from '../../components/Containers/RowContainer2';
 
 const { brand, darkLight, primary } = Colors;
 
-const API_URL = 'https://118c-102-157-71-197.eu.ngrok.io/api/v1/user/';
+const API_URL = `${ngrokLink}/api/v1/user/`;
 
 const Login = ({navigation}) => {
   

@@ -14,7 +14,7 @@ import RegularText from '../../components/Texts/RegularText';
 import axios from 'axios';
 import IconHeader from '../../components/Icons/IconHeader';
 import RowContainer2 from '../../components/Containers/RowContainer2';
-
+import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary } = Colors;
 
@@ -70,7 +70,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
 
     // Send a POST request to your backend server
     const response = await axios.post(
-      'https://7783-196-232-115-1.ngrok-free.app/api/v1/forget_password/rest',
+      `${ngrokLink}/api/v1/forget_password/rest`,
       {
         email,
         otp: code,

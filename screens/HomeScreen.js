@@ -4,7 +4,6 @@ import { Colors } from '../components/styles';
 import { CredentialsContext } from './../components/CredentialsContext';
 import { StatusBarHeight } from '../components/shared';
 import RowContainer2 from '../components/Containers/RowContainer2';
-
 const {brand , secondary , darkLight , red} = Colors
 
 

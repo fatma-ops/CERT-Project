@@ -7,7 +7,7 @@ import EditProfileScreen from './EditProfileScreen';
 import { Modal } from 'react-native';
 import { StatusBarHeight } from '../../components/shared';
 import {  Octicons, AntDesign, Fontisto , Entypo , MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-
+import { ngrokLink } from '../../config';
 
 
 

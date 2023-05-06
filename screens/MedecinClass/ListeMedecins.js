@@ -11,8 +11,7 @@ import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
 import { StatusBar } from 'react-native';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
-
-
+import { ngrokLink } from '../../config';
 
 const ListeMedecins = ({ navigation  }) => {
   const [medecins, setMedecins] = useState([]);
@@ -39,11 +38,12 @@ const ListeMedecins = ({ navigation  }) => {
 
 
 
-  useEffect(() => {
-    axios.get(`https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/medecin/${email}?cache_bust=123456789`)
-      .then(response => setMedecins(response.data))
-      .catch(error => console.log(error));
-  }, [email]);
+    useEffect(() => {
+      axios.get(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+        .then(response => setMedecins(response.data))
+        .catch(error => console.log(error));
+    }, [email]);
+    
 
   const renderAnalyse = ({ item }) => {
     return (

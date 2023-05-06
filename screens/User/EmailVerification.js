@@ -5,6 +5,7 @@ import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import MainContainer from '../../components/Containers/MainContainer';
 import RegularText from '../../components/Texts/RegularText';
 import {StyledButton,ButtonText,Colors} from '../../components/styles';
+import { ngrokLink } from '../../config';
 //Api Client
 
 import IconHeader from '../../components/Icons/IconHeader';
@@ -58,7 +59,7 @@ const resendEmail = async (triggerTimer) => {
     try {
       setResendingEmail(true);
       console.log('Verifying code for email:', email);
-      const response = await fetch('https://05ab-160-159-246-109.eu.ngrok.io/api/v1/email_verification/', {
+      const response = await fetch(`${ngrokLink}/api/v1/email_verification/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ const handleEmailVerification = async () => {
         setVerifing(true);
         console.log('Verifying code for email:', email);
         console.log('Verification code:', code);
-        const response = await fetch('https://7783-196-232-115-1.ngrok-free.app/api/v1/email_verification/verify',{
+        const response = await fetch(`${ngrokLink}/api/v1/email_verification/verify`,{
           method: 'POST',
           headers: {
             Accept: 'application/json',

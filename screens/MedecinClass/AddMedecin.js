@@ -12,7 +12,7 @@ import { StyleSheet } from 'react-native';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { StatusBarHeight } from '../../components/shared';
-
+import { ngrokLink } from '../../config';
 const { brand, darkLight, primary , secondary, tertiary} = Colors;
 
 const  AddMedecin = ({navigation}) =>  {
@@ -84,7 +84,7 @@ const  AddMedecin = ({navigation}) =>  {
         
           try {
             const response = await axios.post(
-              'https://118c-102-157-71-197.eu.ngrok.io/api/v1/medecin/add',
+              `${ngrokLink}/api/v1/medecin/add`,
               data,
               {
                 headers: {

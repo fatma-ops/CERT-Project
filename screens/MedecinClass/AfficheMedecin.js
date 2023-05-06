@@ -4,6 +4,8 @@ import { Colors } from '../../components/styles';
 import { useState } from 'react';
 import MessageModalImage from '../../components/Modals/MessageModalImage';
 import axios from 'axios';
+import { ngrokLink } from '../../config';
+
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 
 const AfficheMedecin = ({ navigation , route }) => {
@@ -38,7 +40,7 @@ const AfficheMedecin = ({ navigation , route }) => {
 
     const handleDelete = async () => {
       try {
-        const response = await fetch(`https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/medecin/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}/api/v1/medecin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();

@@ -18,6 +18,7 @@ import { StyleSheet } from 'react-native';
 import RegularButton3 from '../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../components/Buttons/RegularButton2';
+import { ngrokLink } from '../config';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
@@ -104,7 +105,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
 
     try {
-      const response = await axios.post('https://e922-197-15-82-75.ngrok-free.app/api/v1/analyse/add', formData, {
+      const response = await axios.post(`${ngrokLink}/api/v1/analyse/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

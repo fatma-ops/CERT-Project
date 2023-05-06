@@ -16,7 +16,7 @@ import IconHeader from '../../components/Icons/IconHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import RowContainer2 from '../../components/Containers/RowContainer2';
-
+import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary } = Colors;
 
@@ -61,7 +61,7 @@ const ShowModal = (type , headerText , message , buttonText) => {
       
       const handleOnSubmit = async (credentials, setSubmitting) => {
         try {
-            const response = await axios.post('https://7783-196-232-115-1.ngrok-free.app/api/v1/forget_password/change', credentials);
+            const response = await axios.post(`${ngrokLink}/api/v1/forget_password/change`, credentials);
             if (response.status === 200) {
               handleMessage('Mot de passe changé avec succès', 'SUCCESS');
               ShowModal('success', "Réussie", "Mot de passe changé avec succès!", 'OK');

@@ -19,8 +19,8 @@ import RegularButton3 from '../../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 import RegularButton from '../../components/Buttons/RegularButton';
-
 import SelectDropdown from 'react-native-select-dropdown';
+import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
@@ -140,7 +140,7 @@ const onChange = (event , selectedDate) => {
 
 
     try {
-      const response = await axios.post('https://6cd6-197-2-115-46.eu.ngrok.io/api/v1/vaccin/add', formData, {
+      const response = await axios.post(`${ngrokLink}/api/v1/vaccin/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
