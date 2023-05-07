@@ -1,4 +1,4 @@
-import React, { useContext , useState } from 'react';
+import React, { useContext , useState , useEffect } from 'react';
 import { View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
@@ -19,6 +19,9 @@ import RegularButton3 from '../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../components/Buttons/RegularButton2';
 import { ngrokLink } from '../config';
+import { SelectDropdownStyle } from './../components/styles';
+import SelectDropdown from 'react-native-select-dropdown';
+
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
@@ -26,6 +29,18 @@ const  AddAnalyse = ({navigation}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
+
+
+  // Fetch the list of contacts from the database
+  const [contacts, setContacts] = useState([]);
+  useEffect(() => {
+    fetch(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+      .then(response => response.json())
+      .then(data => setContacts(data))
+      .catch(error => console.error(error));
+  }, []);
+  const options = contacts.map(contact => contact.nom);
+
       
 
   const { email } = storedCredentials;
@@ -72,24 +87,51 @@ const onChange = (event , selectedDate) => {
 
 
 
-  const pickImage = async (setFieldValue) => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setFieldValue('image', result.uri);
-    }
-  };
+        const takeImageHandler = async (setFieldValue) => {
+          let img;
+          const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+        
+          if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+            alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
+            return;
+          }
+        
+          Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+            {
+              text: 'Depuis la galerie',
+              onPress: async () => {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                  //allowsEditing: true,
+                  aspect: [16, 9],
+                  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                  base64: true,
+                  quality: 1,
+                  allowsMultipleSelection: true,
+                });
+                if (!result.canceled) {
+                  setFieldValue('image', result.assets[0].uri);
+                }
+              },
+            },
+            {
+              text: 'Ouvrir la caméra',
+              onPress: async () => {
+                let result = await ImagePicker.launchCameraAsync({
+                  allowsEditing: true,
+                  aspect: [24, 9],
+                  base64: true,
+                  quality: 0.5,
+                });
+                if (!result.canceled) {
+                  setFieldValue('image', result.assets[0].uri);
+                }
+              },
+            },
+            { text: 'Annuler', style: 'cancel' },
+          ]);
+        };
+        
 
   const submitAnalyse = async (values ,setSubmitting) => {
     handleMessage(null);
@@ -97,6 +139,12 @@ const onChange = (event , selectedDate) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('date', values.date);
+    formData.append('contact', values.contact);
+    formData.append('cout', values.cout);
+    formData.append('remboursement', values.remboursement);
+
+
+
     formData.append('testimage', {
       uri: values.image,
       name: 'image.png',
@@ -159,7 +207,7 @@ const onChange = (event , selectedDate) => {
 
 
     <Formik
-      initialValues={{ title: '', date: '', image: null }}
+      initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', image: null }}
       onSubmit={(values, { setSubmitting }) => {
         if (values.title == '' ) {
             handleMessage('Veuillez remplir  les champs');
@@ -186,7 +234,7 @@ const onChange = (event , selectedDate) => {
                               
                           />
            <MyTextInput
-                                    label="date"
+                                    label="Date"
                                     icon="calendar"
                                     placeholder = "AAAA - MM - JJ"
                                     placeholderTextColor={darkLight}
@@ -200,12 +248,28 @@ const onChange = (event , selectedDate) => {
 
                                 
                                 />
+          <Text style={styles.label}>Médecin</Text> 
+
+          <SelectDropdownStyle>
+          <SelectDropdown
+        data={options}
+        onSelect={(selectedItem, index) => {
+          setFieldValue('contact', selectedItem);
+        }}        defaultButtonText="Choisir votre médecin"
+        buttonStyle={styles.dropdownButton}
+        buttonTextStyle={styles.dropdownButtonText}
+        dropdownStyle={styles.dropdown}
+        rowStyle={styles.dropdownRow}
+        rowTextStyle={styles.dropdownRowText}
+        buttonTextAfterSelection={(selectedItem, index) => contacts[index].nom}
+      />
+      </SelectDropdownStyle>
 
            <Text style={styles.label}>Résultat d'analyse</Text>
             <ViewImage style={styles.imageContainer}>
 
-            <Ionicons name='camera' onPress={() => pickImage(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-            <TouchableOpacity onPress={() => pickImage(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
+            <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
+            <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
             {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
             </TouchableOpacity> 
 
@@ -225,8 +289,8 @@ const onChange = (event , selectedDate) => {
                  <TextInput style={styles.remboursement}
                 placeholder="70.0"
                 placeholderTextColor={darkLight}
-                onChangeText={handleChange('rembourcement')}
-                onBlur={handleBlur('rembourecemnt')}
+                onChangeText={handleChange('remboursement')}
+                onBlur={handleBlur('remboursement')}
                 value={values.remboursement}/>
 
 
@@ -411,6 +475,59 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
     elevation:5,
     marginLeft:-10,
     marginRight:-10,
+  }, dropdownContainer: {
+    backgroundColor: secondary,
+    padding:15,
+    paddingLeft:55,
+    borderRadius: 20,
+    height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    marginLeft:-10,
+    marginRight:-10
+ 
+   },
+dropdownButton: {
+    backgroundColor: secondary,
+    alignItems:'center',
+    borderRadius:20,
+    padding:15,
+    //paddingLeft:55,
+    paddingRight:0,
+    height:50,
+    marginVertical:-7,
+    marginBottom:10,
+    shadowOpacity:0.25,
+    shadowOffset:2,
+    shadowRadius:1,
+   marginLeft:-10,
+    marginRight:-10,
+  },
+  dropdownButtonText: {
+    fontSize: 16,
+    color: '#333',
+    //paddingHorizontal:-50,
+    paddingRight:-90,
+  },
+  dropdown: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 20,
+    backgroundColor: '#fafafa',
+    justifyContent:'center'
+},
+dropdownRow: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+  },
+  dropdownRowText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  selectedValue: {
+    fontSize: 18,
+    marginTop: 20,
   },
   });
   export default AddAnalyse; 

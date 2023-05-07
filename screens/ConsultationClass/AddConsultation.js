@@ -1,4 +1,4 @@
-import React, { useContext , useState } from 'react';
+import React, { useContext , useState , useEffect} from 'react';
 import { Alert,View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
@@ -26,23 +26,23 @@ const  AddConsultation = ({navigation}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
+
+  // Fetch the list of contacts from the database
+  const [contacts, setContacts] = useState([]);
+  useEffect(() => {
+    fetch(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+      .then(response => response.json())
+      .then(data => setContacts(data))
+      .catch(error => console.error(error));
+  }, []);
+  const options = contacts.map(contact => contact.nom);
+
+
+
   const { email } = storedCredentials;
-  const specialities = [
-    "Cardiologie",
-    "Dermatologie",
-    "Endocrinologie",
-    "Gastro-entérologie",
-    "Gynécologie",
-    "Neurologie",
-    "Ophtalmologie",
-    "Oncologie",
-    "Oto-rhino-laryngologie",
-    "Pédiatrie",
-    "Psychiatrie",
-    "Rhumatologie",
-    "Urologie"
-  ];
   //console.log(email);
+
+
 //date
 const [date , setDate] = useState(new Date(2000,0,1));
 const [dob , setDob] = useState() ; 
@@ -105,7 +105,7 @@ const takeImageHandler = async (setFieldValue) => {
                   allowsMultipleSelection: true,
                 });
                 if (!result.canceled) {
-                  setFieldValue('image', result.uri);
+                  setFieldValue('image', result.assets[0].uri);
                 }
               },
             },
@@ -119,7 +119,7 @@ const takeImageHandler = async (setFieldValue) => {
                   quality: 0.5,
                 });
                 if (!result.canceled) {
-                  setFieldValue('image', result.uri);
+                  setFieldValue('image', result.assets[0].uri);
                 }
               },
             },
@@ -128,14 +128,13 @@ const takeImageHandler = async (setFieldValue) => {
         };
         
 
-const submitAnalyse = async (values ,setSubmitting) => {
+const submitConsultation = async (values ,setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
     const formData = new FormData();
-    formData.append('title', values.title);
-    formData.append('maladieCible', values.maladieCible);
-
+    formData.append('type', values.type);
     formData.append('date', values.date);
+    formData.append('contact', values.contact);
 
     formData.append('testimage', {
       uri: values.image,
@@ -144,6 +143,10 @@ const submitAnalyse = async (values ,setSubmitting) => {
     });
     formData.append('userEmail', email);
     formData.append('commentaire', values.commentaire);
+    formData.append('cout', values.cout);
+    formData.append('remboursement', values.remboursement);
+
+
 
 
     try {
@@ -202,13 +205,13 @@ const submitAnalyse = async (values ,setSubmitting) => {
 
 
     <Formik
-      initialValues={{ title: '',maladieCible:'', date: '',commentaire:'', image: null }}
+      initialValues={{ type: '',date:'', contact: '',commentaire:'',cout:'',remboursement:'', image: null }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.title == '' , values.maladieCible =='' ) {
+        if (values.type == ''  ) {
             handleMessage('Veuillez remplir  les champs obligatoire');
             setSubmitting(false);
         } else {
-            submitAnalyse(values, setSubmitting);
+            submitConsultation(values, setSubmitting);
 
         }
     
@@ -223,32 +226,26 @@ const submitAnalyse = async (values ,setSubmitting) => {
           // icon="id-badge"
            placeholder=""
            placeholderTextColor={darkLight}
-           onChangeText={handleChange('title')}
-           onBlur={handleBlur('title')}
-           value={values.title}
+           onChangeText={handleChange('type')}
+           onBlur={handleBlur('type')}
+           value={values.type}
          />
           <Text style={styles.label}>Médecin</Text> 
-         <SelectDropdownStyle>              
-         <SelectDropdown
-            //label="Specialité"
-            data={specialities}
-            onSelect={(selectedItem, index) => {
-              setFieldValue('specialite', selectedItem);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-            buttonStyle={styles.dropdownButton}
-            buttonTextStyle={styles.dropdownButtonText}
-            dropdownStyle={styles.dropdown}
-            rowStyle={styles.dropdownRow}
-            rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir votre médecin"
-          />
-          </SelectDropdownStyle>
+        
+          <SelectDropdownStyle>
+          <SelectDropdown
+        data={options}
+        onSelect={(selectedItem, index) => {
+          setFieldValue('contact', selectedItem);
+        }}        defaultButtonText="Choisir votre médecin"
+        buttonStyle={styles.dropdownButton}
+        buttonTextStyle={styles.dropdownButtonText}
+        dropdownStyle={styles.dropdown}
+        rowStyle={styles.dropdownRow}
+        rowTextStyle={styles.dropdownRowText}
+        buttonTextAfterSelection={(selectedItem, index) => contacts[index].nom}
+      />
+      </SelectDropdownStyle>
            <MyTextInput
             label="Date"
             icon="calendar"
@@ -287,15 +284,15 @@ const submitAnalyse = async (values ,setSubmitting) => {
                  <TextInput style={styles.remboursement}
                 placeholder="70.0"
                 placeholderTextColor={darkLight}
-                onChangeText={handleChange('rembourcement')}
-                onBlur={handleBlur('rembourecemnt')}
+                onChangeText={handleChange('remboursement')}
+                onBlur={handleBlur('rembouresement')}
                 value={values.remboursement}
                 keyboardType="phone-pad"
                 />
 
 
             <MyTextInput style={styles.comentaire}
-          label="Commenataire"
+          label="Commentaire"
            placeholder="..."
            placeholderTextColor={darkLight}
            multiline={true}

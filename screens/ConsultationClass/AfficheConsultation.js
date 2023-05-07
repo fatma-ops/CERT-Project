@@ -4,7 +4,7 @@ import React from 'react'
 const AfficheConsultation = () => {
   return (
     <View>
-      <Text>ModifyVaccin</Text>
+      <Text>AfficheConsultation</Text>
     </View>
   )
 }

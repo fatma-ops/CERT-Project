@@ -20,6 +20,7 @@ const ListeConsultation = ({ navigation }) => {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 
   const { email } = storedCredentials;
+  
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredConsultations, setFilteredConsultations] = useState([]);
@@ -28,8 +29,8 @@ const ListeConsultation = ({ navigation }) => {
       const filtered = consultations.filter(
         (item) =>
           item &&
-          item.title &&
-          item.title.toLowerCase().includes(text.toLowerCase())
+          item.type &&
+          item.type.toLowerCase().includes(text.toLowerCase())
       );
       setFilteredConsultations(filtered);
     };
@@ -39,16 +40,7 @@ const ListeConsultation = ({ navigation }) => {
       .catch(error => console.log(error));
   }, [email]);
 
-  const renderAnalyse = ({ item }) => {
-    return (
-      <View style={styles.item}>
-        <View style={styles.analyse}>
-          <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>{item.date}</Text>
-        </View>
-      </View>
-    );
-  };
+  
 
   return (
 
@@ -110,20 +102,17 @@ const ListeConsultation = ({ navigation }) => {
       <View  key={index}>
       <View style={styles.liste}>
 
-          <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>30 avr 2023</Text>
-          <Text style={styles.text2}>{item.title}</Text>
+          <Text style={styles.text}>{item.type}</Text>
+          <Text style={styles.dateContainer}>30 avr 2023</Text> 
+          <Text style={styles.text2}>{item.contact}</Text>
           </View>
       </View>
-      {item.image && (
-      <Image
-        source={{ uri: `data:${item.image.contentType};base64,${item.image.data.toString('base64')}` }}
-        style={styles.image}
-      />
-    )}
+    
+    
     </TouchableOpacity>
   )}
 />
+
 </View>
 </View>
 </View>
@@ -200,11 +189,14 @@ text:{
   marginTop:15,
    // fontWeight:'400',
     fontSize:20,
+    paddingHorizontal:12
 },
 text2:{
- marginTop:5,
+ marginTop:30,
     fontSize:15,
     color:brand,
+    paddingHorizontal:12
+
 },
 item:{ 
   marginTop:-1,

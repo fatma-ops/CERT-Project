@@ -9,6 +9,9 @@ const { brand, darkLight, primary } = Colors;
 
 const AnalyseDetail = ({ route }) => {
   const { selectedAnalyse } = route.params;
+  const imageUrl = `https://3027-41-225-46-32.ngrok-free.app/uploads/${selectedAnalyse.image}`;
+
+
   
   return (
 
@@ -25,19 +28,19 @@ const AnalyseDetail = ({ route }) => {
         
           <Text style={styles.titre}>{selectedAnalyse.title}</Text>
           </View> 
+          <Image source={{ uri: imageUrl }} style ={styles.image} />
+
           <View style={styles.header}>
         <Text style={styles.resultat}>Date: {selectedAnalyse.date}</Text>
         <Text style={styles.resultat}>Contact: {selectedAnalyse.contact}</Text>
         <Text style={styles.resultat}>Commentaire: {selectedAnalyse.commentaire}</Text>
 
+
       </View>
       <Text style={styles.resultat}>Résultat d'analyse</Text>
 
-      <View style={styles.imageContainer}>
 
-        <Image source={require('../assets/img/logo3.png')} style={styles.image} />
       </View>
-    </View>
   );
   
       };
