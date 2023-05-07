@@ -99,7 +99,7 @@ const onChange = (event , selectedDate) => {
                   allowsMultipleSelection: true,
                 });
                 if (!result.canceled) {
-                  setFieldValue('image', result.uri);
+                  setFieldValue('image', result.assets[0].uri);
                 }
               },
             },
@@ -113,7 +113,7 @@ const onChange = (event , selectedDate) => {
                   quality: 0.5,
                 });
                 if (!result.canceled) {
-                  setFieldValue('image', result.uri);
+                  setFieldValue('image', result.assets[0].uri);
                 }
               },
             },
