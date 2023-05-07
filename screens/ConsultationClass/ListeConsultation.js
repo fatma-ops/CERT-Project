@@ -93,7 +93,7 @@ const ListeConsultation = ({ navigation }) => {
     </View>
   
     <View style={styles.analyseContainer}>
-<View style={styles.liste}>
+      <View style={styles.item}>
 <FlatList
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
@@ -107,11 +107,13 @@ const ListeConsultation = ({ navigation }) => {
         })
       }
     >
-      <View style={styles.item} key={index}>
+      <View  key={index}>
+      <View style={styles.liste}>
+
           <Text style={styles.text}>{item.title}</Text>
           <Text style={styles.dateContainer}>30 avr 2023</Text>
           <Text style={styles.text2}>{item.title}</Text>
-          
+          </View>
       </View>
       {item.image && (
       <Image
@@ -124,7 +126,6 @@ const ListeConsultation = ({ navigation }) => {
 />
 </View>
 </View>
- 
 </View>
   );
 };
@@ -187,12 +188,13 @@ divider:{
     marginBottom:5,
 },
 dateContainer:{
-  //marginTop:10,
   flexDirection:'row',
   justifyContent:'space-between',
   alignContent:'center',
-  marginLeft:230,
-  marginTop:-20,
+  marginLeft:-50,
+  marginTop:-50,
+  fontWeight:'bold',
+  //color:darkLight
 },
 text:{
   marginTop:15,
@@ -206,27 +208,29 @@ text2:{
 },
 item:{ 
   marginTop:-1,
-    marginLeft:10,
+    marginLeft:20,
     marginRight:10,
     //alignItems:'center',
-    borderTopWidth: 1,
-    borderTopColor: darkLight,
-    marginBottom:15
+    borderLeftWidth: 2,
+    borderLeftColor: brand,
+    //marginBottom:20
 },
 liste:{
   
   fontSize:19,
   fontWeight:'600',
   opacity:0.8,
-  marginTop:0.4,
+  marginTop:20,
+  marginBottom:10,
   shadowOpacity:0.25,
   shadowOffset:{width:0.75, height:2},
   shadowRadius:2,
   elevation:5,
   backgroundColor:'white',
   borderRadius:15,
-  marginLeft:15,
+  marginLeft:55,
   marginRight:15,
+  height:70,
 
 },
 index:{

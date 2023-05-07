@@ -105,15 +105,10 @@ export default function HomeScreen({ navigation }) {
       paddingHorizontal: 20,
       flexDirection:'row',
       marginTop:StatusBarHeight-90,
-
     },
-    
   Text: {
-   
-    
     color:'white',
     fontWeight:'bold'
-    
   },
   avatar: {
     

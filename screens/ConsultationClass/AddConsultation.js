@@ -275,21 +275,25 @@ const submitAnalyse = async (values ,setSubmitting) => {
             <Text style={styles.label}>Dépenses</Text>
             <Text style={styles.label2}>Coût                                    Remboursement</Text>
 
-            <View style={styles.depense}>
                   <TextInput style={styles.cout}
                 placeholder="100.0"
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('cout')}
                 onBlur={handleBlur('cout')}
-                value={values.cout}/>
+                value={values.cout}
+                keyboardType="phone-pad"
+                />
 
                  <TextInput style={styles.remboursement}
                 placeholder="70.0"
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('rembourcement')}
                 onBlur={handleBlur('rembourecemnt')}
-                value={values.remboursement}/>
-            </View>
+                value={values.remboursement}
+                keyboardType="phone-pad"
+                />
+
+
             <MyTextInput style={styles.comentaire}
           label="Commenataire"
            placeholder="..."
@@ -425,39 +429,40 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
     },
     cout:{
       backgroundColor :secondary,
-      padding:25,
-      //paddingLeft:55,
-      paddingRight:75,
+      padding:15,
+      paddingLeft:25,
+      //paddingRight:75,
       borderRadius: 20,
       fontSize:16,
       height:60,
       marginVertical:3,
-      marginBottom:10,
+      marginBottom:15,
       color:tertiary,
       shadowOpacity:0.25,
       shadowOffset:{width:2, height:4},
       shadowRadius:1,
       elevation:5,
       marginLeft:-10,
-      marginRight:10,
+      marginRight:165,
     },
     remboursement:{
       backgroundColor :secondary,
-      padding:25,
-      //paddingLeft:55,
-      paddingRight:75,
+      padding:15,
+      paddingLeft:25,
+      //paddingRight:75,
       borderRadius: 20,
       fontSize:16,
       height:60,
       marginVertical:3,
-      marginBottom:10,
+      marginBottom:15,
       color:tertiary,
       shadowOpacity:0.25,
       shadowOffset:{width:2, height:4},
       shadowRadius:1,
       elevation:5,
-      marginLeft:25,
-      marginRight:0,
+      marginLeft:155,
+      marginRight:-10,
+      marginTop:-75,
     },
   
      comentaire: {

@@ -215,7 +215,6 @@ const onChange = (event , selectedDate) => {
             <Text style={styles.label}>Dépenses</Text>
             <Text style={styles.label2}>Coût                                    Remboursement</Text>
 
-            <View style={styles.depense}>
                   <TextInput style={styles.cout}
                 placeholder="100.0"
                 placeholderTextColor={darkLight}
@@ -229,7 +228,6 @@ const onChange = (event , selectedDate) => {
                 onChangeText={handleChange('rembourcement')}
                 onBlur={handleBlur('rembourecemnt')}
                 value={values.remboursement}/>
-            </View>
 
 
           <MsgBox type={messageType}>
@@ -350,43 +348,50 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
   },
   depense:{
     flexDirection: 'row',
-    alignContent:'space-between'
+    alignContent:'space-between',
+    marginLeft:-10,
+    marginRight:-10,
+    //backgroundColor:'black',
+    height:80,
+    paddingVertical:15,
+    marginVertical:3
   },
   cout:{
     backgroundColor :secondary,
-    padding:25,
-    //paddingLeft:55,
-    paddingRight:75,
+    padding:15,
+    paddingLeft:25,
+    //paddingRight:75,
     borderRadius: 20,
     fontSize:16,
     height:60,
     marginVertical:3,
-    marginBottom:10,
+    marginBottom:15,
     color:tertiary,
     shadowOpacity:0.25,
     shadowOffset:{width:2, height:4},
     shadowRadius:1,
     elevation:5,
     marginLeft:-10,
-    marginRight:10,
+    marginRight:165,
   },
   remboursement:{
     backgroundColor :secondary,
-    padding:25,
-    //paddingLeft:55,
-    paddingRight:75,
+    padding:15,
+    paddingLeft:25,
+    //paddingRight:75,
     borderRadius: 20,
     fontSize:16,
     height:60,
     marginVertical:3,
-    marginBottom:10,
+    marginBottom:15,
     color:tertiary,
     shadowOpacity:0.25,
     shadowOffset:{width:2, height:4},
     shadowRadius:1,
     elevation:5,
-    marginLeft:25,
-    marginRight:0,
+    marginLeft:155,
+    marginRight:-10,
+    marginTop:-75,
   },
 
    comentaire: {
