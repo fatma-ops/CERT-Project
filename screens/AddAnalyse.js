@@ -227,7 +227,8 @@ const onChange = (event , selectedDate) => {
         data={options}
         onSelect={(selectedItem, index) => {
           setFieldValue('contact', selectedItem);
-        }}        defaultButtonText="Choisir votre médecin"
+        }}        
+        defaultButtonText="Choisir votre médecin"
         buttonStyle={styles.dropdownButton}
         buttonTextStyle={styles.dropdownButtonText}
         dropdownStyle={styles.dropdown}
@@ -447,7 +448,8 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
     elevation:5,
     marginLeft:-10,
     marginRight:-10,
-  }, dropdownContainer: {
+  }, 
+  dropdownContainer: {
     backgroundColor: secondary,
     padding:15,
     paddingLeft:55,
@@ -469,10 +471,7 @@ dropdownButton: {
     paddingRight:0,
     height:50,
     marginVertical:-7,
-    marginBottom:10,
-    shadowOpacity:0.25,
-    shadowOffset:2,
-    shadowRadius:1,
+    marginBottom:10, 
    marginLeft:-10,
     marginRight:-10,
   },

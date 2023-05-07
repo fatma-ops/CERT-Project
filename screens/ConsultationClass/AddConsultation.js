@@ -487,11 +487,8 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
         height:50,
         marginVertical:-7,
         marginBottom:10,
-        shadowOpacity:0.25,
-        shadowOffset:2,
-        shadowRadius:1,
        marginLeft:-10,
-        marginRight:-10,
+      marginRight:-10,
       },
       dropdownButtonText: {
         fontSize: 16,
