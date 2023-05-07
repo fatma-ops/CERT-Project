@@ -103,7 +103,7 @@ const ListeConsultation = ({ navigation }) => {
       <View style={styles.liste}>
 
           <Text style={styles.text}>{item.type}</Text>
-          <Text style={styles.dateContainer}>30 avr 2023</Text> 
+          <Text style={styles.dateContainer}>{item.date}</Text> 
           <Text style={styles.text2}>{item.contact}</Text>
           </View>
       </View>
@@ -181,7 +181,7 @@ dateContainer:{
   justifyContent:'space-between',
   alignContent:'center',
   marginLeft:-50,
-  marginTop:-50,
+  marginTop:-56,
   fontWeight:'bold',
   //color:darkLight
 },
@@ -192,7 +192,7 @@ text:{
     paddingHorizontal:12
 },
 text2:{
- marginTop:30,
+ marginTop:40,
     fontSize:15,
     color:brand,
     paddingHorizontal:12

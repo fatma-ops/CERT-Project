@@ -12,7 +12,6 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate(screenName);
   };
   const [greet, setGreet] = useState('');
- 
   useEffect(() => {
     const findGreet = () => {
       const hrs = new Date().getHours();
@@ -25,7 +24,7 @@ export default function HomeScreen({ navigation }) {
   const {storedCredentials , setStoredCredentials}=useContext(CredentialsContext);
 
   const {nom,prenom} = storedCredentials;
-  console.log(nom , prenom)
+  //console.log(nom , prenom)
   return (
     
       <View style={styles.page}>

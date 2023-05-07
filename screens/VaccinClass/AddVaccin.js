@@ -27,53 +27,53 @@ const { storedCredentials, setStoredCredentials } = useContext(CredentialsContex
 const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
-console.log(email);
+//console.log(email);
 //image
 const takeImageHandler = async (setFieldValue) => {
   let img;
   const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
   const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-        
+
   if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
     alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
-            return;
-          }
-        
-    Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-            {
-              text: 'Depuis la galerie',
-              onPress: async () => {
-                let result = await ImagePicker.launchImageLibraryAsync({
-                  //allowsEditing: true,
-                  aspect: [16, 9],
-                  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                  base64: true,
-                  quality: 1,
-                  allowsMultipleSelection: true,
-                });
-                if (!result.canceled) {
-                  setFieldValue('image', result.uri);
-                }
-              },
-            },
-            {
-              text: 'Ouvrir la caméra',
-              onPress: async () => {
-                let result = await ImagePicker.launchCameraAsync({
-                  allowsEditing: true,
-                  aspect: [24, 9],
-                  base64: true,
-                  quality: 0.5,
-                });
-                if (!result.canceled) {
-                  setFieldValue('image', result.uri);
-                }
-              },
-            },
-            { text: 'Annuler', style: 'cancel' },
-          ]);
-        };
-//old date 
+    return;
+  }
+
+  Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+    {
+      text: 'Depuis la galerie',
+      onPress: async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          //allowsEditing: true,
+          aspect: [16, 9],
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          base64: true,
+          quality: 1,
+          allowsMultipleSelection: true,
+        });
+        if (!result.canceled) {
+          setFieldValue('image', result.assets[0].uri);
+        }
+      },
+    },
+    {
+      text: 'Ouvrir la caméra',
+      onPress: async () => {
+        let result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [24, 9],
+          base64: true,
+          quality: 0.5,
+        });
+        if (!result.canceled) {
+          setFieldValue('image', result.assets[0].uri);
+        }
+      },
+    },
+    { text: 'Annuler', style: 'cancel' },
+  ]);
+};
+//date 
 const [date , setDate] = useState(new Date());
 const [showDatePicker, setShowDatePicker] = useState(false);
 const [dob , setDob] = useState() ; 
@@ -98,7 +98,7 @@ const onChange = (event , selectedDate) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('maladieCible', values.maladieCible);
-    formData.append('date', dob);
+    formData.append('date',dob);
     formData.append('testimage', {
       uri: values.image,
       name: 'image.png',
@@ -145,11 +145,6 @@ const onChange = (event , selectedDate) => {
      <InnerContainer>  
     
                     <SubTitle></SubTitle>
-                   
-                   
-
-
-
     <Formik
       initialValues={{ title: '',maladieCible:'', date: '',commentaire:'', image: null }}
       onSubmit={(values, { setSubmitting }) => {
