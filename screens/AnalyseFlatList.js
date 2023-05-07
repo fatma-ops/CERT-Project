@@ -17,8 +17,10 @@ import { ngrokLink } from '../config';
 const AnalyseFlatList = ({ navigation }) => {
   const [analyses, setAnalyses] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+  const [imageData, setImageData] = useState(null);
 
   const { email } = storedCredentials;
+
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredAnalyses, setFilteredAnalyses] = useState([]);
@@ -38,16 +40,7 @@ const AnalyseFlatList = ({ navigation }) => {
       .catch(error => console.log(error));
   }, [email]);
 
-  const renderAnalyse = ({ item }) => {
-    return (
-      <View style={styles.item}>
-        <View style={styles.analyse}>
-          <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>{item.date}</Text>
-        </View>
-      </View>
-    );
-  };
+  
 
   return (
    

@@ -59,7 +59,7 @@ export default function HomeScreen({ navigation }) {
         />
           <Text style={styles.text}>Mes Vaccins</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Screen2')}>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('ModifyConsultation')}>
         <Image
           style={styles.avatar}
           source={require('./../assets/img/pills.png')}

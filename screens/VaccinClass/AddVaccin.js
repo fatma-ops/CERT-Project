@@ -73,7 +73,8 @@ const onChange = (event , selectedDate) => {
         setModalVisible(true);
         }
 
-
+        const [showPicker, setShowPicker] = useState(false);
+        const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
         const takeImageHandler = async (setFieldValue) => {
           let img;
@@ -243,6 +244,7 @@ const onChange = (event , selectedDate) => {
                                     editable={false}
                                     showDatePicker={showDatePicker}
                                 />
+                                
 
            <Text style={styles.label}>Preuve de vaccination</Text>
             <ViewImage style={styles.imageContainer}>
