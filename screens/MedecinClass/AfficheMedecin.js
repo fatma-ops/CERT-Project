@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Colors } from '../../components/styles';
 import { useState } from 'react';
-import MessageModalImage from '../../components/Modals/MessageModalImage';
+import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
 
@@ -17,26 +17,34 @@ const AfficheMedecin = ({ navigation , route }) => {
   const [headerText , setHeaderText]= useState('');
   const [modalMessage , setModalMessage] = useState('');
   const [buttonText , setButtonText] = useState('');
+  const [confirmButtonText , setConfirmButtonText] = useState('');
+  const [cancelButtonText , setCancelButtonText] = useState('');
+
 
   const [result, setResult] = useState('');
 
 
-  const buttonHandler = () => {
-    if(modalMessageType === 'success'){
-        handleDelete();
-    }else  if(modalMessageType === 'close'){
+  const buttonHandler = (isDeleteConfirmed) => {
+    if (isDeleteConfirmed) {
+      handleDelete();
     }
-    
-        setModalVisible(false);
-    };
-
-    
+    setModalVisible(false);
+  };
   
-    const openModal = () => {
-      ShowModal('success', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
-      ShowModal('close', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
-
-    }
+  const openModal = () => {
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce contact?', 'OK', 'Cancel');
+  };
+  
+  const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
+    setModalMessageType(type);
+    setHeaderText(headerText);
+    setModalMessage(message);
+    setConfirmButtonText(confirmButtonText);
+    setCancelButtonText(cancelButtonText);
+    setModalVisible(true);
+  };
+  
+ 
 
     const handleDelete = async () => {
       try {
@@ -53,13 +61,7 @@ const AfficheMedecin = ({ navigation , route }) => {
       }
     };
 
-    const ShowModal = (type , headerText , message , buttonText) => {
-        setModalMessageType(type);
-        setHeaderText(headerText);
-        setModalMessage(message);
-        setButtonText(buttonText);
-        setModalVisible(true);
-        }
+   
 
   return (
     <View style={styles.container}>
@@ -109,13 +111,15 @@ const AfficheMedecin = ({ navigation , route }) => {
         </View>
       </View>
 
-      <MessageModalImage 
-                            modalVisible={modalVisible} 
-                            buttonHandler = {buttonHandler} 
-                            type = {modalMessageType} 
-                            headerText = {headerText}
-                            message={modalMessage}
-                            buttonText={buttonText} /> 
+      <MessageModalImage2 
+      modalVisible={modalVisible} 
+      buttonHandler={buttonHandler} 
+      type={modalMessageType} 
+      headerText={headerText}
+      message={modalMessage}
+      confirmButtonText={confirmButtonText}
+      cancelButtonText={cancelButtonText} 
+    />
     </View>
   );
 };

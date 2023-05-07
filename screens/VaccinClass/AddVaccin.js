@@ -4,10 +4,8 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Fontisto,Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
-
 import MessageModal from '../../components/Modals/MessageModal';
 import { StatusBarHeight } from '../../components/shared';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { KeyboardAvoidingView } from 'react-native-web';
@@ -25,67 +23,23 @@ import { ngrokLink } from '../../config';
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 const  AddVaccin = ({navigation}) =>  {
-  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
-  const [message, setMessage] = useState();
-  const [messageType, setMessageType] = useState();
-      
-
-  const { email } = storedCredentials;
-  console.log(email);
-//date
-const [date , setDate] = useState(new Date(2000,0,1));
-const [dob , setDob] = useState() ; 
-const [show , setShow] = useState(false);
-
-const onChange = (event , selectedDate) => {
-    const currentDate = selectedDate || date ;
-    setShow(false);
-    setDate(currentDate);
-    setDob(currentDate);
-   }
-   
-   const showDatePicker = () =>{
-       setShow(true);
-   }
-
-
-  const [modalVisible , setModalVisible] = useState(false);
-  const [modalMessageType , setModalMessageType] = useState('');
-  const [headerText , setHeaderText]= useState('');
-  const [modalMessage , setModalMessage] = useState('');
-  const [buttonText , setButtonText] = useState('');
-
-
-
-  const buttonHandler = () => {
-    if(modalMessageType === 'success'){
-        //do something
-    }
-    
-        setModalVisible(false);
-    };
-
-    const ShowModal = (type , headerText , message , buttonText) => {
-        setModalMessageType(type);
-        setHeaderText(headerText);
-        setModalMessage(message);
-        setButtonText(buttonText);
-        setModalVisible(true);
-        }
-
-
-
-        const takeImageHandler = async (setFieldValue) => {
-          let img;
-          const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-          const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+const [message, setMessage] = useState();
+const [messageType, setMessageType] = useState();
+const { email } = storedCredentials;
+console.log(email);
+//image
+const takeImageHandler = async (setFieldValue) => {
+  let img;
+  const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
         
-          if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-            alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
+  if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+    alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
             return;
           }
         
-          Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+    Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
             {
               text: 'Depuis la galerie',
               onPress: async () => {
@@ -119,7 +73,24 @@ const onChange = (event , selectedDate) => {
             { text: 'Annuler', style: 'cancel' },
           ]);
         };
-        
+//old date 
+const [date , setDate] = useState(new Date());
+const [showDatePicker, setShowDatePicker] = useState(false);
+const [dob , setDob] = useState() ; 
+const [show , setShow] = useState(false);
+
+const onChange = (event , selectedDate) => {
+    const currentDate = selectedDate || date ;
+    setShowDatePicker(false);
+    setDate(currentDate);
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+
+   }
+   const handleShowDatePicker = () => {
+    setShowDatePicker(true);
+  };  
+
+  
 
   const submitAnalyse = async (values ,setSubmitting) => {
     handleMessage(null);
@@ -127,9 +98,7 @@ const onChange = (event , selectedDate) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('maladieCible', values.maladieCible);
-
-    formData.append('date', values.date);
-
+    formData.append('date', dob);
     formData.append('testimage', {
       uri: values.image,
       name: 'image.png',
@@ -177,20 +146,7 @@ const onChange = (event , selectedDate) => {
     
                     <SubTitle></SubTitle>
                    
-                    {show && (
-                   <DateTimePicker
-                   testID= "dateTimePicker"
-                   value={date}
-                   mode='date'
-                   is24Hour={true}
-                   display="default"
-                   onChange={onChange}
-
-                   />
                    
-
-
-                    )}
 
 
 
@@ -231,18 +187,20 @@ const onChange = (event , selectedDate) => {
            value={values.maladieCible}
                               
                           />
-           <MyTextInput
-                                    label="Date"
-                                    icon="calendar"
-                                    placeholder = "AAAA - MM - JJ"
-                                    placeholderTextColor={darkLight}
-                                    onChangeText={handleChange('date')}
-                                    onBlur={handleBlur('date')}
-                                    value={dob ? dob.toDateString() : '' }
-                                    isDate={true}
-                                    editable={false}
-                                    showDatePicker={showDatePicker}
-                                />
+           <Text style={styles.label}>Date</Text>
+           <View style={styles.dateContainer}>
+    <DateTimePicker 
+      value={date}
+      mode="date"
+      is24Hour={true}
+      display="default"
+      onChange={onChange}
+      onPress={handleShowDatePicker}
+      style={{ position: 'absolute', bottom: 10, left: 55 }}
+
+    />
+            </View>
+
 
            <Text style={styles.label}>Preuve de vaccination</Text>
             <ViewImage style={styles.imageContainer}>
@@ -383,6 +341,24 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
     borderRadius: 20,
     fontSize:16,
     height:100,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft:-10,
+    marginRight:-10,
+  },
+  dateContainer: {
+    //flex:1,
+    backgroundColor :secondary,
+    padding:25,
+    paddingLeft:55,
+    borderRadius: 20,
+    fontSize:16,
+    height:60,
     marginVertical:3,
     marginBottom:10,
     color:tertiary,

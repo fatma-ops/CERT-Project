@@ -109,7 +109,7 @@ const ListeVaccin = ({ navigation }) => {
     >
       <View style={styles.item} key={index}>
           <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>30 avr 2023</Text>
+          <Text style={styles.dateContainer}>{item.date}</Text>
           <Text style={styles.text2}>{item.title}</Text>
           
       </View>
