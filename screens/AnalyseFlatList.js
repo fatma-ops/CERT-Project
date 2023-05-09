@@ -12,6 +12,7 @@ import SearchBar from '../components/SearchBar';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ngrokLink } from '../config';
+import NotFound from './../components/NotFound';
 
 
 const AnalyseFlatList = ({ navigation }) => {
@@ -80,17 +81,19 @@ const AnalyseFlatList = ({ navigation }) => {
       </Text>
     </View>
     <View style={styles.analyseContainer}>
-<FlatList
+
+    {filteredAnalyses.length > 0  && analyses.length > 0 ? (
+   <FlatList
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
-  data={analyses}
+  data={filteredAnalyses}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("AnalyseDetail", {
           selectedAnalyse: item,
-        })
+        })   
       }
     >
       <View  key={index}>
@@ -106,6 +109,9 @@ const AnalyseFlatList = ({ navigation }) => {
     
   )}
 />
+ ) : (
+  <NotFound />
+)}
 
 </View>
 </View>

@@ -44,18 +44,18 @@ const  AddConsultation = ({navigation}) =>  {
 
 
 //date
-const [date , setDate] = useState(new Date(2000,0,1));
+const [date , setDate] = useState(new Date());
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
 const onChange = (event , selectedDate) => {
     const currentDate = selectedDate || date ;
     setShow(false);
     setDate(currentDate);
-    setDob(currentDate);
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
    }
-   const showDatePicker = () =>{
-       setShow(true);
-   }
+  const handleShowDatePicker = () => {
+    setShowDatePicker(true);
+  }; 
 
 
 const [modalVisible , setModalVisible] = useState(false);
@@ -133,7 +133,7 @@ const submitConsultation = async (values ,setSubmitting) => {
     setSubmitting(true);
     const formData = new FormData();
     formData.append('type', values.type);
-    formData.append('date', values.date);
+    formData.append('date',dob);
     formData.append('contact', values.contact);
 
     formData.append('testimage', {
@@ -186,23 +186,6 @@ const submitConsultation = async (values ,setSubmitting) => {
      <InnerContainer>  
     
                     <SubTitle></SubTitle>
-                   
-                    {show && (
-                   <DateTimePicker
-                   testID= "dateTimePicker"
-                   value={date}
-                   mode='date'
-                   is24Hour={true}
-                   display="default"
-                   onChange={onChange}
-
-                   />
-                   
-
-
-                    )}
-
-
 
     <Formik
       initialValues={{ type: '',date:'', contact: '',commentaire:'',cout:'',remboursement:'', image: null }}
@@ -246,18 +229,19 @@ const submitConsultation = async (values ,setSubmitting) => {
         buttonTextAfterSelection={(selectedItem, index) => contacts[index].nom}
       />
       </SelectDropdownStyle>
-           <MyTextInput
-            label="Date"
-            icon="calendar"
-            placeholder = "AAAA - MM - JJ"
-            placeholderTextColor={darkLight}
-            onChangeText={handleChange('date')}
-            onBlur={handleBlur('date')}
-            value={dob ? dob.toDateString() : '' }
-            isDate={true}
-            editable={false}
-            showDatePicker={showDatePicker}
-                                />
+      <Text style={styles.label}>Date</Text>
+           <View style={styles.dateContainer}>
+    <DateTimePicker 
+      value={date}
+      mode="date"
+      is24Hour={true}
+      display="default"
+      onChange={onChange}
+      onPress={handleShowDatePicker}
+      style={{ position: 'absolute', bottom: 10, left: 55 }}
+
+    />
+            </View>
 
            <Text style={styles.label}>Ordonnance(s)</Text>
             <ViewImage style={styles.imageContainer}>
@@ -503,11 +487,8 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
         height:50,
         marginVertical:-7,
         marginBottom:10,
-        shadowOpacity:0.25,
-        shadowOffset:2,
-        shadowRadius:1,
        marginLeft:-10,
-        marginRight:-10,
+      marginRight:-10,
       },
       dropdownButtonText: {
         fontSize: 16,
@@ -533,6 +514,24 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
       selectedValue: {
         fontSize: 18,
         marginTop: 20,
+      },
+      dateContainer: {
+        //flex:1,
+        backgroundColor :secondary,
+        padding:25,
+        paddingLeft:55,
+        borderRadius: 20,
+        fontSize:16,
+        height:60,
+        marginVertical:3,
+        marginBottom:10,
+        color:tertiary,
+        shadowOpacity:0.25,
+        shadowOffset:{width:2, height:4},
+        shadowRadius:1,
+        elevation:5,
+        marginLeft:-10,
+        marginRight:-10,
       },
     });
   export default AddConsultation; 

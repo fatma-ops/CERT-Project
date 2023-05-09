@@ -1,13 +1,11 @@
 import React, { useContext , useState , useEffect } from 'react';
-import { View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
+import { Alert,View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
-
 import MessageModal from './../components/Modals/MessageModal';
 import { StatusBarHeight } from '../components/shared';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from './../components/CredentialsContext';
 import { KeyboardAvoidingView } from 'react-native-web';
@@ -26,10 +24,56 @@ import SelectDropdown from 'react-native-select-dropdown';
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 const  AddAnalyse = ({navigation}) =>  {
-  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
-  const [message, setMessage] = useState();
-  const [messageType, setMessageType] = useState();
+const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+const [message, setMessage] = useState();
+const [messageType, setMessageType] = useState();
+const { email } = storedCredentials;
 
+//image
+const takeImageHandler = async (setFieldValue) => {
+  let img;
+  const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+
+  if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+    alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
+    return;
+  }
+
+  Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+    {
+      text: 'Depuis la galerie',
+      onPress: async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          //allowsEditing: true,
+          aspect: [16, 9],
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          base64: true,
+          quality: 1,
+          allowsMultipleSelection: true,
+        });
+        if (!result.canceled) {
+          setFieldValue('image', result.assets[0].uri);
+        }
+      },
+    },
+    {
+      text: 'Ouvrir la caméra',
+      onPress: async () => {
+        let result = await ImagePicker.launchCameraAsync({
+          allowsEditing: true,
+          aspect: [24, 9],
+          base64: true,
+          quality: 0.5,
+        });
+        if (!result.canceled) {
+          setFieldValue('image', result.assets[0].uri);
+        }
+      },
+    },
+    { text: 'Annuler', style: 'cancel' },
+  ]);
+};
 
   // Fetch the list of contacts from the database
   const [contacts, setContacts] = useState([]);
@@ -43,102 +87,32 @@ const  AddAnalyse = ({navigation}) =>  {
 
       
 
-  const { email } = storedCredentials;
-  console.log(email);
+ // console.log(email);
 //date
-const [date , setDate] = useState(new Date(2000,0,1));
+const [date , setDate] = useState(new Date());
+const [showDatePicker, setShowDatePicker] = useState(false);
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
+
 const onChange = (event , selectedDate) => {
     const currentDate = selectedDate || date ;
-    setShow(false);
+    setShowDatePicker(false);
     setDate(currentDate);
-    setDob(currentDate);
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+
    }
-   
-   const showDatePicker = () =>{
-       setShow(true);
-   }
+   const handleShowDatePicker = () => {
+    setShowDatePicker(true);
+  };
 
-
-  const [modalVisible , setModalVisible] = useState(false);
-  const [modalMessageType , setModalMessageType] = useState('');
-  const [headerText , setHeaderText]= useState('');
-  const [modalMessage , setModalMessage] = useState('');
-  const [buttonText , setButtonText] = useState('');
-
-
-
-  const buttonHandler = () => {
-    if(modalMessageType === 'success'){
-        //do something
-    }
     
-        setModalVisible(false);
-    };
-
-    const ShowModal = (type , headerText , message , buttonText) => {
-        setModalMessageType(type);
-        setHeaderText(headerText);
-        setModalMessage(message);
-        setButtonText(buttonText);
-        setModalVisible(true);
-        }
-
-
-
-        const takeImageHandler = async (setFieldValue) => {
-          let img;
-          const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-          const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-        
-          if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-            alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
-            return;
-          }
-        
-          Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-            {
-              text: 'Depuis la galerie',
-              onPress: async () => {
-                let result = await ImagePicker.launchImageLibraryAsync({
-                  //allowsEditing: true,
-                  aspect: [16, 9],
-                  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                  base64: true,
-                  quality: 1,
-                  allowsMultipleSelection: true,
-                });
-                if (!result.canceled) {
-                  setFieldValue('image', result.assets[0].uri);
-                }
-              },
-            },
-            {
-              text: 'Ouvrir la caméra',
-              onPress: async () => {
-                let result = await ImagePicker.launchCameraAsync({
-                  allowsEditing: true,
-                  aspect: [24, 9],
-                  base64: true,
-                  quality: 0.5,
-                });
-                if (!result.canceled) {
-                  setFieldValue('image', result.assets[0].uri);
-                }
-              },
-            },
-            { text: 'Annuler', style: 'cancel' },
-          ]);
-        };
-        
 
   const submitAnalyse = async (values ,setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
     const formData = new FormData();
     formData.append('title', values.title);
-    formData.append('date', values.date);
+    formData.append('date',dob);
     formData.append('contact', values.contact);
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
@@ -233,21 +207,19 @@ const onChange = (event , selectedDate) => {
            value={values.title}
                               
                           />
-           <MyTextInput
-                                    label="Date"
-                                    icon="calendar"
-                                    placeholder = "AAAA - MM - JJ"
-                                    placeholderTextColor={darkLight}
-                                    onChangeText={handleChange('date')}
-                                    onBlur={handleBlur('date')}
-                                    value={dob ? dob.toDateString() : '' }
-                                    isDate={true}
-                                    editable={false}
-                                    showDatePicker={showDatePicker}
-                                    
+           <Text style={styles.label}>Date</Text>
+           <View style={styles.dateContainer}>
+    <DateTimePicker 
+      value={date}
+      mode="date"
+      is24Hour={true}
+      display="default"
+      onChange={onChange}
+      onPress={handleShowDatePicker}
+      style={{ position: 'absolute', bottom: 10, left: 55 }}
 
-                                
-                                />
+    />
+            </View>
           <Text style={styles.label}>Médecin</Text> 
 
           <SelectDropdownStyle>
@@ -255,7 +227,8 @@ const onChange = (event , selectedDate) => {
         data={options}
         onSelect={(selectedItem, index) => {
           setFieldValue('contact', selectedItem);
-        }}        defaultButtonText="Choisir votre médecin"
+        }}        
+        defaultButtonText="Choisir votre médecin"
         buttonStyle={styles.dropdownButton}
         buttonTextStyle={styles.dropdownButtonText}
         dropdownStyle={styles.dropdown}
@@ -475,7 +448,8 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
     elevation:5,
     marginLeft:-10,
     marginRight:-10,
-  }, dropdownContainer: {
+  }, 
+  dropdownContainer: {
     backgroundColor: secondary,
     padding:15,
     paddingLeft:55,
@@ -497,10 +471,7 @@ dropdownButton: {
     paddingRight:0,
     height:50,
     marginVertical:-7,
-    marginBottom:10,
-    shadowOpacity:0.25,
-    shadowOffset:2,
-    shadowRadius:1,
+    marginBottom:10, 
    marginLeft:-10,
     marginRight:-10,
   },
@@ -528,6 +499,24 @@ dropdownRow: {
   selectedValue: {
     fontSize: 18,
     marginTop: 20,
+  },
+    dateContainer: {
+    //flex:1,
+    backgroundColor :secondary,
+    padding:25,
+    paddingLeft:55,
+    borderRadius: 20,
+    fontSize:16,
+    height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft:-10,
+    marginRight:-10,
   },
   });
   export default AddAnalyse; 

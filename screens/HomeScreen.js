@@ -12,12 +12,11 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate(screenName);
   };
   const [greet, setGreet] = useState('');
- 
   useEffect(() => {
     const findGreet = () => {
       const hrs = new Date().getHours();
       if (hrs === 0 || hrs < 12) return setGreet('Bonjour');
-      if (hrs === 1 || hrs < 17) return setGreet('Bonne après-midi');
+      if (hrs < 17) return setGreet('Bonne après-midi');
       setGreet('Bonsoir');
     };
     findGreet();
@@ -25,7 +24,7 @@ export default function HomeScreen({ navigation }) {
   const {storedCredentials , setStoredCredentials}=useContext(CredentialsContext);
 
   const {nom,prenom} = storedCredentials;
-  console.log(nom , prenom)
+  //console.log(nom , prenom)
   return (
     
       <View style={styles.page}>
@@ -145,17 +144,15 @@ export default function HomeScreen({ navigation }) {
   cube: {
     width: 140,
     height: 140,
-
     backgroundColor: secondary,
     margin: 20,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:20,
-    shadowOpacity:14,
     shadowOpacity:0.25,
-shadowOffset:2,
-shadowRadius:1,
-elevation:5
+    shadowOffset:{width:2, height:4},
+    shadowRadius:1,
+    elevation:5,
   },
   text: {
     color: brand,

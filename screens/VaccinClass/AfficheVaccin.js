@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Modal,Button,TouchableOpacity } from 're
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Colors } from '../../components/styles';
 import { useState } from 'react';
-import MessageModalImage from '../../components/Modals/MessageModalImage';
+import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
 
@@ -17,34 +17,41 @@ const AfficheVaccin = ({ navigation , route }) => {
   const [headerText , setHeaderText]= useState('');
   const [modalMessage , setModalMessage] = useState('');
   const [buttonText , setButtonText] = useState('');
+  const [confirmButtonText , setConfirmButtonText] = useState('');
+  const [cancelButtonText , setCancelButtonText] = useState('');
+
   const [showModal, setShowModal] = useState(false);
 
   const [result, setResult] = useState('');
 
 
-  const buttonHandler = () => {
-    if(modalMessageType === 'success'){
-        handleDelete();
-    }else  if(modalMessageType === 'close'){
+  const buttonHandler = (isDeleteConfirmed) => {
+    if (isDeleteConfirmed) {
+      handleDelete();
     }
-    
-        setModalVisible(false);
-    };
-
-    
+    setModalVisible(false);
+  };
   
-    const openModal = () => {
-      ShowModal('success', "Confirmation", "Êtes-vous sûr de supprimer ce contact?",'ok');
-      ShowModal('close', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
+  const openModal = () => {
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce contact?', 'OK', 'Cancel');
+  };
+  
+  const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
+    setModalMessageType(type);
+    setHeaderText(headerText);
+    setModalMessage(message);
+    setConfirmButtonText(confirmButtonText);
+    setCancelButtonText(cancelButtonText);
+    setModalVisible(true);
+  };
 
-    }
+    
    
     const openModalClose = () => {
       ShowModal('close', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
     }
 
     const handleDelete = async () => {
-      setShowModal(false);
       try {
         const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
           method: 'DELETE'
@@ -59,17 +66,9 @@ const AfficheVaccin = ({ navigation , route }) => {
       }
     };
     const handleModify = () => {
-      setShowModal(false);
+      //setShowModal(false);
       navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
      };
-
-    const ShowModal = (type , headerText , message , buttonText) => {
-        setModalMessageType(type);
-        setHeaderText(headerText);
-        setModalMessage(message);
-        setButtonText(buttonText);
-        setModalVisible(true);
-        }
 
   return (
     <View style={styles.container}>
@@ -120,13 +119,15 @@ const AfficheVaccin = ({ navigation , route }) => {
       </View>
     </View>
   </Modal>
-      <MessageModalImage 
-                            modalVisible={modalVisible} 
-                            buttonHandler = {buttonHandler} 
-                            type = {modalMessageType} 
-                            headerText = {headerText}
-                            message={modalMessage}
-                            buttonText={buttonText} /> 
+        <MessageModalImage2 
+      modalVisible={modalVisible} 
+      buttonHandler={buttonHandler} 
+      type={modalMessageType} 
+      headerText={headerText}
+      message={modalMessage}
+      confirmButtonText={confirmButtonText}
+      cancelButtonText={cancelButtonText} 
+    />
     </View>
   );
 };
