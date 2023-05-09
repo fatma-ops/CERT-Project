@@ -15,11 +15,12 @@ const NotFound = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     opacity: 0.5,
     zIndex: -1,
-    marginTop:StatusBarHeight + 10
+    marginTop:StatusBarHeight + 50
+  
+    
 
   },
 });
