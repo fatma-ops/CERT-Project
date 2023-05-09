@@ -205,7 +205,7 @@ const submitConsultation = async (values ,setSubmitting) => {
           
          
           <MyTextInput
-           label="Consultation"
+           label="Objet"
           // icon="id-badge"
            placeholder=""
            placeholderTextColor={darkLight}
@@ -213,6 +213,19 @@ const submitConsultation = async (values ,setSubmitting) => {
            onBlur={handleBlur('type')}
            value={values.type}
          />
+             <View >
+    <DateTimePicker style={styles.date}
+      value={date}
+      mode="date"
+      //is24Hour={true}
+      display="spinner"
+      onChange={onChange}
+      locale="fr"
+      onPress={handleShowDatePicker}
+      //style={{ position: 'absolute', bottom: 0, left: 0 }}
+
+    />
+            </View>
           <Text style={styles.label}>Médecin</Text> 
         
           <SelectDropdownStyle>
@@ -229,19 +242,6 @@ const submitConsultation = async (values ,setSubmitting) => {
         buttonTextAfterSelection={(selectedItem, index) => contacts[index].nom}
       />
       </SelectDropdownStyle>
-      <Text style={styles.label}>Date</Text>
-           <View style={styles.dateContainer}>
-    <DateTimePicker 
-      value={date}
-      mode="date"
-      is24Hour={true}
-      display="default"
-      onChange={onChange}
-      onPress={handleShowDatePicker}
-      style={{ position: 'absolute', bottom: 10, left: 55 }}
-
-    />
-            </View>
 
            <Text style={styles.label}>Ordonnance(s)</Text>
             <ViewImage style={styles.imageContainer}>
@@ -532,6 +532,16 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
         elevation:5,
         marginLeft:-10,
         marginRight:-10,
+      },
+      date: {
+        //flex:1,
+        //padding:25,
+        //paddingLeft:55,
+        height:90,
+        marginVertical:4,
+        marginBottom:7,
+        marginHorizontal:-15,
+       
       },
     });
   export default AddConsultation; 

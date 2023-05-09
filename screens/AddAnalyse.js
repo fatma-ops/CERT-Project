@@ -215,6 +215,7 @@ const onChange = (event , selectedDate) => {
       is24Hour={true}
       display="default"
       onChange={onChange}
+      locale="fr"
       onPress={handleShowDatePicker}
       style={{ position: 'absolute', bottom: 10, left: 55 }}
 

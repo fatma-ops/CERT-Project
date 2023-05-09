@@ -98,6 +98,8 @@ const AnalyseFlatList = ({ navigation }) => {
         <View style={styles.analyse}>
           <Text style={styles.text}>{item.title}</Text>
           <Text style={styles.dateContainer}>{item.date}</Text>
+          <Text style={styles.image}>{item.date}</Text>
+
           </View>
         </View>
       </View>

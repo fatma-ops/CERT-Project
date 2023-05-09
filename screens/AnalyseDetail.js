@@ -37,7 +37,7 @@ const AnalyseDetail = ({ route }) => {
 
 
       </View>
-      <Text style={styles.resultat}>Résultat d'analyse</Text>
+      <Text style={styles.resultat}>Résultat d'analyse{selectedAnalyse.image}</Text>
 
 
       </View>
