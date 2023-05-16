@@ -30,7 +30,7 @@ const AddTraitement = ({ navigation , route  }) => {
 
  //take consultationId from route ___________________________________________________ 
 //const consultationId = route.params.consultationId
-//console.log(consultationId)
+//console.log('ID' , consultationId)
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
@@ -90,27 +90,29 @@ const AddTraitement = ({ navigation , route  }) => {
   
   //______________________________________________________________       
 
-const submitTraitement = async (values, setSubmitting) => {
-  handleMessage(null);
-  setSubmitting(true);
-  const formData = new FormData();
-  formData.append('cout', values.cout);
-  formData.append('remboursement', values.remboursement);
-// Append traitements array directly
-values.traitements.forEach((traitement, index) => {
-  formData.append(`traitements[${index}][nbrJours]`, traitement.nbrJours);
-  formData.append(`traitements[${index}][nbrfois]`, traitement.nbrfois);
-  formData.append(`traitements[${index}][dateDeCommencement]`, traitement.dateDeCommencement);
-  formData.append(`traitements[${index}][medicament]`, traitement.medicament);
-});
-//formData.append('idConsultation', consultationId);
-  formData.append('userEmail', email);
+  const submitTraitement = async (values, setSubmitting) => {
+    handleMessage(null);
+    setSubmitting(true);
+  
+    const data = {
+      cout: values.cout,
+      remboursement: values.remboursement,
+      traitements: values.traitements,
+
+      userEmail: email,
+      idConsultation: consultationId,
+    };
+  
     try {
-      const response = await axios.post(`${ngrokLink}/api/v1/traitement/add`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      const response = await axios.post(
+        `${ngrokLink}/api/v1/traitement/add`,
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         }
-      });
+      );
       console.log(response.data);
       navigation.navigate('ListeConsultation')
       setSubmitting(false);
@@ -120,6 +122,11 @@ values.traitements.forEach((traitement, index) => {
       console.error(error);
     }
   };
+  
+  
+  
+  
+  
   const handleMessage = (message, type = 'FAILED') => {
     setMessage(message);
     setMessageType(type);
@@ -140,7 +147,7 @@ values.traitements.forEach((traitement, index) => {
         <InnerContainer>
           <SubTitle></SubTitle>
           <Formik
-            initialValues={{cout:"",remboursement:"", traitements: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", medicament: "" }]
+            initialValues={{cout: '', remboursement: '', traitements: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", medicament: "" }]
              }}
             onSubmit={(values, { setSubmitting }) => {
               submitTraitement(values, setSubmitting);
@@ -195,9 +202,10 @@ values.traitements.forEach((traitement, index) => {
               onChangeText={(value) =>
                 arrayHelpers.replace(index, {
                   ...traitement,
-                  date: value
+                  dateDeCommencement: value
                 })
-              }      locale="fr"
+              }
+                locale="fr"
       onPress={handleShowDatePicker}
       //style={{ position: 'absolute', bottom: 0, left: 0 }}
 
