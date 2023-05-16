@@ -134,7 +134,7 @@ export default function HomeScreen({ navigation }) {
    // backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,
-    marginTop:-50,
+    marginTop: - 50,
 
   },
   row: {

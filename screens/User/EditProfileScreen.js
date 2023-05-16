@@ -28,7 +28,7 @@ const { brand, darkLight, primary , green, red} = Colors;
 const EditProfileScreen = ({navigation , route}) => {
 
 //context
-const [nom, setNom] = useState(route.params.nom);
+    const [nom, setNom] = useState(route.params.nom);
     const [prenom, setPrenom] = useState(route.params.prenom);
     const [email, setEmail] = useState(route.params.email);
     const [allergie, setAllergie] = useState(route.params.allergie);

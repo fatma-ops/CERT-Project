@@ -9,6 +9,7 @@ import ModifyConsultation from "./ModifyConsultation";
 import Add from "./AddConsultation";
 import ListeConsultation from "./ListeConsultation";
 import AddConsultation from "./AddConsultation";
+import AddTraitement from "./AddTraitement";
 
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ export default function Consultation (){
         <Stack.Screen name="Consultations" component={ListeConsultation}/>
 
         <Stack.Screen name="Ajouter consultation" component={AddConsultation}/>
+        <Stack.Screen name="Ajouter traitement" component={AddTraitement}/>
 
         <Stack.Screen name="Affiche Consultation" component={AfficheConsultation} />
 
