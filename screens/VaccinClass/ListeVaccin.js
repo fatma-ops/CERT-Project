@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet,screenHeight } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
@@ -12,12 +12,15 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
+import { Dimensions } from 'react-native';
+//const screenHeight = Dimensions.get('window').height;
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 const ListeVaccin = ({ navigation }) => {
   const [vaccins, setVaccins] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+  //const screenHeight = Dimensions.get('window').height;
 
   const { email } = storedCredentials;
 
@@ -39,19 +42,7 @@ const ListeVaccin = ({ navigation }) => {
       .catch(error => console.log(error));
   }, [email]);
 
-  const renderAnalyse = ({ item }) => {
-    return (
-      <View style={styles.item}>
-        <View style={styles.analyse}>
-          <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>{item.date}</Text>
-        </View>
-      </View>
-    );
-  };
-
   return (
-
     <View style={[styles.analyseContainer2]}>
                     <StatusBar style="white" />
 
@@ -91,49 +82,45 @@ const ListeVaccin = ({ navigation }) => {
         {vaccins ? vaccins.length : 0}
       </Text>
     </View>
-  
-    <View style={styles.analyseContainer}>
-<View style={styles.liste}>
-<FlatList
-  style={styles.scrollView}
-  showsVerticalScrollIndicator={false}
+
+    <FlatList
+  style={styles.liste}
+  contentInset={{ bottom:160 }}
   data={vaccins}
   keyExtractor={(item, index) => String(index)}
-  renderItem={({ item, index }) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("AfficheVaccin", {
-          selectedAnalyse: item,
-        })
-      }
-    >
-      <View style={styles.item} key={index}>
-          <Text style={styles.text}>{item.title}</Text>
-          <Text style={styles.dateContainer}>{item.date}</Text>
-          <Text style={styles.text2}>{item.title}</Text>
+  renderItem={({ item, index }) => {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("AfficheVaccin", {
+            selectedAnalyse: item,
+          })
+        }
+      >
+        <View style={styles.item} key={index}>
           
-      </View>
-      {item.image && (
-      <Image
-        source={{ uri: `data:${item.image.contentType};base64,${item.image.data.toString('base64')}` }}
-        style={styles.image}
-      />
-    )}
-    </TouchableOpacity>
-  )}
+          <View>
+            <Text style={styles.text}>{item.title}</Text>
+            <Text style={styles.dateContainer}>{item.date}</Text>
+            <Text style={styles.text2}>{item.maladieCible}</Text>
+          </View>                 
+        </View>
+      </TouchableOpacity>
+    )
+  }}
 />
+
 </View>
-</View>
- 
-</View>
+
   );
+
 };
 
 const styles = StyleSheet.create({
   analyseContainer:{
     paddingTop:10,
     paddingHorizontal:0,
-    marginBottom:70,
+    marginBottom:100,
     opacity:0.9,
     justifyContent:'space-between',
     //backgroundColor:'white',
@@ -141,13 +128,11 @@ const styles = StyleSheet.create({
 
 },
 analyseContainer2:{
-  
-  marginBottom:70,
-  opacity:1,
-  justifyContent:'space-between',
-  height:1000,
 
-
+  //marginBottom:70,
+  //opacity:1,
+  //justifyContent:'space-between',
+  //height:1000
 },
 header2: {
   flexDirection: 'row',
@@ -204,6 +189,7 @@ text2:{
     fontSize:15,
     color:brand,
 },
+
 item:{ 
   marginTop:-1,
     marginLeft:10,
@@ -214,11 +200,10 @@ item:{
     marginBottom:15
 },
 liste:{
-  
   fontSize:19,
   fontWeight:'600',
   opacity:0.8,
-  marginTop:0.4,
+  marginTop:0.5,
   shadowOpacity:0.25,
   shadowOffset:{width:0.75, height:2},
   shadowRadius:2,
@@ -227,7 +212,7 @@ liste:{
   borderRadius:15,
   marginLeft:15,
   marginRight:15,
-
+  
 },
 index:{
     fontSize:20,

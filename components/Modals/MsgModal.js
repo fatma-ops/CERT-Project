@@ -34,15 +34,21 @@ shadow-offset:0px 2px;
 shadow-opacity:0.25;
 shadow-radius:4px;
 `;
-const MessageModalImage2 = ({ modalVisible, buttonHandler, type, headerText, message, buttonText }) => {
+import { navigation } from '@react-navigation/native';
+
+const MsgModal = ({navigation, modalVisible, buttonHandler, type, headerText, message, buttonText }) => {
     const handleCancel = () => {
       buttonHandler(false);
     };
+   
   
     const handleConfirm = () => {
-      if (type === 'success') {
+      if (type === 'modify') {
+        handleModify(true);
+      } else if (type === 'delete') {
         buttonHandler(true);
-      } else if (type === 'close') {
+      }
+      else if (type === 'cancel') {
         buttonHandler(false);
       }
     };
@@ -54,10 +60,11 @@ const MessageModalImage2 = ({ modalVisible, buttonHandler, type, headerText, mes
             <BigText style={{ fontSize: 25, color: tertiary, marginVertical: 10 }}>{headerText}</BigText>
             <RegularText style={{ marginBottom: 20 }}>{message}</RegularText>
             <RowContainer style={{ justifyContent: 'space-between' }}>
-              <TouchableOpacity onPress={handleCancel}>
+              <TouchableOpacity onPress={handleConfirm}>
                 <AntDesign name='close' size={28} color={brand} style={{ padding: 10, marginRight: 10 }} />
               </TouchableOpacity>
               <AntDesign name='check' onPress={handleConfirm} size={28} color={green} />
+              <AntDesign name='check' onPress={handleCancel} size={28} color={green} />
             </RowContainer>
           </ModalView>
         </ModalPressableContainer>
@@ -65,4 +72,4 @@ const MessageModalImage2 = ({ modalVisible, buttonHandler, type, headerText, mes
     );
   };
   
-export default MessageModalImage2;
+export default MsgModal;

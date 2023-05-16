@@ -8,16 +8,8 @@ import { Modal } from 'react-native';
 import { StatusBarHeight } from '../../components/shared';
 import {  Octicons, AntDesign, Fontisto , Entypo , MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
-
-
-
-import {
-  
-    Colors,
-  
-
-
-} from '../../components/styles';
+import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
+import {Colors,} from '../../components/styles';
 const { brand, darkLight, primary , green, red} = Colors;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
@@ -29,14 +21,13 @@ const Welcome = ({navigation}) => {
     const {nom,prenom,email ,groupeSanguin,allergie ,token , _id} = storedCredentials;
     console.log(storedCredentials._id)
     
-    const clearLogin = () =>{
+    const clearLogin = async () =>{
       
      AsyncStorage.removeItem('DossierMedicaleCredentials').then(() => {
       setStoredCredentials("");
      }).catch((error) => console.log(error))
     
     }
-    const [modalVisible, setModalVisible] = useState(false);
 
     const handleEditProfile = () => {
       setModalVisible(true);
@@ -45,6 +36,41 @@ const Welcome = ({navigation}) => {
     const handleCloseModal = () => {
       setModalVisible(false);
     };
+
+
+
+  const [modalVisible , setModalVisible] = useState(false);
+  const [modalMessageType , setModalMessageType] = useState('');
+  const [headerText , setHeaderText]= useState('');
+  const [modalMessage , setModalMessage] = useState('');
+  const [buttonText , setButtonText] = useState('');
+  const [confirmButtonText , setConfirmButtonText] = useState('');
+  const [cancelButtonText , setCancelButtonText] = useState('');
+
+  const [showModal, setShowModal] = useState(false);
+
+    const buttonHandler = (isDeleteConfirmed) => {
+      if (isDeleteConfirmed) {
+        AsyncStorage.removeItem('DossierMedicaleCredentials').then(() => {
+          setStoredCredentials("");
+         }).catch((error) => console.log(error))    
+          }
+      setModalVisible(false);
+    };
+    
+    const openModal = () => {
+      ShowModal('success', 'Confirmation', 'Êtes-vous sûr de se deconnecter ?', 'OK', 'Cancel');
+    };
+    
+    const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
+      setModalMessageType(type);
+      setHeaderText(headerText);
+      setModalMessage(message);
+      setConfirmButtonText(confirmButtonText);
+      setCancelButtonText(cancelButtonText);
+      setModalVisible(true);
+    };
+  
     return (
         <KeyboardAvoidingWrapper>
 
@@ -69,13 +95,22 @@ const Welcome = ({navigation}) => {
       />
        <View style={{flexDirection:'row'}}>
        <Text style={styles.sectionTitleName}>{nom} {prenom}</Text>
-       <TouchableOpacity onPress={clearLogin}>
+       <TouchableOpacity onPress={openModal}>
        <View style={{ marginLeft:20 , marginTop:StatusBarHeight }}>
        <MaterialCommunityIcons name='logout-variant' size={40} color='white'/>
        </View>
        </TouchableOpacity>
        </View>
 </View>
+        <MessageModalImage2 
+      modalVisible={modalVisible} 
+      buttonHandler={buttonHandler} 
+      type={modalMessageType} 
+      headerText={headerText}
+      message={modalMessage}
+      confirmButtonText={confirmButtonText}
+      cancelButtonText={cancelButtonText} 
+    />
       <View style={styles.body}>
        
         <View style={styles.section}>
@@ -149,9 +184,7 @@ const Welcome = ({navigation}) => {
         </View>
        
       </View>
-      <TouchableOpacity style={styles.button} onPress={clearLogin}>
-          <Text style={styles.buttonText} onPress={clearLogin}>Se déconnecter</Text>
-        </TouchableOpacity>
+
     </View>
       </KeyboardAvoidingWrapper>
 

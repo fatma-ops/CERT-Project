@@ -161,25 +161,6 @@ const onChange = (event , selectedDate) => {
         <Text style={styles.headerTitle}>Ajouter une analyse</Text>
       </View>
      <InnerContainer>  
-    
-                    <SubTitle></SubTitle>
-                   
-                    {show && (
-                   <DateTimePicker
-                   testID= "dateTimePicker"
-                   value={date}
-                   mode='date'
-                   is24Hour={true}
-                   display="default"
-                   onChange={onChange}
-
-                   />
-
-
-                    )}
-
-
-
     <Formik
       initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', image: null }}
       onSubmit={(values, { setSubmitting }) => {
@@ -208,19 +189,17 @@ const onChange = (event , selectedDate) => {
                               
                           />
            <Text style={styles.label}>Date</Text>
-           <View style={styles.dateContainer}>
-    <DateTimePicker 
+           <DateTimePicker style={styles.date}
       value={date}
       mode="date"
-      is24Hour={true}
-      display="default"
+      //is24Hour={true}
+      display="spinner"
       onChange={onChange}
       locale="fr"
       onPress={handleShowDatePicker}
-      style={{ position: 'absolute', bottom: 10, left: 55 }}
+      //style={{ position: 'absolute', bottom: 0, left: 0 }}
 
     />
-            </View>
           <Text style={styles.label}>Médecin</Text> 
 
           <SelectDropdownStyle>
@@ -518,6 +497,15 @@ dropdownRow: {
     elevation:5,
     marginLeft:-10,
     marginRight:-10,
+  },
+  date: {
+    //flex:1,
+    //padding:25,
+    //paddingLeft:55,
+    height:90,
+    marginVertical:-10,
+    marginBottom:7,
+    marginHorizontal:-15,
   },
   });
   export default AddAnalyse; 

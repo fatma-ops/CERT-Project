@@ -5,13 +5,19 @@ import { useState } from 'react';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
+import styled from 'styled-components';
 
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
-
+const ModalPressableContainer = styled.Pressable`
+flex:1;
+padding:25px;
+background-color:rgba(0,0,0,0.7);
+justify-content:center;
+`;
 const AfficheVaccin = ({ navigation , route }) => {
   const { selectedAnalyse } = route.params;
   const id = selectedAnalyse._id
-  console.log("id" , id);
+  //console.log("id" , id);
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
   const [headerText , setHeaderText]= useState('');
@@ -33,10 +39,11 @@ const AfficheVaccin = ({ navigation , route }) => {
   };
   
   const openModal = () => {
-    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce contact?', 'OK', 'Cancel');
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce vaccin ?', 'OK', 'Cancel');
   };
   
   const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
+    setShowModal(false);
     setModalMessageType(type);
     setHeaderText(headerText);
     setModalMessage(message);
@@ -44,14 +51,7 @@ const AfficheVaccin = ({ navigation , route }) => {
     setCancelButtonText(cancelButtonText);
     setModalVisible(true);
   };
-
-    
-   
-    const openModalClose = () => {
-      ShowModal('close', "Confirmation", "Êtes-vous sûr de supprimer ce contact?", 'OK');
-    }
-
-    const handleDelete = async () => {
+ const handleDelete = async () => {
       try {
         const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
           method: 'DELETE'
@@ -66,7 +66,7 @@ const AfficheVaccin = ({ navigation , route }) => {
       }
     };
     const handleModify = () => {
-      //setShowModal(false);
+      setShowModal(false);
       navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
      };
 
@@ -99,25 +99,32 @@ const AfficheVaccin = ({ navigation , route }) => {
             <Text style={styles.sectionItem}>{selectedAnalyse.commentaire}</Text>
             </View>
           </View>
-         
-        
-        <View style={styles.actions}>
-          <TouchableOpacity onPress={() => navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})} style={styles.editButton}>
-            <Entypo name="edit" size={24} color={brand} />
-          </TouchableOpacity>
-          <TouchableOpacity  onPress={openModal} style={styles.deleteButton}>
-            <AntDesign name="delete" size={24} color={red} />
-          </TouchableOpacity>
-        </View>
       </View>
-      <Modal visible={showModal} animationType="slide">
+      <Modal visible={showModal} animationType="slide" transparent={true}>
+      <ModalPressableContainer onPress={() => setShowModal(false)}>
+
     <View style={styles.modalContainer}>
-      <View style={styles.modalContent}>
-        <Button title="Modify" onPress={handleModify} />
-        <Button title="Delete" onPress={openModal} />
-        <Button title="Cancel" onPress={() => setShowModal(false)} />
+     <View style={styles.modalContent}>
+       <TouchableOpacity onPress={handleModify}>
+        <View style={[styles.modalButton]}>
+          <Text style={{  color: '#007AFF',fontSize:'20',marginBottom:15 }}>  Modifier  </Text>
+        </View>
+       </TouchableOpacity>
+       <TouchableOpacity onPress={openModal}>
+        <View style={[styles.modalButton]}>
+          <Text style={{  color: red ,fontSize:'20',marginBottom:15, }}>Supprimer  </Text>
+        </View>
+       </TouchableOpacity>
+       <TouchableOpacity onPress={() => setShowModal(false)}>
+        <View style={[styles.modalCancelButton]}>
+          <Text style={{ color: '#007AFF', fontSize:'18',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
+        </View>
+        </TouchableOpacity>
       </View>
+
     </View>
+    </ModalPressableContainer>
+
   </Modal>
         <MessageModalImage2 
       modalVisible={modalVisible} 
@@ -189,17 +196,13 @@ const styles = StyleSheet.create({
     color:brand,
   },
   modalContainer: {
-    flex: 1,
+    //flex: 1,
+    backgroundColor:primary,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    width: '80%',
-    height: '30%',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    //alignItems: 'center',
+    borderRadius:20,
+    width: '100%',
+    //padding:35,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -208,6 +211,24 @@ const styles = StyleSheet.create({
   shadowOpacity: 0.25,
   shadowRadius: 4,
   elevation: 5,
+  height: '30%',
+
+  },
+  modalContent: {
+    justifyContent: 'center',
+    alignItems: 'center',   
+},
+modalButton: {
+  paddingHorizontal:115,
+  borderBottomWidth:0.6,
+  borderColor:darkLight,
+  marginTop:15,
+
+},
+modalCancelButton: {
+
+  paddingHorizontal: 125,
+  marginTop: 15,
 },
   content: {
     flex: 1,

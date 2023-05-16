@@ -21,12 +21,26 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
-
 const  AddConsultation = ({navigation}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
 
+  const [depenses, setDepenses] = useState([
+    { id: 1, cout: '', remboursement: '' } // initialize with one empty object
+  ]);
+
+  const handleDepenseChange = (text, index, field) => {
+    const newDepenses = [...depenses];
+    newDepenses[index][field] = text;
+    setDepenses(newDepenses);
+  };
+
+  const addDepense = () => {
+    const newId = depenses.length + 1;
+    const newDepenses = [...depenses, { id: newId, cout: '', remboursement: '' }];
+    setDepenses(newDepenses);
+  };
   // Fetch the list of contacts from the database
   const [contacts, setContacts] = useState([]);
   useEffect(() => {
@@ -253,27 +267,36 @@ const submitConsultation = async (values ,setSubmitting) => {
                 <Text style={{textAlign:'center', paddingRight:30, color:darkLight}}>Ajouter votre document</Text>
 
             </ViewImage>
-            <Text style={styles.label}>Dépenses</Text>
-            <Text style={styles.label2}>Coût                                    Remboursement</Text>
+             <View>
+      {depenses.map((depense, index) => (
+        <View key={depense.id}>
+          <Text style={styles.label}>Dépenses</Text>
+          <Text style={styles.label2}>
+            Coût{'                                     '}Remboursement
+          </Text>
 
-                  <TextInput style={styles.cout}
-                placeholder="100.0"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('cout')}
-                onBlur={handleBlur('cout')}
-                value={values.cout}
-                keyboardType="phone-pad"
-                />
+          <TextInput
+            style={styles.cout}
+            placeholder="100.0"
+            placeholderTextColor={darkLight}
+            onChangeText={(text) => handleDepenseChange(text, index, 'cout')}
+            value={depense.cout}
+            keyboardType="phone-pad"
+          />
 
-                 <TextInput style={styles.remboursement}
-                placeholder="70.0"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('remboursement')}
-                onBlur={handleBlur('rembouresement')}
-                value={values.remboursement}
-                keyboardType="phone-pad"
-                />
+          <TextInput
+            style={styles.remboursement}
+            placeholder="70.0"
+            placeholderTextColor={darkLight}
+            onChangeText={(text) => handleDepenseChange(text, index, 'remboursement')}
+            value={depense.remboursement}
+            keyboardType="phone-pad"
+          />
+        </View>
+      ))}
 
+      <Button title="Add Depense" onPress={addDepense} />
+    </View>
 
             <MyTextInput style={styles.comentaire}
           label="Commentaire"
@@ -544,4 +567,4 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
        
       },
     });
-  export default AddConsultation; 
+  export default AddConsultation;  

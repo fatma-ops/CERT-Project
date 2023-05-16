@@ -39,7 +39,7 @@ import ListeConsultation from '../screens/ConsultationClass/ListeConsultation';
 import AddConsultation from '../screens/ConsultationClass/AddConsultation';
 import AfficheConsultation from '../screens/ConsultationClass/AfficheConsultation';
 import ModifyConsultation from '../screens/ConsultationClass/ModifyConsultation';
-
+import Depenses from '../screens/Depenses';
 import HomeScreen from '../screens/HomeScreen';
 import ModifyMedecin from '../screens/MedecinClass/ModifyMedecin';
 
@@ -100,6 +100,8 @@ const RootStack = () => {
                 <Stack.Screen name="AddConsultation" component={AddConsultation} />
                 <Stack.Screen name="AfficheConsultation" component={AfficheConsultation} />
                 <Stack.Screen name="ModifyConsultation" component={ModifyConsultation} />
+                <Stack.Screen name="Depenses" component={Depenses} />
+
 
                 
               

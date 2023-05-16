@@ -25,6 +25,24 @@ const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
 //console.log(email);
+//date 
+const [date , setDate] = useState(new Date());
+const [showDatePicker, setShowDatePicker] = useState(false);
+const [dob , setDob] = useState() ; 
+const [show , setShow] = useState(false);
+
+const onChange = (event , selectedDate) => {
+    const currentDate = selectedDate || date ;
+    setShowDatePicker(false);
+    setDate(currentDate);
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+
+   }
+   const handleShowDatePicker = () => {
+    setShowDatePicker(true);
+  };  
+
+  
 //image
 const takeImageHandler = async (setFieldValue) => {
   let img;
@@ -70,24 +88,7 @@ const takeImageHandler = async (setFieldValue) => {
     { text: 'Annuler', style: 'cancel' },
   ]);
 };
-//date 
-const [date , setDate] = useState(new Date());
-const [showDatePicker, setShowDatePicker] = useState(false);
-const [dob , setDob] = useState() ; 
-const [show , setShow] = useState(false);
 
-const onChange = (event , selectedDate) => {
-    const currentDate = selectedDate || date ;
-    setShowDatePicker(false);
-    setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
-
-   }
-   const handleShowDatePicker = () => {
-    setShowDatePicker(true);
-  };  
-
-  
 
   const submitAnalyse = async (values ,setSubmitting) => {
     handleMessage(null);
@@ -96,11 +97,12 @@ const onChange = (event , selectedDate) => {
     formData.append('title', values.title);
     formData.append('maladieCible', values.maladieCible);
     formData.append('date',dob);
-    formData.append('testimage', {
+    formData.append('testimage',{
       uri: values.image,
       name: 'image.png',
       type: 'image/png'
     });
+    
     formData.append('userEmail', email);
     formData.append('commentaire', values.commentaire);
 
@@ -180,30 +182,50 @@ const onChange = (event , selectedDate) => {
                               
                           />
            <Text style={styles.label}>Date</Text>
-           <View style={styles.dateContainer}>
-    <DateTimePicker 
+           <DateTimePicker style={styles.date}
       value={date}
       mode="date"
-      is24Hour={true}
-      display="default"
+      //is24Hour={true}
+      display="spinner"
       onChange={onChange}
+      locale="fr"
       onPress={handleShowDatePicker}
-      style={{ position: 'absolute', bottom: 10, left: 55 }}
+      //style={{ position: 'absolute', bottom: 0, left: 0 }}
 
     />
-            </View>
-
-
            <Text style={styles.label}>Preuve de vaccination</Text>
-            <ViewImage style={styles.imageContainer}>
-            <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />
-            <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{position:'absolute' ,padding:25,left:70, paddingRight:65 ,paddingLeft:15, borderRadius: 20 ,fontSize:16 ,height:200,width:'90%',zIndex:1,marginVertical:3 , justifyContent:'center' , alignSelf:'center',alignItems:'center'}}>
-            {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
-            </TouchableOpacity> 
+           <View style={styles.imageContainer}>
+  <Ionicons
+    name='camera'
+    onPress={() => takeImageHandler(setFieldValue)}
+    size={70}
+    color={darkLight}
+    style={{ paddingTop: 40, paddingLeft: 60, justifyContent: 'center', alignItems: 'center' }}
+  />
+  <TouchableOpacity
+    onPress={() => takeImageHandler(setFieldValue)}
+    style={{
+      position: 'absolute',
+      padding: 25,
+      left: 70,
+      paddingRight: 65,
+      paddingLeft: 15,
+      borderRadius: 20,
+      fontSize: 16,
+      height: 200,
+      width: '90%',
+      zIndex: 1,
+      marginVertical: 3,
+      justifyContent: 'center',
+      alignSelf: 'center',
+      alignItems: 'center'
+    }}
+  >
+    {values.image && <Image source={{ uri: values.image }} style={{ width: '199%', height: 200 }} />}
+  </TouchableOpacity>
+  <Text style={{ textAlign: 'center', paddingRight: 40, color: darkLight }}>Ajouter votre document</Text>
+</View>
 
-                <Text style={{textAlign:'center', paddingRight:40, color:darkLight}}>Ajouter votre document</Text>
-
-            </ViewImage>
             <MyTextInput style={styles.comentaire}
           label="Commenataire"
            placeholder="..."
@@ -360,6 +382,15 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
     elevation:5,
     marginLeft:-10,
     marginRight:-10,
+  },
+  date: {
+    //flex:1,
+    //padding:25,
+    //paddingLeft:55,
+    height:90,
+    marginVertical:-10,
+    marginBottom:7,
+    marginHorizontal:-15,
   },
   });
   export default AddVaccin; 

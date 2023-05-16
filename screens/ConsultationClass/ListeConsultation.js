@@ -90,6 +90,8 @@ const ListeConsultation = ({ navigation }) => {
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
   data={consultations}
+  contentInset={{ bottom:700 }}
+
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
     <TouchableOpacity
