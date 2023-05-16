@@ -16,6 +16,8 @@ import Depenses from '../screens/Depenses'
 import AddConsultation from '../screens/ConsultationClass/AddConsultation'
 import AddTraitement from '../screens/ConsultationClass/AddTraitement'
 import AddRappel from '../screens/ConsultationClass/AddRappel'
+import ListeAddRappel from '../screens/ConsultationClass/ListeAddRappel'
+
 
 
 const { darkLight, brand , red } = Colors;
@@ -66,8 +68,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="AddRappel"
-                component={AddRappel}
+            <Tab.Screen name="ListeAddRappel"
+                component={ListeAddRappel}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (

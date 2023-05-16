@@ -579,4 +579,4 @@ const styles = StyleSheet.create({
   },
 
 });
-  export default AddTraitement; 
+  export default AddTraitement;  
