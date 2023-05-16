@@ -143,8 +143,6 @@ const AddRappel = ({ navigation , route }) => {
             <Text style={styles.sectionItem3}>1</Text>
             <Text style={styles.sectionItem2}>  jours</Text>
             </View>
-
-
             </View>          
             <View style={styles.heelo2}>
            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
