@@ -7,8 +7,13 @@ import axios from 'axios';
 import { ngrokLink } from '../../config';
 import styled from 'styled-components';
 import { StatusBarHeight } from '../../components/shared';
+import { StatusBar } from 'react-native';
+import { Formik , FieldArray } from 'formik';
+import { InnerContainer, StyledContainer, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 
-const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
+
+const { brand, green, darkLight, primary, red, tertiary,secondary } = Colors;
 const ModalPressableContainer = styled.Pressable`
 flex:1;
 padding:25px;
@@ -71,8 +76,38 @@ const AddRappel = ({ navigation , route }) => {
       navigation.navigate('ModifyRappel' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
      };*/
 
+     const submitRappel = async (values, setSubmitting) => {
+        handleMessage(null);
+        setSubmitting(true);
+        const formData = new FormData();
+        formData.append('rappel', values.rappel);
+      //formData.append('idConsultation', consultationId);
+        formData.append('userEmail', email);
+          try {
+            const response = await axios.post(`${ngrokLink}/api/v1/rappel/add`, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            console.log(response.data);
+            navigation.navigate('ListeConsultation')
+            setSubmitting(false);
+          } catch (error) {
+            setSubmitting(false);
+            handleMessage(error.message);
+            console.error(error);
+          }
+        };
+        const handleMessage = (message, type = 'FAILED') => {
+          setMessage(message);
+          setMessageType(type);
+        };
   return (
+    <KeyboardAvoidingWrapper>
+      <StyledContainer>
+      <StatusBar style="light" />
     <View style={styles.container}>
+        <StatusBar style="white" />
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
@@ -81,25 +116,89 @@ const AddRappel = ({ navigation , route }) => {
         <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
-      
-      
       </View>
+      <InnerContainer>
+          <SubTitle></SubTitle>
+          <Formik
+           initialValues={{heure:""}}
+       onSubmit={(values, { setSubmitting }) => {
+         submitTraitement(values, setSubmitting);
+       }}
+     >
+    {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
+              <StyledFormArea>
+
       <View style={styles.content}>
+      <Text style={styles.title}>Doliprane</Text>
+
         <View style={styles.sectionContent}>
-            <Text style={styles.title}>test</Text>
             <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Maladie ciblée: </Text>
-            <Text style={styles.sectionItem}>test</Text>
+            <Text style={styles.sectionItem2}>Date De Commencement: </Text>
+            <Text style={styles.sectionItem3}>12 mai 2023</Text>
             </View>
             <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Date: </Text>
-            <Text style={styles.sectionItem}>test</Text>
+            <Text style={styles.sectionItem2}>À apprendre  </Text>
+            <Text style={styles.sectionItem3}>3</Text>
+            <Text style={styles.sectionItem2}>  fois tous les  </Text>
+            <Text style={styles.sectionItem3}>1</Text>
+            <Text style={styles.sectionItem2}>  jours</Text>
+            </View>
+
+
             </View>          
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Commenataire: </Text>
-            <Text style={styles.sectionItem}>test</Text>
+            <View style={styles.heelo2}>
+           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  <AntDesign name="pluscircleo" size={30} color={brand} />
+  <Text style={{ color: brand, marginLeft: 10, fontSize:18}}>Ajouter L'heure des rappels</Text>
+</View>
             </View>
-          </View>
+            <View>
+          <FieldArray
+            name="rappels"
+            render={(arrayHelpers) => (
+              <View>
+               {values.rappels.map((rappels, index) => (
+                  <View key={index}>
+                    <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>       
+           <DateTimePicker style={styles.date}
+              value={date}
+              mode="time"
+              //is24Hour={true}
+              display="spinner"
+              onChangeText={(value) =>
+                arrayHelpers.replace(index, {
+                  ...rappel,
+                  date: value
+                })
+              }      locale="fr"
+      onPress={handleShowDatePicker}
+
+    />
+                    </View>
+                  </View>
+                ))}
+                {formCount < 4 && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      arrayHelpers.push({
+                        heure: "",
+                      });
+                      setFormCount((formCount + 1).toString());
+                    }}
+                    
+                  >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  <AntDesign name="pluscircleo" size={25} color={brand} />
+  <Text style={{ color: brand, marginLeft: 5 }}>Ajouter un autre rappel</Text>
+</View>
+
+                  </TouchableOpacity>
+                )}
+              </View>
+            )}
+          />
+        </View>
+          
       </View>
       <Modal visible={showModal} animationType="slide" transparent={true}>
       <ModalPressableContainer onPress={() => setShowModal(false)}>
@@ -136,7 +235,15 @@ const AddRappel = ({ navigation , route }) => {
       confirmButtonText={confirmButtonText}
       cancelButtonText={cancelButtonText} 
     />
+    </StyledFormArea>
+
+    )}
+    </Formik>
+    </InnerContainer>
     </View>
+   
+    </StyledContainer>
+    </KeyboardAvoidingWrapper>
   );
 };
 
@@ -144,7 +251,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    opacity:1,
     marginBottom:50,
+    justifyContent:'space-between',
+
   },
   header: {
    flexDirection: 'row',
@@ -157,34 +267,75 @@ const styles = StyleSheet.create({
     //marginLeft: -25,
     //marginRight: -25,
   },
+  sectionContent: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    //paddingRight:10,
+    borderRadius: 20,
+    shadowOpacity:0.25,
+    shadowOffset:{width:0.5,height:2},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft: -5,
+    marginRight:-10,
+    alignItems: 'center',
+
+
+  },
   heelo:{
     flexDirection:'row',
-    borderBottomColor:secondary,
-    borderBottomWidth:1,
-    borderBottomLeftRadius:20,
-    borderBottomRightRadius:20,
-    borderBottomLarge:9,
-    marginTop:10,
-    marginLeft:20,
-    marginBottom:10,
+    //borderBottomColor:secondary,
+    //borderStartWidth:1,
+    //borderBottomLeftRadius:20,
+    //borderBottomRightRadius:20,
+    //borderBottomLarge:9,
+    //marginTop:10,
+    marginLeft:-5,
+    //marginBottom:10,
+       
     alignContent:'center'
+   },
+   heelo2:{
+    flexDirection:'row',
+    borderBottomColor:secondary,
+    alignContent:'center',
+    marginTop:30,
+    //marginLeft:30,
+    alignSelf:'center'
    },
    title: {
     //fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 25,
     marginBottom: 20,
+    alignSelf:'center',
+    fontWeight:'500',
+    //color:green,
   },
-  sectionItem: {
+   sectionItem: {
+    fontSize: 20,
+    marginBottom: 15,
+    //fontWeight:'bold',
+    //alignItems:'center',
+    color:brand,
+
+
+  },
+  sectionItem3: {
     fontSize: 18,
     marginBottom: 15,
-    alignItems:'center',
+    fontWeight:'250',
+    color:brand
+
+    //alignItems:'center',
   },
   sectionItem2: {
     fontSize: 18,
-   // marginLeft:-70,
+   //marginLeft:-10,
    marginBottom: 15,
-    //fontWeight: 'bold',
-    color:brand
+    fontWeight: '500',
+   alignSelf: 'center',
+
+   //color:brand
   },
   backButton: {
     padding: 10,

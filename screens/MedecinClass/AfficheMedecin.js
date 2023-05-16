@@ -6,6 +6,7 @@ import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
 import { StatusBarHeight } from '../../components/shared';
+import { StatusBar } from 'react-native';
 
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 
@@ -66,11 +67,15 @@ const AfficheMedecin = ({ navigation , route }) => {
 
   return (
     <View style={styles.container}>
+                    <StatusBar style="Light" />
+
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>         Détails du médecin</Text>
+        <StatusBar style="Light" />
+
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.moreButton}>
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
@@ -129,13 +134,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginBottom:50,
+    //marginBottom:50,
+    opacity:1,
+
+  justifyContent:'space-between',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    fontWeight:'700',
+    justifyContent:'space-between',
     marginTop: StatusBarHeight ,
-    paddingBottom: 5,
+    //paddingBottom: 1,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
     //marginLeft: -25,

@@ -30,7 +30,7 @@ const AddTraitement = ({ navigation , route  }) => {
 
  //take consultationId from route ___________________________________________________ 
 //const consultationId = route.params.consultationId
-//onsole.log(consultationId)
+//console.log(consultationId)
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
@@ -90,29 +90,21 @@ const AddTraitement = ({ navigation , route  }) => {
   
   //______________________________________________________________       
 
-  const submitTraitement = async (values, setSubmitting) => {
-    handleMessage(null);
-    setSubmitting(true);
-
-    const formData = new FormData();
-    formData.append('cout', values.cout);
-    formData.append('remboursement', values.remboursement);
-
+const submitTraitement = async (values, setSubmitting) => {
+  handleMessage(null);
+  setSubmitting(true);
+  const formData = new FormData();
+  formData.append('cout', values.cout);
+  formData.append('remboursement', values.remboursement);
 // Append traitements array directly
 values.traitements.forEach((traitement, index) => {
   formData.append(`traitements[${index}][nbrJours]`, traitement.nbrJours);
   formData.append(`traitements[${index}][nbrfois]`, traitement.nbrfois);
   formData.append(`traitements[${index}][dateDeCommencement]`, traitement.dateDeCommencement);
   formData.append(`traitements[${index}][medicament]`, traitement.medicament);
-
 });
 //formData.append('idConsultation', consultationId);
-
-formData.append('userEmail', email);
-
-
-
-
+  formData.append('userEmail', email);
     try {
       const response = await axios.post(`${ngrokLink}/api/v1/traitement/add`, formData, {
         headers: {
@@ -120,18 +112,11 @@ formData.append('userEmail', email);
         }
       });
       console.log(response.data);
-
-     
-
-
       navigation.navigate('ListeConsultation')
-
       setSubmitting(false);
-
     } catch (error) {
       setSubmitting(false);
       handleMessage(error.message);
-
       console.error(error);
     }
   };
@@ -153,35 +138,19 @@ formData.append('userEmail', email);
           <Text style={styles.headerTitle}>Ajouter un consultation</Text>
         </View>
         <InnerContainer>
-
           <SubTitle></SubTitle>
-
           <Formik
             initialValues={{cout:"",remboursement:"", traitements: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", medicament: "" }]
              }}
             onSubmit={(values, { setSubmitting }) => {
-              
-                submitTraitement(values, setSubmitting);
-
-
-              
-
+              submitTraitement(values, setSubmitting);
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-
-
-               
-              
-                
-                
-
-                
                 <Text style={styles.sectionTitleP}>Dépenses</Text>
                 <Text style={styles.label2}>Coût                                 Remboursement</Text>
-
-                  <TextInput style={styles.cout}
+                <TextInput style={styles.cout}
                 placeholder="100.0"
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('cout')}
@@ -189,8 +158,7 @@ formData.append('userEmail', email);
                 value={values.cout}
                 keyboardType="phone-pad"
                 />
-
-                 <TextInput style={styles.remboursement}
+                <TextInput style={styles.remboursement}
                 placeholder="70.0"
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('remboursement')}
@@ -198,10 +166,7 @@ formData.append('userEmail', email);
                 value={values.remboursement}
                 keyboardType="phone-pad"
                 />
-
-
                 <Text style={styles.sectionTitleP}>Traitement(s)</Text>
-
                 <View>
           <FieldArray
             name="traitements"
@@ -221,8 +186,6 @@ formData.append('userEmail', email);
                           }
                           value={traitement.medicament}
                         />
-
-                      
                         <Text style={styles.label}>Date de commencement</Text>
            <DateTimePicker style={styles.date}
               value={date}
@@ -270,10 +233,6 @@ formData.append('userEmail', email);
         />
         <Text style={styles.label}>jours</Text>
       </View>
-
-
-                      
-                     
                     </View>
                   </View>
                 ))}
