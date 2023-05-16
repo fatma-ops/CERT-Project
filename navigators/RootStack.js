@@ -44,6 +44,11 @@ import HomeScreen from '../screens/HomeScreen';
 import ModifyMedecin from '../screens/MedecinClass/ModifyMedecin';
 
 
+import Traitement from '../screens/TraitementClass/Traitement';
+import AddTraitement from '../screens/ConsultationClass/AddTraitement'
+import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
+
+
 const Stack = createNativeStackNavigator();
 const RootStack = () => {
   return (
@@ -101,6 +106,9 @@ const RootStack = () => {
                 <Stack.Screen name="AfficheConsultation" component={AfficheConsultation} />
                 <Stack.Screen name="ModifyConsultation" component={ModifyConsultation} />
                 <Stack.Screen name="Depenses" component={Depenses} />
+                <Stack.Screen name="Traitement" component={Traitement} />
+                <Stack.Screen name="AddTraitement" component={AddTraitement} />
+                <Stack.Screen name="UpdateTraitement" component={UpdateTraitement} />
 
 
                 

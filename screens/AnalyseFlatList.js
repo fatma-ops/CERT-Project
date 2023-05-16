@@ -101,6 +101,13 @@ const AnalyseFlatList = ({ navigation }) => {
         <View style={styles.analyse}>
           <Text style={styles.text}>{item.title}</Text>
           <Text style={styles.dateContainer}>{item.date}</Text>
+          <Text style={styles.image}>{item.date}</Text>
+          <Image
+            source={{ uri: item.image }} // Utiliser le chemin d'accès complet renvoyé par l'API
+            style={{ width: '100%', height: 200, resizeMode: 'contain' }} // Modifier la propriété resizeMode pour éviter toute distorsion de l'image
+          />
+
+
           </View>
         </View>
       </View>

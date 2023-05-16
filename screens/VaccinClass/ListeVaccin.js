@@ -88,26 +88,28 @@ const ListeVaccin = ({ navigation }) => {
   contentInset={{ bottom:160 }}
   data={vaccins}
   keyExtractor={(item, index) => String(index)}
-  renderItem={({ item, index }) => {
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("AfficheVaccin", {
-            selectedAnalyse: item,
-          })
-        }
-      >
-        <View style={styles.item} key={index}>
-          
-          <View>
-            <Text style={styles.text}>{item.title}</Text>
-            <Text style={styles.dateContainer}>{item.date}</Text>
-            <Text style={styles.text2}>{item.maladieCible}</Text>
-          </View>                 
+  renderItem={({ item, index }) => (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("AfficheVaccin", {
+          selectedAnalyse: item,
+        })
+      }
+      style={styles.item}
+    >
+      <View style={styles.itemContainer}>
+        <Image
+          source={require('../../assets/img/vaccinated.png')}
+          style={styles.image}
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.dateContainer}>{item.date}</Text>
+          <Text style={styles.text2}>{item.maladieCible}</Text>
         </View>
-      </TouchableOpacity>
-    )
-  }}
+      </View>
+    </TouchableOpacity>
+  )}
 />
 
 </View>
@@ -176,7 +178,7 @@ dateContainer:{
   flexDirection:'row',
   justifyContent:'space-between',
   alignContent:'center',
-  marginLeft:230,
+  marginLeft:200,
   marginTop:-20,
 },
 text:{
@@ -305,6 +307,28 @@ container: {
   opacity: 0.5,
   marginTop:StatusBarHeight 
 
+},
+itemContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+image: {
+  width: 50, // Adjust the width as needed
+  height: 50, // Adjust the height as needed
+  marginRight: 10, // Adjust the margin as needed
+  resizeMode: 'contain', // Choose the appropriate resizeMode
+},
+textContainer: {
+  flex: 1,
+},
+title: {
+  fontWeight: 'bold',
+  fontSize: 18,
+  marginBottom: 5,
+},
+date: {
+  fontSize: 16,
+  color: 'gray',
 },
 }) 
 

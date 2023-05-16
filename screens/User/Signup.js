@@ -11,6 +11,7 @@ import Login from './Login';
 import { ToastAndroid ,StyleSheet} from 'react-native';
 import MessageModal from '../../components/Modals/MessageModal';
 import { ngrokLink } from '../../config';
+import SelectDropdown from 'react-native-select-dropdown';
 
 
 
@@ -37,12 +38,13 @@ import {
     TextLinkContent,
     PageSignup,
     StyledContainer2,
-    StyledEtoile
+    StyledEtoile,
+    SelectDropdownStyle
 
 
 } from '../../components/styles';
 import RowContainer2 from '../../components/Containers/RowContainer2';
-const { green, brand, darkLight, primary } = Colors;
+const { green, brand, darkLight, primary , secondary , tertiary } = Colors;
 
 
 const Signup = ({ navigation }) => {
@@ -56,6 +58,11 @@ const [modalMessageType , setModalMessageType] = useState('');
 const [headerText , setHeaderText]= useState('');
 const [modalMessage , setModalMessage] = useState('');
 const [buttonText , setButtonText] = useState('');
+
+const groupesanguin = [
+    'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'
+    
+  ];
 
 const buttonHandler = () => {
     if(modalMessageType === 'success'){
@@ -218,7 +225,7 @@ const buttonHandler = () => {
                             }
                         }}
                     >
-                        {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
+                        {({ handleChange, handleBlur, handleSubmit,setFieldValue, values, isSubmitting }) => (
                             <StyledFormArea>
                                 <MyTextInput
                                     label="Nom"
@@ -254,17 +261,41 @@ const buttonHandler = () => {
 
                                     keyboardType="email-address"
                                 />
-                                <MyTextInput2
-                                    label="Groupe Sanguin"
-                                    icon="blood-bag"
-                                    placeholder="Entrer votre groupe sanguin"
-                                    placeholderTextColor={darkLight}
-                                    onChangeText={handleChange('groupeSanguin')}
-                                    onBlur={handleBlur('groupeSanguin')}
-                                    value={values.groupeSanguin}
-                                    
-                                    
-                                />
+         <Text style={styles.label}>Groupe Sanguin</Text> 
+         
+
+        <SelectDropdownStyle>    
+                
+         <SelectDropdown
+            label="Groupe sanguin"
+           
+            
+            data={groupesanguin}
+
+            onSelect={(selectedItem, index) => {
+              setFieldValue('groupeSanguin', selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText="Choisir cotre groupe sanguin"
+          >
+                 
+                       
+                
+                </SelectDropdown>
+              
+          </SelectDropdownStyle>
+          
+
                                 <MyTextInput2
                                     label="Allergie"
                                     icon="allergy"
@@ -349,5 +380,80 @@ const buttonHandler = () => {
 
     );
 };
+
+const styles = StyleSheet.create({
+    
+    label: {
+        fontSize: 13,
+        marginBottom: 5,
+        color:tertiary
+      },
+      
+    
+   
+   
+   
+    dropdownButtonText: {
+      fontSize: 17,
+      color: '#333',
+    
+    },
+    dropdown: {
+      borderWidth: 1,
+      borderColor: '#ccc',
+      padding: 10,
+      borderRadius: 5,
+      width: '100%',
+      marginBottom: 20,
+  },
+  
+  dropdownContainer: {
+    backgroundColor: secondary,
+    padding:15,
+    paddingLeft:55,
+    borderRadius: 20,
+    height:60,
+    marginVertical:3,
+    marginBottom:10,
+    color:tertiary,
+    shadowOpacity:0.25,
+    shadowOffset:2,
+    shadowRadius:1,
+    marginLeft:-10,
+    marginRight:-10
+ 
+   },
+   dropdownButton: {
+     backgroundColor: secondary,
+     alignItems:'center',
+     marginTop:-10,
+     
+     
+   },
+   dropdownButtonText: {
+     fontSize: 16,
+     color: '#333',
+   
+   },
+   dropdown: {
+     borderWidth: 1,
+     borderColor: '#ccc',
+     borderRadius: 20,
+     backgroundColor: '#fafafa',
+     justifyContent:'center'
+   },
+   dropdownRow: {
+     paddingVertical: 10,
+     paddingHorizontal: 5,
+   },
+   dropdownRowText: {
+     fontSize: 16,
+     color: '#333',
+   },
+   selectedValue: {
+     fontSize: 18,
+     marginTop: 20,
+   },
+});
 
 export default Signup; 

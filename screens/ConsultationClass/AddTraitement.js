@@ -4,52 +4,48 @@ import { Alert, View, Text, Button, Image, TextInput, StatusBar, TouchableOpacit
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
-import { Fontisto, Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+import { Fontisto, Octicons, Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import MessageModal from '../../components/Modals/MessageModal';
 import { StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer, Colors, LeftIcon,  StyledFormArea, MsgBox, ButtonText,  ViewImage, TextLink, ExtraView, TextLinkContent,  StyledInputLabel2, SubTitle, SelectDropdownStyle, StyledTextInput } from '../../components/styles';
+import { KeyboardAvoidingView } from 'react-native-web';
+import { InnerContainer, StyledContainer, Colors, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
+import RegularButton3 from '../../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 import RegularButton from '../../components/Buttons/RegularButton';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ngrokLink } from '../../config';
+import { useRoute } from '@react-navigation/native';
+
 
 const { brand, darkLight, primary, secondary, tertiary } = Colors;
 
-const AddConsultation = ({ navigation }) => {
+const AddTraitement = ({ navigation , route  }) => {
+ 
+
+ //take consultationId from route ___________________________________________________ 
+const consultationId = route.params.consultationId
+console.log(consultationId)
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
+  const [formCount, setFormCount] = useState(1);
 
 
-  // Fetch the list of contacts from the database____________________________________________________________
-  const [contacts, setContacts] = useState([]);
-  useEffect(() => {
-    fetch(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
-      .then(response => response.json())
-      .then(data => setContacts(data))
-      .catch(error => console.error(error));
-  }, []);
-  const options = contacts.map(contact => contact.nom);
+  
 
 
-  //________________________________________________________________________________________________________
+  //_______________________________________
   const { email } = storedCredentials;
   //console.log(email);
-//List Type de Consultation ___________________________________________________________________________
-  const typeConsultation = [
-    "Consultation générale",
-    "Consultation spécialisée",
-    "Consultation de suivi ",
-    "Consultation préopératoire",
-    "Consultation d'urgence"
-    
-  ];
+  //_______________________________________
+
+  
 
 
 
@@ -81,6 +77,7 @@ const AddConsultation = ({ navigation }) => {
 
     setModalVisible(false);
   };
+
   const ShowModal = (type, headerText, message, buttonText) => {
     setModalMessageType(type);
     setHeaderText(headerText);
@@ -88,93 +85,46 @@ const AddConsultation = ({ navigation }) => {
     setButtonText(buttonText);
     setModalVisible(true);
   }
-  //________________________________________________________________________________________________
+  //____________________________________________________________________
 
-  //Image______________________________________________________________________________________________
-  const takeImageHandler = async (setFieldValue) => {
-    let img;
-    const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+  
+  //______________________________________________________________       
 
-    if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-      alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
-      return;
-    }
-
-    Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-      {
-        text: 'Depuis la galerie',
-        onPress: async () => {
-          let result = await ImagePicker.launchImageLibraryAsync({
-            //allowsEditing: true,
-            aspect: [16, 9],
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            base64: true,
-            quality: 1,
-            allowsMultipleSelection: true,
-          });
-          if (!result.canceled) {
-            setFieldValue('image', result.assets[0].uri);
-          }
-        },
-      },
-      {
-        text: 'Ouvrir la caméra',
-        onPress: async () => {
-          let result = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
-            aspect: [24, 9],
-            base64: true,
-            quality: 0.5,
-          });
-          if (!result.canceled) {
-            setFieldValue('image', result.assets[0].uri);
-          }
-        },
-      },
-      { text: 'Annuler', style: 'cancel' },
-    ]);
-  };
-  // Fonction Add Consultation _____________________________________________________________________      
-  const consultationIdRef = useRef(null);
-
-  const submitConsultation = async (values, setSubmitting) => {
+  const submitTraitement = async (values, setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
 
     const formData = new FormData();
-    formData.append('objet', values.objet);
-
-    formData.append('type', values.type);
-    formData.append('date', dob);
-    formData.append('contact', values.contact);
-
-    formData.append('testimage', {
-      uri: values.image,
-      name: 'image.png',
-      type: 'image/png'
-    });
-    formData.append('userEmail', email);
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
+
+// Append traitements array directly
+values.traitements.forEach((traitement, index) => {
+  formData.append(`traitements[${index}][nbrJours]`, traitement.nbrJours);
+  formData.append(`traitements[${index}][nbrfois]`, traitement.nbrfois);
+  formData.append(`traitements[${index}][dateDeCommencement]`, traitement.dateDeCommencement);
+  formData.append(`traitements[${index}][medicament]`, traitement.medicament);
+
+});
+formData.append('idConsultation', consultationId);
+
+formData.append('userEmail', email);
 
 
 
 
     try {
-      const response = await axios.post(`${ngrokLink}/api/v1/consultation/add`, formData, {
+      const response = await axios.post(`${ngrokLink}/api/v1/traitement/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
       console.log(response.data);
 
-      consultationIdRef.current = response.data._id; 
-
-      console.log(consultationIdRef);
+     
 
 
-      navigation.navigate('AddTraitement' , {consultationId:response.data._id})
+      navigation.navigate('ListeConsultation')
 
       setSubmitting(false);
 
@@ -185,13 +135,12 @@ const AddConsultation = ({ navigation }) => {
       console.error(error);
     }
   };
-  //Fonction Message ____________________________________________________________________________________
   const handleMessage = (message, type = 'FAILED') => {
     setMessage(message);
     setMessageType(type);
   };
 
-// JSX____________________________________________________________________________________________________
+
 
   return (
     <KeyboardAvoidingWrapper>
@@ -208,16 +157,14 @@ const AddConsultation = ({ navigation }) => {
           <SubTitle></SubTitle>
 
           <Formik
-            initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', image: null }}
+            initialValues={{cout:"",remboursement:"", traitements: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", medicament: "" }]
+             }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.type == '' || values.objet=='') {
-                handleMessage('Veuillez remplir  les champs obligatoire');
-                setSubmitting(false);
-              } else {
-                submitConsultation(values, setSubmitting);
+              
+                submitTraitement(values, setSubmitting);
 
 
-              }
+              
 
             }}
           >
@@ -225,92 +172,125 @@ const AddConsultation = ({ navigation }) => {
               <StyledFormArea>
 
 
-                <MyTextInput
-                  label="Objet"
-                  // icon="id-badge"
-                  placeholder=""
-                  placeholderTextColor={darkLight}
-                  onChangeText={handleChange('objet')}
-                  onBlur={handleBlur('objet')}
-                  value={values.objet}
-                />
-                <View >
-                <Text style={styles.label}>Type de consultation</Text> 
-         <SelectDropdownStyle>              
-         <SelectDropdown
-            label="Specialité"
-            data={typeConsultation}
-            onSelect={(selectedItem, index) => {
-              setFieldValue('type', selectedItem);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-            buttonStyle={styles.dropdownButton}
-            buttonTextStyle={styles.dropdownButtonText}
-            dropdownStyle={styles.dropdown}
-            rowStyle={styles.dropdownRow}
-            rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir le type de consultation"
-          />
-          </SelectDropdownStyle>
+               
               
-                </View>
-                <Text style={styles.label}>Médecin</Text>
+                
+                
 
-                <SelectDropdownStyle>
-                  <SelectDropdown
-                    data={options}
-                    onSelect={(selectedItem, index) => {
-                      setFieldValue('contact', selectedItem);
-                    }} defaultButtonText="Choisir votre médecin"
-                    buttonStyle={styles.dropdownButton}
-                    buttonTextStyle={styles.dropdownButtonText}
-                    dropdownStyle={styles.dropdown}
-                    rowStyle={styles.dropdownRow}
-                    rowTextStyle={styles.dropdownRowText}
-                    buttonTextAfterSelection={(selectedItem, index) => contacts[index].nom}
-                  />
-                </SelectDropdownStyle>
-
-                <Text style={styles.label}>Ordonnance(s)</Text>
-                <ViewImage style={styles.imageContainer}>
-                  <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{ paddingTop: 15, paddingLeft: 70, justifyContent: 'center', alignItems: 'center' }} />
-                  <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{ position: 'absolute', padding: 25, left: 70, paddingRight: 65, paddingLeft: 15, borderRadius: 20, fontSize: 16, height: 200, width: '90%', zIndex: 1, marginVertical: 3, justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
-                    {values.image && <Image source={{ uri: values.image }} style={{ width: '100%', height: 150, marginTop: -55 }} />}
-                  </TouchableOpacity>
-
-                  <Text style={{ textAlign: 'center', paddingRight: 30, color: darkLight }}>Ajouter votre document</Text>
-
-                </ViewImage>
+                
                 <Text style={styles.label}>Dépenses</Text>
                 <Text style={styles.label2}>Coût                                    Remboursement</Text>
 
-          <TextInput
-            style={styles.cout}
-            placeholder="100.0"
-            placeholderTextColor={darkLight}
-            onChangeText={(text) => handleDepenseChange(text, index, 'cout')}
-            value={depense.cout}
-            keyboardType="phone-pad"
-          />
+                  <TextInput style={styles.cout}
+                placeholder="100.0"
+                placeholderTextColor={darkLight}
+                onChangeText={handleChange('cout')}
+                onBlur={handleBlur('cout')}
+                value={values.cout}
+                keyboardType="phone-pad"
+                />
 
-          <TextInput
-            style={styles.remboursement}
-            placeholder="70.0"
-            placeholderTextColor={darkLight}
-            onChangeText={(text) => handleDepenseChange(text, index, 'remboursement')}
-            value={depense.remboursement}
-            keyboardType="phone-pad"
+                 <TextInput style={styles.remboursement}
+                placeholder="70.0"
+                placeholderTextColor={darkLight}
+                onChangeText={handleChange('remboursement')}
+                onBlur={handleBlur('remboursement')}
+                value={values.remboursement}
+                keyboardType="phone-pad"
+                />
+
+
+                <Text style={styles.sectionTitleP}>Traitement(s)</Text>
+
+                <View>
+          <FieldArray
+            name="traitements"
+            render={(arrayHelpers) => (
+              <View>
+                {values.traitements.map((traitement, index) => (
+                  <View key={index}>
+                    <Text style={styles.label2}>Traitement {index + 1}</Text>
+                    <View style={{ flexDirection: "column" }}>
+                        <MyTextInput
+                        label="Médicament"
+                          onChangeText={(value) =>
+                            arrayHelpers.replace(index, {
+                              ...traitement,
+                              medicament: value
+                            })
+                          }
+                          value={traitement.medicament}
+                        />
+
+                      
+                        <Text style={styles.label}>Date de commencement</Text>
+                        
+                      <View >
+              
+                </View>
+                      <View style={styles.inputContainer}>
+      <Text style={styles.label}>Apprendre</Text>
+
+        <TextInput
+          style={[styles.input]}
+          placeholder="1"
+          keyboardType="phone-pad"
+          onChangeText={(value) =>
+            arrayHelpers.replace(index, {
+              ...traitement,
+              nbrfois: value
+            })
+          }
+          value={traitement.nbrfois}
+          />
+        <Text style={styles.label}>fois dans les</Text>
+        <TextInput
+          style={[styles.input]}
+          placeholder="1"
+          keyboardType="phone-pad"
+          onChangeText={(value) =>
+            arrayHelpers.replace(index, {
+              ...traitement,
+              nbrJours: value
+            })
+          }
+          value={traitement.nbrJours}
+
+        />
+        <Text style={styles.label}>jours</Text>
+      </View>
+
+
+                      
+                     
+                    </View>
+                  </View>
+                ))}
+                {formCount < 4 && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      arrayHelpers.push({
+                        dateDeCommencement: "",
+                        nbrfois: "",
+                        nbrJours: "",
+                        medicament: ""
+                      });
+                      setFormCount((formCount + 1).toString());
+                    }}
+                    
+                  >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+  <AntDesign name="pluscircleo" size={25} color={brand} />
+  <Text style={{ color: brand, marginLeft: 5 }}>Ajouter une autre Traitement</Text>
+</View>
+
+                  </TouchableOpacity>
+                )}
+              </View>
+            )}
           />
         </View>
-      ))}
 
-      <Button title="Add Depense" onPress={addDepense} />
-    </View>
 
                 <MsgBox type={messageType}>
                   {message}
@@ -318,7 +298,7 @@ const AddConsultation = ({ navigation }) => {
                 <View style={{ justifyContent: 'center' }}>
                   {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
                     <ButtonText>
-                      Suivant
+                      Ajouter
                     </ButtonText>
                   </RegularButton>}
 
@@ -343,7 +323,7 @@ const AddConsultation = ({ navigation }) => {
   );
 }
 
-const MyTextInput = ({ label, icon, icon2,  ...props }) => {
+const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword, isDate, showDatePicker, setHidePassword, ...props }) => {
   return (
     <View>
       <StyledInputLabel2> {label}</StyledInputLabel2>
@@ -353,9 +333,18 @@ const MyTextInput = ({ label, icon, icon2,  ...props }) => {
       <LeftIcon>
         <Fontisto name={icon2} size={25} color={brand} marginTop='10' />
       </LeftIcon>
+      {!isDate && <StyledTextInput  {...props} />}
+      {isDate && (
+        <TouchableOpacity onPress={showDatePicker}>
 
           <StyledTextInput  {...props} />
-      
+        </TouchableOpacity>)}
+      {isPassword && (
+        <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+          <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
+        </RightIcon>
+
+      )}
 
     </View>
   );
@@ -505,7 +494,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginVertical: -7,
     marginBottom: 10,
-    marginLeft: 34,
+    marginLeft: -10,
     marginRight: -10,
   },
   dropdownButtonText: {
@@ -517,7 +506,7 @@ const styles = StyleSheet.create({
   dropdown: {
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: '#fafafa',
     justifyContent: 'center'
   },
@@ -597,4 +586,4 @@ const styles = StyleSheet.create({
   },
 
 });
-export default AddConsultation; 
+  export default AddTraitement; 

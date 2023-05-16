@@ -207,6 +207,28 @@ margin-right:-10px;
 
 `;
 
+
+export const StyledTextInputNombreFois = styled.TextInput`
+  background-color: ${secondary};
+  padding: 15px;
+  padding-left: 55px;
+  border-radius: 20px;
+  font-size: 16px;
+  height: 40px; /* Mettre une hauteur de 40px */
+  margin-vertical: 3px;
+  margin-bottom: 15px;
+  color: ${tertiary};
+  shadow-opacity: 0.25;
+  shadow-offset: 2px;
+  shadow-radius: 1px;
+  elevation: 5;
+  margin-left: -10px;
+  margin-right: -10px;
+  width: 10px; /* Ajouter la propriété width pour changer la largeur */
+
+`;
+
+
 export const StyledTextInputDate = styled.TextInput`
 background-color:${secondary};
 padding:15px;
@@ -248,6 +270,32 @@ margin-left:-10px;
 margin-right:-10px;
 
 `;
+
+export const SelectDropdownStyleNombreFois = styled.View`
+background-color:${secondary};
+padding:15px;
+padding-left:10px;
+padding-right:-50px;
+
+border-radius: 20px;
+font-size:16px;
+height:60px;
+margin-vertical:3px;
+margin-bottom:10px;
+color:${tertiary};
+shadow-Opacity:0.25;
+shadow-offset:2px;
+shadow-radius:1px;
+elevation:5;
+margin-left:-10px;
+margin-right:-10px;
+
+`;
+
+
+
+
+
 export const StyledTextCommentaire = styled.TextInput`
 background-color:${secondary};
 padding:15px;
