@@ -23,14 +23,14 @@ import { ngrokLink } from '../../config';
 import { useRoute } from '@react-navigation/native';
 
 
-const { brand, darkLight, primary, secondary, tertiary } = Colors;
+const { brand, darkLight, primary, secondary, tertiary,red } = Colors;
 
 const AddTraitement = ({ navigation , route  }) => {
  
 
  //take consultationId from route ___________________________________________________ 
-const consultationId = route.params.consultationId
-console.log(consultationId)
+//const consultationId = route.params.consultationId
+//onsole.log(consultationId)
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
@@ -106,7 +106,7 @@ values.traitements.forEach((traitement, index) => {
   formData.append(`traitements[${index}][medicament]`, traitement.medicament);
 
 });
-formData.append('idConsultation', consultationId);
+//formData.append('idConsultation', consultationId);
 
 formData.append('userEmail', email);
 
@@ -178,8 +178,8 @@ formData.append('userEmail', email);
                 
 
                 
-                <Text style={styles.label}>Dépenses</Text>
-                <Text style={styles.label2}>Coût                                    Remboursement</Text>
+                <Text style={styles.sectionTitleP}>Dépenses</Text>
+                <Text style={styles.label2}>Coût                                 Remboursement</Text>
 
                   <TextInput style={styles.cout}
                 placeholder="100.0"
@@ -209,8 +209,8 @@ formData.append('userEmail', email);
               <View>
                 {values.traitements.map((traitement, index) => (
                   <View key={index}>
-                    <Text style={styles.label2}>Traitement {index + 1}</Text>
-                    <View style={{ flexDirection: "column" }}>
+                    <Text style={styles.label3}>------------Traitement {index + 1}------------</Text>
+                    <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>
                         <MyTextInput
                         label="Médicament"
                           onChangeText={(value) =>
@@ -224,10 +224,21 @@ formData.append('userEmail', email);
 
                       
                         <Text style={styles.label}>Date de commencement</Text>
-                        
-                      <View >
-              
-                </View>
+           <DateTimePicker style={styles.date}
+              value={date}
+              mode="date"
+              //is24Hour={true}
+              display="spinner"
+              onChangeText={(value) =>
+                arrayHelpers.replace(index, {
+                  ...traitement,
+                  date: value
+                })
+              }      locale="fr"
+      onPress={handleShowDatePicker}
+      //style={{ position: 'absolute', bottom: 0, left: 0 }}
+
+    />
                       <View style={styles.inputContainer}>
       <Text style={styles.label}>Apprendre</Text>
 
@@ -364,11 +375,26 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   label2: {
-    fontSize: 15,
-
+    fontSize: 16,
+    fontWeight: 'bold',
+    //marginBottom: 10,
+    //color: brand,
+    marginTop: -5,
+  },
+  label3: {
+    fontSize: 18,
     // marginBottom: 1,
-    color: brand,
+    color: red,
     marginTop: 5,
+  },
+  date: {
+    //flex:1,
+    //padding:25,
+    //paddingLeft:55,
+    height:90,
+    marginVertical:-10,
+    marginBottom:7,
+    marginHorizontal:-15,
   },
   header: {
     flexDirection: 'row',
@@ -442,7 +468,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: 60,
     marginVertical: 3,
-    marginBottom: 15,
+    marginBottom: 30,
     color: tertiary,
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },

@@ -111,13 +111,13 @@ const  AddMedecin = ({navigation}) =>  {
   return (
     <KeyboardAvoidingWrapper>
         <StyledContainer>
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
        
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>             Ajouter un contact</Text>
+        <Text style={styles.headerTitle}>Ajouter un contact</Text>
       </View>
      
 
@@ -288,14 +288,18 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop:StatusBarHeight -40,
-        paddingBottom: 20,
-        borderBottomWidth: 1,
+        //justifyContent:'space-between',
+        marginTop: StatusBarHeight - 42,
+        paddingBottom: 15,
+        borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
+        marginLeft: -25,
+        marginRight: -25,
+    
       },
       backButton: {
-        marginRight: 10,
-        marginLeft: -9,
+        marginRight: 70,
+        marginLeft: 9,
       },
       headerTitle: {
         fontWeight: 'bold',

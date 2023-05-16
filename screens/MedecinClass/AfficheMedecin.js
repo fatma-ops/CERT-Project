@@ -5,6 +5,7 @@ import { useState } from 'react';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
+import { StatusBarHeight } from '../../components/shared';
 
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 
@@ -133,10 +134,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
+    marginTop: StatusBarHeight ,
+    paddingBottom: 5,
+    borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
+    //marginLeft: -25,
+    //marginRight: -25,
   },
   sectionItem: {
     fontSize: 18,

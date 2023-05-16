@@ -15,9 +15,9 @@ padding:25px;
 background-color:rgba(0,0,0,0.7);
 justify-content:center;
 `;
-const AfficheVaccin = ({ navigation , route }) => {
-  const { selectedAnalyse } = route.params;
-  const id = selectedAnalyse._id
+const AddRappel = ({ navigation , route }) => {
+  //const { selectedAnalyse } = route.params;
+  //const id = selectedAnalyse._id
   //console.log("id" , id);
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
@@ -40,7 +40,7 @@ const AfficheVaccin = ({ navigation , route }) => {
   };
   
   const openModal = () => {
-    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce vaccin ?', 'OK', 'Cancel');
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce rappel ?', 'OK', 'Cancel');
   };
   
   const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
@@ -54,22 +54,22 @@ const AfficheVaccin = ({ navigation , route }) => {
   };
  const handleDelete = async () => {
       try {
-        const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}/api/v1/rappel/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
         setResult(data);
-        navigation.navigate('ListeVaccin');
+        navigation.navigate('ListeRappel');
 
       } catch (err) {
         console.error(err);
         setResult('Erreur');
       }
     };
-    const handleModify = () => {
+    /*const handleModify = () => {
       setShowModal(false);
-      navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
-     };
+      navigation.navigate('ModifyRappel' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
+     };*/
 
   return (
     <View style={styles.container}>
@@ -77,7 +77,7 @@ const AfficheVaccin = ({ navigation , route }) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>            Détails du vaccin    </Text>
+        <Text style={styles.headerTitle}>            Détails du rappel    </Text>
         <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
@@ -86,18 +86,18 @@ const AfficheVaccin = ({ navigation , route }) => {
       </View>
       <View style={styles.content}>
         <View style={styles.sectionContent}>
-            <Text style={styles.title}>{selectedAnalyse.title}</Text>
+            <Text style={styles.title}>test</Text>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Maladie ciblée: </Text>
-            <Text style={styles.sectionItem}>{selectedAnalyse.maladieCible}</Text>
+            <Text style={styles.sectionItem}>test</Text>
             </View>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Date: </Text>
-            <Text style={styles.sectionItem}> {selectedAnalyse.date}</Text>
+            <Text style={styles.sectionItem}>test</Text>
             </View>          
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Commenataire: </Text>
-            <Text style={styles.sectionItem}>{selectedAnalyse.commentaire}</Text>
+            <Text style={styles.sectionItem}>test</Text>
             </View>
           </View>
       </View>
@@ -106,7 +106,7 @@ const AfficheVaccin = ({ navigation , route }) => {
 
     <View style={styles.modalContainer}>
      <View style={styles.modalContent}>
-       <TouchableOpacity onPress={handleModify}>
+       <TouchableOpacity /*onPress={handleModify}*/>
         <View style={[styles.modalButton]}>
           <Text style={{  color: '#007AFF',fontSize:'20',marginBottom:15 }}>  Modifier  </Text>
         </View>
@@ -147,12 +147,15 @@ const styles = StyleSheet.create({
     marginBottom:50,
   },
   header: {
-    flexDirection: 'row',
+   flexDirection: 'row',
     alignItems: 'center',
+    //justifyContent:'space-between',
     marginTop: StatusBarHeight ,
     paddingBottom: 5,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
+    //marginLeft: -25,
+    //marginRight: -25,
   },
   heelo:{
     flexDirection:'row',
@@ -280,4 +283,4 @@ modalCancelButton: {
 
 });
 
-export default AfficheVaccin
+export default AddRappel

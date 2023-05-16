@@ -1,8 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-
 import Login from '../screens/User/Login';
 import { Colors } from './../components/styles';
 const { primary, tertiary , brand} = Colors;
@@ -47,6 +45,8 @@ import ModifyMedecin from '../screens/MedecinClass/ModifyMedecin';
 import Traitement from '../screens/TraitementClass/Traitement';
 import AddTraitement from '../screens/ConsultationClass/AddTraitement'
 import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
+import AddRappel from '../screens/ConsultationClass/AddRappel'
+
 
 
 const Stack = createNativeStackNavigator();
@@ -109,6 +109,8 @@ const RootStack = () => {
                 <Stack.Screen name="Traitement" component={Traitement} />
                 <Stack.Screen name="AddTraitement" component={AddTraitement} />
                 <Stack.Screen name="UpdateTraitement" component={UpdateTraitement} />
+                <Stack.Screen name="AddRappel" component={AddRappel} />
+
 
 
                 

@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect , useRef  } from 'react';
-
 import { Alert, View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
@@ -41,6 +40,7 @@ const AddConsultation = ({ navigation }) => {
   //________________________________________________________________________________________________________
   const { email } = storedCredentials;
   //console.log(email);
+
 //List Type de Consultation ___________________________________________________________________________
   const typeConsultation = [
     "Consultation générale",
@@ -48,11 +48,7 @@ const AddConsultation = ({ navigation }) => {
     "Consultation de suivi ",
     "Consultation préopératoire",
     "Consultation d'urgence"
-    
   ];
-
-
-
   //date________________________________________
   const [date, setDate] = useState(new Date());
   const [dob, setDob] = useState();
@@ -137,18 +133,14 @@ const AddConsultation = ({ navigation }) => {
   };
   // Fonction Add Consultation _____________________________________________________________________      
   const consultationIdRef = useRef(null);
-
   const submitConsultation = async (values, setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
-
     const formData = new FormData();
     formData.append('objet', values.objet);
-
     formData.append('type', values.type);
     formData.append('date', dob);
     formData.append('contact', values.contact);
-
     formData.append('testimage', {
       uri: values.image,
       name: 'image.png',
@@ -157,10 +149,6 @@ const AddConsultation = ({ navigation }) => {
     formData.append('userEmail', email);
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
-
-
-
-
     try {
       const response = await axios.post(`${ngrokLink}/api/v1/consultation/add`, formData, {
         headers: {
@@ -168,23 +156,17 @@ const AddConsultation = ({ navigation }) => {
         }
       });
       console.log(response.data);
-
       consultationIdRef.current = response.data._id; 
-
       console.log(consultationIdRef);
-
-
       navigation.navigate('AddTraitement' , {consultationId:response.data._id})
-
       setSubmitting(false);
-
     } catch (error) {
       setSubmitting(false);
       handleMessage(error.message);
-
       console.error(error);
     }
   };
+
   //Fonction Message ____________________________________________________________________________________
   const handleMessage = (message, type = 'FAILED') => {
     setMessage(message);
@@ -192,7 +174,6 @@ const AddConsultation = ({ navigation }) => {
   };
 
 // JSX____________________________________________________________________________________________________
-
   return (
     <KeyboardAvoidingWrapper>
       <StyledContainer>
@@ -204,9 +185,7 @@ const AddConsultation = ({ navigation }) => {
           <Text style={styles.headerTitle}>Ajouter un consultation</Text>
         </View>
         <InnerContainer>
-
           <SubTitle></SubTitle>
-
           <Formik
             initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', image: null }}
             onSubmit={(values, { setSubmitting }) => {
@@ -215,16 +194,11 @@ const AddConsultation = ({ navigation }) => {
                 setSubmitting(false);
               } else {
                 submitConsultation(values, setSubmitting);
-
-
               }
-
             }}
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-
-
                 <MyTextInput
                   label="Objet"
                   // icon="id-badge"
@@ -288,13 +262,12 @@ const AddConsultation = ({ navigation }) => {
                 </ViewImage>
                 <Text style={styles.label}>Dépenses</Text>
                 <Text style={styles.label2}>Coût                                    Remboursement</Text>
-
-          <TextInput
+            <TextInput
             style={styles.cout}
             placeholder="100.0"
             placeholderTextColor={darkLight}
-            onChangeText={(text) => handleDepenseChange(text, index, 'cout')}
-            value={depense.cout}
+            onChangeText={handleChange('cout')}
+            value={values.cout}
             keyboardType="phone-pad"
           />
 
@@ -302,15 +275,11 @@ const AddConsultation = ({ navigation }) => {
             style={styles.remboursement}
             placeholder="70.0"
             placeholderTextColor={darkLight}
-            onChangeText={(text) => handleDepenseChange(text, index, 'remboursement')}
-            value={depense.remboursement}
+            onChangeText={handleChange('remboursement')}
+            value={values.remboursement}
             keyboardType="phone-pad"
           />
-        </View>
-      ))}
 
-      <Button title="Add Depense" onPress={addDepense} />
-    </View>
 
                 <MsgBox type={messageType}>
                   {message}

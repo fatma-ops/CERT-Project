@@ -13,11 +13,14 @@ import ListeMedecins from '../screens/MedecinClass/ListeMedecins'
 import Medecin from '../screens/MedecinClass/Medecin'
 import Depenses from '../screens/Depenses'
 //import AddAnalyse from '../screens/AddAnalyse'
+import AddConsultation from '../screens/ConsultationClass/AddConsultation'
+import AddTraitement from '../screens/ConsultationClass/AddTraitement'
+import AddRappel from '../screens/ConsultationClass/AddRappel'
 
 
 const { darkLight, brand , red } = Colors;
 
-z
+
 const Tab = createBottomTabNavigator();
 const screenOptions = {
     tabBarShowLabel: false,
@@ -63,8 +66,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="Vaccin"
-                component={Vaccin}
+            <Tab.Screen name="AddRappel"
+                component={AddRappel}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -85,8 +88,8 @@ export default function NavBarre() {
                 }} />
 
 
-            <Tab.Screen name="Medecin"
-                component={Medecin}
+            <Tab.Screen name="AddTraitement"
+                component={AddTraitement}
                 options={{
 
                     tabBarIcon: ({ focused }) => {
