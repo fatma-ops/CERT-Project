@@ -84,7 +84,7 @@ const ListeRappel = ({ navigation }) => {
     <View >
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('ListeAddRappel')}
+          onPress={() => navigation.navigate('ListeAddRappelTraitement')}
         >
           <MaterialIcons name="add" size={25} color='white' />
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
