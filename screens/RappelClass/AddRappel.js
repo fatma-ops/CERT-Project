@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import { Formik , FieldArray } from 'formik';
-import { InnerContainer, StyledContainer, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
+import { InnerContainer, StyledContainer2, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -132,7 +132,6 @@ const AddRappel = ({ navigation , route }) => {
         };
   return (
     <KeyboardAvoidingWrapper>
-      <StyledContainer>
       <StatusBar style="light" />
     <View style={styles.container}>
         <StatusBar style="white" />
@@ -145,9 +144,7 @@ const AddRappel = ({ navigation , route }) => {
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
       </View>
-      <InnerContainer>
-          <SubTitle></SubTitle>
-          <Formik
+          <Formik style={styles.container}
            initialValues={{rappels: [{ heure: ""}]}}
        onSubmit={(values, { setSubmitting }) => {
          submitTraitement(values, setSubmitting);
@@ -172,10 +169,9 @@ const AddRappel = ({ navigation , route }) => {
             <Text style={styles.sectionItem2}>  jours</Text>
             </View>
             </View>          
-            <View style={styles.heelo2}>
+            <View >
            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-  <AntDesign name="pluscircleo" size={30} color={brand} />
-  <Text style={{ color: brand, marginLeft: 10, fontSize:18}}>Ajouter L'heure des rappels</Text>
+  <Text style={{ color:'black', marginLeft:-10, fontSize:18,fontWeight:'500', marginTop:30}}>Ajouter L'heure des rappels</Text>
 </View>
             </View>
             <View>
@@ -185,7 +181,11 @@ const AddRappel = ({ navigation , route }) => {
               <View>
                {values.rappels.map((rappel, index) => (
                   <View key={index}>
-                    <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>       
+                    <View style={{ flexDirection: "column", marginTop:5, marginBottom:10 }}>   
+                    <Image
+            source={require('../../assets/img/clock.jpg')}
+            style={styles.image}
+          />    
            <DateTimePicker style={styles.date}
               value={date}
               mode="time"
@@ -213,10 +213,10 @@ const AddRappel = ({ navigation , route }) => {
                     }}
                     
                   >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-  <AntDesign name="pluscircleo" size={25} color={brand} />
-  <Text style={{ color: brand, marginLeft: 5 }}>Ajouter un autre rappel</Text>
-</View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft:-10 }}>
+                <AntDesign name="pluscircleo" size={25} color={brand} />
+               <Text style={{ color: brand, marginLeft: 10, fontSize:17 }}>Ajouter un autre rappel</Text>
+                </View>
 
                   </TouchableOpacity>
                 )}
@@ -265,10 +265,8 @@ const AddRappel = ({ navigation , route }) => {
 
     )}
     </Formik>
-    </InnerContainer>
     </View>
    
-    </StyledContainer>
     </KeyboardAvoidingWrapper>
   );
 };
@@ -278,8 +276,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     opacity:1,
-    marginBottom:50,
-    justifyContent:'space-between',
+    marginBottom:-700,
+    //justifyContent:'space-between',
 
   },
   header: {
@@ -302,8 +300,8 @@ const styles = StyleSheet.create({
     shadowOffset:{width:0.5,height:2},
     shadowRadius:1,
     elevation:5,
-    marginLeft: -5,
-    marginRight:-10,
+    marginLeft: -40,
+    marginRight:-40,
     alignItems: 'center',
 
 
@@ -315,8 +313,8 @@ const styles = StyleSheet.create({
     //borderBottomLeftRadius:20,
     //borderBottomRightRadius:20,
     //borderBottomLarge:9,
-    //marginTop:10,
-    marginLeft:-5,
+    marginRight:5,
+    marginLeft:5,
     //marginBottom:10,
        
     alignContent:'center'
@@ -358,7 +356,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
    //marginLeft:-10,
    marginBottom: 15,
-    fontWeight: '500',
+    fontWeight: '400',
    alignSelf: 'center',
 
    //color:brand
@@ -415,6 +413,7 @@ modalCancelButton: {
     flex: 1,
     //alignItems: 'center',
     padding: 20,
+    marginLeft:30,
   },
   infoContainer: {
     alignItems: 'center',
@@ -457,7 +456,25 @@ modalCancelButton: {
     borderWidth: 1,
     borderColor: red,
   },
-
+  image: {
+    width: 50, // Adjust the width as needed
+    height: 50, // Adjust the height as needed
+    marginRight: 10, // Adjust the margin as needed
+    resizeMode: 'contain', 
+    marginLeft:30, 
+    marginTop:10
+  },
+  date: {
+    //flex:1,
+    //padding:25,
+    //paddingLeft:55,
+    height:90,
+    marginVertical:-65,
+    marginLeft:80,
+    //marginTop:-65,
+    marginRight:70,
+    marginBottom:-3,
+  },
 });
 
 export default AddRappel

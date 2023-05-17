@@ -24,9 +24,9 @@ backgroud-color: ${primary};
 
 export const StyledContainer2 = styled.View`
 flex: 1;
-padding: 25px;
+padding: 0px;
 padding-top: ${StatusBarHeight -60}px;
-backgroud-color: ${primary};
+backgroud-color:'#fff';
 
 `;
 export const StyledContainer3 = styled.View`
