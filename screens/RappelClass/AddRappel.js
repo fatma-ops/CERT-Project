@@ -145,7 +145,7 @@ const AddRappel = ({ navigation , route }) => {
             </View>
             </View>          
             <View style={styles.heelo2}>
-           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom:30 }}>
+           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
   <AntDesign name="pluscircleo" size={30} color={brand} />
   <Text style={{ color: brand, marginLeft: 10, fontSize:18}}>Ajouter L'heure des rappels</Text>
 </View>
@@ -157,12 +157,8 @@ const AddRappel = ({ navigation , route }) => {
               <View>
                {values.rappels.map((rappels, index) => (
                   <View key={index}>
-                <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>       
-                <Image
-          source={require('../../assets/img/vaccinated.png')}
-          style={styles.image}
-        />
-           <DateTimePicker style={styles.time}
+                    <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>       
+           <DateTimePicker style={styles.date}
               value={date}
               mode="time"
               //is24Hour={true}
@@ -172,8 +168,7 @@ const AddRappel = ({ navigation , route }) => {
                   ...rappel,
                   date: value
                 })
-              }      
-              locale="fr"
+              }      locale="fr"
       onPress={handleShowDatePicker}
 
     />
@@ -388,8 +383,36 @@ modalCancelButton: {
   paddingHorizontal: 125,
   marginTop: 15,
 },
+  content: {
+    flex: 1,
+    //alignItems: 'center',
+    padding: 20,
+  },
+  infoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
  
- 
+  specialite: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 5,
+  },
+  adresse: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 5,
+  },
+  numero: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 5,
+  },
+  commentaire: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 20,
+  },
   actions: {
     flexDirection: 'row',
   },
@@ -406,22 +429,7 @@ modalCancelButton: {
     borderWidth: 1,
     borderColor: red,
   },
-  time: {
-    //flex:1,
-    //padding:25,
-    //paddingLeft:55,
-    height:90,
-    marginVertical:-70,
-    marginBottom:7,
-    marginLeft:50,
-    marginRight:70,
-  },
-  image: {
-    width: 50, // Adjust the width as needed
-    height: 50, // Adjust the height as needed
-    marginRight: 10, // Adjust the margin as needed
-    resizeMode: 'contain', // Choose the appropriate resizeMode
-  },
+
 });
 
 export default AddRappel

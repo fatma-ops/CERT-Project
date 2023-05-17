@@ -162,7 +162,7 @@ text2:{
 },
 
 item:{ 
-  marginTop:-20,
+  marginTop:10,
     marginLeft:10,
     marginRight:10,
     //alignItems:'center',

@@ -15,8 +15,8 @@ import Depenses from '../screens/Depenses'
 //import AddAnalyse from '../screens/AddAnalyse'
 import AddConsultation from '../screens/ConsultationClass/AddConsultation'
 import AddTraitement from '../screens/ConsultationClass/AddTraitement'
-import AddRappel from '../screens/ConsultationClass/AddRappel'
-import ListeAddRappel from '../screens/ConsultationClass/ListeAddRappel'
+import ListeRappel from '../screens/RappelClass/ListeRappel'
+
 
 
 
@@ -68,8 +68,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="ListeAddRappel"
-                component={ListeAddRappel}
+            <Tab.Screen name="ListeRappel"
+                component={ListeRappel}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
