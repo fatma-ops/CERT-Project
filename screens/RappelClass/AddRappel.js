@@ -11,6 +11,7 @@ import { StatusBar } from 'react-native';
 import { Formik , FieldArray } from 'formik';
 import { InnerContainer, StyledContainer, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 const { brand, green, darkLight, primary, red, tertiary,secondary } = Colors;
@@ -21,9 +22,9 @@ background-color:rgba(0,0,0,0.7);
 justify-content:center;
 `;
 const AddRappel = ({ navigation , route }) => {
-  //const { selectedAnalyse } = route.params;
-  //const id = selectedAnalyse._id
-  //console.log("id" , id);
+  const { selectedTraitement } = route.params;
+  const id = selectedTraitement._id
+  console.log("id" , id);
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
   const [headerText , setHeaderText]= useState('');
@@ -35,6 +36,22 @@ const AddRappel = ({ navigation , route }) => {
   const [showModal, setShowModal] = useState(false);
 
   const [result, setResult] = useState('');
+  const [formCount, setFormCount] = useState(1);
+
+
+  //date________________________________________
+  const [date, setDate] = useState(new Date());
+  const [dob, setDob] = useState();
+  const [show, setShow] = useState(false);
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(false);
+    setDate(currentDate);
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
+  }
+  const handleShowDatePicker = () => {
+    setShow(true);
+  };
 
 
   const buttonHandler = (isDeleteConfirmed) => {
@@ -77,27 +94,38 @@ const AddRappel = ({ navigation , route }) => {
      };*/
 
      const submitRappel = async (values, setSubmitting) => {
-        handleMessage(null);
-        setSubmitting(true);
-        const formData = new FormData();
-        formData.append('rappel', values.rappel);
-      //formData.append('idConsultation', consultationId);
-        formData.append('userEmail', email);
-          try {
-            const response = await axios.post(`${ngrokLink}/api/v1/rappel/add`, formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            });
-            console.log(response.data);
-            navigation.navigate('ListeConsultation')
-            setSubmitting(false);
-          } catch (error) {
-            setSubmitting(false);
-            handleMessage(error.message);
-            console.error(error);
+      handleMessage(null);
+      setSubmitting(true);
+    
+      const data = {
+        
+        rappels: values.rappels,
+
+        userEmail: email,
+        idTraitement: selectedTraitement._id,
+        dateDeCommencement:selectedTraitement.dateDeCommencement
+      };
+    
+      try {
+        const response = await axios.post(
+          `${ngrokLink}/api/v1/rappel/add`,
+          data,
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
           }
-        };
+        );
+        console.log(response.data);
+        navigation.navigate('ListeRappel')
+        setSubmitting(false);
+      } catch (error) {
+        setSubmitting(false);
+        handleMessage(error.message);
+        console.error(error);
+      }
+    };
+    
         const handleMessage = (message, type = 'FAILED') => {
           setMessage(message);
           setMessageType(type);
@@ -120,7 +148,7 @@ const AddRappel = ({ navigation , route }) => {
       <InnerContainer>
           <SubTitle></SubTitle>
           <Formik
-           initialValues={{heure:""}}
+           initialValues={{rappels: [{ heure: ""}]}}
        onSubmit={(values, { setSubmitting }) => {
          submitTraitement(values, setSubmitting);
        }}
@@ -129,18 +157,18 @@ const AddRappel = ({ navigation , route }) => {
               <StyledFormArea>
 
       <View style={styles.content}>
-      <Text style={styles.title}>Doliprane</Text>
+      <Text style={styles.title}>{selectedTraitement.medicament}</Text>
 
         <View style={styles.sectionContent}>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Date De Commencement: </Text>
-            <Text style={styles.sectionItem3}>12 mai 2023</Text>
+            <Text style={styles.sectionItem3}>{selectedTraitement.dateDeCommencement}</Text>
             </View>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>À apprendre  </Text>
-            <Text style={styles.sectionItem3}>3</Text>
+            <Text style={styles.sectionItem3}>{selectedTraitement.nbrfois}</Text>
             <Text style={styles.sectionItem2}>  fois tous les  </Text>
-            <Text style={styles.sectionItem3}>1</Text>
+            <Text style={styles.sectionItem3}>{selectedTraitement.nbrJours}</Text>
             <Text style={styles.sectionItem2}>  jours</Text>
             </View>
             </View>          
@@ -155,7 +183,7 @@ const AddRappel = ({ navigation , route }) => {
             name="rappels"
             render={(arrayHelpers) => (
               <View>
-               {values.rappels.map((rappels, index) => (
+               {values.rappels.map((rappel, index) => (
                   <View key={index}>
                     <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>       
            <DateTimePicker style={styles.date}
@@ -166,7 +194,7 @@ const AddRappel = ({ navigation , route }) => {
               onChangeText={(value) =>
                 arrayHelpers.replace(index, {
                   ...rappel,
-                  date: value
+                  heure: value
                 })
               }      locale="fr"
       onPress={handleShowDatePicker}

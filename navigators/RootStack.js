@@ -46,7 +46,7 @@ import Traitement from '../screens/TraitementClass/Traitement';
 import AddTraitement from '../screens/ConsultationClass/AddTraitement'
 import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
 import AddRappel from '../screens/RappelClass/AddRappel'
-import ListeAddRappel from '../screens/RappelClass/ListeAddRappel'
+import ListeAddRappelTraitement from '../screens/RappelClass/ListeAddRappelTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
 
 
@@ -114,7 +114,7 @@ const RootStack = () => {
                 <Stack.Screen name="AddTraitement" component={AddTraitement} />
                 <Stack.Screen name="UpdateTraitement" component={UpdateTraitement} />
                 <Stack.Screen name="AddRappel" component={AddRappel} />
-                <Stack.Screen name="ListeAddRappel" component={ListeAddRappel} />
+                <Stack.Screen name="ListeAddRappelTraitement" component={ListeAddRappelTraitement} />
                 <Stack.Screen name="ListeRappel" component={ListeRappel} />
 
 
