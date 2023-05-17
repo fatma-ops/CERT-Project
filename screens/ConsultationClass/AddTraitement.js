@@ -29,8 +29,8 @@ const AddTraitement = ({ navigation , route  }) => {
  
 
  //take consultationId from route ___________________________________________________ 
-//const consultationId = route.params.consultationId
-//console.log('ID' , consultationId)
+const consultationId = route.params.consultationId
+console.log('ID' , consultationId)
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
