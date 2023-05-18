@@ -133,7 +133,7 @@ console.log('ID' , consultationId)
   };
 
 
-
+//JSX_________________________________________________________________________________
   return (
     <KeyboardAvoidingWrapper>
       <StyledContainer>
@@ -300,8 +300,8 @@ console.log('ID' , consultationId)
     </KeyboardAvoidingWrapper>
   );
 }
-
-const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword, isDate, showDatePicker, setHidePassword, ...props }) => {
+//TExtInput Modal _______________________________________________________________
+const MyTextInput = ({ label, icon, icon2,  ...props }) => {
   return (
     <View>
       <StyledInputLabel2> {label}</StyledInputLabel2>
@@ -311,23 +311,16 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword, isDate, sho
       <LeftIcon>
         <Fontisto name={icon2} size={25} color={brand} marginTop='10' />
       </LeftIcon>
-      {!isDate && <StyledTextInput  {...props} />}
-      {isDate && (
-        <TouchableOpacity onPress={showDatePicker}>
-
+     
           <StyledTextInput  {...props} />
-        </TouchableOpacity>)}
-      {isPassword && (
-        <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-          <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
-        </RightIcon>
-
-      )}
+       
+     
 
     </View>
   );
 
 }
+//Styles____________________________________________________________________________
 const styles = StyleSheet.create({
   container: {
     flex: 1,

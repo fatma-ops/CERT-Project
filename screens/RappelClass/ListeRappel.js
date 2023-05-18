@@ -28,7 +28,7 @@ const ListeRappel = ({ navigation }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
+      const response = await fetch(`${ngrokLink}/api/v1/rappel/delete/${id}`, {
         method: 'DELETE'
       });
       const data = await response.json();
@@ -48,8 +48,8 @@ const ListeRappel = ({ navigation }) => {
       const filtered = rappels.filter(
         (item) =>
           item &&
-          item.title &&
-          item.title.toLowerCase().includes(text.toLowerCase())
+          item.medicament &&
+          item.medicament.toLowerCase().includes(text.toLowerCase())
       );
       setFilteredRappels(filtered);
     };
@@ -123,7 +123,7 @@ const ListeRappel = ({ navigation }) => {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate("UpdateRappel", {
-            selectedAnalyse: item,
+            selectedRappel: item,
           })
         }
         style={styles.liste}
@@ -134,15 +134,17 @@ const ListeRappel = ({ navigation }) => {
             style={styles.image}
           />
           <View style={styles.textContainer}>
-            <Text style={styles.text2}>Doliprane</Text>
-            <Text style={styles.title}>16:00</Text>
-            <Text style={styles.date}>12 mai 2023</Text>
+            <Text style={styles.text2}>{item.medicament}</Text>
+            <Text style={styles.title}>{item.rappels.map(rappel => rappel.heure).join(' - ')}</Text>
+
+            <Text style={styles.date}>{item.dateDeCommencement}</Text>
           </View>
         </View>
       </TouchableOpacity>
     </Swipeable>
   )}
 />
+
 
 
 
@@ -239,6 +241,7 @@ date: {
     fontSize: 18,
     marginBottom: 5,
     marginTop:5,
+    
   },
 item:{ 
   marginTop:-5,

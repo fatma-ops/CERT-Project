@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet,screenHeight } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
 import { Colors } from '../../components/styles';
 import { StatusBarHeight } from '../../components/shared';
-import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
-import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
-import { Dimensions } from 'react-native';
 //const screenHeight = Dimensions.get('window').height;
 
 const { brand, green,red,darkLight, primary,secondary,tertiary } = Colors;
@@ -56,7 +52,7 @@ const ListeAddRappelTraitement = ({ navigation }) => {
               <SearchBar
                 value={searchQuery}
                 onChangeText={handleOnSearchInput}
-                containerStyle={{ marginLeft: 15, marginTop: 0 }}
+                containerStyle={{ marginLeft: 45, marginTop: 0 }}
               />
             </View>
           </View>
