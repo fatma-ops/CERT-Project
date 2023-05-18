@@ -1,10 +1,14 @@
 import { View, Text, StyleSheet, Image, Modal,Button,TouchableOpacity } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Colors } from '../../components/styles';
-import { useState } from 'react';
+import { useState , useContext } from 'react';
+import { CredentialsContext } from '../../components/CredentialsContext';
+
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
+import { ActivityIndicator } from 'react-native';
+
 import styled from 'styled-components';
 import { StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
@@ -12,6 +16,7 @@ import { Formik , FieldArray } from 'formik';
 import { InnerContainer, StyledContainer2, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RegularButton3 from '../../components/Buttons/RegularButton3';
 
 
 const { brand, green, darkLight, primary, red, tertiary,secondary } = Colors;
@@ -25,6 +30,11 @@ const AddRappel = ({ navigation , route }) => {
   const { selectedTraitement } = route.params;
   const id = selectedTraitement._id
   console.log("id" , id);
+
+  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+
+  const { email } = storedCredentials;
+
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
   const [headerText , setHeaderText]= useState('');
@@ -32,6 +42,8 @@ const AddRappel = ({ navigation , route }) => {
   const [buttonText , setButtonText] = useState('');
   const [confirmButtonText , setConfirmButtonText] = useState('');
   const [cancelButtonText , setCancelButtonText] = useState('');
+  const [message, setMessage] = useState();
+  const [messageType, setMessageType] = useState();
 
   const [showModal, setShowModal] = useState(false);
 
@@ -103,7 +115,8 @@ const AddRappel = ({ navigation , route }) => {
 
         userEmail: email,
         idTraitement: selectedTraitement._id,
-        dateDeCommencement:selectedTraitement.dateDeCommencement
+        dateDeCommencement:selectedTraitement.dateDeCommencement,
+        medicament:selectedTraitement.medicament
       };
     
       try {
@@ -147,7 +160,7 @@ const AddRappel = ({ navigation , route }) => {
           <Formik style={styles.container}
            initialValues={{rappels: [{ heure: ""}]}}
        onSubmit={(values, { setSubmitting }) => {
-         submitTraitement(values, setSubmitting);
+         submitRappel(values, setSubmitting);
        }}
      >
     {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
@@ -226,6 +239,22 @@ const AddRappel = ({ navigation , route }) => {
         </View>
           
       </View>
+      <MsgBox type={messageType}>
+                  {message}
+                </MsgBox>
+                <View style={{ justifyContent: 'center' }}>
+                  {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
+                    <ButtonText>
+                      Ajouter
+                    </ButtonText>
+                  </RegularButton3>}
+
+                  {isSubmitting && <RegularButton3 disabled={true}>
+                    <ActivityIndicator size="large" color={primary} />
+                  </RegularButton3>}
+                </View>
+      
+
       <Modal visible={showModal} animationType="slide" transparent={true}>
       <ModalPressableContainer onPress={() => setShowModal(false)}>
 
@@ -276,7 +305,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     opacity:1,
-    marginBottom:-700,
+    paddingBottom:300
     //justifyContent:'space-between',
 
   },

@@ -13,7 +13,6 @@ import {Colors,} from '../../components/styles';
 const { brand, darkLight, primary , green, red} = Colors;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import RowContainer from '../../components/Containers/RowContainer';
 
 const Welcome = ({navigation}) => {
 //context
