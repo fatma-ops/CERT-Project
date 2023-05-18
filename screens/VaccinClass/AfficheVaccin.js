@@ -26,11 +26,8 @@ const AfficheVaccin = ({ navigation , route }) => {
   const [buttonText , setButtonText] = useState('');
   const [confirmButtonText , setConfirmButtonText] = useState('');
   const [cancelButtonText , setCancelButtonText] = useState('');
-
   const [showModal, setShowModal] = useState(false);
-
   const [result, setResult] = useState('');
-
 
   const buttonHandler = (isDeleteConfirmed) => {
     if (isDeleteConfirmed) {
@@ -66,9 +63,9 @@ const AfficheVaccin = ({ navigation , route }) => {
         setResult('Erreur');
       }
     };
-    const handleModify = () => {
-      setShowModal(false);
-      navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
+const handleModify = () => {
+    setShowModal(false);
+    navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
      };
 
   return (

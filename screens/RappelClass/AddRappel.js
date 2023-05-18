@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     opacity:1,
-    marginBottom:-700,
+    paddingBottom:200,
     //justifyContent:'space-between',
 
   },

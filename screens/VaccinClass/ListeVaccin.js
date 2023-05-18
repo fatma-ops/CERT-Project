@@ -85,7 +85,7 @@ const ListeVaccin = ({ navigation }) => {
 
     <FlatList
   style={styles.liste}
-  contentInset={{ bottom:160 }}
+  ///contentInset={{ bottom:160 }}
   data={vaccins}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
@@ -122,14 +122,15 @@ const styles = StyleSheet.create({
   analyseContainer:{
     paddingTop:10,
     paddingHorizontal:0,
-    marginBottom:100,
+    ///marginBottom:100,
     opacity:0.9,
     justifyContent:'space-between',
     //backgroundColor:'white',
-    height:1000,
+    //height:1000,
 
 },
 analyseContainer2:{
+paddingBottom:200,
 
   //marginBottom:70,
   //opacity:1,
@@ -178,8 +179,8 @@ dateContainer:{
   flexDirection:'row',
   justifyContent:'space-between',
   alignContent:'center',
-  marginLeft:200,
-  marginTop:-20,
+  marginLeft:180,
+  marginTop:-18,
 },
 text:{
   marginTop:15,
@@ -190,10 +191,19 @@ text2:{
  marginTop:5,
     fontSize:15,
     color:brand,
+    marginLeft:5,
+   marginBottom:20,
+},
+title: {
+  fontWeight: 'bold',
+  fontSize: 18,
+  //marginBottom: 5,
+  marginTop:15,
+  marginLeft:5,
 },
 
 item:{ 
-  marginTop:-1,
+  marginTop:-25,
     marginLeft:10,
     marginRight:10,
     //alignItems:'center',
@@ -321,11 +331,7 @@ image: {
 textContainer: {
   flex: 1,
 },
-title: {
-  fontWeight: 'bold',
-  fontSize: 18,
-  marginBottom: 5,
-},
+
 date: {
   fontSize: 16,
   color: 'gray',

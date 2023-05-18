@@ -144,7 +144,7 @@ const ListeMedecins = ({ navigation  }) => {
 const styles = StyleSheet.create({
   analyseContainer:{
     paddingHorizontal:15,
-    marginBottom:70,
+    paddingBottom:200,
     opacity:0.9,
     justifyContent:'space-between',
 
@@ -335,14 +335,15 @@ image: {
 },
 textContainer: {
   flex: 1,
+  paddingTop:14,
 },
 title: {
   fontWeight: '400',
-  fontSize: 15,
+  fontSize: 18,
   color: brand,
 },
 specialty: {
-  fontSize: 13,
+  fontSize: 15,
   color: '#555',
   marginTop: 3,
 },
