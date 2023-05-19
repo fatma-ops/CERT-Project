@@ -4795,6 +4795,13 @@
   "resolved" "https://registry.npmjs.org/expo-crypto/-/expo-crypto-12.0.0.tgz"
   "version" "12.0.0"
 
+"expo-device@~5.0.0":
+  "integrity" "sha512-FWlbOUMzAjHojLER8fnS42vLT7aqZ7IoEY+nw/RqmW17SA3GE2lzcYxRYZs1vAIgDnLzcS5CQMp08Eu+EXih1g=="
+  "resolved" "https://registry.npmjs.org/expo-device/-/expo-device-5.0.0.tgz"
+  "version" "5.0.0"
+  dependencies:
+    "ua-parser-js" "^0.7.19"
+
 "expo-error-recovery@~4.0.1":
   "integrity" "sha512-wceptnRX+N3qCSVTNbIchUFu3GmY30onRH5L66OF8HMLpAIQfrZMLxJfz7SAMJTcr3jxsJ11vSa2l2RaPKgHsQ=="
   "resolved" "https://registry.npmjs.org/expo-error-recovery/-/expo-error-recovery-4.0.1.tgz"
@@ -10854,7 +10861,7 @@
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-4.0.5.tgz"
   "version" "4.0.5"
 
-"ua-parser-js@^0.7.30":
+"ua-parser-js@^0.7.19", "ua-parser-js@^0.7.30":
   "integrity" "sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw=="
   "resolved" "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.33.tgz"
   "version" "0.7.33"

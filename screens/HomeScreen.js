@@ -124,7 +124,11 @@ export default function HomeScreen({ navigation }) {
     
   },
   page: {
+<<<<<<< Updated upstream
    paddingBottom:100,
+=======
+   paddingBottom:200,
+>>>>>>> Stashed changes
    backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,
@@ -133,7 +137,7 @@ export default function HomeScreen({ navigation }) {
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-   // backgroundColor:'white',
+   //backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,
     marginTop: - 50,
