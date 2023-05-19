@@ -4,20 +4,20 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
-import MessageModal from './../components/Modals/MessageModal';
-import { StatusBarHeight } from '../components/shared';
+import MessageModal from '../../components/Modals/MessageModal';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CredentialsContext } from './../components/CredentialsContext';
+import { CredentialsContext } from '../../components/CredentialsContext';
 import { KeyboardAvoidingView } from 'react-native-web';
-import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle} from '../components/styles';
-import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle} from '../../components/styles';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
-import RegularButton3 from '../components/Buttons/RegularButton3';
+import RegularButton3 from '../../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import RegularButton2 from '../components/Buttons/RegularButton2';
-import { ngrokLink } from '../config';
-import { SelectDropdownStyle } from './../components/styles';
+import RegularButton2 from '../../components/Buttons/RegularButton2';
+import { ngrokLink } from '../../config';
+import { SelectDropdownStyle } from '../../components/styles';
 import SelectDropdown from 'react-native-select-dropdown';
 
 
@@ -151,15 +151,18 @@ const onChange = (event , selectedDate) => {
 
 
   return (
-    <KeyboardAvoidingWrapper>
-        <StyledContainer>
-        <StatusBar style="dark" />
- <View style={styles.header}>
+    <>
+    <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Ajouter une analyse</Text>
       </View>
+    
+    <KeyboardAvoidingWrapper>
+        <StyledContainer>
+        <StatusBar style="dark" />
+        
      <InnerContainer>  
     <Formik
       initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', image: null }}
@@ -275,6 +278,7 @@ const onChange = (event , selectedDate) => {
     </InnerContainer> 
     </StyledContainer>
     </KeyboardAvoidingWrapper>
+    </>
   );
 }
 
@@ -327,23 +331,24 @@ const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePick
         flexDirection: 'row',
         alignItems: 'center',
         //justifyContent:'space-between',
-        marginTop:StatusBarHeight -42,
+        marginTop: 20,
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        marginLeft:-25,
-        marginRight:-25,
-
+        marginLeft: -25,
+        marginRight: -25,
+    
       },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        color:brand,
-
+        color: brand,
+        alignItems:'center'
+    
       },
       backButton: {
-        marginRight: 70,
-        marginLeft: 9,
+        marginRight: 50,
+        marginLeft: ScreenWidth - 350,
       },
 
     imageContainer:

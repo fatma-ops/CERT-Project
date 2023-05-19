@@ -16,15 +16,59 @@ const { green, brand, darkLight, primary, secondary,tertiary } = Colors;
 
 const Depenses = ({ navigation }) => {
   const [analyses, setAnalyses] = useState([]);
+  const [treatements, setTreatements] = useState([]);
+  const [consultations, setConsultations] = useState([]);
+
+  const [cout, setCout] = useState(0);
+const [remboursement, setRemboursement] = useState(0);
+
+
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const { email } = storedCredentials;
   const [filteredAnalyses, setFilteredAnalyses] = useState([]);
   
-  useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/analyse/${email}?cache_bust=123456789`)
-      .then(response => setAnalyses(response.data))
-      .catch(error => console.log(error));
-  }, [email]);
+ // Fetch data for analyses
+useEffect(() => {
+  axios.get(`${ngrokLink}/api/v1/analyse/${email}?cache_bust=123456789`)
+    .then(response => {
+      setAnalyses(response.data);
+      // Update the cout and remboursement values based on the fetched analyses data
+      const totalCoutAnalyse = response.data.reduce((sum, analyse) => sum + (analyse.cout || 0), 0);
+      const totalRemboursementAnalyse = response.data.reduce((sum, analyse) => sum + (analyse.remboursement || 0), 0);
+      setCout(totalCoutAnalyse);
+      setRemboursement(totalRemboursementAnalyse);
+    })
+    .catch(error => console.log(error));
+}, [email]);
+
+// Fetch data for treatments
+useEffect(() => {
+  axios.get(`${ngrokLink}/api/v1/traitement/${email}?cache_bust=123456789`)
+    .then(response => {
+      setTreatements(response.data);
+      // Update the cout and remboursement values based on the fetched treatments data
+      const totalCoutTraitement = response.data.reduce((sum, treatment) => sum + (treatment.cout || 0), 0);
+      const totalRemboursementTraitement = response.data.reduce((sum, treatment) => sum + (treatment.remboursement || 0), 0);
+      setCout(prevCout => prevCout + totalCoutTraitement);
+      setRemboursement(prevRemboursement => prevRemboursement + totalRemboursementTraitement);
+    })
+    .catch(error => console.log(error));
+}, [email]);
+
+// Fetch data for consultations
+useEffect(() => {
+  axios.get(`${ngrokLink}/api/v1/consultation/${email}?cache_bust=123456789`)
+    .then(response => {
+      setConsultations(response.data);
+      // Update the cout and remboursement values based on the fetched consultations data
+      const totalCoutConsultation = response.data.reduce((sum, consultation) => sum + (consultation.cout || 0), 0);
+      const totalRemboursementConsultation = response.data.reduce((sum, consultation) => sum + (consultation.remboursement || 0), 0);
+      setCout(prevCout => prevCout + totalCoutConsultation);
+      setRemboursement(prevRemboursement => prevRemboursement + totalRemboursementConsultation);
+    })
+    .catch(error => console.log(error));
+}, [email]);
+
 
 return (
    <View style={[styles.analyseContainer2]}>
@@ -42,11 +86,11 @@ return (
         <View style={styles.item2}>
             <Text style={styles.type}>Consultation</Text>
             <View style={styles.container1}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>{isNaN(remboursement) ? '0.00' : remboursement.toFixed(2)}</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>{isNaN(remboursement) ? '0.00' : remboursement.toFixed(2)}</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>

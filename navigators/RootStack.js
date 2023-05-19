@@ -12,9 +12,9 @@ import RestPassword from '../screens/User/RestPassword';
 import { CredentialsContext } from './../components/CredentialsContext';
 import PasswordOtp from '../screens/User/PasswordOtp';
 import NavBarre from './NavBarre';
-import AddAnalyse from '../screens/AddAnalyse';
-import AnalyseDetail from '../screens/AnalyseDetail';
-import AnalyseFlatList from '../screens/AnalyseFlatList'
+import AddAnalyse from '../screens/AnalyseClass/AddAnalyse';
+import AnalyseDetail from '../screens/AnalyseClass/AnalyseDetail';
+import AnalyseFlatList from '../screens/AnalyseClass/AnalyseDetail'
 import EditProfileScreen from '../screens/User/EditProfileScreen';
 import EditPasswordScreen from '../screens/User/EditPasswordScreen';
 import Vaccin from '../screens/VaccinClass/Vaccin';
@@ -23,10 +23,7 @@ import AddVaccin from '../screens/VaccinClass/AddVaccin';
 import AfficheVaccin from '../screens/VaccinClass/AfficheVaccin';
 import ModifyVaccin from '../screens/VaccinClass/ModifyVaccin';
 import Analyse from '../screens/AnalyseClass/Analyse';
-import ListeAnalyse from '../screens/AnalyseClass/ListeAnalyse';
-import Add from '../screens/AnalyseClass/Add';
-import AfficheAnalyse from '../screens/AnalyseClass/AfficheAnalyse';
-import ModifyAnalyse from '../screens/AnalyseClass/ModifyAnalyse';
+import HomeNavigation from './HomeNavigation';
 import Medecin from '../screens/MedecinClass/Medecin';
 import ListeMedecin from '../screens/MedecinClass/ListeMedecins';
 import AddMedecin from '../screens/MedecinClass/AddMedecin';
@@ -79,9 +76,11 @@ const RootStack = () => {
             initialRouteName="Login"
           >
 
-            {storedCredentials ?
+            {storedCredentials ?(
             <>
               <Stack.Screen   name="NavBarre" component={NavBarre} />
+              <Stack.Screen   name="HomeNavigation" component={HomeNavigation} />
+
               <Stack.Screen  name="Welcome" component={Welcome} />
               <Stack.Screen  name="AddAnalyse" component={AddAnalyse} />
               <Stack.Screen  name="AnalyseDetail" component={AnalyseDetail}  />
@@ -94,10 +93,6 @@ const RootStack = () => {
                 <Stack.Screen name="AfficheVaccin" component={AfficheVaccin} />
                 <Stack.Screen name="ModifyVaccin" component={ModifyVaccin} />
                 <Stack.Screen name="Analyse" component={Analyse} />
-                <Stack.Screen name="ListeAnalyse" component={ListeAnalyse} />
-                <Stack.Screen name="Add" component={Add} />
-                <Stack.Screen name="AfficheAnalyse" component={AfficheAnalyse} />
-                <Stack.Screen name="ModifyAnalyse" component={ModifyAnalyse} />
                 <Stack.Screen name="Medecin" component={Medecin} />
                 <Stack.Screen name="ListeMedecin" component={ListeMedecin} />
                 <Stack.Screen name="AddMedecin" component={AddMedecin} />
@@ -128,8 +123,10 @@ const RootStack = () => {
 
 
 
-              </>
-              : <>
+              </> 
+              ) :  (
+              
+              <>
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Signup" component={Signup} />
                 <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -144,7 +141,7 @@ const RootStack = () => {
                 
 
 
-              </>
+              </> )
             }
 
 

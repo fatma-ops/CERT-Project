@@ -5,7 +5,7 @@ import { useState } from 'react';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
-import { StatusBarHeight } from '../../components/shared';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import styled from 'styled-components';
 
@@ -158,14 +158,29 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    fontWeight:'700',
-    justifyContent:'space-between',
-    marginTop: StatusBarHeight ,
-    //paddingBottom: 1,
+    //justifyContent:'space-between',
+    marginTop: 20,
+    paddingBottom: 15,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
-    //marginLeft: -25,
-    //marginRight: -25,
+    marginLeft: -25,
+    marginRight: -25,
+
+  },
+  headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: brand,
+    alignItems:'center'
+
+  },
+  backButton: {
+    marginRight: 40,
+    marginLeft: ScreenWidth - 350,
+  },
+  moreButton: {
+    marginLeft:30,
+    alignItems:'center'
   },
   sectionItem: {
     fontSize: 18,
@@ -184,19 +199,9 @@ const styles = StyleSheet.create({
     paddingBottom:5,
     color:brand,
   },
-  backButton: {
-    padding: 10,
-    marginRight: 10,
-  },
-  moreButton: {
-    padding: 10,
-    marginLeft:40,
-  },
-  headerTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color:brand,
-  },
+ 
+ 
+  
   content: {
     flex: 1,
     paddingTop:20,

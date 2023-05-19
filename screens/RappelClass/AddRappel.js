@@ -10,7 +10,7 @@ import { ngrokLink } from '../../config';
 import { ActivityIndicator } from 'react-native';
 
 import styled from 'styled-components';
-import { StatusBarHeight } from '../../components/shared';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import { Formik , FieldArray } from 'formik';
 import { InnerContainer, StyledContainer2, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
@@ -310,15 +310,30 @@ const styles = StyleSheet.create({
 
   },
   header: {
-   flexDirection: 'row',
+    flexDirection: 'row',
     alignItems: 'center',
     //justifyContent:'space-between',
-    marginTop: StatusBarHeight ,
-    paddingBottom: 5,
+    marginTop: 20,
+    paddingBottom: 15,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
-    //marginLeft: -25,
-    //marginRight: -25,
+    marginLeft: -25,
+    marginRight: -25,
+
+  },
+  headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: brand,
+    alignItems:'center'
+
+  },
+  backButton: {
+    marginLeft: ScreenWidth - 350,
+  },
+  moreButton: {
+    marginLeft:50,
+    alignItems:'center'
   },
   sectionContent: {
     backgroundColor: '#f0f0f0',
@@ -390,19 +405,7 @@ const styles = StyleSheet.create({
 
    //color:brand
   },
-  backButton: {
-    padding: 10,
-    marginRight: 10,
-  },
-  moreButton: {
-    padding: 10,
-    marginLeft:40,
-  },
-  headerTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color:brand,
-  },
+ 
   modalContainer: {
     //flex: 1,
     backgroundColor:primary,

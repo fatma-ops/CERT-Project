@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text,StyleSheet,Image } from 'react-native';
-import RegularButton3 from '../components/Buttons/RegularButton3';
-import { Colors } from '../components/styles';
+import RegularButton3 from '../../components/Buttons/RegularButton3';
+import { Colors } from '../../components/styles';
 import { ScrollView } from 'react-native';
-import RowContainer from './../components/Containers/RowContainer';
-import { ngrokLink } from '../config';
+import RowContainer from '../../components/Containers/RowContainer';
+import { ngrokLink } from '../../config';
 const { brand, darkLight, primary } = Colors;
 
 const AnalyseDetail = ({ route }) => {

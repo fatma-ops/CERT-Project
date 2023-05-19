@@ -5,17 +5,10 @@ import { Entypo } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 import { Colors } from '../components/styles'
 import Welcome from '../screens/User/Welcome'
-import HomeScreen from '../screens/HomeScreen'
-import AnalyseFlatList from '../screens/AnalyseFlatList'
 import Vaccin from '../screens/VaccinClass/Vaccin'
-import Analyse from '../screens/AnalyseClass/Analyse'
-import ListeMedecins from '../screens/MedecinClass/ListeMedecins'
-import Medecin from '../screens/MedecinClass/Medecin'
 import Depenses from '../screens/Depenses'
-//import AddAnalyse from '../screens/AddAnalyse'
-import AddConsultation from '../screens/ConsultationClass/AddConsultation'
-import AddTraitement from '../screens/ConsultationClass/AddTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
+import HomeNavigation from './HomeNavigation'
 
 
 
@@ -57,8 +50,8 @@ export default function NavBarre() {
                 }}
             />
             <Tab.Screen
-                name="Home"
-                component={HomeScreen} options={{
+                name="HomeNavigation"
+                component={HomeNavigation} options={{
                     tabBarIcon: ({ focused }) => {
                         return (
                             <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -90,8 +83,8 @@ export default function NavBarre() {
                 }} />
 
 
-            <Tab.Screen name="AddTraitement"
-                component={AddTraitement}
+            <Tab.Screen name="vaccin"
+                component={Vaccin}
                 options={{
 
                     tabBarIcon: ({ focused }) => {

@@ -11,7 +11,7 @@ import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
-import { StatusBarHeight } from '../../components/shared';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
 const { brand, darkLight, primary , secondary, tertiary} = Colors;
 
@@ -109,16 +109,19 @@ const  AddMedecin = ({navigation}) =>  {
 
 
   return (
-    <KeyboardAvoidingWrapper>
-        <StyledContainer>
-        <StatusBar style="light" />
-       
-      <View style={styles.header}>
+   <>
+   <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Ajouter un contact</Text>
       </View>
+  
+    <KeyboardAvoidingWrapper>
+        <StyledContainer>
+        <StatusBar style="light" />
+       
+      
      
 
      <InnerContainer>  
@@ -236,6 +239,7 @@ const  AddMedecin = ({navigation}) =>  {
     </InnerContainer> 
     </StyledContainer>
     </KeyboardAvoidingWrapper>
+    </>
   );
 }
 
@@ -289,7 +293,7 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
         flexDirection: 'row',
         alignItems: 'center',
         //justifyContent:'space-between',
-        marginTop: StatusBarHeight - 42,
+        marginTop: 20,
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
@@ -297,15 +301,16 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
         marginRight: -25,
     
       },
-      backButton: {
-        marginRight: 70,
-        marginLeft: 9,
-      },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        color:brand
-
+        color: brand,
+        alignItems:'center'
+    
+      },
+      backButton: {
+        marginRight: 50,
+        marginLeft: ScreenWidth - 350,
       },
    
    

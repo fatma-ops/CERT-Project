@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity,StatusBar, View, Text, Image } from 'react
 import { Colors } from '../components/styles';
 import { CredentialsContext } from './../components/CredentialsContext';
 import { StatusBarHeight } from '../components/shared';
-import RowContainer2 from '../components/Containers/RowContainer2';
 const {brand , secondary , darkLight , red} = Colors
 
 
@@ -58,7 +57,9 @@ export default function HomeScreen({ navigation }) {
         />
           <Text style={styles.text}>Mes Vaccins</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('ModifyConsultation')}>
+
+
+        <TouchableOpacity style={styles.cube} >
         <Image
           style={styles.avatar}
           source={require('./../assets/img/pills.png')}
@@ -74,7 +75,8 @@ export default function HomeScreen({ navigation }) {
         />
           <Text style={styles.text}>Mes Consultations</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AnalyseFlatList')}>
+
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Analyse')}>
         <Image
           style={styles.avatar}
           source={require('./../assets/img/medical-history.png')}
@@ -122,7 +124,7 @@ export default function HomeScreen({ navigation }) {
     
   },
   page: {
-   
+   paddingBottom:100,
    backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,
