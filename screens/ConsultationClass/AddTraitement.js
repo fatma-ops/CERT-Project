@@ -1,26 +1,19 @@
-import React, { useContext, useState, useEffect , useRef  } from 'react';
+import React, { useContext, useState } from 'react';
 
-import { Alert, View, Text, Button, Image, TextInput, StatusBar, TouchableOpacity } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import {  View, Text, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
-import { Fontisto, Octicons, Ionicons, AntDesign, MaterialIcons } from '@expo/vector-icons';
-import MessageModal from '../../components/Modals/MessageModal';
-import { StatusBarHeight } from '../../components/shared';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Fontisto, Octicons, AntDesign } from '@expo/vector-icons';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { KeyboardAvoidingView } from 'react-native-web';
 import { InnerContainer, StyledContainer, Colors, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
-import RegularButton3 from '../../components/Buttons/RegularButton3';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 import RegularButton from '../../components/Buttons/RegularButton';
-import SelectDropdown from 'react-native-select-dropdown';
 import { ngrokLink } from '../../config';
-import { useRoute } from '@react-navigation/native';
 
 
 const { brand, darkLight, primary, secondary, tertiary,red } = Colors;
@@ -31,23 +24,17 @@ const AddTraitement = ({ navigation , route  }) => {
  //take consultationId from route ___________________________________________________ 
 const consultationId = route.params.consultationId
 console.log('ID' , consultationId)
+
+//take email from storedCredentials__________________________________________________
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+  const { email } = storedCredentials;
+    //console.log(email);
+
+//Variable Message_____________________________________________________________________
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
+
   const [formCount, setFormCount] = useState(1);
-
-
-  
-
-
-  //_______________________________________
-  const { email } = storedCredentials;
-  //console.log(email);
-  //_______________________________________
-
-  
-
-
 
   //date________________________________________
   const [date, setDate] = useState(new Date());
@@ -85,10 +72,10 @@ console.log('ID' , consultationId)
     setButtonText(buttonText);
     setModalVisible(true);
   }
-  //____________________________________________________________________
+  //________________________________________________________________________________________________________________
 
   
-  //______________________________________________________________       
+  //Add Traitement__________________________________________________________________________________________________       
 
   const submitTraitement = async (values, setSubmitting) => {
     handleMessage(null);
@@ -126,7 +113,7 @@ console.log('ID' , consultationId)
   
   
   
-  
+  //Message________________________________________________________________________________
   const handleMessage = (message, type = 'FAILED') => {
     setMessage(message);
     setMessageType(type);
@@ -135,17 +122,18 @@ console.log('ID' , consultationId)
 
 //JSX_________________________________________________________________________________
   return (
+    <> 
+     <View style={styles.header}>
+          <View  style={styles.backButton}>
+          </View>
+          <Text style={styles.headerTitle}>Ajouter votre traitement</Text>
+        </View>
+    
     <KeyboardAvoidingWrapper>
       <StyledContainer>
         <StatusBar style="light" />
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <AntDesign name="left" size={25} color={brand} />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Ajouter un consultation</Text>
-        </View>
+       
         <InnerContainer>
-          <SubTitle></SubTitle>
           <Formik
             initialValues={{cout: '', remboursement: '', traitements: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", medicament: "" }]
              }}
@@ -284,20 +272,15 @@ console.log('ID' , consultationId)
                     <ActivityIndicator size="large" color={primary} />
                   </RegularButton2>}
                 </View>
-                <ExtraView>
-
-                  <TextLink onPress={() => navigation.goBack()}>
-                    <TextLinkContent style={{ justifyContent: 'center', alignContent: 'center', alignSelf: 'center' }} >
-                      Annuler
-                    </TextLinkContent>
-                  </TextLink>
-                </ExtraView>
+                
               </StyledFormArea>
             )}
           </Formik>
         </InnerContainer>
       </StyledContainer>
     </KeyboardAvoidingWrapper>
+    </>
+
   );
 }
 //TExtInput Modal _______________________________________________________________
@@ -360,7 +343,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     //justifyContent:'space-between',
-    marginTop: StatusBarHeight - 42,
+    marginTop: 20,
     paddingBottom: 15,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
@@ -372,11 +355,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: brand,
+    alignItems:'center'
 
   },
   backButton: {
-    marginRight: 70,
-    marginLeft: 9,
+    marginRight: 60,
+    marginLeft: ScreenWidth - 350,
   },
 
   imageContainer:

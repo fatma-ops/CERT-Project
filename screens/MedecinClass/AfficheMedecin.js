@@ -5,7 +5,7 @@ import { useState } from 'react';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
-import { StatusBarHeight } from '../../components/shared';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import styled from 'styled-components';
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;

@@ -2,17 +2,17 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
-import { CredentialsContext } from '../components/CredentialsContext';
+import { CredentialsContext } from '../../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
-import { Colors } from '../components/styles';
+import { Colors } from '../../components/styles';
 const { green, brand, darkLight, primary, secondary,tertiary } = Colors;
-import { StatusBarHeight } from '../components/shared';
+import { StatusBarHeight } from '../../components/shared';
 import { FontAwesome5 } from '@expo/vector-icons';
-import SearchBar from '../components/SearchBar';
+import SearchBar from '../../components/SearchBar';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ngrokLink } from '../config';
-import NotFound from './../components/NotFound';
+import { ngrokLink } from '../../config';
+import NotFound from '../../components/NotFound';
 
 
 const AnalyseFlatList = ({ navigation }) => {

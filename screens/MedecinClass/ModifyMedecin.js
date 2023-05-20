@@ -13,7 +13,7 @@ import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
-import { StatusBarHeight } from '../../components/shared';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary , secondary , tertiary } = Colors;
@@ -141,16 +141,20 @@ const  ModifyMedecin = ({navigation , route}) =>  {
 
 
   return (
-    <KeyboardAvoidingWrapper>
-        <StyledContainer>
-        <StatusBar style="light" />
-       
-      <View style={styles.header}>
+    <>
+     <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Modifier un contact</Text>
       </View>
+    
+    
+    <KeyboardAvoidingWrapper>
+        <StyledContainer>
+        <StatusBar style="light" />
+       
+     
      
 
      <InnerContainer>  
@@ -283,6 +287,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
                   buttonText={buttonText} /> 
     </StyledContainer>
     </KeyboardAvoidingWrapper>
+    </>
   );
 }
 
@@ -343,23 +348,26 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-      
-       
-        marginTop:StatusBarHeight -100,
-        paddingBottom: 20,
-        borderBottomWidth: 1,
-        
+        //justifyContent:'space-between',
+        marginTop: 20,
+        paddingBottom: 15,
+        borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-      },
-      backButton: {
-        marginRight: 10,
-        marginLeft: -9
+        marginLeft: -25,
+        marginRight: -25,
+    
       },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
+        color: brand,
+        alignItems:'center'
+    
       },
-   
+      backButton: {
+        marginRight: 50,
+        marginLeft: ScreenWidth - 350,
+      },
    
       dropdownContainer: {
         backgroundColor: secondary,

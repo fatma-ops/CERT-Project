@@ -1,27 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
 import { Colors } from '../../components/styles';
 import { StatusBarHeight } from '../../components/shared';
-import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
-import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 const ListeConsultation = ({ navigation }) => {
-  const [consultations, setConsultations] = useState([]);
-  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 
+  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const { email } = storedCredentials;
   
-
+  const [consultations, setConsultations] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredConsultations, setFilteredConsultations] = useState([]);
   const handleOnSearchInput = (text) => {
@@ -34,6 +31,8 @@ const ListeConsultation = ({ navigation }) => {
       );
       setFilteredConsultations(filtered);
     };
+
+  //Affiche les consultation enregistré dana la base de donnés____________________________________________________  
   useEffect(() => {
     axios.get(`${ngrokLink}/api/v1/consultation/${email}?cache_bust=123456789`)
       .then(response => setConsultations(response.data))
@@ -41,7 +40,7 @@ const ListeConsultation = ({ navigation }) => {
   }, [email]);
 
   
-
+//JSX_____________________________________________________________________________________________________________
   return (
 
     <View style={[styles.analyseContainer2]}>
@@ -50,7 +49,7 @@ const ListeConsultation = ({ navigation }) => {
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
-        <Text style={styles.headerTitle}>                    Mes consultations</Text>
+        <Text style={styles.headerTitle}>Mes consultations</Text>
       </View>
       <View style={{width:280 , paddingHorizontal:12 }}>
       <StatusBar style="Light" />
@@ -146,8 +145,8 @@ header2: {
   alignItems: 'center',
   justifyContent: 'center', // To center the header
  
-  marginHorizontal:-10 , // To remove the left and right padding
-  paddingHorizontal: 10, // To add the padding back
+  marginHorizontal:50 , // To remove the left and right padding
+  paddingHorizontal: 50, // To add the padding back
 },
 header: {
   flexDirection: 'row',
@@ -253,7 +252,7 @@ button:{
     borderRadius:100,
     //justifyContent:'space-between',
    
-    marginLeft:10,
+    marginLeft:-60,
    // height:50,
     marginTop :40,
     //marginBottom : 20

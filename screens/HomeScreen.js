@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity,StatusBar, View, Text, Image } from 'react
 import { Colors } from '../components/styles';
 import { CredentialsContext } from './../components/CredentialsContext';
 import { StatusBarHeight } from '../components/shared';
-import RowContainer2 from '../components/Containers/RowContainer2';
 const {brand , secondary , darkLight , red} = Colors
 
 
@@ -110,7 +109,7 @@ export default function HomeScreen({ navigation }) {
     
   },
   page: {
-   
+   paddingBottom:200,
    backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,
@@ -119,7 +118,7 @@ export default function HomeScreen({ navigation }) {
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-   // backgroundColor:'white',
+   //backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,
     marginTop: - 50,

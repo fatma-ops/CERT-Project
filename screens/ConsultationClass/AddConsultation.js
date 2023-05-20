@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
 import { Fontisto, Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import MessageModal from '../../components/Modals/MessageModal';
-import { StatusBarHeight } from '../../components/shared';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { InnerContainer, StyledContainer, Colors, LeftIcon,  StyledFormArea, MsgBox, ButtonText,  ViewImage, TextLink, ExtraView, TextLinkContent,  StyledInputLabel2, SubTitle, SelectDropdownStyle, StyledTextInput } from '../../components/styles';
@@ -203,15 +203,17 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
 
 // JSX____________________________________________________________________________________________________
   return (
-    <KeyboardAvoidingWrapper>
-      <StyledContainer>
-        <StatusBar style="light" />
-        <View style={styles.header}>
+    <>
+    <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <AntDesign name="left" size={25} color={brand} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Ajouter un consultation</Text>
+          <Text style={styles.headerTitle}>Ajouter votre consultation</Text>
         </View>
+    <KeyboardAvoidingWrapper>
+      <StyledContainer>
+        <StatusBar style="light" />
+        
         <InnerContainer>
           <SubTitle></SubTitle>
           <Formik
@@ -337,6 +339,9 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
         </InnerContainer>
       </StyledContainer>
     </KeyboardAvoidingWrapper>
+    </>
+   
+
   );
 }
 
@@ -382,7 +387,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     //justifyContent:'space-between',
-    marginTop: StatusBarHeight - 42,
+    marginTop: 20,
     paddingBottom: 15,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
@@ -394,11 +399,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: brand,
+    alignItems:'center'
 
   },
   backButton: {
-    marginRight: 70,
-    marginLeft: 9,
+    marginRight: 50,
+    marginLeft: ScreenWidth - 350,
   },
 
   imageContainer:

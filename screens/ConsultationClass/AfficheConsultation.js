@@ -5,13 +5,15 @@ import { useState } from 'react';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import { ScreenWidth } from '../../components/shared';
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 
 const AfficheConsultation = ({ navigation, route }) => {
   const { selectedAnalyse } = route.params;
 
   return (
-    <View style={styles.container}>
+    <>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
@@ -21,25 +23,19 @@ const AfficheConsultation = ({ navigation, route }) => {
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
       </View>
+      <KeyboardAvoidingWrapper>
+
       <View style={styles.content}>
         <View style={styles.section}>
           <Text style={styles.title}>{selectedAnalyse.type}</Text>
           <Text style={styles.subTitle}>Date: {selectedAnalyse.date}</Text>
           <Text style={styles.subTitle}>Contact: {selectedAnalyse.contact}</Text>
         </View>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Traitement:</Text>
-          {selectedAnalyse.traitements.map((traitement, index) => (
-            <View key={index} style={styles.traitementItem}>
-              <Text style={styles.traitementTitle}>{traitement.medicament}</Text>
-              <Text style={styles.traitementText}>
-                Durée: {traitement.nbrJours} jours, Fréquence: {traitement.nbrfois} fois par jour
-              </Text>
-            </View>
-          ))}
-        </View>
+        
       </View>
-    </View>
+    </KeyboardAvoidingWrapper>
+
+    </>
   );
 };
 
@@ -53,23 +49,29 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 20,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
+    //justifyContent:'space-between',
+    marginTop: 20,
+    paddingBottom: 15,
+    borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
-  },
-  backButton: {
-    padding: 10,
-    marginRight: 10,
+    marginLeft: -25,
+    marginRight: -25,
+
   },
   headerTitle: {
     fontWeight: 'bold',
     fontSize: 20,
     color: brand,
+    alignItems:'center'
+
+  },
+  backButton: {
+    marginRight: 40,
+    marginLeft: ScreenWidth - 350,
   },
   moreButton: {
-    padding: 10,
-    marginLeft: 'auto',
+    marginLeft:30,
+    alignItems:'center'
   },
   content: {
     flex: 1,
