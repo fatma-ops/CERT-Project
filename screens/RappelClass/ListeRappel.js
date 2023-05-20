@@ -68,31 +68,19 @@ const ListeRappel = ({ navigation }) => {
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
-        <Text style={styles.headerTitle}>                    Mes rappels</Text>
+        <Text style={styles.headerTitle}>              Mes rappels</Text>
       </View>
-      <View style={{width:280 , paddingHorizontal:12 }}>
+      <View style={{width:320 , paddingHorizontal:5 , top:-5,left:10}}>
       <StatusBar style="Light" />
       <SearchBar
            value={searchQuery}
             onChangeText={handleOnSearchInput}
-            containerStyle={{ marginVertical: 15, marginTop:25}}
+            containerStyle={{ marginVertical: 45, marginTop:0}}
             />
-     
+  
     </View>
     </View>
-
-    <View >
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={() => navigation.navigate('ListeAddRappelTraitement')}
-        >
-          <MaterialIcons name="add" size={25} color='white' />
-          <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
-        </TouchableOpacity>
-        </View>
-
     </View>
-
     <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
         Totale:
@@ -131,7 +119,7 @@ const ListeRappel = ({ navigation }) => {
         <View style={styles.itemContainer}>
           <Image
             source={require('../../assets/img/clock.jpg')}
-            style={styles.image}
+            style={styles.image} 
           />
           <View style={styles.textContainer}>
             <Text style={styles.text2}>{item.medicament}</Text>
@@ -179,14 +167,15 @@ header2: {
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center', // To center the header
- 
   marginHorizontal:-10 , // To remove the left and right padding
   paddingHorizontal: 10, // To add the padding back
+  marginTop:StatusBarHeight ,
+
 },
 header: {
   flexDirection: 'row',
   alignItems: 'center',
-  marginTop:StatusBarHeight -30,
+  marginTop:StatusBarHeight +30,
 
   paddingBottom: 20,
   borderBottomWidth: 1,

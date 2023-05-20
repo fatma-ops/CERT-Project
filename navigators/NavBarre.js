@@ -14,7 +14,7 @@ import Medecin from '../screens/MedecinClass/Medecin'
 import Depenses from '../screens/Depenses'
 //import AddAnalyse from '../screens/AddAnalyse'
 import AddConsultation from '../screens/ConsultationClass/AddConsultation'
-import AddTraitement from '../screens/ConsultationClass/AddTraitement'
+import ListeTraitement from '../screens/TraitementClass/ListeTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
 
 
@@ -68,8 +68,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="ListeRappel"
-                component={ListeRappel}
+            <Tab.Screen name="ListeTraitement"
+                component={ListeTraitement}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -90,8 +90,8 @@ export default function NavBarre() {
                 }} />
 
 
-            <Tab.Screen name="AddTraitement"
-                component={AddTraitement}
+            <Tab.Screen name="ListeRappel"
+                component={ListeRappel}
                 options={{
 
                     tabBarIcon: ({ focused }) => {
