@@ -8,7 +8,7 @@ import Welcome from '../screens/User/Welcome'
 import Vaccin from '../screens/VaccinClass/Vaccin'
 import Depenses from '../screens/Depenses'
 //import AddAnalyse from '../screens/AddAnalyse'
-import AddConsultation from '../screens/ConsultationClass/AddConsultation'
+import AddTraitement from '../screens/ConsultationClass/AddTraitement'
 import ListeTraitement from '../screens/TraitementClass/ListeTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
 import HomeNavigation from './HomeNavigation'
@@ -64,8 +64,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="ListeTraitement"
-                component={ListeTraitement}
+            <Tab.Screen name="AddTraitement"
+                component={AddTraitement}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
