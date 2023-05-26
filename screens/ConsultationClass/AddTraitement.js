@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-
 import {  View, Text, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
@@ -14,9 +13,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 import RegularButton from '../../components/Buttons/RegularButton';
 import { ngrokLink } from '../../config';
+import ListeConsultation from './ListeConsultation';
 
 
-const { brand, darkLight, primary, secondary, tertiary,red } = Colors;
+const { brand, green,darkLight, primary, secondary,tertiary,red } = Colors;
 
 const AddTraitement = ({ navigation , route  }) => {
  
@@ -85,7 +85,6 @@ console.log('ID' , consultationId)
       cout: values.cout,
       remboursement: values.remboursement,
       traitements: values.traitements,
-
       userEmail: email,
       idConsultation: consultationId,
     };
@@ -126,7 +125,7 @@ console.log('ID' , consultationId)
      <View style={styles.header}>
           <View  style={styles.backButton}>
           </View>
-          <Text style={styles.headerTitle}>Ajouter votre traitement</Text>
+          <Text style={styles.headerTitle}>    Ajouter votre traitement</Text>
         </View>
     
     <KeyboardAvoidingWrapper>
@@ -143,33 +142,21 @@ console.log('ID' , consultationId)
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-                <Text style={styles.sectionTitleP}>Dépenses</Text>
-                <Text style={styles.label2}>Coût                                 Remboursement</Text>
-                <TextInput style={styles.cout}
-                placeholder="100.0"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('cout')}
-                onBlur={handleBlur('cout')}
-                value={values.cout}
-                keyboardType="phone-pad"
-                />
-                <TextInput style={styles.remboursement}
-                placeholder="70.0"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('remboursement')}
-                onBlur={handleBlur('remboursement')}
-                value={values.remboursement}
-                keyboardType="phone-pad"
-                />
-                <Text style={styles.sectionTitleP}>Traitement(s)</Text>
-                <View>
+                <Text style={styles.sectionTitleP}>Le medecin a-t-il vous donné un traitement?</Text>
+                <ExtraView>
+<TextLink onPress={() => navigation.navigate(ListeConsultation)}>
+  <TextLinkContent style={styles.ignor}>
+  Ignorer l'etape
+  </TextLinkContent>
+</TextLink>
+</ExtraView><View style={{paddingBottom:200}}>
           <FieldArray
             name="traitements"
             render={(arrayHelpers) => (
               <View>
                 {values.traitements.map((traitement, index) => (
                   <View key={index}>
-                    <Text style={styles.label3}>------------Traitement {index + 1}------------</Text>
+                    <Text style={styles.label3}>Traitement {index + 1}:       </Text>
                     <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>
                         <MyTextInput
                         label="Médicament"
@@ -213,7 +200,7 @@ console.log('ID' , consultationId)
           }
           value={traitement.nbrfois}
           />
-        <Text style={styles.label}>fois dans les</Text>
+        <Text style={styles.label}>fois pendant</Text>
         <TextInput
           style={[styles.input]}
           placeholder="1"
@@ -229,6 +216,24 @@ console.log('ID' , consultationId)
         />
         <Text style={styles.label}>jours</Text>
       </View>
+                <Text style={styles.label4}>Coût                                 Remboursement</Text>
+            <TextInput
+            style={styles.cout}
+            placeholder="100.0"
+            placeholderTextColor={darkLight}
+            onChangeText={handleChange('cout')}
+            value={values.cout}
+            keyboardType="phone-pad"
+          />
+
+          <TextInput
+            style={styles.remboursement}
+            placeholder="70.0"
+            placeholderTextColor={darkLight}
+            onChangeText={handleChange('remboursement')}
+            value={values.remboursement}
+            keyboardType="phone-pad"
+          />
                     </View>
                   </View>
                 ))}
@@ -245,33 +250,36 @@ console.log('ID' , consultationId)
                     }}
                     
                   >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-  <AntDesign name="pluscircleo" size={25} color={brand} />
-  <Text style={{ color: brand, marginLeft: 5 }}>Ajouter une autre Traitement</Text>
-</View>
+                <View style={{ flexDirection: 'row-reverse', alignSelf: 'center',alignItems:'center'}}>
+                <Text style={{ fontWeight:'300',fontSize:18,color: brand, marginLeft: 5 }}>Ajouter une autre Traitement</Text>
+                <AntDesign name="pluscircleo" size={24} color={brand} />
+                </View>
 
                   </TouchableOpacity>
                 )}
               </View>
             )}
           />
-        </View>
+  <MsgBox type={messageType}>{message}</MsgBox>
+    <View style={{ justifyContent: 'center' }}>
+      {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
+          <ButtonText>Ajouter</ButtonText>
+        </RegularButton>}
+      {isSubmitting && <RegularButton2 disabled={true}>
+          <ActivityIndicator size="large" color={primary} />
+         </RegularButton2>}
+    </View>
+    <ExtraView>
+<TextLink onPress={() => navigation.navigate(ListeConsultation)}>
+  <TextLinkContent style={{ justifyContent: 'center', alignContent: 'center', alignSelf: 'center' }} >
+    Annuler
+  </TextLinkContent>
+</TextLink>
+</ExtraView>
+  </View>
 
 
-                <MsgBox type={messageType}>
-                  {message}
-                </MsgBox>
-                <View style={{ justifyContent: 'center' }}>
-                  {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
-                    <ButtonText>
-                      Ajouter
-                    </ButtonText>
-                  </RegularButton>}
-
-                  {isSubmitting && <RegularButton2 disabled={true}>
-                    <ActivityIndicator size="large" color={primary} />
-                  </RegularButton2>}
-                </View>
+                
                 
               </StyledFormArea>
             )}
@@ -314,7 +322,15 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
+    //color:brand,
     // marginBottom: 0,
+    marginTop: 5,
+  },
+  label4: {
+    fontSize: 16,
+fontWeight:'bold',
+    // marginBottom: 1,
+    //color: brand,
     marginTop: 5,
   },
   label2: {
@@ -325,10 +341,44 @@ const styles = StyleSheet.create({
     marginTop: -5,
   },
   label3: {
+    fontSize: 20,
+    marginBottom: 5,
+    color: brand,
+    //marginTop: 5,
+    fontWeight:'500',
+    marginLeft:-30
+  
+  },
+  ignor:{
+    backgroundColor:'white',
+    marginTop:-15,
+    fontWeight:'500',
+    fontSize:16,
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 1,
+    elevation: 5,
+    padding:10,
+    marginBottom:15,
+    //borderWidth:0.2,
+    //borderColor:darkLight
+    //color:'white'
+  },
+  sectionTitleP: {
     fontSize: 18,
-    // marginBottom: 1,
-    color: red,
-    marginTop: 5,
+    fontWeight: '400',
+    marginBottom: 10,
+   // color: tertiary,
+    marginTop:-40,
+    marginLeft:-35,
+    marginRight:-35,
+    //backgroundColor:'white',
+    //shadowOpacity: 0.25,
+    //shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 1,
+    elevation: 5,
+    borderRadius:3,
+    padding:4
   },
   date: {
     //flex:1,
@@ -412,7 +462,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     height: 60,
     marginVertical: 3,
-    marginBottom: 30,
+    marginBottom: 10,
     color: tertiary,
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
@@ -520,21 +570,11 @@ const styles = StyleSheet.create({
     marginHorizontal: -15,
 
   },
-  sectionTitleP: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: brand,
-  },
+
   container2: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginRight: 5,
   },
   inputContainer: {
     flexDirection: 'row',

@@ -15,6 +15,8 @@ padding:25px;
 background-color:rgba(0,0,0,0.7);
 justify-content:center;
 `;
+
+
 const AfficheVaccin = ({ navigation , route }) => {
   const { selectedAnalyse } = route.params;
   const id = selectedAnalyse._id
@@ -60,11 +62,9 @@ const AfficheVaccin = ({ navigation , route }) => {
     }
     setModalVisible(false);
   };
-  
   const openModal = () => {
     ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce vaccin ?', 'OK', 'Cancel');
   };
-  
   const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
     setShowModal(false);
     setModalMessageType(type);
@@ -74,6 +74,9 @@ const AfficheVaccin = ({ navigation , route }) => {
     setCancelButtonText(cancelButtonText);
     setModalVisible(true);
   };
+
+
+//Delete_______________________________________________________________________________________________
  const handleDelete = async () => {
       try {
         const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
@@ -82,12 +85,13 @@ const AfficheVaccin = ({ navigation , route }) => {
         const data = await response.json();
         setResult(data);
         navigation.navigate('ListeVaccin');
-
       } catch (err) {
         console.error(err);
         setResult('Erreur');
       }
     };
+
+//Modifier______________________________________________________________________________________________
 const handleModify = () => {
     setShowModal(false);
     navigation.navigate('ModifyVaccin' , {title: selectedAnalyse.title, maladieCible: selectedAnalyse.maladieCible, dateVaccin:selectedAnalyse.date,  commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id,  ImageData: imageData,
@@ -336,5 +340,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
-
 export default AfficheVaccin

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Image } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
@@ -12,14 +12,11 @@ import { ngrokLink } from '../../config';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
 const { brand, green,red,darkLight, primary,secondary,tertiary } = Colors;
-//________________________________________________________________________________
-const ListeAddRappelTraitement = ({ navigation }) => {
-  const [traitements, setTraitements] = useState([]);
-  
-  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
-  //const screenHeight = Dimensions.get('window').height;
-  const { email } = storedCredentials;
 
+const ListeTraitement = ({ navigation }) => {
+  const [traitements, setTraitements] = useState([]);
+  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+  const { email } = storedCredentials;
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredTraitements, setFilteredTraitements] = useState([]);
   const handleOnSearchInput = (text) => {
@@ -38,13 +35,13 @@ const ListeAddRappelTraitement = ({ navigation }) => {
       .catch(error => console.log(error));
   }, [email]);
 
-  return (
+  return ( 
       <View style={[styles.Container]}>
         <StatusBar style="white" />
         <View style={styles.headingContainer}>
           <View style={{ flexDirection: 'column' }}>
           <View style={styles.header2}>
-        <Text style={styles.headerTitle}>Choisir votre traitement</Text>
+        <Text style={styles.headerTitle}>Mes medicaments</Text>
       </View>
       <View style={{width:320 , paddingHorizontal:5 , top:-20,left:10}}>            
         <StatusBar style="Light" />
@@ -68,22 +65,26 @@ const ListeAddRappelTraitement = ({ navigation }) => {
           item.traitements.map((sousTraitement, sousTraitementIndex) => (
             <TouchableOpacity
               key={sousTraitementIndex}
-              onPress={() => {navigation.navigate("AddRappel", {
+              onPress={() => {navigation.navigate("AfficheTraitement", {
               selectedTraitement: sousTraitement,})}}style={styles.subTreatmentContainer}
             >
+            <Image
+            source={require('../../assets/img/med.jpg')}
+            style={styles.image}
+          />
               <View style={styles.fois}>
-              <Text style={styles.title}>{sousTraitement.medicament}</Text>
+              <Text style={styles.title}>{sousTraitement.medicament} </Text>
               <Text style={styles.dateContainer}>{sousTraitement.dateDeCommencement}</Text>
-              </View>
-              <View style={styles.button}><AntDesign name="right" size={28} color={brand} /></View>
-            </TouchableOpacity>
+              <Text style={styles.dateContainer2}>{sousTraitement.nbrfois}X{sousTraitement.nbrJours}</Text>
+             </View>
+            </TouchableOpacity> 
           ))
-        ) : (
+        ) : ( 
           <Text>Aucun sous-traitement trouvé</Text>
         )}
       </View>
   )}
-/> 
+/>
 </View>
 </View>
     );
@@ -100,6 +101,11 @@ const styles = StyleSheet.create({
     borderWidth:0,
     paddingLeft:10,
     paddingRight:10,
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+    //marginTop:-30,
+    //backgroundColor:'white',
+
 },
 Container:{
   marginBottom: 10,
@@ -128,19 +134,31 @@ headingContainer:{
   justifyContent:'space-between',
   alignItems:'center',
   backgroundColor:brand,
-  paddingTop:20     
+  paddingTop:20,
+  // paddingBottom:20,    
 },
 title: {
   fontSize: 22,
-  marginLeft:40,
+  marginLeft:20,
 },
 fois:{ 
   flexDirection:'column',
-  justifyContent:'flex-start',
-  alignContent:'center',
+  //justifyContent:'flex-start',
+  //alignContent:'center',
+  // backgroundColor:red,
+  //paddingLeft:80,
+
   },
-  dateContainer:{
-   marginLeft:40,
+dateContainer2:{
+   marginLeft:190,
+   marginTop:-20,
+   //color: brand,
+   fontWeight: '500',
+   fontSize:17,
+
+  },
+dateContainer:{
+   marginLeft:20,
    marginTop:5,
    color: brand,
    fontWeight: '500',
@@ -172,7 +190,7 @@ fois:{
     borderWidth:0,
     borderRadius:15,
    flexDirection:'row',
-   justifyContent:'space-between'
+   // justifyContent:'space-between'
   },
   subTreatmentTitle: {
     fontSize: 16,
@@ -182,7 +200,14 @@ fois:{
   subTreatmentText: {
     fontSize: 14,
     marginBottom: 2,
-  }, 
+  },
+  image: {
+    width:60, // Adjust the width as needed
+    height:60, // Adjust the height as needed
+    //marginRight: 10, // Adjust the margin as needed
+    //resizeMode: 'contain', 
+    marginLeft:10, 
+  },
 }) 
 
-export default ListeAddRappelTraitement;
+export default ListeTraitement;

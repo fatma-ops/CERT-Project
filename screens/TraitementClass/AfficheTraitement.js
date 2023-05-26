@@ -1,33 +1,33 @@
 import { View, Text, StyleSheet, Image, Modal,Button,TouchableOpacity } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import { Colors } from '../../components/styles';
-import { useState , useContext } from 'react';
+import { useState, useContext } from 'react';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
 import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components';
-import { ScreenWidth, StatusBarHeight } from '../../components/shared';
+import { StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import { Formik , FieldArray } from 'formik';
 import { InnerContainer, StyledContainer2, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
-
-
-const { brand, green, darkLight, primary, red, tertiary,secondary } = Colors;
+const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 const ModalPressableContainer = styled.Pressable`
 flex:1;
 padding:25px;
 background-color:rgba(0,0,0,0.7);
 justify-content:center;
 `;
-const AddRappel = ({ navigation , route }) => {
+
+
+const AfficheTraitement = ({ navigation , route }) => {
   const { selectedTraitement } = route.params;
   const id = selectedTraitement._id
-  console.log("id" , id);
+  //console.log("id" , id);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const { email } = storedCredentials;
   const [modalVisible , setModalVisible] = useState(false);
@@ -37,39 +37,36 @@ const AddRappel = ({ navigation , route }) => {
   const [buttonText , setButtonText] = useState('');
   const [confirmButtonText , setConfirmButtonText] = useState('');
   const [cancelButtonText , setCancelButtonText] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [formCount, setFormCount] = useState(1);
+  const [result, setResult] = useState('');
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
-  const [showModal, setShowModal] = useState(false);
-  const [result, setResult] = useState('');
-  const [formCount, setFormCount] = useState(1);
 
+//date___________________________________________________________________________________________________
+const [date, setDate] = useState(new Date());
+const [dob, setDob] = useState();
+const [show, setShow] = useState(false);
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setShow(false);
+  setDate(currentDate);
+  setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
+}
+const handleShowDatePicker = () => {
+  setShow(true);
+};  
 
-//date________________________________________
-  const [date, setDate] = useState(new Date());
-  const [dob, setDob] = useState();
-  const [show, setShow] = useState(false);
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
-  }
-  const handleShowDatePicker = () => {
-    setShow(true);
-  };
-
-
+//Delete Modal___________________________________________________________________________________________
   const buttonHandler = (isDeleteConfirmed) => {
     if (isDeleteConfirmed) {
       handleDelete();
     }
     setModalVisible(false);
   };
-  
   const openModal = () => {
-    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce rappel ?', 'OK', 'Cancel');
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce medicament ?', 'OK', 'Cancel');
   };
-  
   const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
     setShowModal(false);
     setModalMessageType(type);
@@ -79,52 +76,44 @@ const AddRappel = ({ navigation , route }) => {
     setCancelButtonText(cancelButtonText);
     setModalVisible(true);
   };
+
+
+//Delete_______________________________________________________________________________________________
  const handleDelete = async () => {
       try {
-        const response = await fetch(`${ngrokLink}/api/v1/rappel/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
         setResult(data);
-        navigation.navigate('ListeRappel');
-
+        navigation.navigate('ListeVaccin');
       } catch (err) {
         console.error(err);
         setResult('Erreur');
       }
     };
-    /*const handleModify = () => {
-      setShowModal(false);
-      navigation.navigate('ModifyRappel' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
-     };*/
 
-     const submitRappel = async (values, setSubmitting) => {
-      handleMessage(null);
-      setSubmitting(true);
-    
-      const data = {
-        
-        rappels: values.rappels,
-
-        userEmail: email,
-        idTraitement: selectedTraitement._id,
-        dateDeCommencement:selectedTraitement.dateDeCommencement,
-        medicament:selectedTraitement.medicament
-      };
-    
-      try {
-        const response = await axios.post(
-          `${ngrokLink}/api/v1/rappel/add`,
-          data,
-          {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        );
-        console.log(response.data);
-        navigation.navigate('ListeRappel')
-        setSubmitting(false);
+//Modifier______________________________________________________________________________________________
+const handleModify = () => {
+    setShowModal(false);
+    navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
+     };
+//fontion rappel_________________________________________________________________________________________
+const submitRappel = async (values, setSubmitting) => {
+  handleMessage(null);
+  setSubmitting(true);
+  const data = {
+    rappels: values.rappels,
+    userEmail: email,
+    idTraitement: selectedTraitement._id,
+    dateDeCommencement:selectedTraitement.dateDeCommencement,
+    medicament:selectedTraitement.medicament
+  };
+  try {
+    const response = await axios.post(`${ngrokLink}/api/v1/rappel/add`,data,{headers: {'Content-Type': 'application/json'}});
+      console.log(response.data);
+      navigation.navigate('ListeRappel')
+      setSubmitting(false);
       } catch (error) {
         setSubmitting(false);
         handleMessage(error.message);
@@ -132,12 +121,9 @@ const AddRappel = ({ navigation , route }) => {
       }
     };
     
-        const handleMessage = (message, type = 'FAILED') => {
-          setMessage(message);
-          setMessageType(type);
-        };
-  return (
-    <KeyboardAvoidingWrapper>
+const handleMessage = (message, type = 'FAILED') => {setMessage(message);setMessageType(type);};
+return (     
+<KeyboardAvoidingWrapper>
       <StatusBar style="light" />
     <View style={styles.container}>
         <StatusBar style="white" />
@@ -145,7 +131,7 @@ const AddRappel = ({ navigation , route }) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>              Ajouter rappel        </Text>
+        <Text style={styles.headerTitle}>       Detail du medicament</Text>
         <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
@@ -175,10 +161,9 @@ const AddRappel = ({ navigation , route }) => {
             <Text style={styles.sectionItem2}>  jours</Text>
             </View>
             </View>          
-            <View >
-           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-  <Text style={{ color:'black', marginLeft:-10, fontSize:18,fontWeight:'500', marginTop:30}}>Ajouter L'heure des rappels</Text>
-</View>
+            <View style={styles.rappelContainer} >
+           <View  style={{flexDirection: 'row', alignItems: 'center'}}>
+  <Text style={{ color:'black', marginLeft:15, fontSize:19,fontWeight:'400', marginTop:15}}>Personnalisez vos rappels si vous voulez recevoir des notifications</Text>
             </View>
             <View>
           <FieldArray
@@ -219,9 +204,9 @@ const AddRappel = ({ navigation , route }) => {
                     }}
                     
                   >
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft:-10 }}>
-                <AntDesign name="pluscircleo" size={25} color={brand} />
-               <Text style={{ color: brand, marginLeft: 10, fontSize:17 }}>Ajouter un autre rappel</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft:40, marginBottom:15 }}>
+                <AntDesign name="pluscircleo" size={22} color={brand} />
+               <Text style={{ color: brand, marginLeft:10, fontSize:17}}>Ajouter un autre rappel</Text>
                 </View>
 
                   </TouchableOpacity>
@@ -229,13 +214,10 @@ const AddRappel = ({ navigation , route }) => {
               </View>
             )}
           />
-        </View>
-          
-      </View>
-      <MsgBox type={messageType}>
+          <MsgBox type={messageType}>
                   {message}
                 </MsgBox>
-                <View style={{ justifyContent: 'center' ,left:25, top:-10}}>
+                <View style={{ justifyContent: 'center' ,left:0, top:-10}}>
                   {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
                     <ButtonText>
                       Enregister
@@ -246,7 +228,13 @@ const AddRappel = ({ navigation , route }) => {
                     <ActivityIndicator size="large" color={primary} />
                   </RegularButton3>}
                 </View>
+                </View>
+
+        </View>
+          
+      </View>
       
+
 
       <Modal visible={showModal} animationType="slide" transparent={true}>
       <ModalPressableContainer onPress={() => setShowModal(false)}>
@@ -283,12 +271,12 @@ const AddRappel = ({ navigation , route }) => {
       confirmButtonText={confirmButtonText}
       cancelButtonText={cancelButtonText} 
     />
+    
     </StyledFormArea>
 
     )}
     </Formik>
     </View>
-   
     </KeyboardAvoidingWrapper>
   );
 };
@@ -302,44 +290,43 @@ const styles = StyleSheet.create({
     //justifyContent:'space-between',
 
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    //justifyContent:'space-between',
-    marginTop: 20,
-    paddingBottom: 15,
-    borderBottomWidth: 0.25,
-    borderBottomColor: darkLight,
-    marginLeft: -25,
-    marginRight: -25,
 
-  },
-  headerTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: brand,
-    alignItems:'center'
-
-  },
-  backButton: {
-    marginLeft: ScreenWidth - 350,
-  },
-  moreButton: {
-    marginLeft:50,
-    alignItems:'center'
-  },
-  sectionContent: {
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    //paddingRight:10,
-    borderRadius: 20,
+rappelContainer:{
+  //borderWidth:1,
+  margingtop:30,
+  marginLeft:-20,
+  marginRight:-20,
+  backgroundColor:'#f0f0f0',
+  borderRadius: 20,
     shadowOpacity:0.25,
     shadowOffset:{width:0.5,height:2},
     shadowRadius:1,
     elevation:5,
+}, 
+  header: {
+   flexDirection: 'row',
+    alignItems: 'center',
+    //justifyContent:'space-between',
+    marginTop: StatusBarHeight ,
+    paddingBottom: 5,
+    borderBottomWidth: 0.25,
+    borderBottomColor: darkLight,
+    //marginLeft: -25,
+    //marginRight: -25,
+  },
+  sectionContent: {
+    //backgroundColor: '#f0f0f0',
+    padding: 10,
+    //paddingRight:10,
+    borderRadius: 20,
+    //shadowOpacity:0.25,
+    //shadowOffset:{width:0.5,height:2},
+    //shadowRadius:1,
+    //elevation:5,
     marginLeft: -40,
     marginRight:-40,
     alignItems: 'center',
+    marginBottom:5,
 },
 heelo:{
   flexDirection:'row',
@@ -390,7 +377,19 @@ heelo2:{
 
    //color:brand
   },
- 
+  backButton: {
+    padding: 10,
+    marginRight: 10,
+  },
+  moreButton: {
+    padding: 10,
+    marginLeft:40,
+  },
+  headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color:brand,
+  },
   modalContainer: {
     //flex: 1,
     backgroundColor:primary,
@@ -493,5 +492,4 @@ modalCancelButton: {
     marginBottom:-3,
   },
 });
-
-export default AddRappel
+export default AfficheTraitement

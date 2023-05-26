@@ -8,7 +8,6 @@ import { ngrokLink } from '../../config';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import styled from 'styled-components';
-
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 const ModalPressableContainer = styled.Pressable`
 flex:1;
@@ -16,6 +15,8 @@ padding:25px;
 background-color:rgba(0,0,0,0.7);
 justify-content:center;
 `;
+
+
 const AfficheMedecin = ({ navigation , route }) => {
   const { selectedAnalyse } = route.params;
   const id = selectedAnalyse._id
@@ -30,18 +31,18 @@ const AfficheMedecin = ({ navigation , route }) => {
   const [showModal, setShowModal] = useState(false);
   const [result, setResult] = useState('');
 
-  const buttonHandler = (isDeleteConfirmed) => {
+
+//Delete Modal__________________________________________________________________________________________
+const buttonHandler = (isDeleteConfirmed) => {
     if (isDeleteConfirmed) {
       handleDelete();
     }
     setModalVisible(false);
   };
-  
-  const openModal = () => {
+const openModal = () => {
     ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce contact?', 'OK', 'Cancel');
-  };
-  
-  const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
+  }; 
+const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
     setShowModal(false);
     setModalMessageType(type);
     setHeaderText(headerText);
@@ -50,8 +51,10 @@ const AfficheMedecin = ({ navigation , route }) => {
     setCancelButtonText(cancelButtonText);
     setModalVisible(true);
   };
-  
-  const handleDelete = async () => {
+
+
+//Delete_______________________________________________________________________________________________
+const handleDelete = async () => {
       try {
         const response = await fetch(`${ngrokLink}/api/v1/medecin/delete/${id}`, {
           method: 'DELETE'
@@ -65,11 +68,17 @@ const AfficheMedecin = ({ navigation , route }) => {
         setResult('Erreur');
       }
     };
+
+
+//Modifier______________________________________________________________________________________________    
 const handleModify = () => {
     setShowModal(false);
     navigation.navigate('ModifyMedecin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
      };
-  return (
+
+
+
+return (
     <View style={styles.container}>
                     <StatusBar style="Light" />
 
@@ -147,165 +156,106 @@ const handleModify = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    //marginBottom:50,
-    opacity:1,
-
+container: {
+  flex: 1,
+  backgroundColor: '#fff',
+  //marginBottom:50,
+  opacity:1,
   justifyContent:'space-between',
+},
+header: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  fontWeight:'700',
+  justifyContent:'space-between',
+  marginTop: StatusBarHeight ,
+  //paddingBottom: 1,
+  borderBottomWidth: 0.25,
+  borderBottomColor: darkLight,
+  //marginLeft: -25,
+  //marginRight: -25,
+},
+sectionItem: {
+  fontSize: 18,
+  //marginBottom:5,
+  //marginRight:-5,
+  paddingLeft:130,
+  marginTop:-25,
+  paddingBottom:5
+},
+sectionItem2: {
+  fontSize: 18,
+  // marginLeft:-70,
+  //marginBottom: 5,
+  fontWeight: 'bold',
+  //marginTop:5,
+  paddingBottom:5,
+  color:brand,
+},
+backButton: {
+  padding: 10,
+  marginRight: 10,
+},
+moreButton: {
+  padding: 10,
+  marginLeft:40,
+},
+headerTitle: {
+  fontWeight: 'bold',
+  fontSize: 20,
+  color:brand,
+},
+content: {
+  flex: 1,
+  paddingTop:20,
+},
+doctorImage: {
+  width: 120,
+  height: 120,
+  borderRadius: 60,
+  marginBottom: 20,
+  alignSelf: 'center',
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    //justifyContent:'space-between',
-    marginTop: 20,
-    paddingBottom: 15,
-    borderBottomWidth: 0.25,
-    borderBottomColor: darkLight,
-    marginLeft: -25,
-    marginRight: -25,
-
-  },
-  headerTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: brand,
-    alignItems:'center'
-
-  },
-  backButton: {
-    marginRight: 40,
-    marginLeft: ScreenWidth - 350,
-  },
-  moreButton: {
-    marginLeft:30,
-    alignItems:'center'
-  },
-  sectionItem: {
-    fontSize: 18,
-    //marginBottom:5,
-    //marginRight:-5,
-    paddingLeft:130,
-    marginTop:-25,
-    paddingBottom:5
-  },
-  sectionItem2: {
-    fontSize: 18,
-   // marginLeft:-70,
-   //marginBottom: 5,
-    fontWeight: 'bold',
-    //marginTop:5,
-    paddingBottom:5,
-    color:brand,
-  },
- 
- 
-  
-  content: {
-    flex: 1,
-    paddingTop:20,
-  },
-  doctorImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    marginBottom: 20,
-    alignSelf: 'center',
-
-  },
-  infoContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  name: {
-    fontWeight: 'bold',
-    fontSize: 24,
-    marginBottom: 5,
-  },
-  specialite: {
-    fontSize: 18,
-    color: darkLight,
-    marginBottom: 5,
-  },
-  adresse: {
-    fontSize: 18,
-    color: darkLight,
-    marginBottom: 5,
-  },
-  numero: {
-    fontSize: 18,
-    color: darkLight,
-    marginBottom: 5,
-  },
-  commentaire: {
-    fontSize: 18,
-    color: darkLight,
-    marginBottom: 20,
-  },
-  actions: {
-    flexDirection: 'row',
-  },
-  editButton: {
-    backgroundColor: primary,
-    padding: 10,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  deleteButton: {
-    backgroundColor: 'transparent',
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: red,
-  },
-  heelo:{
-    //flexDirection:'row',
-    borderBottomColor:darkLight,
-    borderBottomWidth:0.3,
-    paddingBottom:10,
-    paddingTop:10,
-    paddingRight:20,
-    //marginRight:20
-    flexDirection:'column'
-   },
-  sectionContent:{
-    paddingLeft:20,
-    paddingRight:20,
-
-   },
-   modalContainer: {
-    //flex: 1,
-    backgroundColor:primary,
-    justifyContent: 'center',
-    //alignItems: 'center',
-    borderRadius:20,
-    width: '100%',
-    //padding:35,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+heelo:{
+  //flexDirection:'row',
+  borderBottomColor:darkLight,
+  borderBottomWidth:0.3,
+  paddingBottom:10,
+  paddingTop:10,
+  paddingRight:20,
+  //marginRight:20
+  flexDirection:'column'
+},
+sectionContent:{
+  paddingLeft:20,
+  paddingRight:20,
+},
+modalContainer: {
+  //flex: 1,
+  backgroundColor:primary,
+  justifyContent: 'center',
+  //alignItems: 'center',
+  borderRadius:20,
+  width: '100%',
+  //padding:35,
+  shadowColor: '#000',
+  shadowOffset: {width:0,height: 2,},
   shadowOpacity: 0.25,
   shadowRadius: 4,
   elevation: 5,
   height: '30%',
-
-  },
-  modalContent: {
-    justifyContent: 'center',
-    alignItems: 'center',   
+},
+modalContent: {
+  justifyContent: 'center',
+  alignItems: 'center',   
 },
 modalButton: {
   paddingHorizontal:115,
   borderBottomWidth:0.6,
   borderColor:darkLight,
   marginTop:15,
-
 },
 modalCancelButton: {
-
   paddingHorizontal: 125,
   marginTop: 15,
 },

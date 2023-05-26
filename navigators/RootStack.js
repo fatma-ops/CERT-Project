@@ -28,7 +28,6 @@ import Medecin from '../screens/MedecinClass/Medecin';
 import ListeMedecin from '../screens/MedecinClass/ListeMedecins';
 import AddMedecin from '../screens/MedecinClass/AddMedecin';
 import AfficheMedecin from '../screens/MedecinClass/AfficheMedecin';
-
 import Consultation from '../screens/ConsultationClass/Consultation';
 import ListeConsultation from '../screens/ConsultationClass/ListeConsultation';
 import AddConsultation from '../screens/ConsultationClass/AddConsultation';
@@ -37,18 +36,14 @@ import ModifyConsultation from '../screens/ConsultationClass/ModifyConsultation'
 import Depenses from '../screens/Depenses';
 import HomeScreen from '../screens/HomeScreen';
 import ModifyMedecin from '../screens/MedecinClass/ModifyMedecin';
-
-
 import Traitement from '../screens/TraitementClass/Traitement';
 import AddTraitement from '../screens/ConsultationClass/AddTraitement'
 import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
 import AddRappel from '../screens/RappelClass/AddRappel'
 import ListeAddRappelTraitement from '../screens/RappelClass/ListeAddRappelTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
-
-
-
-
+import ListeTraitement from '../screens/TraitementClass/ListeTraitement';
+import AfficheTraitement from '../screens/TraitementClass/AfficheTraitement';
 
 const Stack = createNativeStackNavigator();
 const RootStack = () => {
@@ -59,24 +54,15 @@ const RootStack = () => {
           <Stack.Navigator
             screenOptions={{
               headerShown : false}}
-
-              //headerStyle: {
-              //  backgroundColor: 'transparent'
-              //},
+              //headerStyle: {backgroundColor: 'transparent'},
              //headerTintColor: tertiary,
              // headerTransparent: true,
              //headerTitle: '',
-              //headerLeftContainerStyle: {
-               // paddingLeft: 20,
-              //},
-
+              //headerLeftContainerStyle: {paddingLeft: 20,},
             //}}
-
-
             initialRouteName="Login"
           >
-
-            {storedCredentials ?(
+            {storedCredentials ?
             <>
               <Stack.Screen   name="NavBarre" component={NavBarre} />
               <Stack.Screen   name="HomeNavigation" component={HomeNavigation} />
@@ -111,58 +97,29 @@ const RootStack = () => {
                 <Stack.Screen name="AddRappel" component={AddRappel} />
                 <Stack.Screen name="ListeAddRappelTraitement" component={ListeAddRappelTraitement} />
                 <Stack.Screen name="ListeRappel" component={ListeRappel} />
-
-
-
-
-
-                
-              
-
-
-
-
-
-              </> 
-              ) :  (
-              
-              <>
+                <Stack.Screen name="ListeTraitement" component={ListeTraitement} />
+                <Stack.Screen name="AfficheTraitement" component={AfficheTraitement} />
+              </>
+              : <>
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Signup" component={Signup} />
                 <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
                 <Stack.Screen name="EmailVerification" component={EmailVerification} />
                 <Stack.Screen name="RestPassword" component={RestPassword} />
                 <Stack.Screen name="PasswordOtp" component={PasswordOtp} />
-               
-
-
-
-
-                
-
-
-              </> )
+              </>
             }
-
-
           </Stack.Navigator>
         </NavigationContainer>
 
       )}
-
-
-
-
-
     </CredentialsContext.Consumer>
-
   );
 }
 const defaultNavOptions = {
   headerStyle: {
     backgroundColor: Platform.OS === 'android' ? brand : ''
   },
- 
   headerTintColor: Platform.OS === 'android' ? 'white' : brand,
   headerTitle: 'mes analyses',
 };

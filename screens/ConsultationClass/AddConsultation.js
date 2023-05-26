@@ -17,6 +17,7 @@ import RegularButton2 from '../../components/Buttons/RegularButton2';
 import RegularButton from '../../components/Buttons/RegularButton';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ngrokLink } from '../../config';
+import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 
 const { brand, darkLight, primary, secondary, tertiary } = Colors;
 
@@ -24,7 +25,6 @@ const AddConsultation = ({ navigation }) => {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
-
 
   // Fetch the list of contacts from the database____________________________________________________________
   const [contacts, setContacts] = useState([]);
@@ -69,21 +69,49 @@ const AddConsultation = ({ navigation }) => {
   const [headerText, setHeaderText] = useState('');
   const [modalMessage, setModalMessage] = useState('');
   const [buttonText, setButtonText] = useState('');
+  const [confirmButtonText , setConfirmButtonText] = useState('');
+  const [cancelButtonText , setCancelButtonText] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [result, setResult] = useState('');
 
-  const buttonHandler = () => {
-    if (modalMessageType === 'success') {
-      //do something
+  const buttonHandler = (isDeleteConfirmed) => {
+    if (isDeleteConfirmed) {
+      handleDelete();
     }
-
     setModalVisible(false);
   };
-  const ShowModal = (type, headerText, message, buttonText) => {
+  const openModal = () => {
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce vaccin ?', 'OK', 'Cancel');
+  };
+  const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
+    setShowModal(false);
     setModalMessageType(type);
     setHeaderText(headerText);
     setModalMessage(message);
-    setButtonText(buttonText);
+    setConfirmButtonText(confirmButtonText);
+    setCancelButtonText(cancelButtonText);
     setModalVisible(true);
+  };
+  //Delete_______________________________________________________________________________________________
+ const handleDelete = async () => {
+  try {
+    const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
+      method: 'DELETE'
+    });
+    const data = await response.json();
+    setResult(data);
+    navigation.navigate('ListeVaccin');
+  } catch (err) {
+    console.error(err);
+    setResult('Erreur');
   }
+};
+
+//Modifier______________________________________________________________________________________________
+const handleModify = () => {
+setShowModal(false);
+navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
+ };
   //________________________________________________________________________________________________
 
   //Image______________________________________________________________________________________________

@@ -52,44 +52,33 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.text}>Mes Vaccins</Text>
         </TouchableOpacity>
 
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('ListeTraitement')}>
+        <Image style={styles.avatar} source={require('./../assets/img/pills.png')}/>
+        <Text style={styles.text}>Mes médicaments</Text>
+      </TouchableOpacity>
+   </View>
 
-        <TouchableOpacity style={styles.cube} >
-        <Image
-          style={styles.avatar}
-          source={require('./../assets/img/pills.png')}
-        />
-          <Text style={styles.text}>Mes médicaments</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Consultation')}>
-        <Image
-          style={styles.avatar}
-          source={require('./../assets/img/consultation.png')}
-        />
-          <Text style={styles.text}>Mes Consultations</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Analyse')}>
-        <Image
-          style={styles.avatar}
-          source={require('./../assets/img/medical-history.png')}
-        />
+   <View style={styles.row}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AnalyseFlatList')}>
+        <Image style={styles.avatar} source={require('./../assets/img/medical-history.png')} />
           <Text style={styles.text}>Mes analyses</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.row}>
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Medecin')}>
-        <Image
-          style={styles.avatar}
-          source={require('./../assets/img/doctor.png')}
-        />
-          <Text style={styles.text}>Mes médecins</Text>
-        </TouchableOpacity>
-       
-      </View>
-      </View>
-      </View>
+      </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Medecin')}>
+        <Image style={styles.avatar} source={require('./../assets/img/doctor.png')}/>
+        <Text style={styles.text}>Mes médecins</Text>
+      </TouchableOpacity>
+   </View>
+
+    <View style={styles.row}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin')}>
+        <Image style={styles.avatar} source={require('./../assets/img/bleuVaccin.png')}/>
+        <Text style={styles.text}>Mes Vaccins</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+
+</View>
       
     );
 }

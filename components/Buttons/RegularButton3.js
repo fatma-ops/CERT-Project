@@ -7,13 +7,13 @@ import RegularText from '../Texts/RegularText';
 const {primary , brand} = Colors;
 const ButtonView = styled.TouchableOpacity`
 
-padding: 15px;
+padding: 5px;
 background-color:${brand};
 width : 45%
 justify-content:center;
 align-items:center;
 border-radius:10px;
-height:60px;
+height:55px;
 flex-direction:row;
 justify-content: space-between;
 shadow-Opacity:0.25;
