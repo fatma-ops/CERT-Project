@@ -12,13 +12,10 @@ import AddTraitement from '../screens/ConsultationClass/AddTraitement'
 import ListeTraitement from '../screens/TraitementClass/ListeTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
 import HomeNavigation from './HomeNavigation'
-
-
+import Notification from '../screens/TraitementClass/Notification'
 
 
 const { darkLight, brand , red } = Colors;
-
-
 const Tab = createBottomTabNavigator();
 const screenOptions = {
     tabBarShowLabel: false,
@@ -64,8 +61,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="AddTraitement"
-                component={AddTraitement}
+            <Tab.Screen name="Notification"
+                component={Notification}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (

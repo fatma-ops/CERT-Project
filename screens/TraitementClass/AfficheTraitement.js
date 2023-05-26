@@ -15,11 +15,16 @@ import { InnerContainer, StyledContainer2, LeftIcon, StyledInputLabel, StyledTex
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
+//import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+//import { Notifications } from 'expo';
+//import * as Permissions from 'expo-permissions';
+
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 const ModalPressableContainer = styled.Pressable`
 flex:1;
 padding:25px;
-background-color:rgba(0,0,0,0.7);
+background-color:rgba(0,0,0,0.7); 
 justify-content:center;
 `;
 
@@ -98,6 +103,8 @@ const handleModify = () => {
     setShowModal(false);
     navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
      };
+//fontion notif_________________________________________________________________________________________
+
 //fontion rappel_________________________________________________________________________________________
 const submitRappel = async (values, setSubmitting) => {
   handleMessage(null);
@@ -106,20 +113,56 @@ const submitRappel = async (values, setSubmitting) => {
     rappels: values.rappels,
     userEmail: email,
     idTraitement: selectedTraitement._id,
-    dateDeCommencement:selectedTraitement.dateDeCommencement,
-    medicament:selectedTraitement.medicament
+    dateDeCommencement: selectedTraitement.dateDeCommencement,
+    medicament: selectedTraitement.medicament
   };
   try {
-    const response = await axios.post(`${ngrokLink}/api/v1/rappel/add`,data,{headers: {'Content-Type': 'application/json'}});
-      console.log(response.data);
-      navigation.navigate('ListeRappel')
-      setSubmitting(false);
-      } catch (error) {
-        setSubmitting(false);
-        handleMessage(error.message);
-        console.error(error);
-      }
+    const response = await axios.post(`${ngrokLink}/api/v1/rappel/add`, data, { headers: { 'Content-Type': 'application/json' } });
+    // Schedule notifications for each rappel time
+    const rappels = response.data.rappels;
+    await scheduleNotifications(rappels);
+
+    console.log(response.data);
+    navigation.navigate('ListeRappel');
+    setSubmitting(false);
+  } catch (error) {
+    setSubmitting(false);
+    handleMessage(error.message);
+    console.error(error);
+  }
+};
+const scheduleNotifications = async (rappels) => {
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  let finalStatus = existingStatus;
+
+  if (existingStatus.status !== 'granted') {
+    const { status } = await Notifications.requestPermissionsAsync();
+    finalStatus = status;
+  }
+
+  if (finalStatus.status !== 'granted') {
+    console.log('Notification permission not granted');
+    return;
+  }
+
+  rappels.forEach(async (rappel, index) => {
+    const rappelTime = new Date(rappel.heure); // Assuming rappel.heure is a valid date/time string
+    const schedulingOptions = {
+      content: {
+        title: 'Rappel',
+        body: "C'est l'heure du rappel !",
+      },
+      trigger: {
+        hour: rappelTime.getHours(),
+        minute: rappelTime.getMinutes(),
+        repeats: true,
+      },
     };
+
+    const identifier = await Notifications.scheduleNotificationAsync(schedulingOptions);
+    console.log(`Notification scheduled for rappel ${index}, identifier: ${identifier}`);
+  });
+};
     
 const handleMessage = (message, type = 'FAILED') => {setMessage(message);setMessageType(type);};
 return (     
@@ -217,7 +260,7 @@ return (
           <MsgBox type={messageType}>
                   {message}
                 </MsgBox>
-                <View style={{ justifyContent: 'center' ,left:0, top:-10}}>
+                <View style={{ justifyContent: 'center' ,left:0, top:10}}>
                   {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
                     <ButtonText>
                       Enregister

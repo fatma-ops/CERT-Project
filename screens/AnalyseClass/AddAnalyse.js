@@ -182,7 +182,7 @@ const onChange = (event , selectedDate) => {
           
          
           <MyTextInput
-           label="Nom d'analyse"
+           label="Nom de l'analyse"
            icon="id-badge"
            placeholder="Analyse"
            placeholderTextColor={darkLight}
@@ -221,7 +221,7 @@ const onChange = (event , selectedDate) => {
       />
       </SelectDropdownStyle>
 
-           <Text style={styles.label}>Résultat d'analyse</Text>
+           <Text style={styles.label}>Résultat de l'analyse</Text>
             <ViewImage style={styles.imageContainer}>
 
             <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{paddingTop: 40,paddingLeft:60, justifyContent:'center',alignItems:'center'}} />

@@ -12,7 +12,7 @@ import { ngrokLink } from '../../config';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
 const { brand, green,red,darkLight, primary,secondary,tertiary } = Colors;
-
+   
 const ListeTraitement = ({ navigation }) => {
   const [traitements, setTraitements] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -52,7 +52,7 @@ const ListeTraitement = ({ navigation }) => {
               />
             </View>
           </View>
-        </View>  
+        </View>   
     <View style={styles.Container2}>
       <FlatList
   style={styles.listContainer}
