@@ -40,19 +40,17 @@ export default function HomeScreen({ navigation }) {
     }}>  
            <Text style={styles.header}>{`${greet} `}</Text>
            <Text style={styles.header2}>{`${prenom} !`}</Text>
-         
-
   </View>
-       
-          
-        
-            
-  <View  style={styles.container}>
-    <View style={styles.row}>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Consultation')}>
-        <Image style={styles.avatar} source={require('./../assets/img/consultation.png')} />
-        <Text style={styles.text}>Mes Consultations</Text>
-      </TouchableOpacity>
+          <View  style={styles.container}>
+          <View style={styles.row}>
+      
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin')}>
+        <Image
+          style={styles.avatar}
+          source={require('./../assets/img/bleuVaccin.png')}
+        />
+          <Text style={styles.text}>Mes Vaccins</Text>
+        </TouchableOpacity>
 
       <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('ListeTraitement')}>
         <Image style={styles.avatar} source={require('./../assets/img/pills.png')}/>
@@ -109,7 +107,7 @@ export default function HomeScreen({ navigation }) {
     
   },
   page: {
-   paddingBottom:200,
+   paddingBottom:100,
    backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,

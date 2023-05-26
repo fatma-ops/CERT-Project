@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Fontisto,Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
-import { StatusBarHeight } from '../../components/shared';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle} from '../../components/styles';
@@ -43,7 +43,7 @@ const onChange = (event , selectedDate) => {
   };  
 
   
-//image
+//image____________________________________________________________________________________________________________
 const takeImageHandler = async (setFieldValue) => {
   let img;
   const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -88,16 +88,16 @@ const takeImageHandler = async (setFieldValue) => {
     { text: 'Annuler', style: 'cancel' },
   ]);
 };
+//Fonction add vaccin _________________________________________________________________________________________
 
-
-  const submitAnalyse = async (values ,setSubmitting) => {
+  const submitVaccin = async (values ,setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('maladieCible', values.maladieCible);
     formData.append('date',dob);
-    formData.append('testimage',{
+    formData.append('image',{
       uri: values.image,
       name: 'image.png',
       type: 'image/png'
@@ -125,6 +125,8 @@ const takeImageHandler = async (setFieldValue) => {
       console.error(error);
     }
   };
+
+  //Message___________________________________________________________________________________________________
   const handleMessage = (message, type = 'FAILED') => {
     setMessage(message);
     setMessageType(type);
@@ -132,15 +134,18 @@ const takeImageHandler = async (setFieldValue) => {
 
 
   return (
-    <KeyboardAvoidingWrapper>
-        <StyledContainer>
-        <StatusBar style="light" />
-        <View style={styles.header}>
+
+    <>
+    <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Ajouter un vaccin</Text>
       </View>
+    <KeyboardAvoidingWrapper>
+        <StyledContainer>
+        <StatusBar style="light" />
+        
      <InnerContainer>  
     
                     <SubTitle></SubTitle>
@@ -151,7 +156,7 @@ const takeImageHandler = async (setFieldValue) => {
             handleMessage('Veuillez remplir  les champs obligatoire');
             setSubmitting(false);
         } else {
-            submitAnalyse(values, setSubmitting);
+            submitVaccin(values, setSubmitting);
 
         }
     
@@ -193,6 +198,7 @@ const takeImageHandler = async (setFieldValue) => {
       //style={{ position: 'absolute', bottom: 0, left: 0 }}
 
     />
+           
            <Text style={styles.label}>Preuve de vaccination</Text>
            <View style={styles.imageContainer}>
   <Ionicons
@@ -265,6 +271,8 @@ const takeImageHandler = async (setFieldValue) => {
     </InnerContainer> 
     </StyledContainer>
     </KeyboardAvoidingWrapper>
+    </>
+
   );
 }
 
@@ -311,23 +319,24 @@ const MyTextInput = ({ label, icon, icon2, isPassword, hidePassword,isDate,showD
         flexDirection: 'row',
         alignItems: 'center',
         //justifyContent:'space-between',
-        marginTop:StatusBarHeight -42,
+        marginTop: 20,
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        marginLeft:-25,
-        marginRight:-25,
-
+        marginLeft: -25,
+        marginRight: -25,
+    
       },
       headerTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        color:brand,
-
+        color: brand,
+        alignItems:'center'
+    
       },
       backButton: {
-        marginRight: 70,
-        marginLeft: 9,
+        marginRight: 50,
+        marginLeft: ScreenWidth - 350,
       },
 
     imageContainer:
