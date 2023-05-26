@@ -86,11 +86,11 @@ return (
         <View style={styles.item2}>
             <Text style={styles.type}>Consultation</Text>
             <View style={styles.container1}>
-            <Text style={styles.cout1}>{isNaN(remboursement) ? '0.00' : remboursement.toFixed(2)}</Text>
+            <Text style={styles.cout1}></Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>{isNaN(remboursement) ? '0.00' : remboursement.toFixed(2)}</Text>
+            <Text style={styles.cout1}></Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>

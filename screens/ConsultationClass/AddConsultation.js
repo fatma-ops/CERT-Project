@@ -131,6 +131,21 @@ const AddConsultation = ({ navigation }) => {
       { text: 'Annuler', style: 'cancel' },
     ]);
   };
+
+
+  //______________________________________________________________________________________________
+  const saveConsultation = async (consultationData) => {
+    try {
+      await AsyncStorage.setItem('consultationData', JSON.stringify(consultationData));
+      console.log('Consultation enregistrée avec succès.');
+    } catch (error) {
+      console.log('Erreur lors de l\'enregistrement de la consultation :', error);
+    }
+  };
+
+
+
+
   // Fonction Add Consultation _____________________________________________________________________      
   const consultationIdRef = useRef(null);
   const submitConsultation = async (values, setSubmitting) => {
@@ -141,7 +156,7 @@ const AddConsultation = ({ navigation }) => {
     formData.append('type', values.type);
     formData.append('date', dob);
     formData.append('contact', values.contact);
-    formData.append('testimage', {
+    formData.append('image', {
       uri: values.image,
       name: 'image.png',
       type: 'image/png'
@@ -155,6 +170,8 @@ const AddConsultation = ({ navigation }) => {
           'Content-Type': 'multipart/form-data'
         }
       });
+          await saveConsultation(values);
+
       console.log(response.data);
       consultationIdRef.current = response.data._id; 
       console.log(consultationIdRef);

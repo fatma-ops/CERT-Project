@@ -95,8 +95,8 @@ const Welcome = ({navigation}) => {
        <View style={{flexDirection:'row'}}>
        <Text style={styles.sectionTitleName}>{nom} {prenom}</Text>
        <TouchableOpacity onPress={openModal}>
-       <View style={{ marginLeft:20 , marginTop:StatusBarHeight }}>
-       <MaterialCommunityIcons name='logout-variant' size={40} color='white'/>
+       <View style={{ marginLeft:20 , marginTop:StatusBarHeight - 25 }}>
+       <MaterialIcons name='logout' size={35} color='white'/>
        </View>
        </TouchableOpacity>
        </View>
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginBottom: 20,
       color: 'white',
-      marginTop:StatusBarHeight,
+      marginTop:StatusBarHeight-25,
       alignItems:'center'
     },
     sectionContent: {

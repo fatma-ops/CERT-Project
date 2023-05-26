@@ -119,7 +119,7 @@ const onChange = (event , selectedDate) => {
 
 
 
-    formData.append('testimage', {
+    formData.append('image', {
       uri: values.image,
       name: 'image.png',
       type: 'image/png'
@@ -192,17 +192,7 @@ const onChange = (event , selectedDate) => {
                               
                           />
            <Text style={styles.label}>Date</Text>
-           <DateTimePicker style={styles.date}
-      value={date}
-      mode="date"
-      //is24Hour={true}
-      display="spinner"
-      onChange={onChange}
-      locale="fr"
-      onPress={handleShowDatePicker}
-      //style={{ position: 'absolute', bottom: 0, left: 0 }}
-
-    />
+          
           <Text style={styles.label}>Médecin</Text> 
 
           <SelectDropdownStyle>

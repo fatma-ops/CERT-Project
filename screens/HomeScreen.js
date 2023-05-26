@@ -40,13 +40,7 @@ export default function HomeScreen({ navigation }) {
     }}>  
            <Text style={styles.header}>{`${greet} `}</Text>
            <Text style={styles.header2}>{`${prenom} !`}</Text>
-         
-
   </View>
-       
-          
-        
-            
           <View  style={styles.container}>
           <View style={styles.row}>
       
@@ -124,11 +118,7 @@ export default function HomeScreen({ navigation }) {
     
   },
   page: {
-<<<<<<< Updated upstream
    paddingBottom:100,
-=======
-   paddingBottom:200,
->>>>>>> Stashed changes
    backgroundColor:'white',
     borderTopLeftRadius: 150,
     borderTopRightRadius: 150,

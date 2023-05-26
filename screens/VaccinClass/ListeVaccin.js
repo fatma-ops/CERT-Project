@@ -37,7 +37,7 @@ const ListeVaccin = ({ navigation }) => {
       setFilteredVaccins(filtered);
     };
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/vaccin/${email}?cache_bust=123456789`)
+    axios.get(`${ngrokLink}/api/v1/vaccin/user/${email}?cache_bust=123456789`)
       .then(response => setVaccins(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -203,13 +203,13 @@ title: {
 },
 
 item:{ 
-  marginTop:-25,
+  marginTop:6,
     marginLeft:10,
     marginRight:10,
     //alignItems:'center',
     borderTopWidth: 1,
     borderTopColor: darkLight,
-    marginBottom:15
+    marginBottom:10
 },
 liste:{
   fontSize:19,
