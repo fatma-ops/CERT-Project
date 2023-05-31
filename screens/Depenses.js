@@ -6,12 +6,9 @@ import { CredentialsContext } from '../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
 import { Colors } from '../components/styles';
 import { StatusBarHeight } from '../components/shared';
-import { FontAwesome5 } from '@expo/vector-icons';
-import SearchBar from '../components/SearchBar';
+import { AntDesign} from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ngrokLink } from '../config';
-import NotFound from './../components/NotFound';
 const { green, brand, darkLight, primary, secondary,tertiary } = Colors;
 
 const Depenses = ({ navigation }) => {
@@ -74,29 +71,33 @@ return (
    <View style={[styles.analyseContainer2]}>
       <StatusBar style="white" />
           <View style={styles.header2}>
-          <Text style={styles.headerTitle}>Mes Depenses</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="left" size={25} color='white' />
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.headerTitle}>Mes Dépenses</Text></View>
        </View>
        <View style={styles.analyseContainer}>
           <View style={styles.liste}>
           <View style={styles.item}>
             <Text style={styles.text2}>Totale : </Text>
-            <Text style={styles.text}>100.00</Text>
+            <Text style={styles.text}>0.00</Text>
 
         </View>
         <View style={styles.item2}>
-            <Text style={styles.type}>Consultation</Text>
+            <Text style={styles.type}>Consultations</Text>
             <View style={styles.container1}>
-            <Text style={styles.cout1}></Text>
+            <Text style={styles.cout1}>0.00</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}></Text>
+            <Text style={styles.cout1}>0.00</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>
 
         <View style={styles.item2}>
-            <Text style={styles.type}>Traitement</Text>
+            <Text style={styles.type}>Traitements</Text>
             <View style={styles.container2}>
             <Text style={styles.cout1}>0.00</Text>
             <Text style={styles.cout2}>Cout</Text>
@@ -108,7 +109,7 @@ return (
         </View>
 
         <View style={styles.item2}>
-            <Text style={styles.type}>Analyse</Text>
+            <Text style={styles.type}>Analyses</Text>
             <View style={styles.container3}>
             <Text style={styles.cout1}>0.00</Text>
             <Text style={styles.cout2}>Cout</Text>
@@ -137,40 +138,38 @@ analyseContainer:{
     opacity:0.9,
     justifyContent:'space-between',
     //backgroundColor:'white',
-    height:1000,
+    height:'100%',
 
 },
 analyseContainer2:{
   marginBottom:70,
   opacity:1,
   justifyContent:'space-between',
-  height:1000,
+  height:'100%',
 },
 header2: {
   flexDirection: 'row',
   alignItems: 'center',
-  paddingLeft: 120,
+  paddingLeft: 10,
   backgroundColor:brand,
+
   height:100
 },
 header: {
   flexDirection: 'row',
   alignItems: 'center',
-  marginTop:StatusBarHeight -30,
-  paddingBottom: 20,
-  borderBottomWidth: 1,
-  borderBottomColor: darkLight,
-  marginRight:-50,
-  marginLeft:10,
+  
+ 
 },
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  color:'white'
+  color:'white',
+   marginLeft:100
 },
 backButton: {
-  marginRight: 10,
-  marginLeft: -9,
+
+
 },
 divider:{
     width:'100%',
@@ -278,49 +277,10 @@ liste:{
     marginLeft:15,
     marginRight:15,
   },
-index:{
-    fontSize:20,
-    fontWeight:'800',
-    color:brand
-},
-headingContainer2:{
-  fontWeight:'700',
-  color:brand,
-  justifyContent:'space-between',
-},
-headingContainer:{
-   flexDirection:'row',
-   justifyContent:'space-between',
-   alignItems:'center',
-   backgroundColor:brand,
-   height:150  
-},
-button:{
-    width:50,
-    borderRadius:100,
-    //justifyContent:'space-between',
-    marginLeft:10,
-   // height:50,
-    marginTop :40,
-    //marginBottom : 20
-},
-buttonText:{
-    color:brand,
-    fontSize:32,
-    fontWeight:'800'
-},
-scrollView:{
-    marginBottom:10,
-},
-analyse:{
-    //flexDirection:'row',
-    width:'100%',
-    color:'black',
-    fontWeight:'bold',
-    alignItems:'center',
-    backgroundColor:{brand}
 
-},
+
+
+
 
 }) 
 export default Depenses;

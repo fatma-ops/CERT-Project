@@ -45,7 +45,7 @@ const MessageModal = ({ modalVisible , buttonHandler , type , headerText , messa
              color ={type === 'success' ? green : red} 
             />
             <BigText style = {{ fontSize:25 , color: tertiary, marginVertical: 10 }}> {headerText} </BigText>
-             <RegularText style = {{marginBottom : 20}}> {message} </RegularText>
+             <RegularText style = {{marginBottom : 20, justifyContent:'center'}}> {message} </RegularText>
              <RegularButton onPress={buttonHandler}>{buttonText || `Fermer`}</RegularButton>
          
          </ModalView>

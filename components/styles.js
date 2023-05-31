@@ -214,7 +214,7 @@ export const StyledTextInputNombreFois = styled.TextInput`
   padding-left: 55px;
   border-radius: 20px;
   font-size: 16px;
-  height: 40px; /* Mettre une hauteur de 40px */
+  height: 40px; 
   margin-vertical: 3px;
   margin-bottom: 15px;
   color: ${tertiary};
@@ -224,7 +224,7 @@ export const StyledTextInputNombreFois = styled.TextInput`
   elevation: 5;
   margin-left: -10px;
   margin-right: -10px;
-  width: 10px; /* Ajouter la propriété width pour changer la largeur */
+  width: 10px;
 
 `;
 
@@ -322,7 +322,7 @@ text-align:left;
 
 `;
 export const StyledEtoile = styled.Text`
-color:${red};
+color:red;
 font-size:13px;
 text-align:left;
 
@@ -371,7 +371,7 @@ shadow-radius:1px;
 margin-left:-10px;
 margin-right:-10px;
 elevation:5;
-${(props) => props.google == true && `
+${(props) => props.inscription == true && `
 background-color:${green};
 flex-direction:row;
 justify-content:center;
@@ -419,9 +419,7 @@ color:${brand};
 
 `;
 export const ViewMot = styled.View`
-justify-content: center ;
-flex-direction:row;
-Text-align:left;
+Text-align:right;
 padding:10px;
 
 

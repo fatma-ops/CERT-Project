@@ -3,12 +3,12 @@ import { Alert, View, Text, Button, Image, TextInput, StatusBar, TouchableOpacit
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
-import { Fontisto, Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+import { Fontisto, Octicons, Ionicons, AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import MessageModal from '../../components/Modals/MessageModal';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer, Colors, LeftIcon,  StyledFormArea, MsgBox, ButtonText,  ViewImage, TextLink, ExtraView, TextLinkContent,  StyledInputLabel2, SubTitle, SelectDropdownStyle, StyledTextInput } from '../../components/styles';
+import { InnerContainer, StyledContainer, Colors, LeftIcon,  StyledFormArea, MsgBox, ButtonText,  ViewImage, TextLink, ExtraView, TextLinkContent,  StyledInputLabel2, SubTitle, SelectDropdownStyle, StyledTextInput, StyledEtoile } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -18,6 +18,7 @@ import RegularButton from '../../components/Buttons/RegularButton';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ngrokLink } from '../../config';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 
 const { brand, darkLight, primary, secondary, tertiary } = Colors;
 
@@ -115,22 +116,20 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
   //________________________________________________________________________________________________
 
   //Image______________________________________________________________________________________________
-  const takeImageHandler = async (setFieldValue) => {
-    let img;
+  const takeImageHandler = async (index, setFieldValue, values) => {
     const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-
+  
     if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-      alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
+      alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
       return;
     }
-
+  
     Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
       {
         text: 'Depuis la galerie',
         onPress: async () => {
           let result = await ImagePicker.launchImageLibraryAsync({
-            //allowsEditing: true,
             aspect: [16, 9],
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             base64: true,
@@ -138,7 +137,10 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
             allowsMultipleSelection: true,
           });
           if (!result.canceled) {
-            setFieldValue('image', result.assets[0].uri);
+            const newImages = result.assets.map((asset) => ({ uri: asset.uri }));
+            const updatedImages = [...values.images];
+            updatedImages[index] = newImages[0];
+            setFieldValue('images', updatedImages);
           }
         },
       },
@@ -152,7 +154,10 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
             quality: 0.5,
           });
           if (!result.canceled) {
-            setFieldValue('image', result.assets[0].uri);
+            const newImage = { uri: result.assets[0].uri };
+            const updatedImages = [...values.images];
+            updatedImages[index] = newImage;
+            setFieldValue('images', updatedImages);
           }
         },
       },
@@ -184,10 +189,12 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
     formData.append('type', values.type);
     formData.append('date', dob);
     formData.append('contact', values.contact);
-    formData.append('image', {
-      uri: values.image,
-      name: 'image.png',
-      type: 'image/png'
+    values.images.forEach((image, index) => {
+      formData.append('images', {
+        uri: image.uri,
+        name: `image_${index}.png`,
+        type: 'image/png'
+      });
     });
     formData.append('userEmail', email);
     formData.append('cout', values.cout);
@@ -198,19 +205,23 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
           'Content-Type': 'multipart/form-data'
         }
       });
-          await saveConsultation(values);
-
+      await saveConsultation(values);
+  
       console.log(response.data);
       consultationIdRef.current = response.data._id; 
       console.log(consultationIdRef);
-      navigation.navigate('AddTraitement' , {consultationId:response.data._id})
+      navigation.navigate('AddTraitement', { consultationId: response.data._id })
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
-      handleMessage(error.message);
-      console.error(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        handleMessage(error.response.data.message);
+      } else {
+        handleMessage(error.message);
+      }
     }
   };
+  
 
   //Fonction Message ____________________________________________________________________________________
   const handleMessage = (message, type = 'FAILED') => {
@@ -234,9 +245,9 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
         <InnerContainer>
           <SubTitle></SubTitle>
           <Formik
-            initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', image: null }}
+            initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', images: [] }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.type == '' || values.objet=='') {
+              if (values.contact == '' || values.objet==''|| values.type=='') {
                 handleMessage('Veuillez remplir  les champs obligatoire');
                 setSubmitting(false);
               } else {
@@ -248,7 +259,8 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
               <StyledFormArea>
                 <MyTextInput
                   label="Objet"
-                  // icon="id-badge"
+                  etoile="*"
+
                   placeholder=""
                   placeholderTextColor={darkLight}
                   onChangeText={handleChange('objet')}
@@ -256,7 +268,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
                   value={values.objet}
                 />
                 <View >
-                <Text style={styles.label}>Type de consultation</Text> 
+                <Text style={styles.label}>Type de consultation<Text style={{ color: 'red' }}>*</Text></Text> 
          <SelectDropdownStyle>              
          <SelectDropdown
             label="Specialité"
@@ -270,24 +282,32 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
             rowTextForSelection={(item, index) => {
               return item;
             }}
+            renderDropdownIcon={() => (
+              <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+            )} 
             buttonStyle={styles.dropdownButton}
             buttonTextStyle={styles.dropdownButtonText}
             dropdownStyle={styles.dropdown}
             rowStyle={styles.dropdownRow}
             rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir le type de consultation"
+            defaultButtonText="Choisir le type"
           />
           </SelectDropdownStyle>
               
                 </View>
-                <Text style={styles.label}>Médecin</Text>
+                <Text style={styles.label}>Médecin <Text style={{ color: 'red' }}>*</Text></Text>
 
                 <SelectDropdownStyle>
                   <SelectDropdown
                     data={options}
                     onSelect={(selectedItem, index) => {
                       setFieldValue('contact', selectedItem);
-                    }} defaultButtonText="Choisir votre médecin"
+                    }} 
+                    renderDropdownIcon={() => (
+                      <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+                    )} 
+                    defaultButtonText="Choisir votre médecin"
+
                     buttonStyle={styles.dropdownButton}
                     buttonTextStyle={styles.dropdownButtonText}
                     dropdownStyle={styles.dropdown}
@@ -298,15 +318,29 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
                 </SelectDropdownStyle>
 
                 <Text style={styles.label}>Ordonnance(s)</Text>
-                <ViewImage style={styles.imageContainer}>
-                  <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{ paddingTop: 15, paddingLeft: 70, justifyContent: 'center', alignItems: 'center' }} />
-                  <TouchableOpacity onPress={() => takeImageHandler(setFieldValue)} style={{ position: 'absolute', padding: 25, left: 70, paddingRight: 65, paddingLeft: 15, borderRadius: 20, fontSize: 16, height: 200, width: '90%', zIndex: 1, marginVertical: 3, justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
-                    {values.image && <Image source={{ uri: values.image }} style={{ width: '100%', height: 150, marginTop: -55 }} />}
-                  </TouchableOpacity>
-
-                  <Text style={{ textAlign: 'center', paddingRight: 30, color: darkLight }}>Ajouter votre document</Text>
-
-                </ViewImage>
+                <>
+      <View style={styles.imageRow}>
+        {values.images.map((image, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => takeImageHandler(index, setFieldValue, values)}
+            style={styles.imageContainer}
+          >
+            <Image source={{ uri: image.uri }} style={styles.image} />
+          </TouchableOpacity>
+        ))}
+        {values.images.length < 3 && (
+          <TouchableOpacity
+            style={styles.placeholder}
+            onPress={() => takeImageHandler(values.images.length, setFieldValue, values)}
+          >
+            <Ionicons name="camera" size={40} color={brand} />
+            <Text style={styles.placeholderText}>Ajouter votre document </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      
+    </>
                 <Text style={styles.label}>Dépenses</Text>
                 <Text style={styles.label2}>Coût                                    Remboursement</Text>
             <TextInput
@@ -338,9 +372,9 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
                     </ButtonText>
                   </RegularButton>}
 
-                  {isSubmitting && <RegularButton2 disabled={true}>
+                  {isSubmitting && <RegularButton disabled={true}>
                     <ActivityIndicator size="large" color={primary} />
-                  </RegularButton2>}
+                  </RegularButton>}
                 </View>
                 <ExtraView>
 
@@ -362,21 +396,32 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
   );
 }
 
-const MyTextInput = ({ label, icon, icon2,  ...props }) => {
+const MyTextInput = ({ label,etoile,icon3,  icon,icon2, ...props }) => {
   return (
-    <View>
-      <StyledInputLabel2> {label}</StyledInputLabel2>
-      <LeftIcon>
-        <Octicons name={icon} size={24} color={brand} />
-      </LeftIcon>
-      <LeftIcon>
-        <Fontisto name={icon2} size={25} color={brand} marginTop='10' />
-      </LeftIcon>
+      <View>
+          <LeftIcon>
+              <Octicons name={icon} size={24} color={brand} />
 
-          <StyledTextInput  {...props} />
-      
+          </LeftIcon>
+          <LeftIcon>
+              <FontAwesome5 name={icon2} size={24} color={brand} />
 
-    </View>
+          </LeftIcon>
+          <LeftIcon>
+              <Fontisto name={icon3} size={25} color={brand} marginTop='10' />
+          </LeftIcon>
+          
+          <RowContainer2>
+        <StyledInputLabel2> {label}  </StyledInputLabel2>
+        <StyledEtoile> {etoile}  </StyledEtoile>
+        </RowContainer2>
+              
+                  
+                  <StyledTextInput  {...props} />
+                  
+
+
+      </View>
   );
 
 }
@@ -517,22 +562,22 @@ const styles = StyleSheet.create({
   },
   dropdownButton: {
     backgroundColor: secondary,
-    alignItems: 'center',
-    borderRadius: 20,
-    padding: 15,
+    alignItems:'center',
+    borderRadius:20,
+    padding:15,
     //paddingLeft:55,
-    paddingRight: 0,
-    height: 50,
-    marginVertical: -7,
-    marginBottom: 10,
-    marginLeft: 34,
-    marginRight: -10,
+    paddingRight:0,
+    height:50,
+    marginVertical:-7,
+    marginBottom:10, 
+   marginLeft:-10,
+    marginRight:-10,
   },
   dropdownButtonText: {
     fontSize: 16,
-    color: '#333',
+    color: brand,
     //paddingHorizontal:-50,
-    paddingRight: -90,
+    paddingRight:-90,
   },
   dropdown: {
     borderWidth: 1,
@@ -614,6 +659,40 @@ const styles = StyleSheet.create({
     shadowOffset: 2,
     shadowRadius: 1,
     elevation: 5,
+  },
+  imageRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop:5
+  },
+  imageContainer: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  placeholder: {
+    width: 100,
+    height: 100,
+    backgroundColor: secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf:'center',
+    borderRadius:10,
+    shadowOpacity:0.25,
+shadowOffset:{width:2, height:4},
+shadowRadius:1,
+elevation:5,
+  },
+  placeholderText: {
+    color: brand ,
+    fontSize: 14,
+    marginTop: 5,
   },
 
 });

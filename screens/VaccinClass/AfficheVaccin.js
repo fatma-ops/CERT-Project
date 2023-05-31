@@ -36,24 +36,28 @@ const AfficheVaccin = ({ navigation , route }) => {
   const [imageModal, setImageModal] = useState(null);
 
 
+
   const [imageData, setImageData] = useState(null);
 
   const handleImageClick = (image) => {
     setImageModal(image);
     setShowModalImage(true);
   };
+ 
 
+  const [vaccinImages, setVaccinImages] = useState([]);
 
   useEffect(() => {
-    fetchImageData();
+    fetchVaccinImages();
   }, []);
 
-  const fetchImageData = async () => {
+  const fetchVaccinImages = async () => {
     try {
-      const response = await axios.get(`${ngrokLink}/api/v1/vaccin/imageVaccin/${id}`);
-      setImageData(response.data);
+      const response = await axios.get(`${ngrokLink}/api/v1/vaccin/imagesVaccin/${id}`);
+      const images = response.data.images;
+      setVaccinImages(images);
     } catch (error) {
-      console.error('Error fetching image data:', error);
+      console.error('Error fetching analyse images:', error);
     }
   };
   const buttonHandler = (isDeleteConfirmed) => {
@@ -79,7 +83,7 @@ const AfficheVaccin = ({ navigation , route }) => {
 //Delete_______________________________________________________________________________________________
  const handleDelete = async () => {
       try {
-        const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}/api/v1/analyse/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
@@ -114,41 +118,39 @@ const handleModify = () => {
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
       </View>
+
+     
+
       <View style={styles.content}>
+    <View style={styles.imageContainer}>
+      {vaccinImages.map((image, index) => (
+        <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
+          <Image
+            source={{ uri: `data:${image.contentType};base64,${image.data}` }}
+            style={styles.thumbnail}
+          />
+        </TouchableOpacity>
+      ))}
+    </View>
 
-{imageData && imageData.image.contentType && imageData.image.data && (
-  <TouchableOpacity onPress={() => handleImageClick(imageData)}>
-    <Image
-      source={{ uri: `data:${imageData.image.contentType};base64,${imageData.image.data}` }}
-      style={{ width: 350, height: 350, alignSelf:'center', borderRadius:6 }}
-    />
-  </TouchableOpacity>
-)}
-
-        <View style={styles.infoContainer}>
-          <View style={styles.infoItem}>
-          <FontAwesome name="heartbeat" size={20} color={brand} style={{marginRight: 10}} />
-
-            <Text style={styles.label}>Maladie ciblée:</Text>
-            <Text style={styles.value}>{selectedAnalyse.maladieCible}</Text>
-          </View>
-          <View style={styles.infoItem}>
-          <FontAwesome name="calendar" size={20} color={brand} style={{marginRight: 10}} />
-
-            <Text style={styles.label}>Date:</Text>
-            <Text style={styles.value}>{selectedAnalyse.date}</Text>
-          </View>
-          <View style={styles.infoItem}>
-          <FontAwesome name="comment" size={20} color={brand} style={{marginRight: 10}} />
-            <Text style={{fontSize: 18,fontWeight: 'bold',marginRight: 10,alignSelf:'center',color: brand,marginTop:-20}}>Commentaire:</Text>
-            <Text style={styles.value}>{selectedAnalyse.commentaire}</Text>
-          </View>
-        </View>
-
-
-
-          
+    <View style={styles.infoContainer}>
+      <View style={styles.infoItem}>
+        <FontAwesome name="heartbeat" size={20} color={brand} style={{ marginRight: 10 }} />
+        <Text style={styles.label}>Maladie ciblée:</Text>
+        <Text style={styles.value}>{selectedAnalyse.maladieCible}</Text>
       </View>
+      <View style={styles.infoItem}>
+        <FontAwesome name="calendar" size={20} color={brand} style={{ marginRight: 10 }} />
+        <Text style={styles.label}>Date:</Text>
+        <Text style={styles.value}>{selectedAnalyse.date}</Text>
+      </View>
+      <View style={styles.infoItem}>
+        <FontAwesome name="comment" size={20} color={brand} style={{ marginRight: 10 }} />
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginRight: 10, alignSelf: 'center', color: brand, marginTop: -20 }}>Commentaire:</Text>
+        <Text style={styles.value}>{selectedAnalyse.commentaire}</Text>
+      </View>
+    </View>
+  </View>
 
       <MessageModalImage2
       modalVisible={modalVisible} 
@@ -322,6 +324,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 15,
     fontWeight: 'bold',
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 1,
+    marginBottom: 10,
+  },
+  thumbnail: {
+    width: 120, // Ajustez la largeur selon vos besoins
+    height: 120, // Ajustez la hauteur selon vos besoins
+    borderRadius: 6,
+    marginHorizontal: 5, // Ajoutez une valeur de marge horizontale
   },
   imageModalContainer: {
     flex: 1,

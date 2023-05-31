@@ -86,7 +86,7 @@ return (
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>         Détails du médecin</Text>
+        <Text style={styles.headerTitle}> {selectedAnalyse.nom}</Text>
         <StatusBar style="Light" />
 
         <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
@@ -166,14 +166,18 @@ container: {
 header: {
   flexDirection: 'row',
   alignItems: 'center',
-  fontWeight:'700',
   justifyContent:'space-between',
-  marginTop: StatusBarHeight ,
-  //paddingBottom: 1,
   borderBottomWidth: 0.25,
-  borderBottomColor: darkLight,
-  //marginLeft: -25,
-  //marginRight: -25,
+  borderBottomColor: brand,
+  height:60
+ 
+
+},
+backButton: {
+  alignSelf:'center'
+},
+moreButton: {
+  
 },
 sectionItem: {
   fontSize: 18,
@@ -192,14 +196,7 @@ sectionItem2: {
   paddingBottom:5,
   color:brand,
 },
-backButton: {
-  padding: 10,
-  marginRight: 10,
-},
-moreButton: {
-  padding: 10,
-  marginLeft:40,
-},
+
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,

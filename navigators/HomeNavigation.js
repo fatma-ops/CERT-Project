@@ -32,6 +32,12 @@ import AfficheMedecin from "../screens/MedecinClass/AfficheMedecin";
 //HomeScreen________________________________________________________________________
 import HomeScreen from "../screens/HomeScreen";
 //_____________________________________________________________________________
+import ListeTraitement from "../screens/TraitementClass/ListeTraitement";
+import Traitement from "../screens/TraitementClass/Traitement"
+import AfficheTraitement from "../screens/TraitementClass/AfficheTraitement";
+
+//
+import Depenses from "../screens/Depenses"
 
 
 const Stack = createNativeStackNavigator();
@@ -76,6 +82,11 @@ export default function HomeNavigation (){
         <Stack.Screen name="AddMedecin" component={AddMedecin}  />
         <Stack.Screen name="AfficheMedecin" component={AfficheMedecin}  />
         <Stack.Screen name="ModifyMedecin" component={ModifyMedecin}  />
+
+        <Stack.Screen name="Traitement" component={Traitement} />
+        <Stack.Screen name="ListeTraitement" component={ListeTraitement} />
+        <Stack.Screen name="AfficheTraitement" component={AfficheTraitement}  />
+        <Stack.Screen name="Depenses" component={Depenses}  />
 
 
 

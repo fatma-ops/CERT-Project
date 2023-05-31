@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Formik } from 'formik';
 import { View, ActivityIndicator,Text  } from 'react-native';
-import { Octicons, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Octicons, Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -47,22 +47,18 @@ import RowContainer2 from '../../components/Containers/RowContainer2';
 const { green, brand, darkLight, primary , secondary , tertiary } = Colors;
 
 
+//________________________________________________________________________________
 const Signup = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
-    
+//Model_______________________________________________________________________    
 const [modalVisible , setModalVisible] = useState(false);
 const [modalMessageType , setModalMessageType] = useState('');
 const [headerText , setHeaderText]= useState('');
 const [modalMessage , setModalMessage] = useState('');
 const [buttonText , setButtonText] = useState('');
-
-const groupesanguin = [
-    'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'
-    
-  ];
 
 const buttonHandler = () => {
     if(modalMessageType === 'success'){
@@ -80,29 +76,41 @@ const buttonHandler = () => {
         setModalVisible(true);
         }
 
-    const MyTextInput = ({ label,etoile, icon, isPassword, hidePassword, setHidePassword, ...props }) => {
+
+
+
+//_________________________________________________________________________________
+const groupesanguin = [
+    'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'
+    
+  ];
+
+
+ //Custom TextInput____________________________________________________________________   
+    const MyTextInput = ({ label, etoile,icon, isPassword, hidePassword, setHidePassword, ...props }) => {
         return (
             <View>
-                 <RowContainer2>
-          <StyledInputLabel> {label}  </StyledInputLabel>
-          <StyledEtoile> {etoile}  </StyledEtoile>
-          </RowContainer2>
-                <StyledTextInput  {...props} />
                 <LeftIcon>
                     <Octicons name={icon} size={24} color={brand} />
+      
                 </LeftIcon>
+                <RowContainer2>
+                <StyledInputLabel> {label}  </StyledInputLabel>
+                <StyledEtoile> {etoile}  </StyledEtoile>
+                </RowContainer2>
+                <StyledTextInput  {...props} />
                 {isPassword && (
                     <RightIcon onPress={() => setHidePassword(!hidePassword)}>
                         <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
                     </RightIcon>
-
+      
                 )}
-
+      
             </View>
         );
-
-    };
-    
+      
+      };
+  //Custom Text Input 2 _____________________________________________________________  
 
     const MyTextInput2 = ({ label,etoile ,icon, isPassword, hidePassword, setHidePassword, ...props }) => {
         return (
@@ -126,15 +134,9 @@ const buttonHandler = () => {
         );
 
     };
-    
 
-
-
-
-
-
-      
-    const handleSignup = (credentials, setSubmitting) => {
+//Fonction signup__________________________________________________________________
+      const handleSignup = (credentials, setSubmitting) => {
       
             setSubmitting(true);
 
@@ -168,24 +170,19 @@ const buttonHandler = () => {
           };
 
          
-
+//Message_________________________________________________________________________
           
     const handleMessage = (message, type = 'FAILED') => {
         setMessage(message);
         setMessageType(type);
     }
     
-    const temporaryUserPersist = async (credentials) => {
-       try{
-         await AsyncStorage.setItem('tempUser' , JSON.stringify(credentials));
-       }catch(error){
-         handleMessage('Error with initial data handling');
-       }
+   
 
 
 
 
-    }
+    
     const persistLogin = (credentials, message, status) => {
         AsyncStorage.setItem('DossierMedicaleCredentials', JSON.stringify(credentials))
             .then(() => {
@@ -199,14 +196,14 @@ const buttonHandler = () => {
             })
     }
     
-
+//JSX___________________________________________________________________________
     
 
 
     return (
         <KeyboardAvoidingWrapper>
-            <StyledContainer2>
-                <StatusBar style="light" />
+            <StyledContainer>
+                <StatusBar style={brand} />
                 <InnerContainer>
                     <PageSignup> Bienvenue ! </PageSignup>
                     <SubTitle>S'inscrire</SubTitle>
@@ -261,6 +258,7 @@ const buttonHandler = () => {
 
                                     keyboardType="email-address"
                                 />
+      
          <Text style={styles.label}>Groupe Sanguin</Text> 
          
 
@@ -281,12 +279,15 @@ const buttonHandler = () => {
             rowTextForSelection={(item, index) => {
               return item;
             }}
+            renderDropdownIcon={() => (
+                <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+              )}
             buttonStyle={styles.dropdownButton}
             buttonTextStyle={styles.dropdownButtonText}
             dropdownStyle={styles.dropdown}
             rowStyle={styles.dropdownRow}
             rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir cotre groupe sanguin"
+            defaultButtonText="Choisir votre groupe sanguin"
           >
                  
                        
@@ -374,7 +375,7 @@ const buttonHandler = () => {
                             headerText = {headerText}
                             message={modalMessage}
                             buttonText={buttonText} /> 
-            </StyledContainer2>
+            </StyledContainer>
         </KeyboardAvoidingWrapper>
 
 
@@ -402,7 +403,6 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: '#ccc',
       padding: 10,
-      borderRadius: 5,
       width: '100%',
       marginBottom: 20,
   },
@@ -424,17 +424,28 @@ const styles = StyleSheet.create({
  
    },
    dropdownButton: {
-     backgroundColor: secondary,
-     alignItems:'center',
-     marginTop:-10,
-     
-     
-   },
+    backgroundColor: secondary,
+    alignSelf:"center",
+    marginTop: -10,
+
+    width: '100%', // Ajoutez cette ligne pour définir la largeur du bouton à 100%
+  },
    dropdownButtonText: {
-     fontSize: 16,
-     color: '#333',
+     fontSize: 17,
+     color: brand ,
+     alignItems:'center',
+
+     marginLeft: -27, // Espace à gauche de l'icône
+
+
    
    },
+   dropdownIcon: {
+    left:15,
+    position:'absolute',
+    zIndex:1,     
+
+  },
    dropdown: {
      borderWidth: 1,
      borderColor: '#ccc',

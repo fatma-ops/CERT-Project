@@ -15,6 +15,7 @@ import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
+import RegularButton from '../../components/Buttons/RegularButton';
 
 const { brand, darkLight, primary , secondary , tertiary } = Colors;
 
@@ -256,15 +257,15 @@ const  ModifyMedecin = ({navigation , route}) =>  {
                               {message}
                           </MsgBox>
                           <View style={{ justifyContent: 'center' }}>
-                          {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center' , alignSelf:'center'}}>
+                          {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center' , alignSelf:'center'}}>
                                     <ButtonText >
                                      Enregistrer
                                     </ButtonText>
-                                </RegularButton3>}
+                                </RegularButton>}
 
-                                {isSubmitting && <RegularButton3 disabled={true}>
+                                {isSubmitting && <RegularButton disabled={true}>
                                     <ActivityIndicator size="large" color={primary} />
-                                </RegularButton3>}
+                                </RegularButton>}
                                 </View>
                                 <ExtraView>
                              

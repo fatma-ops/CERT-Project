@@ -7,7 +7,6 @@ import { Formik } from 'formik';
 import { View, ActivityIndicator } from 'react-native';
 import {  Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
-import * as Google from 'expo-google-app-auth'
 import {
     StyledContainer,
     InnerContainer,
@@ -33,6 +32,8 @@ import {
     ViewMot,
     StyledEtoile,
 } from '../../components/styles';
+const { brand, darkLight, primary } = Colors;
+
 import { ngrokLink } from '../../config';
 
 //Api Client
@@ -40,20 +41,19 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import RowContainer2 from '../../components/Containers/RowContainer2';
-
-const { brand, darkLight, primary } = Colors;
+//API URL_________________________________________________________________________________
 
 const API_URL = `${ngrokLink}/api/v1/user/`;
 
+//__________________________________________________________________________________
 const Login = ({navigation}) => {
   
   const {storedCredentials , setStoredCredentials}=useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
   const [hidePassword, setHidePassword] = useState(true);
-  const [googleSubmitting , setGoogleSubmitting]=useState(false);
 
-
+//Fonction Login ____________________________________________________________________
   const handleLogin = async (credentials, setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
@@ -68,7 +68,7 @@ const Login = ({navigation}) => {
       });
   
       if (!response.ok) {
-        throw new Error('Invalid credentials');
+        throw new Error('identifiants invalides');
         setSubmitting(false);
       }
   
@@ -84,10 +84,10 @@ const Login = ({navigation}) => {
       handleMessage(error.message);
     }
   };
-//context 
+
 
    
-
+//Fonction Enregistrer les donnés dans asyncStorage____________________________________
 const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,allergie,_id) => {
     const credentials = { token, nom, email, prenom,groupeSanguin,allergie,_id };
     AsyncStorage.setItem('DossierMedicaleCredentials', JSON.stringify(credentials))
@@ -100,40 +100,13 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
         handleMessage('La persistance de la connexion a échoué');
       });
   };
-  
+  //Message ___________________________________________________________________
     const handleMessage = (message, type = 'FAILED') => {
         setMessage(message);
         setMessageType(type);
     };
 
-    const handleGoogleSignin = () => {
-        setGoogleSubmitting(true);
-        const config = {iosClientId:`34022021330-g3mf2rvtd0u81edlhg1dvt2mp7618np9.apps.googleusercontent.com`, 
-        androidClientId:`34022021330-96et3uniejlfecdmbsnkjddrp386sidg.apps.googleusercontent.com` ,
-        scopes: ['profile' , 'email ']
-      };
-      Google.logInAsync(config)
-      .then((result) => {
-        const {type , user} = result ;
-        if(type == 'success' ){
-            const {email, name , photoUrl } = user;
-            handleMessage('Google signin was successful' , 'SUCCESS' );
-            setTimeout(() => navigation.navigate('Welcome', {email , name , photoUrl}), 1000)
-      
-        }else{
-            handleMessage('Google signin was cancelled');
-        }
-        setGoogleSubmitting(false);
-      
-      })
-      .catch(error => {
-        console.log(error);
-        handleMessage("Une erreur s'est produite. Vérifiez votre connexion réseau et réessayez.");
-        setGoogleSubmitting(false);
-      })
-        
-        
-      };
+   //JSX___________________________________________________________________________ 
 
     return (
       <KeyboardAvoidingWrapper>        
@@ -182,7 +155,11 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
                               hidePassword={hidePassword}
                               setHidePassword={setHidePassword}
                           />
-
+                           <View style={{justifyContent:'flex-end' , alignItems:'flex-end'}}>
+                          <Motdepasse onPress={() => navigation.navigate('ForgetPassword')}>
+                              Mot de passe oublié ?
+                          </Motdepasse>
+                          </View>
                           <MsgBox type={messageType}>
                               {message}
                           </MsgBox>
@@ -196,38 +173,26 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
                           {isSubmitting && <StyledButton disabled={true}>
                               <ActivityIndicator size="large" color={primary} />
                           </StyledButton>}
-                          <ViewMot>
-                          <Motdepasse onPress={() => navigation.navigate('ForgetPassword')}>
-                              Mot de passe oublié ?
-                          </Motdepasse>
-                          </ViewMot>
+                          
                          
                           <Line />
-                          {!googleSubmitting &&  (
-                             <StyledButton google={true} onPress={handleGoogleSignin}>
-                              <Fontisto name="google" color={primary} size={25} />
-                              <ButtonText google={true}>
-                                  S'identifier avec google
-                              </ButtonText>
-                          </StyledButton>)}
-
-                          {googleSubmitting && (
-                               <StyledButton google={true} disabled = {true}>
-                              <ActivityIndicator size="large" color={primary} />
-
-                               </StyledButton>
-
-                          )}
                           <ExtraView>
                               <ExtraText>
                                   Nouveau sur Dossier médical ?
                               </ExtraText>
-                              <TextLink onPress={() => navigation.navigate('Signup')}>
-                                  <TextLinkContent >
-                                      S'inscrire
-                                  </TextLinkContent>
-                              </TextLink>
                           </ExtraView>
+                          
+                             <StyledButton inscription={true} onPress={() => navigation.navigate('Signup')} >
+                              <ButtonText inscription={true}>
+                                  S'inscrire
+                              </ButtonText>
+                          </StyledButton>
+
+                          
+                              
+
+                          
+                          
 
 
 
@@ -240,6 +205,8 @@ const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,a
 
   );
 };
+
+//Custom text input __________________________________________________________________
 const MyTextInput = ({ label, etoile,icon, isPassword, hidePassword, setHidePassword, ...props }) => {
   return (
       <View>

@@ -13,6 +13,7 @@ import ListeTraitement from '../screens/TraitementClass/ListeTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
 import HomeNavigation from './HomeNavigation'
 import Notification from '../screens/TraitementClass/Notification'
+import Medecin from '../screens/MedecinClass/Medecin'
 
 
 const { darkLight, brand , red } = Colors;
@@ -61,8 +62,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="Notification"
-                component={Notification}
+            <Tab.Screen name="Medecin"
+                component={Medecin}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (

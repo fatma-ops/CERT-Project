@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import MessageModal from '../../components/Modals/MessageModal';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle} from '../../components/styles';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle, StyledEtoile} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -13,6 +13,8 @@ import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
+import RowContainer2 from '../../components/Containers/RowContainer2';
+import RegularButton from '../../components/Buttons/RegularButton';
 const { brand, darkLight, primary , secondary, tertiary} = Colors;
 
 const  AddMedecin = ({navigation}) =>  {
@@ -147,14 +149,16 @@ const  AddMedecin = ({navigation}) =>  {
           <MyTextInput
            label="Nom du médecin"
            icon="person"
+           etoile="*"
            placeholder="Dr..."
            placeholderTextColor={darkLight}
            onChangeText={handleChange('nom')}
            onBlur={handleBlur('nom')}
-           value={values.nom}                    
+           value={values.nom} 
           />
-         
-         <Text style={styles.label}>Spécialité</Text> 
+<Text style={styles.label}>
+  Spécialité<Text style={{ color: 'red' }}>*</Text>
+</Text>
          <SelectDropdownStyle>              
          <SelectDropdown
             label="Specialité"
@@ -168,6 +172,9 @@ const  AddMedecin = ({navigation}) =>  {
             rowTextForSelection={(item, index) => {
               return item;
             }}
+            renderDropdownIcon={() => (
+              <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+            )}
             buttonStyle={styles.dropdownButton}
             buttonTextStyle={styles.dropdownButtonText}
             dropdownStyle={styles.dropdown}
@@ -215,15 +222,15 @@ const  AddMedecin = ({navigation}) =>  {
                               {message}
                           </MsgBox>
                           <View style={{ justifyContent: 'center' }}>
-                          {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center' , alignSelf:'center'}}>
+                          {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center' , alignSelf:'center'}}>
                                     <ButtonText >
                                       Ajouter
                                     </ButtonText>
-                                </RegularButton3>}
+                                </RegularButton>}
 
-                                {isSubmitting && <RegularButton3 disabled={true}>
+                                {isSubmitting && <RegularButton disabled={true}>
                                     <ActivityIndicator size="large" color={primary} />
-                                </RegularButton3>}
+                                </RegularButton>}
                                 </View>
                                 <ExtraView>
                              
@@ -243,7 +250,7 @@ const  AddMedecin = ({navigation}) =>  {
   );
 }
 
-const MyTextInput = ({ label, icon,icon2, ...props }) => {
+const MyTextInput = ({ label,etoile, icon,icon2, ...props }) => {
     return (
         <View>
             <LeftIcon>
@@ -255,12 +262,15 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
   
             </LeftIcon>
             
-            <StyledInputLabel2> {label}</StyledInputLabel2>
+            <RowContainer2>
+          <StyledInputLabel2> {label}  </StyledInputLabel2>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>
                 
                     
                     <StyledTextInput  {...props} />
                     
-            
+
   
         </View>
     );
@@ -385,7 +395,7 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
    },
    dropdownButtonText: {
      fontSize: 16,
-     color: '#333',
+     color: brand,
    
    },
    dropdown: {
@@ -407,6 +417,12 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
      fontSize: 18,
      marginTop: 20,
    },
+   dropdownIcon: {
+    left:10,
+    position:'absolute',
+    zIndex:1,     
+
+  },
 });
 
 

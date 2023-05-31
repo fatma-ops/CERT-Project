@@ -49,9 +49,13 @@ const ListeVaccin = ({ navigation }) => {
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
-        <Text style={styles.headerTitle}>                    Mes vaccins</Text>
-      </View>
-      <View style={{width:280 , paddingHorizontal:12 }}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="left" size={25} color='white' />
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.headerTitle}>Mes vaccins </Text></View>
+       </View>
+      <View style={{width:280 , paddingHorizontal:12 , height:170 }}>
       <StatusBar style="Light" />
       <SearchBar
            value={searchQuery}
@@ -140,11 +144,20 @@ paddingBottom:200,
 header2: {
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'center', // To center the header
- 
-  marginHorizontal:-10 , // To remove the left and right padding
-  paddingHorizontal: 10, // To add the padding back
+  paddingLeft: 10,
+  backgroundColor:brand,
+  marginTop:90,
 },
+
+headerTitle: {
+  fontWeight: 'bold',
+  fontSize: 20,
+  color:'white',
+   marginLeft:100
+  
+
+},
+
 header: {
   flexDirection: 'row',
   alignItems: 'center',
@@ -157,15 +170,9 @@ header: {
   marginRight:-50,
   marginLeft:10,
 },
-headerTitle: {
-  fontWeight: 'bold',
-  fontSize: 20,
-  color:'white'
 
-},
 backButton: {
-  marginRight: 10,
-  marginLeft: -9,
+ 
 },
 
 divider:{

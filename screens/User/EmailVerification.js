@@ -113,14 +113,14 @@ const handleEmailVerification = async () => {
         console.log('Verification response:', result);
         setVerifing(false);
         if (result.verified) {
-          return ShowModal('success', 'Votre code a été vérifié avec succès!' , '');
+          return ShowModal('success', 'Votre email a été vérifié avec succès!' , '');
         } else {
           return ShowModal('error', 'Le code que vous avez entré est incorrect.');
         }
       } catch (error) {
         setVerifing(false);
         console.log('Verification error:', error);
-        return ShowModal('error', 'Une erreur s\'est produite lors de la vérification de votre code.');
+        return ShowModal('error', 'Le code que vous avez entré est incorrect.');
       }
       };
 
