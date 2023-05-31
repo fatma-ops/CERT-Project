@@ -9,7 +9,7 @@ import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel 
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
-import RegularButton3 from '../../components/Buttons/RegularButton3';
+import RegularButton from '../../components/Buttons/RegularButton';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
@@ -120,13 +120,7 @@ const  AddMedecin = ({navigation}) =>  {
     <KeyboardAvoidingWrapper>
         <StyledContainer>
         <StatusBar style="light" />
-       
-      
-     
-
-     <InnerContainer>  
-                    <SubTitle></SubTitle>
-                   
+     <InnerContainer>           
     <Formik
       initialValues={{ nom: '', adresse: '', specialite: '', numero:'' , commentaire:'' }}
       onSubmit={(values, { setSubmitting }) => {
@@ -142,8 +136,6 @@ const  AddMedecin = ({navigation}) =>  {
     >
       {({ handleChange, handleBlur, handleSubmit,setFieldValue , values , isSubmitting }) => (
         <StyledFormArea>
-          
-         
           <MyTextInput
            label="Nom du médecin"
            icon="person"
@@ -215,11 +207,11 @@ const  AddMedecin = ({navigation}) =>  {
                               {message}
                           </MsgBox>
                           <View style={{ justifyContent: 'center' }}>
-                          {!isSubmitting && <RegularButton3 onPress={handleSubmit} style={{ justifyContent: 'center' , alignSelf:'center'}}>
+                          {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center' , alignSelf:'center'}}>
                                     <ButtonText >
                                       Ajouter
                                     </ButtonText>
-                                </RegularButton3>}
+                                </RegularButton>}
 
                                 {isSubmitting && <RegularButton3 disabled={true}>
                                     <ActivityIndicator size="large" color={primary} />
@@ -291,13 +283,13 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       
       header: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignContent: 'center',
         //justifyContent:'space-between',
         marginTop: 20,
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        marginLeft: -25,
+        marginLeft: -15,
         marginRight: -25,
     
       },
@@ -305,7 +297,8 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
         fontWeight: 'bold',
         fontSize: 20,
         color: brand,
-        alignItems:'center'
+        alignItems:'center',
+        marginLeft:20,
     
       },
       backButton: {

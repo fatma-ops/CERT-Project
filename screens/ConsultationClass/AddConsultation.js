@@ -232,7 +232,6 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
         <StatusBar style="light" />
         
         <InnerContainer>
-          <SubTitle></SubTitle>
           <Formik
             initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', image: null }}
             onSubmit={(values, { setSubmitting }) => {
@@ -364,7 +363,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
 
 const MyTextInput = ({ label, icon, icon2,  ...props }) => {
   return (
-    <View>
+    <View style={{marginTop:-30}}>
       <StyledInputLabel2> {label}</StyledInputLabel2>
       <LeftIcon>
         <Octicons name={icon} size={24} color={brand} />
@@ -420,8 +419,8 @@ const styles = StyleSheet.create({
 
   },
   backButton: {
-    marginRight: 50,
-    marginLeft: ScreenWidth - 350,
+    marginRight: 40,
+    marginLeft: ScreenWidth - 340,
   },
 
   imageContainer:

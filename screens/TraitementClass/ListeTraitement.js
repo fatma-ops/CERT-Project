@@ -36,58 +36,66 @@ const ListeTraitement = ({ navigation }) => {
   }, [email]);
 
   return ( 
+    
       <View style={[styles.Container]}>
         <StatusBar style="white" />
         <View style={styles.headingContainer}>
-          <View style={{ flexDirection: 'column' }}>
           <View style={styles.header2}>
-        <Text style={styles.headerTitle}>Mes medicaments</Text>
-      </View>
-      <View style={{width:320 , paddingHorizontal:5 , top:-20,left:10}}>            
-        <StatusBar style="Light" />
-              <SearchBar
-                value={searchQuery}
-                onChangeText={handleOnSearchInput}
-                containerStyle={{ marginLeft: 45, marginTop: 0 }}
-              />
-            </View>
+            <Text style={styles.headerTitle}>Mes Traitements</Text>
           </View>
-        </View>   
-    <View style={styles.Container2}>
-      <FlatList
-  style={styles.listContainer}
-  contentInset={{ bottom: 400 }}
-  data={traitements}
-  keyExtractor={(item, index) => String(index)}
-  renderItem={({ item }) => (
-      <View> 
-        {item.traitements && item.traitements.length > 0 ? (
-          item.traitements.map((sousTraitement, sousTraitementIndex) => (
-            <TouchableOpacity
-              key={sousTraitementIndex}
-              onPress={() => {navigation.navigate("AfficheTraitement", {
-              selectedTraitement: sousTraitement,})}}style={styles.subTreatmentContainer}
-            >
-            <Image
-            source={require('../../assets/img/med.jpg')}
-            style={styles.image}
+          <View style={{ width: 300, paddingHorizontal: 5, top: -20, left: -20 }}>
+            <StatusBar style="Light" />
+            <SearchBar
+              value={searchQuery}
+              onChangeText={handleOnSearchInput}
+              containerStyle={{ marginLeft: 45, marginTop: 0 }}
+            />
+          </View>
+        </View>
+        <View style={styles.Container2}>
+          <FlatList
+            style={styles.listContainer}
+            contentInset={{ bottom: 400 }}
+            data={traitements}
+            keyExtractor={(item, index) => String(index)}
+            renderItem={({ item }) => (
+              <View style={styles.traitementContainer}>
+                <Text style={styles.treatmentTitle}>Traitement</Text>
+                <Text style={styles.coutRemboursement}>
+                Cout: {item.cout} | Remboursement: {item.remboursement}
+                </Text>
+                {item.medicaments && item.medicaments.length > 0 ? (
+                  item.medicaments.map((medicament, medicamentIndex) => (
+                    <View
+                      style={styles.subTreatmentContainer}
+                    >
+                      <Image
+                        source={require('../../assets/img/med.jpg')}
+                        style={styles.image}
+                      />
+                      <View style={styles.fois}>
+                        <Text style={styles.title}>{medicament.nommedicament}</Text>
+                        <View style={styles.nbrJoursContainer}>
+                          <Text style={styles.nbrJours}>
+                            {medicament.nbrfois}X{medicament.nbrJours}
+                          </Text>
+                        </View>
+                        <Text style={styles.dateContainer}>
+                          25 mai 2023
+                        </Text>
+                      </View>
+                    </View>
+                  ))
+                ) : (
+                  <Text>Aucun sous-traitement trouvé</Text>
+                )}
+              </View>
+            )}
           />
-              <View style={styles.fois}>
-              <Text style={styles.title}>{sousTraitement.medicament} </Text>
-              <Text style={styles.dateContainer}>{sousTraitement.dateDeCommencement}</Text>
-              <Text style={styles.dateContainer2}>{sousTraitement.nbrfois}X{sousTraitement.nbrJours}</Text>
-             </View>
-            </TouchableOpacity> 
-          ))
-        ) : ( 
-          <Text>Aucun sous-traitement trouvé</Text>
-        )}
+        </View>
       </View>
-  )}
-/>
-</View>
-</View>
     );
+    
   };
 
 const styles = StyleSheet.create({
@@ -116,13 +124,13 @@ Container:{
 header2: {
   alignSelf: 'center',
   justifyContent: 'center', 
-  paddingLeft:75, 
+  //paddingLeft:75, 
   marginTop:StatusBarHeight,
 },
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  color:'white'
+  color:'white',
 },
 listItemTitle: {
   fontWeight: "bold",
@@ -130,16 +138,17 @@ listItemTitle: {
   marginBottom: 5,
 }, 
 headingContainer:{
-  flexDirection:'row',
   justifyContent:'space-between',
   alignItems:'center',
   backgroundColor:brand,
   paddingTop:20,
   // paddingBottom:20,    
 },
+
 title: {
-  fontSize: 22,
+  fontSize: 20,
   marginLeft:20,
+  fontWeight:'500'
 },
 fois:{ 
   flexDirection:'column',
@@ -147,6 +156,17 @@ fois:{
   //alignContent:'center',
   // backgroundColor:red,
   //paddingLeft:80,
+
+  },
+  nbrJours:{ 
+  flexDirection:'column',
+  justifyContent:'flex-start',
+  alignContent:'center',
+  // backgroundColor:red,
+  paddingLeft:20,
+  fontWeight:'500',
+  fontSize:16, 
+  marginTop:5,
 
   },
 dateContainer2:{
@@ -160,12 +180,14 @@ dateContainer2:{
 dateContainer:{
    marginLeft:20,
    marginTop:5,
-   color: brand,
-   fontWeight: '500',
+   color:'grey',
+   fontWeight: '400',
+   fontSize:16, 
 
   },
   listContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+    marginTop:-15
   },
   button: {
     paddingLeft:100,
@@ -173,9 +195,11 @@ dateContainer:{
     justifyContent:'center',
     },
   treatmentTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 5,
+    marginTop:25,
+    marginLeft:-10,
   },
   subTreatmentContainer: {
     marginBottom:5,
@@ -207,6 +231,11 @@ dateContainer:{
     //marginRight: 10, // Adjust the margin as needed
     //resizeMode: 'contain', 
     marginLeft:10, 
+  },
+  coutRemboursement:{
+    fontSize:17,
+    fontWeight:'500',
+    color:brand
   },
 }) 
 

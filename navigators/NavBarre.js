@@ -13,7 +13,9 @@ import ListeTraitement from '../screens/TraitementClass/ListeTraitement'
 import ListeRappel from '../screens/RappelClass/ListeRappel'
 import HomeNavigation from './HomeNavigation'
 import Notification from '../screens/TraitementClass/Notification'
-
+import AddConsultation from '../screens/ConsultationClass/AddConsultation'
+import ListeAddRappelTraitement from '../screens/RappelClass/ListeAddRappelTraitement'
+import ListeDossier from '../screens/DossierClass/ListeDossier'
 
 const { darkLight, brand , red } = Colors;
 const Tab = createBottomTabNavigator();
@@ -36,8 +38,8 @@ export default function NavBarre() {
 
         <Tab.Navigator screenOptions={screenOptions}>
             <Tab.Screen
-                name="Depenses"
-                component={Depenses}
+                name="ListeDossier"
+                component={ListeDossier}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => {
@@ -61,8 +63,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="Notification"
-                component={Notification}
+            <Tab.Screen name="Depenses"
+                component={Depenses}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
