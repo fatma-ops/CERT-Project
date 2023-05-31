@@ -14,8 +14,6 @@ justify-content:center;
 align-items:center;
 border-radius:10px;
 height:50px;
-flex-direction:row;
-justify-content: space-between;
 margin-top:10px;
 shadow-Opacity:0.25;
 shadow-offset:2px;

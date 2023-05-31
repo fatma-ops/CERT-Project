@@ -131,7 +131,9 @@ const buttonHandler = () => {
               initialValues={{_id:_id, prenom: prenom , nom: nom,email:email ,groupeSanguin:groupeSanguin , allergie:allergie  }}
               onSubmit={(values, { setSubmitting }) => {
                   if (values.prenom == '' ||values.nom == '' ) {
-                    handleMessage('Veuillez remplir tous les champs obligatoire');
+                    handleMessage('Veuillez remplir tous les champs obligatoires');
+                    ShowModal('Failed', "échec", "Veuillez remplir tous les champs obligatoires!", 'OK');
+
                     setSubmitting(false);
                       
                   }

@@ -361,9 +361,9 @@ const fetchImageData = async () => {
                     </ButtonText>
                   </RegularButton>}
 
-                  {isSubmitting && <RegularButton2 disabled={true}>
+                  {isSubmitting && <RegularButton disabled={true}>
                     <ActivityIndicator size="large" color={primary} />
-                  </RegularButton2>}
+                  </RegularButton>}
                 </View>
                 <ExtraView>
 

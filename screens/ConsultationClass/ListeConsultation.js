@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native';
 import { Colors } from '../../components/styles';
 import { StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
 import { ngrokLink } from '../../config';
 
@@ -49,9 +49,13 @@ const ListeConsultation = ({ navigation }) => {
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
-        <Text style={styles.headerTitle}>Mes consultations</Text>
-      </View>
-      <View style={{width:280 , paddingHorizontal:12 }}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <AntDesign name="left" size={25} color='white' />
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.headerTitle}>Mes consultation </Text></View>
+       </View>
+      <View style={{width:280 , paddingHorizontal:12 , height:170 }}>
       <StatusBar style="Light" />
       <SearchBar
            value={searchQuery}
@@ -143,10 +147,21 @@ analyseContainer2:{
 header2: {
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'center', // To center the header
+  paddingLeft: 10,
+  backgroundColor:brand,
+  marginTop:90,
+},
+
+headerTitle: {
+  fontWeight: 'bold',
+  fontSize: 20,
+  color:'white',
+   marginLeft:100
+  
+
+},
+backButton: {
  
-  marginHorizontal:50 , // To remove the left and right padding
-  paddingHorizontal: 50, // To add the padding back
 },
 header: {
   flexDirection: 'row',
@@ -160,16 +175,7 @@ header: {
   marginRight:-50,
   marginLeft:10,
 },
-headerTitle: {
-  fontWeight: 'bold',
-  fontSize: 20,
-  color:'white'
 
-},
-backButton: {
-  marginRight: 10,
-  marginLeft: -9,
-},
 
 divider:{
     width:'100%',

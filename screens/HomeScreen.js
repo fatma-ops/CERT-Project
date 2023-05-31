@@ -44,22 +44,22 @@ export default function HomeScreen({ navigation }) {
           <View  style={styles.container}>
           <View style={styles.row}>
       
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin')}>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Consultation')}>
         <Image
           style={styles.avatar}
-          source={require('./../assets/img/bleuVaccin.png')}
+          source={require('./../assets/img/consultation.png')}
         />
-          <Text style={styles.text}>Mes Vaccins</Text>
+          <Text style={styles.text}>Mes consultations</Text>
         </TouchableOpacity>
 
       <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('ListeTraitement')}>
         <Image style={styles.avatar} source={require('./../assets/img/pills.png')}/>
-        <Text style={styles.text}>Mes médicaments</Text>
+        <Text style={styles.text}>Mes traitements</Text>
       </TouchableOpacity>
    </View>
 
    <View style={styles.row}>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AnalyseFlatList')}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Analyse')}>
         <Image style={styles.avatar} source={require('./../assets/img/medical-history.png')} />
           <Text style={styles.text}>Mes analyses</Text>
       </TouchableOpacity>
@@ -75,7 +75,14 @@ export default function HomeScreen({ navigation }) {
         <Image style={styles.avatar} source={require('./../assets/img/bleuVaccin.png')}/>
         <Text style={styles.text}>Mes Vaccins</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Depenses')}>
+        <Image style={styles.avatar} source={require('./../assets/img/treatment.png')}/>
+        <Text style={styles.text}>Mes dépenses</Text>
+      </TouchableOpacity>
     </View>
+    
+      
+    
   </View>
 
 </View>

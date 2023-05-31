@@ -84,7 +84,7 @@ console.log('ID' , consultationId)
     const data = {
       cout: values.cout,
       remboursement: values.remboursement,
-      traitements: values.traitements,
+      medicaments: values.medicaments,
       userEmail: email,
       idConsultation: consultationId,
     };
@@ -104,8 +104,11 @@ console.log('ID' , consultationId)
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
-      handleMessage(error.message);
-      console.error(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        handleMessage(error.response.data.message);
+      } else {
+        handleMessage(error.message);
+      }
     }
   };
   
@@ -134,7 +137,7 @@ console.log('ID' , consultationId)
        
         <InnerContainer>
           <Formik
-            initialValues={{cout: '', remboursement: '', traitements: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", medicament: "" }]
+            initialValues={{cout: '', remboursement: '', medicaments: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", nommedicament: "" }]
              }}
             onSubmit={(values, { setSubmitting }) => {
               submitTraitement(values, setSubmitting);
@@ -162,10 +165,10 @@ console.log('ID' , consultationId)
             keyboardType="phone-pad"
           />
           <FieldArray
-            name="traitements"
+            name="medicaments"
             render={(arrayHelpers) => (
               <View>
-                {values.traitements.map((traitement, index) => (
+                {values.medicaments.map((medicament, index) => (
                   <View key={index}>
                     <Text style={styles.label3}>Médicament {index + 1}:</Text>
                     <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>
@@ -173,11 +176,11 @@ console.log('ID' , consultationId)
                         label="Médicament"
                           onChangeText={(value) =>
                             arrayHelpers.replace(index, {
-                              ...traitement,
-                              medicament: value
+                              ...medicament,
+                              nommedicament: value
                             })
                           }
-                          value={traitement.medicament}
+                          value={medicament.nommedicament}
                         />
                         <Text style={styles.label}>Date de commencement</Text>
            <DateTimePicker style={styles.date}
@@ -187,7 +190,7 @@ console.log('ID' , consultationId)
               display="spinner"
               onChangeText={(value) =>
                 arrayHelpers.replace(index, {
-                  ...traitement,
+                  ...medicament,
                   dateDeCommencement: value
                 })
               }
@@ -195,7 +198,7 @@ console.log('ID' , consultationId)
       onPress={handleShowDatePicker}
       //style={{ position: 'absolute', bottom: 0, left: 0 }}
 
-    />
+               />
                       <View style={styles.inputContainer}>
       <Text style={styles.label}>Apprendre</Text>
 
@@ -205,11 +208,11 @@ console.log('ID' , consultationId)
           keyboardType="phone-pad"
           onChangeText={(value) =>
             arrayHelpers.replace(index, {
-              ...traitement,
+              ...medicament,
               nbrfois: value
             })
           }
-          value={traitement.nbrfois}
+          value={medicament.nbrfois}
           />
         <Text style={styles.label}>fois pendant</Text>
         <TextInput
@@ -218,11 +221,11 @@ console.log('ID' , consultationId)
           keyboardType="phone-pad"
           onChangeText={(value) =>
             arrayHelpers.replace(index, {
-              ...traitement,
+              ...medicament,
               nbrJours: value
             })
           }
-          value={traitement.nbrJours}
+          value={medicament.nbrJours}
 
         />
         <Text style={styles.label}>jours</Text>
@@ -235,10 +238,12 @@ console.log('ID' , consultationId)
                   <TouchableOpacity
                     onPress={() => {
                       arrayHelpers.push({
+                        nommedicament: "",
                         dateDeCommencement: "",
                         nbrfois: "",
-                        nbrJours: "",
-                        medicament: ""
+                        nbrJours: ""
+
+                        
                       });
                       setFormCount((formCount + 1).toString());
                     }}
@@ -259,9 +264,9 @@ console.log('ID' , consultationId)
       {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
           <ButtonText>Ajouter</ButtonText>
         </RegularButton>}
-      {isSubmitting && <RegularButton2 disabled={true}>
+      {isSubmitting && <RegularButton disabled={true}>
           <ActivityIndicator size="large" color={primary} />
-         </RegularButton2>}
+         </RegularButton>}
     </View>
     <Text style={styles.sectionTitleP}>Le medecin ne vous a donné aucun traitement?</Text>
                 <ExtraView>
@@ -322,7 +327,7 @@ const styles = StyleSheet.create({
 fontWeight:'bold',
     // marginBottom: 1,
     //color: brand,
-    marginTop: 5,
+    marginTop: 8,
   },
   label2: {
     fontSize: 16,

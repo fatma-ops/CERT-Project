@@ -75,7 +75,7 @@ const handleCodeVerification = async () => {
   } catch (error) {
     setVerifing(false);
     console.log('Verification error:', error);
-    return ShowModal('error', 'Une erreur s\'est produite lors de la vérification de votre code.');
+    return ShowModal('error', 'Le code que vous avez entré est incorrect.');
   }
   };
 

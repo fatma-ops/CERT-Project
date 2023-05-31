@@ -1,19 +1,26 @@
 import { View, Text, StyleSheet, Image, Modal,Button,TouchableOpacity } from 'react-native';
-import { AntDesign, Entypo } from '@expo/vector-icons';
-import { ActivityIndicator } from 'react-native';
+import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../../components/styles';
-import { useState , useEffect } from 'react';
+import { useState , useEffect} from 'react';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
-import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
-import { ScreenWidth } from '../../components/shared';
-const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
+import styled from 'styled-components';
+import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 
-const AfficheConsultation = ({ navigation, route }) => {
+const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
+const ModalPressableContainer = styled.Pressable`
+flex:1;
+padding:25px;
+background-color:rgba(0,0,0,0.7);
+justify-content:center;
+`;
+
+
+const AfficheConsultation = ({ navigation , route }) => {
   const { selectedAnalyse } = route.params;
   const id = selectedAnalyse._id
-
+  //console.log("id" , id);
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
   const [headerText , setHeaderText]= useState('');
@@ -24,49 +31,44 @@ const AfficheConsultation = ({ navigation, route }) => {
   const [showModal, setShowModal] = useState(false);
   const [showModalImage, setShowModalImage] = useState(false);
 
-
-  const [isLoading, setIsLoading] = useState(false);
-
   const [result, setResult] = useState('');
+
   const [imageModal, setImageModal] = useState(null);
 
 
+
   const [imageData, setImageData] = useState(null);
+
   const handleImageClick = (image) => {
     setImageModal(image);
     setShowModalImage(true);
   };
+ 
 
+  const [consultationImages, setConsultationImages] = useState([]);
 
   useEffect(() => {
-    fetchImageData();
+    fetchConsultationImages();
   }, []);
 
-  const fetchImageData = async () => {
+  const fetchConsultationImages = async () => {
     try {
-      const response = await axios.get(`${ngrokLink}/api/v1/consultation/imageConsultation/${id}`);
-      setImageData(response.data);
+      const response = await axios.get(`${ngrokLink}/api/v1/consultation/imagesConsultation/${id}`);
+      const images = response.data.images;
+      setConsultationImages(images);
     } catch (error) {
-      console.error('Error fetching image data:', error);
+      console.error('Error fetching analyse images:', error);
     }
   };
-  const buttonHandler = async (isDeleteConfirmed) => {
+  const buttonHandler = (isDeleteConfirmed) => {
     if (isDeleteConfirmed) {
-      setIsLoading(true); // Mettre isLoading à true pour afficher l'indicateur de chargement
-      await handleDelete();
-      setIsLoading(false); // Mettre isLoading à false après la fin du chargement
+      handleDelete();
     }
     setModalVisible(false);
   };
-  
-  
-  
   const openModal = () => {
-    if (!isLoading) {
-      ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer cette consultation ?', 'OK', 'Cancel');
-    }
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce vaccin ?', 'OK', 'Cancel');
   };
-  
   const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
     setShowModal(false);
     setModalMessageType(type);
@@ -76,71 +78,79 @@ const AfficheConsultation = ({ navigation, route }) => {
     setCancelButtonText(cancelButtonText);
     setModalVisible(true);
   };
-  const handleDelete = async () => {
-    try {
-      setIsLoading(true); // Mettre isLoading à true pour afficher l'indicateur de chargement
-  
-      const response = await fetch(`${ngrokLink}/api/v1/consultation/delete/${id}`, {
-        method: 'DELETE'
-      });
-      const data = await response.json();
-      setResult(data);
-      
-      setIsLoading(false); // Mettre isLoading à false après la fin du chargement
-  
-      navigation.navigate('ListeConsultation');
-    } catch (err) {
-      console.error(err);
-      setResult('Erreur');
-      setIsLoading(false); // Mettre isLoading à false en cas d'erreur
-    }
-  };
-  
+
+
+//Delete_______________________________________________________________________________________________
+ const handleDelete = async () => {
+      try {
+        const response = await fetch(`${ngrokLink}/api/v1/consultation/delete/${id}`, {
+          method: 'DELETE'
+        });
+        const data = await response.json();
+        setResult(data);
+        navigation.navigate('ListeConsultation');
+      } catch (err) {
+        console.error(err);
+        setResult('Erreur');
+      }
+    };
+
+//Modifier______________________________________________________________________________________________
 const handleModify = () => {
     setShowModal(false);
-    navigation.navigate('ModifyConsultation' , {objet: selectedAnalyse.objet, type: selectedAnalyse.type, dateConsultation:selectedAnalyse.date, contact: selectedAnalyse.contact , id: selectedAnalyse._id , cout:selectedAnalyse.cout,remboursement: selectedAnalyse.remboursement , ordonnanceData: imageData})   
+    navigation.navigate('ModifyConsultation' , {objet: selectedAnalyse.objet, type: selectedAnalyse.type, dateConsultation:selectedAnalyse.date, contact: selectedAnalyse.contact , id: selectedAnalyse._id , cout:selectedAnalyse.cout,remboursement: selectedAnalyse.remboursement , ordonnanceData: imageData})    
      };
 
      const closeModal = () => {
       setShowModalImage(false);
     };
-
   return (
-    <>
+    
+    
+    <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Détails de la Consultation</Text>
+        <Text style={styles.headerTitle}>{selectedAnalyse.objet}</Text>
         <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
       </View>
-      <KeyboardAvoidingWrapper>
+
+     
 
       <View style={styles.content}>
-        <View style={styles.section}>
-        <Text style={styles.title}>{selectedAnalyse.objet}</Text>
+    <View style={styles.imageContainer}>
+      {consultationImages.map((image, index) => (
+        <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
+          <Image
+            source={{ uri: `data:${image.contentType};base64,${image.data}` }}
+            style={styles.thumbnail}
+          />
+        </TouchableOpacity>
+      ))}
+    </View>
 
-          <Text style={styles.title}> type :{selectedAnalyse.type}</Text>
-          <Text style={styles.subTitle}>Date: {selectedAnalyse.date}</Text>
-          <Text style={styles.subTitle}>Contact: {selectedAnalyse.contact}</Text>
-          <Text style={styles.subTitle}>Cout: {selectedAnalyse.cout}</Text>
-          <Text style={styles.subTitle}>remboursement: {selectedAnalyse.remboursement}</Text>
-
-
-          {imageData && imageData.ordonnance.contentType && imageData.ordonnance.data && (
-            <TouchableOpacity onPress={() => handleImageClick(imageData)}>
-              <Image
-                source={{ uri: `data:${imageData.ordonnance.contentType};base64,${imageData.ordonnance.data}` }}
-                style={{ width: 300, height: 300, marginTop: 15 }}
-              />
-            </TouchableOpacity>
-          )}
-
-        </View>
-        
+    <View style={styles.infoContainer}>
+      <View style={styles.infoItem}>
+        <FontAwesome name="heartbeat" size={20} color={brand} style={{ marginRight: 10 }} />
+        <Text style={styles.label}>Objet</Text>
+        <Text style={styles.value}>{selectedAnalyse.objet}</Text>
       </View>
+      <View style={styles.infoItem}>
+        <FontAwesome name="calendar" size={20} color={brand} style={{ marginRight: 10 }} />
+        <Text style={styles.label}>Date:</Text>
+        <Text style={styles.value}>{selectedAnalyse.date}</Text>
+      </View>
+      <View style={styles.infoItem}>
+        <FontAwesome name="comment" size={20} color={brand} style={{ marginRight: 10 }} />
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginRight: 10, alignSelf: 'center', color: brand, marginTop: -20 }}>Commentaire:</Text>
+        <Text style={styles.value}>{selectedAnalyse.type}</Text>
+      </View>
+    </View>
+  </View>
+
       <MessageModalImage2
       modalVisible={modalVisible} 
       buttonHandler={buttonHandler} 
@@ -160,14 +170,10 @@ const handleModify = () => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={openModal}>
-  <View style={styles.modalButton}>
-    {isLoading ? (
-      <ActivityIndicator size="small" color={brand} />
-    ) : (
-      <Text style={[styles.modalButtonText, { color: 'red' }]}>Supprimer</Text>
-    )}
-  </View>
-</TouchableOpacity>
+              <View style={styles.modalButton}>
+                <Text style={[styles.modalButtonText, { color: 'red' }]}>Supprimer</Text>
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => setShowModal(false)}>
               <View style={styles.modalCancelButton}>
                 <Text style={styles.modalCancelButtonText}>Annuler</Text>
@@ -177,19 +183,17 @@ const handleModify = () => {
         </View>
       </Modal>
 
-      {imageData && imageData.ordonnance.contentType && imageData.ordonnance.data && (
+      {imageData && imageData.image.contentType && imageData.image.data && (
         <Modal visible={showModalImage} animationType="fade" transparent={true}>
           <View style={styles.imageModalContainer}>
             <TouchableOpacity onPress={closeModal} style={styles.imageModalCloseButton}>
               <AntDesign name="close" size={26} color={brand} />
             </TouchableOpacity>
-            <Image source={{ uri: `data:${imageData.ordonnance.contentType};base64,${imageData.ordonnance.data}` }} style={styles.imageModal} />
+            <Image source={{ uri: `data:${imageData.image.contentType};base64,${imageData.image.data}` }} style={styles.imageModal} />
           </View>
         </Modal>
       )}
-    </KeyboardAvoidingWrapper>
-
-    </>
+    </View>
   );
 };
 
@@ -197,20 +201,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginBottom:50,
-
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    //justifyContent:'space-between',
-    marginTop: 20,
-    paddingBottom: 15,
+    justifyContent:'space-between',
     borderBottomWidth: 0.25,
-    borderBottomColor: darkLight,
-    marginLeft: -25,
-    marginRight: -25,
+    borderBottomColor: brand,
+    height:60
+   
 
+  },
+  backButton: {
+    alignSelf:'center'
+  },
+  moreButton: {
+    
   },
   headerTitle: {
     fontWeight: 'bold',
@@ -219,44 +225,64 @@ const styles = StyleSheet.create({
     alignItems:'center'
 
   },
-  backButton: {
-    marginRight: 40,
-    marginLeft: ScreenWidth - 350,
-  },
-  moreButton: {
-    marginLeft:30,
-    alignItems:'center'
-  },
   content: {
     flex: 1,
     padding: 20,
+    marginTop:StatusBarHeight
   },
-  section: {
+  imageContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  image: {
+    width: 300,
+    height: 300,
+  },
+  infoContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    marginBottom:10,
+    alignContent:'center',
+    marginTop:15
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  subTitle: {
-    fontSize: 18,
-    marginBottom: 5,
-  },
-  sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
   },
-  traitementItem: {
-    marginBottom: 10,
+  infoItem: {
+    flexDirection: 'row',
+    marginBottom: 15,
   },
-  traitementTitle: {
+  label: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginRight: 10,
+    alignSelf:'center',
+    color: brand,
   },
-  traitementText: {
-    fontSize: 16,
+  value: {
+    fontSize: 18,
   },
   modalContainer: {
     backgroundColor: primary,
@@ -298,6 +324,17 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontWeight: 'bold',
   },
+  imageContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 1,
+    marginBottom: 10,
+  },
+  thumbnail: {
+    width: 120, // Ajustez la largeur selon vos besoins
+    height: 120, // Ajustez la hauteur selon vos besoins
+    borderRadius: 6,
+    marginHorizontal: 5, // Ajoutez une valeur de marge horizontale
+  },
   imageModalContainer: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -314,6 +351,5 @@ const styles = StyleSheet.create({
     height: 400,
     borderRadius: 10,
   },
-}); 
-
-export default AfficheConsultation;
+});
+export default AfficheConsultation
