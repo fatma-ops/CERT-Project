@@ -161,7 +161,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
       initialValues={{ title: '',maladieCible:'', date: '',commentaire:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
         if (values.title == '' , values.maladieCible =='' ) {
-            handleMessage('Veuillez remplir  les champs obligatoire');
+            handleMessage('Veuillez remplir  les champs obligatoires');
             setSubmitting(false);
         } else {
             submitVaccin(values, setSubmitting);
@@ -198,8 +198,18 @@ const takeImageHandler = async (index, setFieldValue, values) => {
            value={values.maladieCible}
                               
                           />
-           <Text style={styles.label}>Date</Text>
-          
+                <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
+                <DateTimePicker style={styles.date}
+      value={date}
+      mode="date"
+      //is24Hour={true}
+      display="spinner"
+      onChange={onChange}
+      locale="fr"
+      onPress={handleShowDatePicker}
+      //style={{ position: 'absolute', bottom: 0, left: 0 }}
+
+    />
            
            <Text style={styles.label}>Preuve de vaccination</Text>
            <>

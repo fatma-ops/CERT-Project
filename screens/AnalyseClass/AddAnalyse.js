@@ -9,7 +9,7 @@ import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { KeyboardAvoidingView } from 'react-native-web';
-import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle} from '../../components/styles';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledEtoile} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -20,6 +20,7 @@ import { ngrokLink } from '../../config';
 import { SelectDropdownStyle } from '../../components/styles';
 import SelectDropdown from 'react-native-select-dropdown';
 import RegularButton from '../../components/Buttons/RegularButton';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
@@ -31,12 +32,8 @@ const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
 
 //image
-const [images, setImages] = useState([]);
 
-  const submitForm = (values) => {
-    // Soumettre le formulaire avec les valeurs
-    console.log(values);
-  };
+ 
   const takeImageHandler = async (index, setFieldValue, values) => {
     const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
@@ -183,8 +180,9 @@ const onChange = (event , selectedDate) => {
     <Formik
       initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.title == '' ) {
-            handleMessage('Veuillez remplir  les champs');
+        if (values.title == '',values.date == ''  ) {
+            handleMessage('Veuillez remplir tous les champs obligatoires');
+            
             setSubmitting(false);
         } else {
             submitAnalyse(values, setSubmitting);
@@ -200,6 +198,8 @@ const onChange = (event , selectedDate) => {
           <MyTextInput
            label="Nom de l'analyse"
            icon="id-badge"
+           etoile="*"
+
            placeholder="Analyse"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('title')}
@@ -207,9 +207,13 @@ const onChange = (event , selectedDate) => {
            value={values.title}
                               
                           />
-           <Text style={styles.label}>Date</Text>
-          
-          
+
+ 
+
+           
+
+               
+          <View>
           <Text style={styles.label}>Médecin</Text> 
 
           <SelectDropdownStyle>
@@ -230,7 +234,21 @@ const onChange = (event , selectedDate) => {
         buttonTextAfterSelection={(selectedItem, index) => contacts[index].nom}
       />
       </SelectDropdownStyle>
+      </View>
+      <Text style={styles.label}>
+    Date<Text style={{ color: 'red' }}>*</Text>
+  </Text>
+  <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
 
+  
            <Text style={styles.label}>les résultats d'analyse</Text>
            <>
       <View style={styles.imageRow}>
@@ -305,15 +323,17 @@ const onChange = (event , selectedDate) => {
   );
 }
 
-const MyTextInput = ({ label, icon, isPassword, hidePassword,isDate,showDatePicker, setHidePassword, ...props }) => {
+const MyTextInput = ({ label, icon,etoile, isPassword, hidePassword,isDate,showDatePicker, setHidePassword, ...props }) => {
     return (
         <View>
             <LeftIcon>
                 <Octicons name={icon} size={24} color={brand} />
             </LeftIcon>
             
-            <StyledInputLabel2> {label}</StyledInputLabel2>
-                {!isDate && <StyledTextInput  {...props} />}
+            <RowContainer2>
+          <StyledInputLabel2> {label}  </StyledInputLabel2>
+          <StyledEtoile> {etoile}  </StyledEtoile>
+          </RowContainer2>                {!isDate && <StyledTextInput  {...props} />}
                 {isDate && (
                 <TouchableOpacity onPress={showDatePicker}> 
                     
@@ -548,10 +568,10 @@ dropdownRow: {
     //flex:1,
     //padding:25,
     //paddingLeft:55,
-    height:90,
-    marginVertical:-10,
-    marginBottom:7,
-    marginHorizontal:-15,
+    height: 90,
+    marginVertical: 4,
+    marginBottom: 7,
+    marginHorizontal: -15,
   },
   
   });

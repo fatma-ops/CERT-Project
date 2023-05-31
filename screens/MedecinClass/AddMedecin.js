@@ -133,7 +133,7 @@ const  AddMedecin = ({navigation}) =>  {
       initialValues={{ nom: '', adresse: '', specialite: '', numero:'' , commentaire:'' }}
       onSubmit={(values, { setSubmitting }) => {
         if (values.nom == ''||values.specialite == '' ) {
-            handleMessage('Veuillez remplir  les champs');
+            handleMessage('Veuillez remplir tous les champs obligatoires');
             setSubmitting(false);
         } else {
             submitMedecin(values, setSubmitting);
