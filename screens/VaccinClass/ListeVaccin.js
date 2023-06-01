@@ -153,7 +153,7 @@ headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
   color:'white',
-   marginLeft:100
+   marginLeft:85
   
 
 },
@@ -186,7 +186,7 @@ dateContainer:{
   flexDirection:'row',
   justifyContent:'space-between',
   alignContent:'center',
-  marginLeft:180,
+  marginLeft:160,
   marginTop:-18,
 },
 text:{
@@ -210,7 +210,7 @@ title: {
 },
 
 item:{ 
-  marginTop:6,
+  marginTop:-6,
     marginLeft:10,
     marginRight:10,
     //alignItems:'center',
@@ -222,7 +222,7 @@ liste:{
   fontSize:19,
   fontWeight:'600',
   opacity:0.8,
-  marginTop:0.5,
+  marginTop:5,
   shadowOpacity:0.25,
   shadowOffset:{width:0.75, height:2},
   shadowRadius:2,

@@ -145,13 +145,32 @@ console.log('ID' , consultationId)
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-               <View style={{paddingBottom:200}}>
+         <View style={{paddingBottom:200, marginTop:-50}}>
+         <Text style={styles.label3}>Dépenses du traitement: </Text>
+         <Text style={styles.label4}>Coût                                 Remboursement</Text>
+            <TextInput
+            style={styles.cout}
+            placeholder="100.0"
+            placeholderTextColor={darkLight}
+            onChangeText={handleChange('cout')}
+            value={values.cout}
+            keyboardType="phone-pad"
+          />
+          <TextInput
+            style={styles.remboursement}
+            placeholder="70.0"
+            placeholderTextColor={darkLight}
+            onChangeText={handleChange('remboursement')}
+            value={values.remboursement}
+            keyboardType="phone-pad"
+          />
           <FieldArray
             name="medicaments"
             render={(arrayHelpers) => (
               <View>
                 {values.medicaments.map((medicament, index) => (
                   <View key={index}>
+                    <Text style={styles.label3}>Médicament {index + 1}:</Text>
                     <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>
                         <MyTextInput
                         label="Médicament"
@@ -231,7 +250,7 @@ console.log('ID' , consultationId)
                     
                   >
                 <View style={{ flexDirection: 'row-reverse', alignSelf: 'center',alignItems:'center'}}>
-                <Text style={{ fontWeight:'300',fontSize:18,color: brand, marginLeft: 5 }}>Ajouter une autre Médicaments</Text>
+                <Text style={{ fontWeight:'300',fontSize:18,color: brand, marginLeft: 5 }}>Ajouter une autre Traitement</Text>
                 <AntDesign name="pluscircleo" size={24} color={brand} />
                 </View>
 
@@ -239,24 +258,6 @@ console.log('ID' , consultationId)
                 )}
               </View>
             )}
-          />
-          <Text style={styles.label4}>Coût                                 Remboursement</Text>
-            <TextInput
-            style={styles.cout}
-            placeholder="100.0"
-            placeholderTextColor={darkLight}
-            onChangeText={handleChange('cout')}
-            value={values.cout}
-            keyboardType="phone-pad"
-          />
-
-          <TextInput
-            style={styles.remboursement}
-            placeholder="70.0"
-            placeholderTextColor={darkLight}
-            onChangeText={handleChange('remboursement')}
-            value={values.remboursement}
-            keyboardType="phone-pad"
           />
   <MsgBox type={messageType}>{message}</MsgBox>
     <View style={{ justifyContent: 'center' }}>
@@ -267,9 +268,7 @@ console.log('ID' , consultationId)
           <ActivityIndicator size="large" color={primary} />
          </RegularButton>}
     </View>
-    
-  </View>
-  <Text style={styles.sectionTitleP}>Le medecin a-t-il vous donné un traitement?</Text>
+    <Text style={styles.sectionTitleP}>Le medecin ne vous a donné aucun traitement?</Text>
                 <ExtraView>
 <TextLink onPress={() => navigation.navigate(ListeConsultation)}>
   <TextLinkContent style={styles.ignor}>
@@ -277,11 +276,8 @@ console.log('ID' , consultationId)
   </TextLinkContent>
 </TextLink>
 </ExtraView>
-
-
-                
-                
-              </StyledFormArea>
+  </View>      
+    </StyledFormArea>
             )}
           </Formik>
         </InnerContainer>
@@ -345,19 +341,20 @@ fontWeight:'bold',
     marginBottom: 5,
     color: brand,
     //marginTop: 5,
-    fontWeight:'500',
-    marginLeft:-30
+    fontWeight:'600',
+    marginLeft:-25,
+    marginTop:25,
   
   },
   ignor:{
-    backgroundColor:'white',
-    marginTop:-15,
-    fontWeight:'500',
+    //backgroundColor:'white',
+    marginTop:-20,
+    //fontWeight:'500',
     fontSize:16,
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 1,
-    elevation: 5,
+    //shadowOpacity: 0.25,
+    //shadowOffset: { width: 0, height: 2 },
+    //shadowRadius: 1,
+    //elevation: 5,
     padding:10,
     marginBottom:15,
     //borderWidth:0.2,
@@ -365,11 +362,11 @@ fontWeight:'bold',
     //color:'white'
   },
   sectionTitleP: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '400',
     marginBottom: 10,
    // color: tertiary,
-    marginTop:-40,
+    marginTop:30,
     marginLeft:-35,
     marginRight:-35,
     //backgroundColor:'white',
@@ -378,7 +375,7 @@ fontWeight:'bold',
     shadowRadius: 1,
     elevation: 5,
     borderRadius:3,
-    padding:4
+    //padding:4
   },
   date: {
     //flex:1,
@@ -393,7 +390,7 @@ fontWeight:'bold',
     flexDirection: 'row',
     alignItems: 'center',
     //justifyContent:'space-between',
-    marginTop: 20,
+    marginTop: 25,
     paddingBottom: 15,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,

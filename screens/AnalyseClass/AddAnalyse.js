@@ -169,7 +169,7 @@ const onChange = (event , selectedDate) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter votre analyse  </Text>
+        <Text style={styles.headerTitle}>   Ajouter votre analyse  </Text>
       </View>
     
     <KeyboardAvoidingWrapper>
@@ -182,7 +182,6 @@ const onChange = (event , selectedDate) => {
       onSubmit={(values, { setSubmitting }) => {
         if (values.title == '' ||values.images == ''  ) {
             handleMessage('Veuillez remplir tous les champs obligatoires');
-            
             setSubmitting(false);
         } else {
             submitAnalyse(values, setSubmitting);
@@ -193,29 +192,18 @@ const onChange = (event , selectedDate) => {
     >
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values , isSubmitting }) => (
         <StyledFormArea>
-          
-         
           <MyTextInput
            label="Nom de l'analyse"
            icon="id-badge"
            etoile="*"
-
            placeholder="Analyse"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('title')}
            onBlur={handleBlur('title')}
            value={values.title}
-                              
-                          />
-
- 
-
-           
-
-               
+          />               
           <View>
           <Text style={styles.label}>Médecin</Text> 
-
           <SelectDropdownStyle>
           <SelectDropdown
         data={options}
@@ -280,14 +268,16 @@ const onChange = (event , selectedDate) => {
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('cout')}
                 onBlur={handleBlur('cout')}
-                value={values.cout}/>
+                value={values.cout}
+                keyboardType="phone-pad"/>
 
                  <TextInput style={styles.remboursement}
                 placeholder="70.0"
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('remboursement')}
                 onBlur={handleBlur('remboursement')}
-                value={values.remboursement}/>
+                value={values.remboursement}
+                keyboardType="phone-pad"/>
 
 
           <MsgBox type={messageType}>
@@ -423,6 +413,7 @@ const MyTextInput = ({ label, icon, etoile, isPassword, hidePassword, isDate, sh
     shadowOffset:{width:2, height:4},
     shadowRadius:1,
     elevation:5,
+    marginTop:-15
       },
       placeholderText: {
         color: brand ,

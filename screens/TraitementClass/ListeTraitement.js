@@ -41,9 +41,9 @@ const ListeTraitement = ({ navigation }) => {
         <StatusBar style="white" />
         <View style={styles.headingContainer}>
           <View style={styles.header2}>
-            <Text style={styles.headerTitle}>               Mes Traitements</Text>
+            <Text style={styles.headerTitle}>Mes Traitements</Text>
           </View>
-          <View style={{ width: 320, paddingHorizontal: 5, top: -20, left: 10 }}>
+          <View style={{ width: 300, paddingHorizontal: 5, top: -20, left: -20 }}>
             <StatusBar style="Light" />
             <SearchBar
               value={searchQuery}
@@ -62,17 +62,11 @@ const ListeTraitement = ({ navigation }) => {
               <View style={styles.traitementContainer}>
                 <Text style={styles.treatmentTitle}>Traitement</Text>
                 <Text style={styles.coutRemboursement}>
-                  Cout: {item.cout} | Remboursement: {item.remboursement}
+                Cout: {item.cout} | Remboursement: {item.remboursement}
                 </Text>
                 {item.medicaments && item.medicaments.length > 0 ? (
                   item.medicaments.map((medicament, medicamentIndex) => (
-                    <TouchableOpacity
-                      key={medicamentIndex}
-                      onPress={() => {
-                        navigation.navigate("AfficheTraitement", {
-                          selectedTraitement: item,
-                        });
-                      }}
+                    <View
                       style={styles.subTreatmentContainer}
                     >
                       <Image
@@ -87,10 +81,10 @@ const ListeTraitement = ({ navigation }) => {
                           </Text>
                         </View>
                         <Text style={styles.dateContainer}>
-                          {medicament.dateDeCommencement}
+                          25 mai 2023
                         </Text>
                       </View>
-                    </TouchableOpacity>
+                    </View>
                   ))
                 ) : (
                   <Text>Aucun sous-traitement trouvé</Text>
@@ -130,13 +124,13 @@ Container:{
 header2: {
   alignSelf: 'center',
   justifyContent: 'center', 
-  paddingLeft:75, 
+  //paddingLeft:75, 
   marginTop:StatusBarHeight,
 },
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  color:'white'
+  color:'white',
 },
 listItemTitle: {
   fontWeight: "bold",
@@ -150,9 +144,11 @@ headingContainer:{
   paddingTop:20,
   // paddingBottom:20,    
 },
+
 title: {
-  fontSize: 22,
+  fontSize: 20,
   marginLeft:20,
+  fontWeight:'500'
 },
 fois:{ 
   flexDirection:'column',
@@ -160,6 +156,17 @@ fois:{
   //alignContent:'center',
   // backgroundColor:red,
   //paddingLeft:80,
+
+  },
+  nbrJours:{ 
+  flexDirection:'column',
+  justifyContent:'flex-start',
+  alignContent:'center',
+  // backgroundColor:red,
+  paddingLeft:20,
+  fontWeight:'500',
+  fontSize:16, 
+  marginTop:5,
 
   },
 dateContainer2:{
@@ -173,12 +180,14 @@ dateContainer2:{
 dateContainer:{
    marginLeft:20,
    marginTop:5,
-   color: brand,
-   fontWeight: '500',
+   color:'grey',
+   fontWeight: '400',
+   fontSize:16, 
 
   },
   listContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
+    marginTop:-15
   },
   button: {
     paddingLeft:100,
@@ -186,9 +195,11 @@ dateContainer:{
     justifyContent:'center',
     },
   treatmentTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 5,
+    marginTop:25,
+    marginLeft:-10,
   },
   subTreatmentContainer: {
     marginBottom:5,
@@ -220,6 +231,11 @@ dateContainer:{
     //marginRight: 10, // Adjust the margin as needed
     //resizeMode: 'contain', 
     marginLeft:10, 
+  },
+  coutRemboursement:{
+    fontSize:17,
+    fontWeight:'500',
+    color:brand
   },
 }) 
 

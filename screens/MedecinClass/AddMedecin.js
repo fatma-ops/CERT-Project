@@ -9,7 +9,6 @@ import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel 
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
-import RegularButton3 from '../../components/Buttons/RegularButton3';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
@@ -118,19 +117,13 @@ const  AddMedecin = ({navigation}) =>  {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter un contact</Text>
+        <Text style={styles.headerTitle}>Ajouter un medecin</Text>
       </View>
   
     <KeyboardAvoidingWrapper>
         <StyledContainer>
         <StatusBar style="light" />
-       
-      
-     
-
-     <InnerContainer>  
-                    <SubTitle></SubTitle>
-                   
+     <InnerContainer>           
     <Formik
       initialValues={{ nom: '', adresse: '', specialite: '', numero:'' , commentaire:'' }}
       onSubmit={(values, { setSubmitting }) => {
@@ -146,8 +139,6 @@ const  AddMedecin = ({navigation}) =>  {
     >
       {({ handleChange, handleBlur, handleSubmit,setFieldValue , values , isSubmitting }) => (
         <StyledFormArea>
-          
-         
           <MyTextInput
            label="Nom du médecin"
            icon="person"
@@ -296,13 +287,13 @@ const MyTextInput = ({ label,etoile, icon,icon2, ...props }) => {
       
       header: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignContent: 'center',
         //justifyContent:'space-between',
         marginTop: 20,
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        marginLeft: -25,
+        marginLeft: -15,
         marginRight: -25,
     
       },
@@ -310,7 +301,8 @@ const MyTextInput = ({ label,etoile, icon,icon2, ...props }) => {
         fontWeight: 'bold',
         fontSize: 20,
         color: brand,
-        alignItems:'center'
+        alignItems:'center',
+        marginLeft:20,
     
       },
       backButton: {
@@ -354,7 +346,7 @@ const MyTextInput = ({ label,etoile, icon,icon2, ...props }) => {
     paddingLeft:55,
     borderRadius: 20,
     fontSize:16,
-    height:100,
+    height:70,
     marginVertical:3,
     marginBottom:10,
     color:tertiary,

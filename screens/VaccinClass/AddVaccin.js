@@ -153,10 +153,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     <KeyboardAvoidingWrapper>
         <StyledContainer>
         <StatusBar style="light" />
-        
      <InnerContainer>  
-    
-                    <SubTitle></SubTitle>
     <Formik
       initialValues={{ title: '',maladieCible:'', date: '',commentaire:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
@@ -172,8 +169,6 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     >
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values , isSubmitting }) => (
         <StyledFormArea>
-          
-         
           <MyTextInput
            label="Vaccin"
            etoile="*"
@@ -323,13 +318,13 @@ const takeImageHandler = async (index, setFieldValue, values) => {
       },
       header: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignContent: 'center',
         //justifyContent:'space-between',
         marginTop: 20,
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        marginLeft: -25,
+        marginLeft: -15,
         marginRight: -25,
     
       },
@@ -337,7 +332,8 @@ const takeImageHandler = async (index, setFieldValue, values) => {
         fontWeight: 'bold',
         fontSize: 20,
         color: brand,
-        alignItems:'center'
+        alignItems:'center',
+        marginLeft:20,
     
       },
       backButton: {
@@ -353,7 +349,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     paddingLeft:55,
     borderRadius: 20,
     fontSize:16,
-    height:100,
+    height:70,
     marginVertical:3,
     marginBottom:10,
     color:tertiary,

@@ -243,7 +243,6 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
         <StatusBar style="light" />
         
         <InnerContainer>
-          <SubTitle></SubTitle>
           <Formik
             initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', images: [] }}
             onSubmit={(values, { setSubmitting }) => {
@@ -476,8 +475,8 @@ const styles = StyleSheet.create({
 
   },
   backButton: {
-    marginRight: 50,
-    marginLeft: ScreenWidth - 350,
+    marginRight: 40,
+    marginLeft: ScreenWidth - 340,
   },
 
   imageContainer:

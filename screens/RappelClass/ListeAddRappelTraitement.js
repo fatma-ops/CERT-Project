@@ -63,7 +63,7 @@ const ListeAddRappelTraitement = ({ navigation }) => {
   data={traitements}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item }) => (
-      <View> 
+      <View>  
         {item.traitements && item.traitements.length > 0 ? (
           item.traitements.map((sousTraitement, sousTraitementIndex) => (
             <TouchableOpacity
@@ -77,7 +77,7 @@ const ListeAddRappelTraitement = ({ navigation }) => {
               </View>
               <View style={styles.button}><AntDesign name="right" size={28} color={brand} /></View>
             </TouchableOpacity>
-          ))
+          )) 
         ) : (
           <Text>Aucun sous-traitement trouvé</Text>
         )}

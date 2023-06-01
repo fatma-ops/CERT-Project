@@ -40,7 +40,7 @@ const buttonHandler = (isDeleteConfirmed) => {
     setModalVisible(false);
   };
 const openModal = () => {
-    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce contact?', 'OK', 'Cancel');
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce medecin?', 'OK', 'Cancel');
   }; 
 const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
     setShowModal(false);
