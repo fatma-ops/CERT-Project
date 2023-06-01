@@ -96,7 +96,7 @@ const AnalyseDetail = ({ route , navigation }) => {
 //Modifier______________________________________________________________________________________________
 const handleModify = () => {
   setShowModal(false);
-  navigation.navigate('ModifyAnalyse' , {title: selectedAnalyse.title, contact: selectedAnalyse.contact, dateAnalyse:selectedAnalyse.date,  commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id,  ImageData: imageData,
+  navigation.navigate('ModifierAnalyse' , {title: selectedAnalyse.title, contact: selectedAnalyse.contact, dateAnalyse:selectedAnalyse.date,  cout:selectedAnalyse.cout,remboursement:selectedAnalyse.remboursement, id: selectedAnalyse._id,    images: analyseImages,
 })   
    };
 

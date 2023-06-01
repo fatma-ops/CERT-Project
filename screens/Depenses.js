@@ -71,7 +71,7 @@ return (
    <View style={[styles.analyseContainer2]}>
       <StatusBar style="white" />
           <View style={styles.header2}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
           <AntDesign name="left" size={25} color='white' />
         </TouchableOpacity>
         <View>
