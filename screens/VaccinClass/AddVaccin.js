@@ -350,7 +350,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     paddingLeft:55,
     borderRadius: 20,
     fontSize:16,
-    height:100,
+    height:70,
     marginVertical:3,
     marginBottom:10,
     color:tertiary,

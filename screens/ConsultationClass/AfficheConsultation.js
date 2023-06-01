@@ -67,7 +67,7 @@ const AfficheConsultation = ({ navigation , route }) => {
     setModalVisible(false);
   };
   const openModal = () => {
-    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer ce vaccin ?', 'OK', 'Cancel');
+    ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer cette consultation ?', 'OK', 'Cancel');
   };
   const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
     setShowModal(false);
@@ -121,6 +121,23 @@ const handleModify = () => {
      
 
       <View style={styles.content}>
+      <View style={styles.sectionContent}>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Objet: </Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.objet}</Text>
+            </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Date:</Text>
+            <Text style={styles.sectionItem}> {selectedAnalyse.date}</Text>
+            </View>          
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Commenataire: </Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.type}</Text>
+            </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Ordonnance(s): </Text>
+            </View>
+          </View>
     <View style={styles.imageContainer}>
       {consultationImages.map((image, index) => (
         <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
@@ -150,7 +167,6 @@ const handleModify = () => {
       </View>
     </View>
   </View>
-
       <MessageModalImage2
       modalVisible={modalVisible} 
       buttonHandler={buttonHandler} 
@@ -161,38 +177,46 @@ const handleModify = () => {
       cancelButtonText={cancelButtonText} 
     />
        
-      <Modal visible={showModal} animationType="slide" transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity onPress={handleModify}>
-              <View style={styles.modalButton}>
-                <Text style={styles.modalButtonText}>Modifier</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={openModal}>
-              <View style={styles.modalButton}>
-                <Text style={[styles.modalButtonText, { color: 'red' }]}>Supprimer</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setShowModal(false)}>
-              <View style={styles.modalCancelButton}>
-                <Text style={styles.modalCancelButtonText}>Annuler</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+       <Modal visible={showModal} animationType="slide" transparent={true}>
+      <ModalPressableContainer onPress={() => setShowModal(false)}>
+ 
+    <View style={styles.modalContainer}>
+     <View style={styles.modalContent}>
+       <TouchableOpacity onPress={handleModify}>
+        <View style={[styles.modalButton]}>
+          <Text style={{  color: '#007AFF',fontSize:'20',marginBottom:15 }}>  Modifier  </Text>
         </View>
-      </Modal>
+       </TouchableOpacity>
+       <TouchableOpacity onPress={openModal}>
+        <View style={[styles.modalButton]}>
+          <Text style={{  color: red ,fontSize:'20',marginBottom:15, }}>Supprimer  </Text>
+        </View>
+       </TouchableOpacity>
+       <TouchableOpacity onPress={() => setShowModal(false)}>
+        <View style={[styles.modalCancelButton]}>
+          <Text style={{ color: '#007AFF', fontSize:'18',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
+        </View>
+        </TouchableOpacity>
+      </View>
 
-      {imageData && imageData.image.contentType && imageData.image.data && (
-        <Modal visible={showModalImage} animationType="fade" transparent={true}>
-          <View style={styles.imageModalContainer}>
-            <TouchableOpacity onPress={closeModal} style={styles.imageModalCloseButton}>
-              <AntDesign name="close" size={26} color={brand} />
-            </TouchableOpacity>
-            <Image source={{ uri: `data:${imageData.image.contentType};base64,${imageData.image.data}` }} style={styles.imageModal} />
-          </View>
-        </Modal>
-      )}
+    </View>
+    </ModalPressableContainer>
+
+  </Modal>
+
+      {imageModal && imageModal.contentType && imageModal.data && (
+  <Modal visible={!!imageModal} animationType="fade" transparent={true}>
+    <View style={styles.imageModalContainer}>
+      <TouchableOpacity onPress={closeModal} style={styles.imageModalCloseButton}>
+        <AntDesign name="close" size={26} color={brand} />
+      </TouchableOpacity>
+      <Image
+        source={{ uri: `data:${imageModal.contentType};base64,${imageModal.data}` }}
+        style={styles.imageModal}
+      />
+    </View>
+  </Modal>
+)}
     </View>
   );
 };
@@ -201,6 +225,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    //marginBottom:10,
   },
   header: {
     flexDirection: 'row',
@@ -210,90 +235,67 @@ const styles = StyleSheet.create({
     borderBottomColor: brand,
     height:60
    
-
+  
   },
-  backButton: {
-    alignSelf:'center'
+  sectionContent:{
+    paddingLeft:10,
+    paddingRight:10,
   },
-  moreButton: {
-    
-  },
-  headerTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: brand,
-    alignItems:'center'
-
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-    marginTop:StatusBarHeight
-  },
-  imageContainer: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  image: {
-    width: 300,
-    height: 300,
-  },
-  infoContainer: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    marginBottom:10,
-    alignContent:'center',
-    marginTop:15
+  heelo:{
+    //flexDirection:'row',
+    borderBottomColor:darkLight,
+    borderBottomWidth:0.3,
+    paddingBottom:7,
+    paddingTop:7,
+    paddingRight:20,
+    //marginRight:20,
+    flexDirection:'column'
   },
   title: {
+    fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 20,
-  },
-  infoItem: {
-    flexDirection: 'row',
-    marginBottom: 15,
-  },
-  label: {
+    },
+  sectionItem: {
     fontSize: 18,
-    fontWeight: 'bold',
+    //marginBottom:5,
+    //marginRight:-5,
+    paddingLeft:135,
+    marginTop:-27, 
+    paddingBottom:5
+  },
+  sectionItem2: {
+    fontSize: 18 ,
+    //marginLeft:-70,
+    //marginBottom: 5,
+    fontWeight: '500',
+    //marginTop:5,
+    paddingBottom:5,
+    color:brand,
+  },
+  backButton: {
+    padding: 10,
     marginRight: 10,
-    alignSelf:'center',
-    color: brand,
-  },
-  value: {
-    fontSize: 18,
+    },
+  moreButton: {
+    padding: 10,
+    marginLeft:40,
+    },
+  headerTitle: {
+      fontWeight: 'bold',
+      fontSize: 20,
+      color:brand,
   },
   modalContainer: {
-    backgroundColor: primary,
+    //flex: 1,
+    backgroundColor:primary,
     justifyContent: 'center',
-    borderRadius: 20,
+    //alignItems: 'center',
+    borderRadius:20,
     width: '100%',
+    //padding:35,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: {width: 0,height: 2,},
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -301,39 +303,32 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center',   
   },
   modalButton: {
-    paddingHorizontal: 115,
-    borderBottomWidth: 0.6,
-    borderColor: darkLight,
-    marginTop: 15,
-  },
-  modalButtonText: {
-    color: '#007AFF',
-    fontSize: 20,
-    marginBottom: 15,
+    paddingHorizontal:115,
+    borderBottomWidth:0.6,
+    borderColor:darkLight,
+    marginTop:15,
   },
   modalCancelButton: {
     paddingHorizontal: 125,
     marginTop: 15,
   },
-  modalCancelButtonText: {
-    color: '#007AFF',
-    fontSize: 18,
-    marginBottom: 15,
-    fontWeight: 'bold',
-  },
+  content: {
+    flex: 1,
+    //alignItems: 'center',
+    padding: 20,
+    marginTop:20,
+    },
   imageContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 1,
-    marginBottom: 10,
-  },
-  thumbnail: {
-    width: 120, // Ajustez la largeur selon vos besoins
-    height: 120, // Ajustez la hauteur selon vos besoins
-    borderRadius: 6,
-    marginHorizontal: 5, // Ajoutez une valeur de marge horizontale
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    marginBottom: 20,
+    
   },
   imageModalContainer: {
     flex: 1,
@@ -350,6 +345,12 @@ const styles = StyleSheet.create({
     width: 400,
     height: 400,
     borderRadius: 10,
+  },
+  thumbnail: {
+    width: 120, // Ajustez la largeur selon vos besoins
+    height: 120, // Ajustez la hauteur selon vos besoins
+    borderRadius: 6,
+    marginHorizontal: 5, // Ajoutez une valeur de marge horizontale
   },
 });
 export default AfficheConsultation

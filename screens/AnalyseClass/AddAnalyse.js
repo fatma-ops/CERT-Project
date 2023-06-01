@@ -169,7 +169,7 @@ const onChange = (event , selectedDate) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter votre analyse  </Text>
+        <Text style={styles.headerTitle}>   Ajouter votre analyse  </Text>
       </View>
     
     <KeyboardAvoidingWrapper>
@@ -180,9 +180,8 @@ const onChange = (event , selectedDate) => {
     <Formik
       initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.title == '',values.date == ''  ) {
+        if (values.title == ''  ) {
             handleMessage('Veuillez remplir tous les champs obligatoires');
-            
             setSubmitting(false);
         } else {
             submitAnalyse(values, setSubmitting);
@@ -193,29 +192,18 @@ const onChange = (event , selectedDate) => {
     >
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values , isSubmitting }) => (
         <StyledFormArea>
-          
-         
           <MyTextInput
            label="Nom de l'analyse"
            icon="id-badge"
            etoile="*"
-
            placeholder="Analyse"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('title')}
            onBlur={handleBlur('title')}
            value={values.title}
-                              
-                          />
-
- 
-
-           
-
-               
+          />               
           <View>
           <Text style={styles.label}>Médecin</Text> 
-
           <SelectDropdownStyle>
           <SelectDropdown
         data={options}
@@ -235,9 +223,7 @@ const onChange = (event , selectedDate) => {
       />
       </SelectDropdownStyle>
       </View>
-      <Text style={styles.label}>
-    Date<Text style={{ color: 'red' }}>*</Text>
-  </Text>
+      <Text style={styles.label}>Date  <Text style={{ color: 'red' }}>*</Text></Text>
   <DateTimePicker
     style={styles.date}
     value={date}
@@ -247,8 +233,6 @@ const onChange = (event , selectedDate) => {
     locale="fr"
     onPress={handleShowDatePicker}
   />
-
-  
            <Text style={styles.label}>les résultats d'analyse</Text>
            <>
       <View style={styles.imageRow}>
@@ -281,14 +265,16 @@ const onChange = (event , selectedDate) => {
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('cout')}
                 onBlur={handleBlur('cout')}
-                value={values.cout}/>
+                value={values.cout}
+                keyboardType="phone-pad"/>
 
                  <TextInput style={styles.remboursement}
                 placeholder="70.0"
                 placeholderTextColor={darkLight}
                 onChangeText={handleChange('remboursement')}
                 onBlur={handleBlur('remboursement')}
-                value={values.remboursement}/>
+                value={values.remboursement}
+                keyboardType="phone-pad"/>
 
 
           <MsgBox type={messageType}>
@@ -333,7 +319,8 @@ const MyTextInput = ({ label, icon,etoile, isPassword, hidePassword,isDate,showD
             <RowContainer2>
           <StyledInputLabel2> {label}  </StyledInputLabel2>
           <StyledEtoile> {etoile}  </StyledEtoile>
-          </RowContainer2>                {!isDate && <StyledTextInput  {...props} />}
+          </RowContainer2>               
+           {!isDate && <StyledTextInput  {...props} />}
                 {isDate && (
                 <TouchableOpacity onPress={showDatePicker}> 
                     
@@ -422,6 +409,7 @@ const MyTextInput = ({ label, icon,etoile, isPassword, hidePassword,isDate,showD
     shadowOffset:{width:2, height:4},
     shadowRadius:1,
     elevation:5,
+    marginTop:-15
       },
       placeholderText: {
         color: brand ,

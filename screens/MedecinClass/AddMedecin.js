@@ -9,7 +9,6 @@ import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel 
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
-import RegularButton from '../../components/Buttons/RegularButton';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
@@ -116,7 +115,7 @@ const  AddMedecin = ({navigation}) =>  {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter un contact</Text>
+        <Text style={styles.headerTitle}>Ajouter un medecin</Text>
       </View>
   
     <KeyboardAvoidingWrapper>
@@ -352,7 +351,7 @@ const MyTextInput = ({ label,etoile, icon,icon2, ...props }) => {
     paddingLeft:55,
     borderRadius: 20,
     fontSize:16,
-    height:100,
+    height:70,
     marginVertical:3,
     marginBottom:10,
     color:tertiary,
