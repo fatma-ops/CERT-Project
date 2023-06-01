@@ -93,7 +93,7 @@ const ListeConsultation = ({ navigation }) => {
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
   data={consultations}
-  contentInset={{ bottom:700 }}
+  //contentInset={{ bottom:700 }}
 
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
@@ -156,7 +156,7 @@ headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
   color:'white',
-   marginLeft:100
+  marginLeft:70
   
 
 },
@@ -213,6 +213,7 @@ item:{
     borderLeftWidth: 2,
     borderLeftColor: brand,
     //marginBottom:20
+    //backgroundColor:brand,
 },
 liste:{
   
@@ -269,7 +270,7 @@ buttonText:{
     fontWeight:'800'
 },
 scrollView:{
-    marginBottom:10,
+  paddingBottom:20,
 },
 analyse:{
     //flexDirection:'row',

@@ -81,17 +81,17 @@ return (
           <View style={styles.liste}>
           <View style={styles.item}>
             <Text style={styles.text2}>Totale : </Text>
-            <Text style={styles.text}>0.00</Text>
+            <Text style={styles.text}>1000</Text>
 
         </View>
         <View style={styles.item2}>
             <Text style={styles.type}>Consultations</Text>
             <View style={styles.container1}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>500</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>100</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>
@@ -99,11 +99,11 @@ return (
         <View style={styles.item2}>
             <Text style={styles.type}>Traitements</Text>
             <View style={styles.container2}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>300</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>100</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>
@@ -111,11 +111,11 @@ return (
         <View style={styles.item2}>
             <Text style={styles.type}>Analyses</Text>
             <View style={styles.container3}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>600</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>0.00</Text>
+            <Text style={styles.cout1}>200</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>
@@ -165,7 +165,7 @@ headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
   color:'white',
-   marginLeft:100
+   marginLeft:85
 },
 backButton: {
 

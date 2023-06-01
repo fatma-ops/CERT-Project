@@ -109,7 +109,7 @@ const handleModify = () => {
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
         <AntDesign name="left" size={28} color={brand} />
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>        {selectedAnalyse.title}</Text>
+      <Text style={styles.headerTitle}>{selectedAnalyse.title}</Text>
       <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
         <Entypo name="dots-three-vertical" size={26} color={brand} />
       </TouchableOpacity>

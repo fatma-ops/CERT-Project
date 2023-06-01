@@ -65,7 +65,7 @@ const ListeDossier = ({ navigation }) => {
     <View style={[styles.analyseContainer2]}>
                     <StatusBar style="white" />
         <View style={styles.headingContainer}>
-        <Text style={styles.headerTitle}> Mes dossiers</Text>
+        <Text style={styles.headerTitle}>Mes dossiers</Text>
     </View>
 
     <FlatList
@@ -107,15 +107,18 @@ const ListeDossier = ({ navigation }) => {
       >
         <View style={styles.itemContainer}>
           <Image
-            source={require('../../assets/img/dossier.jpeg')}
+            source={require('../../assets/img/dossier.png')}
             style={styles.image}
           />
           <View style={styles.textContainer}>
-            <Text style={styles.title}>Nom du dossier</Text>
+            <Text style={styles.title}></Text>
           </View>
+          
         </View>
+        
       </TouchableOpacity>
     </Swipeable>
+    
   )}
 />
 
@@ -172,9 +175,9 @@ header: {
 },
 headerTitle: {
   fontWeight: '500',
-  fontSize: 27,
+  fontSize: 35,
   color:'white',
-  marginLeft:100,
+  marginLeft:90,
   // alignContent :'center'
 },
 backButton: {
@@ -265,10 +268,10 @@ headingContainer:{
    alignItems :'center',
    backgroundColor:brand,
    height:120,
-   borderBottomLeftRadius:40, 
-   borderBottomRightRadius:40, 
-   borderTopLeftRadius:40, 
-   borderTopRightRadius:40,
+   borderBottomLeftRadius:30, 
+   borderBottomRightRadius:30, 
+   borderTopLeftRadius:30, 
+   borderTopRightRadius:30,
    marginTop:20,  
    margin:0.5,
 

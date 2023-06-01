@@ -7,6 +7,7 @@ import axios from 'axios';
 import { ngrokLink } from '../../config';
 import styled from 'styled-components';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
+import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 const ModalPressableContainer = styled.Pressable`
@@ -18,8 +19,8 @@ justify-content:center;
 
 
 const AfficheConsultation = ({ navigation , route }) => {
-  const { selectedAnalyse } = route.params;
-  const id = selectedAnalyse._id
+const { selectedAnalyse } = route.params;
+const id = selectedAnalyse._id
   //console.log("id" , id);
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
@@ -105,41 +106,44 @@ const handleModify = () => {
       setShowModalImage(false);
     };
   return (
-    
-    
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <>
+    <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{selectedAnalyse.objet}</Text>
+        <Text style={styles.headerTitle}>       Détails consultation</Text>
         <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
           <Entypo name="dots-three-vertical" size={26} color={brand} />
         </TouchableOpacity>
       </View>
+    <KeyboardAvoidingWrapper>
 
-     
-
+    <View style={styles.container} >
+      
+      <View style={styles.container2}>
       <View style={styles.content}>
-      <View style={styles.sectionContent}>
+      <Text style={styles.title}>Etat grippal</Text>
             <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Objet: </Text>
-            <Text style={styles.sectionItem}>{selectedAnalyse.objet}</Text>
+            <Text style={styles.sectionItem2}>Type:  </Text>
+            <Text style={styles.sectionItem}>controle</Text>
             </View>
-            <View style={styles.heelo}>
+            <View style={styles.heelo}> 
             <Text style={styles.sectionItem2}>Date:</Text>
-            <Text style={styles.sectionItem}> {selectedAnalyse.date}</Text>
+            <Text style={styles.sectionItem}>1 mars 2023</Text>
             </View>          
             <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Commenataire: </Text>
-            <Text style={styles.sectionItem}>{selectedAnalyse.type}</Text>
+            <Text style={styles.sectionItem2}>Médecin:  </Text>
+            <Text style={styles.sectionItem}>Dr mokrani</Text>
             </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>coût:           Remboursement:  </Text>
+            <Text style={styles.sectionItem3}>  60                                     0</Text>
+            </View>   
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Ordonnance(s): </Text>
             </View>
-          </View>
     <View style={styles.imageContainer}>
-      {consultationImages.map((image, index) => (
+    {consultationImages.map((image, index) => (
         <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
           <Image
             source={{ uri: `data:${image.contentType};base64,${image.data}` }}
@@ -148,24 +152,27 @@ const handleModify = () => {
         </TouchableOpacity>
       ))}
     </View>
+    <Text style={styles.title}>                          Traitement</Text>
+    <View style={styles.heelo}>
+<Text style={styles.sectionItem2}>coût:           Remboursement:  </Text>
+<Text style={styles.sectionItem3}>  40                                     30</Text>
+</View>  
+<Text style={styles.title2}>Medicament 1</Text>
+ 
+<View style={styles.heelo}>
+<Text style={styles.sectionItem2}>Nom du médicament:</Text>
+<Text style={styles.sectionItem}>                         Doliprane</Text>
+</View>
+<View style={styles.heelo}> 
+<Text style={styles.sectionItem2}>Date de commancement:</Text>
+<Text style={styles.sectionItem}>                         1 mars 2023</Text>
+</View>          
+<View style={styles.heelo}>
+<Text style={styles.sectionItem2}>A apprendre        fois pendant       jours  </Text>
+<Text style={styles.sectionItem3}>              2                            5</Text>
+</View>
+</View>
 
-    <View style={styles.infoContainer}>
-      <View style={styles.infoItem}>
-        <FontAwesome name="heartbeat" size={20} color={brand} style={{ marginRight: 10 }} />
-        <Text style={styles.label}>Objet</Text>
-        <Text style={styles.value}>{selectedAnalyse.objet}</Text>
-      </View>
-      <View style={styles.infoItem}>
-        <FontAwesome name="calendar" size={20} color={brand} style={{ marginRight: 10 }} />
-        <Text style={styles.label}>Date:</Text>
-        <Text style={styles.value}>{selectedAnalyse.date}</Text>
-      </View>
-      <View style={styles.infoItem}>
-        <FontAwesome name="comment" size={20} color={brand} style={{ marginRight: 10 }} />
-        <Text style={{ fontSize: 18, fontWeight: 'bold', marginRight: 10, alignSelf: 'center', color: brand, marginTop: -20 }}>Commentaire:</Text>
-        <Text style={styles.value}>{selectedAnalyse.type}</Text>
-      </View>
-    </View>
   </View>
       <MessageModalImage2
       modalVisible={modalVisible} 
@@ -218,6 +225,8 @@ const handleModify = () => {
   </Modal>
 )}
     </View>
+    </KeyboardAvoidingWrapper>
+    </>
   );
 };
 
@@ -225,7 +234,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    //marginBottom:00,
+    paddingBottom:200,
+  },
+  container2: {
+    flex: 1,
+    backgroundColor: '#fff',
     //marginBottom:10,
+    //margingBottom:700,
   },
   header: {
     flexDirection: 'row',
@@ -233,7 +249,8 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     borderBottomWidth: 0.25,
     borderBottomColor: brand,
-    height:60
+    height:60,
+    backgroundColor:'white'
    
   
   },
@@ -256,23 +273,37 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 20,
     },
-  sectionItem: {
-    fontSize: 18,
-    //marginBottom:5,
-    //marginRight:-5,
-    paddingLeft:135,
-    marginTop:-27, 
-    paddingBottom:5
-  },
-  sectionItem2: {
-    fontSize: 18 ,
-    //marginLeft:-70,
-    //marginBottom: 5,
-    fontWeight: '500',
-    //marginTop:5,
-    paddingBottom:5,
-    color:brand,
-  },
+  title2: {
+    fontWeight: '600',
+    fontSize: 20,
+    marginBottom: 10,
+    marginTop:25,
+    },
+    sectionItem: {   
+      fontSize: 18,
+      //marginBottom:5,
+      //marginRight:-5,
+      paddingLeft:93,
+      marginTop:-26, 
+      paddingBottom:5
+    },
+    sectionItem2: {
+      fontSize: 18 ,
+      //marginLeft:-70, 
+      //marginBottom: 5,
+      fontWeight: '500',
+      //marginTop:5,
+      paddingBottom:5,
+      color:brand,
+    },
+        sectionItem3: {   
+      fontSize: 18,
+      //marginBottom:5,
+      //marginRight:-5,
+      paddingLeft:45,
+      marginTop:-26, 
+      paddingBottom:5
+    },
   backButton: {
     padding: 10,
     marginRight: 10,
@@ -318,8 +349,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     //alignItems: 'center',
-    padding: 20,
+    paddingLeft: 20,
     marginTop:20,
+    paddingRight:20,
+    //margingBottom:550,
     },
   imageContainer: {
     backgroundColor: '#fff',

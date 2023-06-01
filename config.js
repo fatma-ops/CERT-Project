@@ -1,1 +1,1 @@
-export const ngrokLink = "https://f344-197-2-144-46.eu.ngrok.io";
+export const ngrokLink = "https://46dc-197-3-219-176.eu.ngrok.io";
