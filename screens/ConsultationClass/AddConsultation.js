@@ -190,7 +190,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
     formData.append('date', dob);
     formData.append('contact', values.contact);
     values.images.forEach((image, index) => {
-      formData.append('images', {
+      formData.append('ordonnance', {
         uri: image.uri,
         name: `image_${index}.png`,
         type: 'image/png'
@@ -247,7 +247,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
           <Formik
             initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', images: [] }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.contact == '' || values.objet==''|| values.date=='') {
+              if (values.contact == '' || values.objet=='' || values.date=='') {
                 handleMessage('Veuillez remplir  les champs obligatoires');
                 setSubmitting(false);
               } else {
@@ -296,18 +296,16 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
               
                 </View>
                 <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
-
-                <DateTimePicker style={styles.date}
-      value={date}
-      mode="date"
-      //is24Hour={true}
-      display="spinner"
-      onChange={onChange}
-      locale="fr"
-      onPress={handleShowDatePicker}
-      //style={{ position: 'absolute', bottom: 0, left: 0 }}
-
-    />
+                <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
+              
                 <Text style={styles.label}>Médecin <Text style={{ color: 'red' }}>*</Text></Text>
 
                 <SelectDropdownStyle>

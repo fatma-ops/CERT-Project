@@ -199,17 +199,16 @@ const takeImageHandler = async (index, setFieldValue, values) => {
                               
                           />
                 <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
-                <DateTimePicker style={styles.date}
-      value={date}
-      mode="date"
-      //is24Hour={true}
-      display="spinner"
-      onChange={onChange}
-      locale="fr"
-      onPress={handleShowDatePicker}
-      //style={{ position: 'absolute', bottom: 0, left: 0 }}
+                <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
 
-    />
            
            <Text style={styles.label}>Preuve de vaccination</Text>
            <>

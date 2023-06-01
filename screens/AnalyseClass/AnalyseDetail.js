@@ -96,7 +96,7 @@ const AnalyseDetail = ({ route , navigation }) => {
 //Modifier______________________________________________________________________________________________
 const handleModify = () => {
   setShowModal(false);
-  navigation.navigate('ModifyAnalyse' , {title: selectedAnalyse.title, contact: selectedAnalyse.contact, dateAnalyse:selectedAnalyse.date,  commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id,  ImageData: imageData,
+  navigation.navigate('ModifierAnalyse' , {title: selectedAnalyse.title, contact: selectedAnalyse.contact, dateAnalyse:selectedAnalyse.date,  cout:selectedAnalyse.cout,remboursement:selectedAnalyse.remboursement, id: selectedAnalyse._id,    images: analyseImages,
 })   
    };
 
@@ -159,6 +159,20 @@ const handleModify = () => {
         <FontAwesome name="comment" size={20} color={brand} style={{marginRight: 10}} />
           <Text style={{fontSize: 18,fontWeight: 'bold',marginRight: 10,alignSelf:'center',color: brand,marginTop:-20}}>Commentaire:</Text>
           <Text style={styles.value}>{selectedAnalyse.commentaire}</Text>
+        </View>
+
+        <View style={styles.infoItem}>
+        <FontAwesome name="calendar" size={20} color={brand} style={{marginRight: 10}} />
+
+          <Text style={styles.label}>Cout</Text>
+          <Text style={styles.value}>{selectedAnalyse.cout} dt </Text>
+        </View>
+
+        <View style={styles.infoItem}>
+        <FontAwesome name="calendar" size={20} color={brand} style={{marginRight: 10}} />
+
+          <Text style={styles.label}>Remboursement</Text>
+          <Text style={styles.value}>{selectedAnalyse.remboursement} dt</Text>
         </View>
       </View>
 

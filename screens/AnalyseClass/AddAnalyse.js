@@ -144,7 +144,7 @@ const onChange = (event , selectedDate) => {
         }
       });
       console.log(response.data);
-      navigation.navigate('AnalyseFlatList');
+      navigation.navigate('Analyse');
   
       setSubmitting(false);
     } catch (error) {
@@ -180,7 +180,7 @@ const onChange = (event , selectedDate) => {
     <Formik
       initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.title == '',values.date == ''  ) {
+        if (values.title == ''  ) {
             handleMessage('Veuillez remplir tous les champs obligatoires');
             
             setSubmitting(false);
@@ -236,7 +236,7 @@ const onChange = (event , selectedDate) => {
       </SelectDropdownStyle>
       </View>
       <Text style={styles.label}>
-    Date<Text style={{ color: 'red' }}>*</Text>
+    Date
   </Text>
   <DateTimePicker
     style={styles.date}
@@ -247,7 +247,6 @@ const onChange = (event , selectedDate) => {
     locale="fr"
     onPress={handleShowDatePicker}
   />
-
   
            <Text style={styles.label}>les résultats d'analyse</Text>
            <>
@@ -323,33 +322,35 @@ const onChange = (event , selectedDate) => {
   );
 }
 
-const MyTextInput = ({ label, icon,etoile, isPassword, hidePassword,isDate,showDatePicker, setHidePassword, ...props }) => {
-    return (
-        <View>
-            <LeftIcon>
-                <Octicons name={icon} size={24} color={brand} />
-            </LeftIcon>
-            
-            <RowContainer2>
-          <StyledInputLabel2> {label}  </StyledInputLabel2>
-          <StyledEtoile> {etoile}  </StyledEtoile>
-          </RowContainer2>                {!isDate && <StyledTextInput  {...props} />}
-                {isDate && (
-                <TouchableOpacity onPress={showDatePicker}> 
-                    
-                    <StyledTextInput  {...props} />
-                    </TouchableOpacity>)}
-            {isPassword && (
-                <RightIcon onPress={() => setHidePassword(!hidePassword)}>
-                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
-                </RightIcon>
-  
-            )}
-  
-        </View>
-    );
-  
-  }
+const MyTextInput = ({ label, icon, etoile, isPassword, hidePassword, isDate, showDatePicker, setHidePassword, ...props }) => {
+  return (
+    <View>
+      <LeftIcon>
+        <Octicons name={icon} size={24} color={brand} />
+      </LeftIcon>
+
+      <RowContainer2>
+        <StyledInputLabel2>
+          {label} <Text style={{ color: 'red' }}>{etoile}</Text>
+        </StyledInputLabel2>
+      </RowContainer2>
+
+      {!isDate && <StyledTextInput {...props} />}
+      {isDate && (
+        <TouchableOpacity onPress={showDatePicker}>
+          <StyledTextInput {...props} />
+        </TouchableOpacity>
+      )}
+
+      {isPassword && (
+        <RightIcon onPress={() => setHidePassword(!hidePassword)}>
+          <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={24} color={darkLight} />
+        </RightIcon>
+      )}
+    </View>
+  );
+};
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,

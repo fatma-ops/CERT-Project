@@ -49,7 +49,7 @@ const ListeConsultation = ({ navigation }) => {
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
           <AntDesign name="left" size={25} color='white' />
         </TouchableOpacity>
         <View>
