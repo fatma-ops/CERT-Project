@@ -180,7 +180,7 @@ const onChange = (event , selectedDate) => {
     <Formik
       initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.title == ''  ) {
+        if (values.title == '' ||values.images == ''  ) {
             handleMessage('Veuillez remplir tous les champs obligatoires');
             setSubmitting(false);
         } else {
@@ -236,7 +236,7 @@ const onChange = (event , selectedDate) => {
     onPress={handleShowDatePicker}
   />
   
-           <Text style={styles.label}>les résultats d'analyse</Text>
+           <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
            <>
       <View style={styles.imageRow}>
         {values.images.map((image, index) => (

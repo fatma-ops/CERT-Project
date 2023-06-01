@@ -16,6 +16,8 @@ import RowContainer2 from '../../components/Containers/RowContainer2';
 import RegularButton from '../../components/Buttons/RegularButton';
 const { brand, darkLight, primary , secondary, tertiary} = Colors;
 
+
+
 const  AddMedecin = ({navigation}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
@@ -186,15 +188,8 @@ const  AddMedecin = ({navigation}) =>  {
            keyboardType="phone-pad"
            />
            
-            <MyTextInput
-           label="Adresse"
-           icon="location"
-           placeholder="ville,rue"
-           placeholderTextColor={darkLight}
-           onChangeText={handleChange('adresse')}
-           onBlur={handleBlur('adresse')}
-           value={values.adresse}
-            />
+           
+
 
            
 

@@ -96,7 +96,7 @@ const [vaccinImages, setVaccinImages] = useState([]);
 //Modifier______________________________________________________________________________________________
 const handleModify = () => {
     setShowModal(false);
-    navigation.navigate('ModifyVaccin' , {title: selectedAnalyse.title, maladieCible: selectedAnalyse.maladieCible, dateVaccin:selectedAnalyse.date,  commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id,  ImageData: imageData,
+    navigation.navigate('ModifyVaccin' , {title: selectedAnalyse.title, maladieCible: selectedAnalyse.maladieCible, dateVaccin:selectedAnalyse.date,  commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id,  images: vaccinImages,
   })   
      };
 

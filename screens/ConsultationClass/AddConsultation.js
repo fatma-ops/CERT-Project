@@ -246,7 +246,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
           <Formik
             initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', images: [] }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.contact == '' || values.objet=='' ) {
+              if (values.contact == '' || values.objet=='' || values.date==''|| values.images=='') {
                 handleMessage('Veuillez remplir  les champs obligatoires');
                 setSubmitting(false);
               } else {
@@ -259,7 +259,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
                 <MyTextInput
                   label="Objet"
                   etoile="*"
-
+                  icon="id-badge"
                   placeholder=""
                   placeholderTextColor={darkLight}
                   onChangeText={handleChange('objet')}
@@ -327,7 +327,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
                   />
                 </SelectDropdownStyle>
 
-                <Text style={styles.label}>Ordonnance(s)</Text>
+                <Text style={styles.label}>Ordonnance(s)<Text style={{ color: 'red' }}>*</Text></Text>
                 <>
       <View style={styles.imageRow}>
         {values.images.map((image, index) => (
