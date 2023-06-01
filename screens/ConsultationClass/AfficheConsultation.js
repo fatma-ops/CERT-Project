@@ -98,7 +98,7 @@ const AfficheConsultation = ({ navigation , route }) => {
 //Modifier______________________________________________________________________________________________
 const handleModify = () => {
     setShowModal(false);
-    navigation.navigate('ModifyConsultation' , {objet: selectedAnalyse.objet, type: selectedAnalyse.type, dateConsultation:selectedAnalyse.date, contact: selectedAnalyse.contact , id: selectedAnalyse._id , cout:selectedAnalyse.cout,remboursement: selectedAnalyse.remboursement , ordonnanceData: imageData})    
+    navigation.navigate('ModifyConsultation' , {objet: selectedAnalyse.objet, type: selectedAnalyse.type, dateConsultation:selectedAnalyse.date, contact: selectedAnalyse.contact , id: selectedAnalyse._id , cout:selectedAnalyse.cout,remboursement: selectedAnalyse.remboursement , ordonnances:consultationImages })    
      };
 
      const closeModal = () => {

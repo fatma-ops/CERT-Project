@@ -25,7 +25,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
 
-  const {objet , type , ordonnanceData , contact ,dateConsultation, id , cout , remboursement }= route.params
+  const {objet , type , ordonnances , contact ,dateConsultation, id , cout , remboursement }= route.params
 
   // Fetch the list of contacts from the database____________________________________________________________
   const [contacts, setContacts] = useState([]);
@@ -86,64 +86,152 @@ const ModifyConsultation = ({ navigation ,route }) => {
     setModalVisible(true);
   }
   //________________________________________________________________________________________________
-
-  //image____________________________________________________________________________________________________
-const takeImageHandler = async (setFieldValue) => {
-  let img;
-  setIsEditingImage(true);
-
-  const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-
-  if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-    alert('Désolé, nous avons besoin d\'autorisations d\'accès à la pellicule de la caméra pour que cela fonctionne !');
-    return;
-  }
-
-  Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-    {
-      text: 'Depuis la galerie',
-      onPress: async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          //allowsEditing: true,
-          aspect: [16, 9],
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          base64: true,
-          quality: 1,
-          allowsMultipleSelection: true,
-        });
-        if (!result.canceled) {
-          setFieldValue('image', result.assets[0].uri);
-        } else {
-          setFieldValue('image', currentImageData.image.data);
-        }
-        setIsEditingImage(false);
-      },
-    },
-    {
-      text: 'Ouvrir la caméra',
-      onPress: async () => {
-        let result = await ImagePicker.launchCameraAsync({
-          allowsEditing: true,
-          aspect: [24, 9],
-          base64: true,
-          quality: 0.5,
-        });
-        if (!result.canceled) {
-          setFieldValue('image', result.assets[0].uri);
-        } else {
-          setFieldValue('image', currentImageData.image.data);
-        }
-        setIsEditingImage(false);
-      },
-    },
-    { text: 'Annuler', style: 'cancel' },
-  ]);
-};
-
-
+  const addImageHandler = async (setFieldValue, values) => {
+    const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
   
-
+    if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+      alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
+      return;
+    }
+  
+    Alert.alert('Ajouter une image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+      {
+        text: 'Depuis la galerie',
+        onPress: async () => {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            aspect: [16, 9],
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true,
+            quality: 1,
+          });
+  
+          if (!result.canceled) {
+            const newImage = { uri: result.assets[0].uri };
+            const updatedImages = [...values.images, newImage];
+            setFieldValue('images', updatedImages);
+          }
+        },
+      },
+      {
+        text: 'Ouvrir la caméra',
+        onPress: async () => {
+          let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [24, 9],
+            base64: true,
+            quality: 0.5,
+          });
+  
+          if (!result.canceled) {
+            const newImage = { uri: result.assets[0].uri };
+            const updatedImages = [...values.images, newImage];
+            setFieldValue('images', updatedImages);
+          }
+        },
+      },
+      { text: 'Annuler', style: 'cancel' },
+    ]);
+  };
+  
+    
+  const editImageHandler = async (index, setFieldValue, values) => {
+    const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+  
+    if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+      alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
+      return;
+    }
+  
+    Alert.alert('Modifier Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+      {
+        text: 'Depuis la galerie',
+        onPress: async () => {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            aspect: [16, 9],
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true,
+            quality: 1,
+            allowsEditing: true,
+          });
+  
+          if (!result.canceled) {
+            const updatedImages = [...values.images];
+            updatedImages[index].uri = result.assets[0].uri;
+            setFieldValue('images', updatedImages);
+          }
+        },
+      },
+      {
+        text: 'Ouvrir la caméra',
+        onPress: async () => {
+          let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [24, 9],
+            base64: true,
+            quality: 0.5,
+          });
+  
+          if (!result.canceled) {
+            const updatedImages = [...values.images];
+            updatedImages[index].uri = result.assets[0].uri;
+            setFieldValue('images', updatedImages);
+          }
+        },
+      },
+      { text: 'Annuler', style: 'cancel' },
+    ]);
+  };
+  //image____________________________________________________________________________________________________
+  const takeImageHandler = async (index, setFieldValue, values) => {
+    const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+  
+    if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+      alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
+      return;
+    }
+  
+    Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+      {
+        text: 'Depuis la galerie',
+        onPress: async () => {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            aspect: [16, 9],
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            base64: true,
+            quality: 1,
+            allowsMultipleSelection: true,
+          });
+          if (!result.canceled) {
+            const newImages = result.assets.map((asset) => ({ uri: asset.uri }));
+            const updatedImages = [...values.images];
+            updatedImages[index] = newImages[0];
+            setFieldValue('images', updatedImages);
+          }
+        },
+      },
+      {
+        text: 'Ouvrir la caméra',
+        onPress: async () => {
+          let result = await ImagePicker.launchCameraAsync({
+            allowsEditing: true,
+            aspect: [24, 9],
+            base64: true,
+            quality: 0.5,
+          });
+          if (!result.canceled) {
+            const newImage = { uri: result.assets[0].uri };
+            const updatedImages = [...values.images];
+            updatedImages[index] = newImage;
+            setFieldValue('images', updatedImages);
+          }
+        },
+      },
+      { text: 'Annuler', style: 'cancel' },
+    ]);
+  };
 
 
   // Fonction Add Consultation _____________________________________________________________________      
@@ -155,10 +243,13 @@ const takeImageHandler = async (setFieldValue) => {
     formData.append('type', values.type);
     formData.append('date', dob);
     formData.append('contact', values.contact);
-    formData.append('ordonnance', {
-      uri: `data:${imageData.ordonnance.contentType};base64,${imageData.ordonnance.data}`,
-      name: 'image.png',
-      type: 'image/png'
+     // Ajouter une boucle pour parcourir les images
+     values.images.forEach((image, index) => {
+      formData.append('ordonnance', {
+        uri: image.uri,
+        name: `image_${index}.png`,
+        type: 'image/png'
+      });
     });
     formData.append('userEmail', email);
     formData.append('cout', values.cout);
@@ -187,25 +278,8 @@ const takeImageHandler = async (setFieldValue) => {
     setMessageType(type);
   };
   //Affchier Image __________________________________________________________________________________________
-const [imageData, setImageData] = useState(null);
-const [isEditingImage, setIsEditingImage] = useState(false);
-const [currentImageData, setCurrentImageData] = useState(null);
 
 
-
-useEffect(() => {
-  fetchImageData();
-}, []);
-
-const fetchImageData = async () => {
-  try {
-    const response = await axios.get(`${ngrokLink}/api/v1/consultation/imageConsultation/${id}`);
-    setImageData(response.data);
-    
-  } catch (error) {
-    console.error('Error fetching image data:', error);
-  }
-};
 
 // JSX____________________________________________________________________________________________________
   return (
@@ -224,9 +298,9 @@ const fetchImageData = async () => {
         <InnerContainer>
           <SubTitle></SubTitle>
           <Formik
-            initialValues={{ objet:objet,type: type, date: dateConsultation, contact: contact, cout: cout, remboursement: remboursement, ordonnance: ordonnanceData }}
+            initialValues={{ objet:objet,type: type, date: dateConsultation, contact: contact, cout: cout, remboursement: remboursement, images: [ordonnances] }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.type == '' || values.objet=='') {
+              if (values.contact == '' || values.objet=='' || values.date==''|| values.images=='') {
                 handleMessage('Veuillez remplir  les champs obligatoire');
                 setSubmitting(false);
               } else {
@@ -238,7 +312,9 @@ const fetchImageData = async () => {
               <StyledFormArea>
                 <MyTextInput
                   label="Objet"
-                  // icon="id-badge"
+                  etoile="*"
+
+                  icon="id-badge"
                   placeholder=""
                   placeholderTextColor={darkLight}
                   onChangeText={handleChange('objet')}
@@ -254,6 +330,9 @@ const fetchImageData = async () => {
             onSelect={(selectedItem, index) => {
               setFieldValue('type', selectedItem);
             }}
+            renderDropdownIcon={() => (
+              <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+            )} 
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
             }}
@@ -265,19 +344,33 @@ const fetchImageData = async () => {
             dropdownStyle={styles.dropdown}
             rowStyle={styles.dropdownRow}
             rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir le type de consultation"
-          />
+            defaultButtonText={values.type ? values.type : 'Choisir le type '}
+            />
           </SelectDropdownStyle>
+          <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
+          <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
               
                 </View>
-                <Text style={styles.label}>Médecin</Text>
+                <Text style={styles.label}>Médecin <Text style={{ color: 'red' }}>*</Text></Text>
 
                 <SelectDropdownStyle>
                   <SelectDropdown
                     data={options}
                     onSelect={(selectedItem, index) => {
                       setFieldValue('contact', selectedItem);
-                    }} defaultButtonText="Choisir votre médecin"
+                    }}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+                    )} 
+                    defaultButtonText={values.contact ? values.contact : 'Choisir votre médecin'}
                     buttonStyle={styles.dropdownButton}
                     buttonTextStyle={styles.dropdownButtonText}
                     dropdownStyle={styles.dropdown}
@@ -287,49 +380,33 @@ const fetchImageData = async () => {
                   />
                 </SelectDropdownStyle>
 
-                <Text style={styles.label}>Ordonnance(s)</Text>
-                <ViewImage style={styles.imageContainer}>
-                  <Ionicons name='camera' onPress={() => takeImageHandler(setFieldValue)} size={70} color={darkLight} style={{ paddingTop: 15, paddingLeft: 70, justifyContent: 'center', alignItems: 'center' }} />
-                  {imageData && imageData.ordonnance.contentType && imageData.ordonnance.data && (
-  <TouchableOpacity
-    onPress={() => takeImageHandler(setFieldValue)}
-    style={{
-      position: 'absolute',
-      padding: 25,
-      left: 70,
-      paddingRight: 65,
-      paddingLeft: 15,
-      borderRadius: 20,
-      fontSize: 16,
-      height: 200,
-      width: '90%',
-      zIndex: 1,
-      marginVertical: 3,
-      justifyContent: 'center',
-      alignSelf: 'center',
-      alignItems: 'center'
-    }}
-  >
-    {isEditingImage ? (
-      <Image
-        source={{
-          uri: `data:${imageData.ordonnance.contentType};base64,${imageData.ordonnance.data}`
-        }}
-        style={{ width: '199%', height: 200 }}
-      />
-    ) : (
-      <Image
-      source={{uri: `data:${imageData.ordonnance.contentType};base64,${imageData.ordonnance.data}`
-    }} // Utilisez simplement l'URI de l'image existante
-      style={{ width: '199%', height: 200 }}
-    />
-    )}
-  </TouchableOpacity>
-)}
+                <Text style={styles.label}>Ordonnance(s) <Text style={{ color: 'red' }}>*</Text></Text>
+                <>
+      <View style={styles.imageRow}>
+        {ordonnances.map((image, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => takeImageHandler(index, setFieldValue, values)}
+            style={styles.imageContainer}
+          >
+            <Image source={{ uri: `data:${image.contentType};base64,${image.data}` }} style={styles.image} />
+          </TouchableOpacity>
+        ))}
+        {values.images.length < 3 && (
+          <TouchableOpacity
+            style={styles.placeholder}
+            onPress={() => takeImageHandler(values.images.length, setFieldValue, values)}
+          >
+            <Ionicons name="camera" size={40} color={brand} />
+            <Text style={styles.placeholderText}>Ajouter votre document </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      
+    </>
 
-                  <Text style={{ textAlign: 'center', paddingRight: 30, color: darkLight }}>Ajouter votre document</Text>
 
-                </ViewImage>
+
                 <Text style={styles.label}>Dépenses</Text>
                 <Text style={styles.label2}>Coût                                    Remboursement</Text>
             <TextInput
@@ -337,7 +414,7 @@ const fetchImageData = async () => {
             placeholder="100.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('cout')}
-            value={values.cout}
+            value={values.cout ? values.cout.toString() : ''} // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
 
@@ -346,7 +423,7 @@ const fetchImageData = async () => {
             placeholder="70.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('remboursement')}
-            value={values.remboursement}
+            value={values.remboursement ? remboursement.toString() : ''} // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
 
@@ -539,22 +616,22 @@ const styles = StyleSheet.create({
   },
   dropdownButton: {
     backgroundColor: secondary,
-    alignItems: 'center',
-    borderRadius: 20,
-    padding: 15,
+    alignItems:'center',
+    borderRadius:20,
+    padding:15,
     //paddingLeft:55,
-    paddingRight: 0,
-    height: 50,
-    marginVertical: -7,
-    marginBottom: 10,
-    marginLeft: 34,
-    marginRight: -10,
+    paddingRight:0,
+    height:50,
+    marginVertical:-7,
+    marginBottom:10, 
+   marginLeft:-10,
+    marginRight:-10,
   },
   dropdownButtonText: {
     fontSize: 16,
-    color: '#333',
+    color: brand,
     //paddingHorizontal:-50,
-    paddingRight: -90,
+    paddingRight:-90,
   },
   dropdown: {
     borderWidth: 1,
@@ -636,6 +713,40 @@ const styles = StyleSheet.create({
     shadowOffset: 2,
     shadowRadius: 1,
     elevation: 5,
+  },
+  imageRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+    marginTop:5
+  },
+  imageContainer: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  placeholder: {
+    width: 100,
+    height: 100,
+    backgroundColor: secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf:'center',
+    borderRadius:10,
+    shadowOpacity:0.25,
+shadowOffset:{width:2, height:4},
+shadowRadius:1,
+elevation:5,
+  },
+  placeholderText: {
+    color: brand ,
+    fontSize: 14,
+    marginTop: 5,
   },
 
 });

@@ -160,7 +160,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     <Formik
       initialValues={{ title: '',maladieCible:'', date: '',commentaire:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.title == '' , values.maladieCible =='' ) {
+        if (values.title == '' || values.maladieCible ==''||values.images =='' ) {
             handleMessage('Veuillez remplir  les champs obligatoires');
             setSubmitting(false);
         } else {
@@ -198,7 +198,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
            value={values.maladieCible}
                               
                           />
-                <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
+                <Text style={styles.label}>Date</Text> 
                 <DateTimePicker
     style={styles.date}
     value={date}
@@ -210,7 +210,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
   />
 
            
-           <Text style={styles.label}>Preuve de vaccination</Text>
+           <Text style={styles.label}>Preuve de vaccination <Text style={{ color: 'red' }}>*</Text></Text>
            <>
       <View style={styles.imageRow}>
         {values.images.map((image, index) => (

@@ -182,10 +182,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
         ]);
       };
       
-      const deleteImageHandler = (index, setFieldValue, values) => {
-        const updatedImages = values.images.filter((_, i) => i !== index);
-        setFieldValue('images', updatedImages);
-      };
+    
       
       
       
