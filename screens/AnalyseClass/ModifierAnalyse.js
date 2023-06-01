@@ -286,7 +286,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
                   images: [],
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  if (values.title === '' || values.date === '') {
+                  if (values.title === '' || values.images === '') {
                     handleMessage('Veuillez remplir tous les champs obligatoires');
                     setSubmitting(false);
                   } else {
