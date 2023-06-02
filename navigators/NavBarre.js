@@ -17,6 +17,7 @@ import AddConsultation from '../screens/ConsultationClass/AddConsultation'
 import ListeAddRappelTraitement from '../screens/RappelClass/ListeAddRappelTraitement'
 import ListeDossier from '../screens/DossierClass/ListeDossier'
 import AfficheConsultation from '../screens/ConsultationClass/AfficheConsultation'
+import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
 
 const { darkLight, brand , red } = Colors;
 const Tab = createBottomTabNavigator();
@@ -64,8 +65,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="AfficheConsultation"
-                component={AfficheConsultation}
+            <Tab.Screen name="UpdateTraitement"
+                component={UpdateTraitement}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (

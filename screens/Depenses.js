@@ -13,85 +13,125 @@ const { green, brand, darkLight, primary, secondary,tertiary } = Colors;
 
 const Depenses = ({ navigation }) => {
   const [analyses, setAnalyses] = useState([]);
-  const [treatements, setTreatements] = useState([]);
   const [consultations, setConsultations] = useState([]);
+  const [traitements, setTraitements] = useState([]);
 
-  const [cout, setCout] = useState(0);
-const [remboursement, setRemboursement] = useState(0);
+
+  
 
 
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const { email } = storedCredentials;
   const [filteredAnalyses, setFilteredAnalyses] = useState([]);
   
- // Fetch data for analyses
+ // Définir les variables d'état pour les totaux
+const [totalCoutAnalyses, setTotalCoutAnalyses] = useState(0);
+const [totalRemboursementAnalyses, setTotalRemboursementAnalyses] = useState(0);
+const [totalCoutTraitements, setTotalCoutTraitements] = useState(0);
+const [totalRemboursementTraitements, setTotalRemboursementTraitements] = useState(0);
+const [totalCoutConsultations, setTotalCoutConsultations] = useState(0);
+const [totalRemboursementConsultations, setTotalRemboursementConsultations] = useState(0);
+
+// ...
+
+// Fetch data for analyses
 useEffect(() => {
-  axios.get(`${ngrokLink}/api/v1/analyse/${email}?cache_bust=123456789`)
+  axios
+    .get(`${ngrokLink}/api/v1/analyse/${email}?cache_bust=123456789`)
     .then(response => {
-      setAnalyses(response.data);
-      // Update the cout and remboursement values based on the fetched analyses data
-      const totalCoutAnalyse = response.data.reduce((sum, analyse) => sum + (analyse.cout || 0), 0);
-      const totalRemboursementAnalyse = response.data.reduce((sum, analyse) => sum + (analyse.remboursement || 0), 0);
-      setCout(totalCoutAnalyse);
-      setRemboursement(totalRemboursementAnalyse);
+      const analysesData = response.data;
+
+      let totalCout = 0;
+      let totalRemboursement = 0;
+
+      // Calculer les totaux des coûts et des remboursements pour les analyses
+      analysesData.forEach(analysis => {
+        totalCout += analysis.cout;
+        totalRemboursement += analysis.remboursement;
+      });
+
+      setTotalCoutAnalyses(totalCout);
+      setTotalRemboursementAnalyses(totalRemboursement);
     })
     .catch(error => console.log(error));
 }, [email]);
 
-// Fetch data for treatments
+// Fetch data for traitements
 useEffect(() => {
-  axios.get(`${ngrokLink}/api/v1/traitement/${email}?cache_bust=123456789`)
+  axios
+    .get(`${ngrokLink}/api/v1/traitement/traitements/${email}?cache_bust=123456789`)
     .then(response => {
-      setTreatements(response.data);
-      // Update the cout and remboursement values based on the fetched treatments data
-      const totalCoutTraitement = response.data.reduce((sum, treatment) => sum + (treatment.cout || 0), 0);
-      const totalRemboursementTraitement = response.data.reduce((sum, treatment) => sum + (treatment.remboursement || 0), 0);
-      setCout(prevCout => prevCout + totalCoutTraitement);
-      setRemboursement(prevRemboursement => prevRemboursement + totalRemboursementTraitement);
+      const traitementsData = response.data;
+
+      let totalCout = 0;
+      let totalRemboursement = 0;
+
+      // Calculer les totaux des coûts et des remboursements pour les traitements
+      traitementsData.forEach(traitement => {
+        totalCout += traitement.cout;
+        totalRemboursement += traitement.remboursement;
+      });
+
+      setTotalCoutTraitements(totalCout);
+      setTotalRemboursementTraitements(totalRemboursement);
     })
-    .catch(error => console.log(error));
-}, [email]);
+    .catch(error => console.error(error));
+}, [email, id]);
 
 // Fetch data for consultations
 useEffect(() => {
-  axios.get(`${ngrokLink}/api/v1/consultation/${email}?cache_bust=123456789`)
+  axios
+    .get(`${ngrokLink}/api/v1/consultation/${email}?cache_bust=123456789`)
     .then(response => {
-      setConsultations(response.data);
-      // Update the cout and remboursement values based on the fetched consultations data
-      const totalCoutConsultation = response.data.reduce((sum, consultation) => sum + (consultation.cout || 0), 0);
-      const totalRemboursementConsultation = response.data.reduce((sum, consultation) => sum + (consultation.remboursement || 0), 0);
-      setCout(prevCout => prevCout + totalCoutConsultation);
-      setRemboursement(prevRemboursement => prevRemboursement + totalRemboursementConsultation);
+      const consultationsData = response.data;
+
+      let totalCout = 0;
+      let totalRemboursement = 0;
+
+      // Calculer les totaux des coûts et des remboursements pour les consultations
+      consultationsData.forEach(consultation => {
+        totalCout += consultation.cout;
+        totalRemboursement += consultation.remboursement;
+      });
+
+      setTotalCoutConsultations(totalCout);
+      setTotalRemboursementConsultations(totalRemboursement);
     })
     .catch(error => console.log(error));
 }, [email]);
 
+// Calculer les dépenses totales
+const totalDepenses = totalCoutAnalyses - totalRemboursementAnalyses +
+                      totalCoutTraitements - totalRemboursementTraitements +
+                      totalCoutConsultations - totalRemboursementConsultations;
+
+// ...
 
 return (
-   <View style={[styles.analyseContainer2]}>
-      <StatusBar style="white" />
-          <View style={styles.header2}>
-          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
-          <AntDesign name="left" size={25} color='white' />
-        </TouchableOpacity>
-        <View>
+  <View style={[styles.analyseContainer2]}>
+    <StatusBar style="white" />
+    <View style={styles.header2}>
+      <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
+        <AntDesign name="left" size={25} color="white" />
+      </TouchableOpacity>
+      <View>
           <Text style={styles.headerTitle}>Mes Dépenses</Text></View>
        </View>
        <View style={styles.analyseContainer}>
           <View style={styles.liste}>
           <View style={styles.item}>
             <Text style={styles.text2}>Totale : </Text>
-            <Text style={styles.text}>1000</Text>
+            <Text style={styles.text}>{totalDepenses}</Text>
 
         </View>
         <View style={styles.item2}>
             <Text style={styles.type}>Consultations</Text>
             <View style={styles.container1}>
-            <Text style={styles.cout1}>500</Text>
+            <Text style={styles.cout1}>{totalCoutConsultations}</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>100</Text>
+            <Text style={styles.cout1}>{totalRemboursementConsultations}</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>
@@ -99,11 +139,11 @@ return (
         <View style={styles.item2}>
             <Text style={styles.type}>Traitements</Text>
             <View style={styles.container2}>
-            <Text style={styles.cout1}>300</Text>
+            <Text style={styles.cout1}>{totalCoutTraitements}</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>100</Text>
+            <Text style={styles.cout1}>{totalRemboursementTraitements}</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>
@@ -111,11 +151,11 @@ return (
         <View style={styles.item2}>
             <Text style={styles.type}>Analyses</Text>
             <View style={styles.container3}>
-            <Text style={styles.cout1}>600</Text>
+            <Text style={styles.cout1}>{totalCoutAnalyses}</Text>
             <Text style={styles.cout2}>Cout</Text>
             </View>
             <View style={styles.cout}>
-            <Text style={styles.cout1}>200</Text>
+            <Text style={styles.cout1}>{totalRemboursementAnalyses}</Text>
             <Text style={styles.cout2}>Remboursement</Text>
             </View>
         </View>

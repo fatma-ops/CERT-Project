@@ -20,7 +20,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
  
 const ListeDossier = ({ navigation }) => {
-  const [rappels, setRappels] = useState([]);
+  const [dossier, setDossier] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   //const screenHeight = Dimensions.get('window').height;
 
@@ -28,7 +28,7 @@ const ListeDossier = ({ navigation }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${ngrokLink}/api/v1/rappel/delete/${id}`, {
+      const response = await fetch(`${ngrokLink}/api/v1/dossier/delete/${id}`, {
         method: 'DELETE'
       });
       const data = await response.json();
@@ -43,19 +43,10 @@ const ListeDossier = ({ navigation }) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredRappels, setFilteredRappels] = useState([]);
-  const handleOnSearchInput = (text) => {
-    setSearchQuery(text);
-      const filtered = rappels.filter(
-        (item) =>
-          item &&
-          item.medicament &&
-          item.medicament.toLowerCase().includes(text.toLowerCase())
-      );
-      setFilteredRappels(filtered);
-    };
+  
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/rappel/${email}?cache_bust=123456789`)
-      .then(response => setRappels(response.data))
+    axios.get(`${ngrokLink}/api/v1/dossier/${email}?cache_bust=123456789`)
+      .then(response => setDossier(response.data))
       .catch(error => console.log(error));
   }, [email]);
 
@@ -70,7 +61,7 @@ const ListeDossier = ({ navigation }) => {
 
     <FlatList
   style={styles.item}
-  data={rappels}
+  data={dossier}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
     <Swipeable
@@ -99,8 +90,8 @@ const ListeDossier = ({ navigation }) => {
     >
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("UpdateRappel", {
-            selectedRappel: item,
+          navigation.navigate("UpdateDossier", {
+            selectedDossier: item,
           })
         }
         style={styles.liste}

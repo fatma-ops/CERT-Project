@@ -1,13 +1,18 @@
 import { View, Text, StyleSheet, Image, Modal,Button,TouchableOpacity } from 'react-native';
 import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../../components/styles';
-import { useState , useEffect} from 'react';
+import { useState , useEffect, useContext} from 'react';
+import { CredentialsContext } from '../../components/CredentialsContext';
+
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
 import { ngrokLink } from '../../config';
 import styled from 'styled-components';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
+import {FlatList} from 'react-native'
+import { SafeAreaView } from 'react-native';
+
 
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 const ModalPressableContainer = styled.Pressable`
@@ -21,6 +26,10 @@ justify-content:center;
 const AfficheConsultation = ({ navigation , route }) => {
 const { selectedAnalyse } = route.params;
 const id = selectedAnalyse._id
+const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+
+const { email } = storedCredentials;
+
   //console.log("id" , id);
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
@@ -38,16 +47,18 @@ const id = selectedAnalyse._id
 
 
 
-  const [imageData, setImageData] = useState(null);
-
+//show Image__________________________________________________________________________
   const handleImageClick = (image) => {
     setImageModal(image);
     setShowModalImage(true);
   };
+  
+  const closeModal = () => {
+    setImageModal(null);
+  };
  
-
   const [consultationImages, setConsultationImages] = useState([]);
-
+//fetching images_____________________________________________________________________
   useEffect(() => {
     fetchConsultationImages();
   }, []);
@@ -61,6 +72,8 @@ const id = selectedAnalyse._id
       console.error('Error fetching analyse images:', error);
     }
   };
+    //show modal_______________________________________________________________
+
   const buttonHandler = (isDeleteConfirmed) => {
     if (isDeleteConfirmed) {
       handleDelete();
@@ -70,6 +83,7 @@ const id = selectedAnalyse._id
   const openModal = () => {
     ShowModal('success', 'Confirmation', 'Êtes-vous sûr de supprimer cette consultation ?', 'OK', 'Cancel');
   };
+
   const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonText) => {
     setShowModal(false);
     setModalMessageType(type);
@@ -80,7 +94,7 @@ const id = selectedAnalyse._id
     setModalVisible(true);
   };
 
-
+ 
 //Delete_______________________________________________________________________________________________
  const handleDelete = async () => {
       try {
@@ -101,79 +115,135 @@ const handleModify = () => {
     setShowModal(false);
     navigation.navigate('ModifyConsultation' , {objet: selectedAnalyse.objet, type: selectedAnalyse.type, dateConsultation:selectedAnalyse.date, contact: selectedAnalyse.contact , id: selectedAnalyse._id , cout:selectedAnalyse.cout,remboursement: selectedAnalyse.remboursement , ordonnances:consultationImages })    
      };
+//affiche Traitement__________________________________________________________________
+const [traitements, setTraitements] = useState([]);
 
-     const closeModal = () => {
-      setShowModalImage(false);
-    };
+useEffect(() => {
+  const fetchTraitements = async () => {
+    try {
+      const response = await axios.get(`${ngrokLink}/api/v1/traitement/traitements/${email}/${id}`);
+      setTraitements(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchTraitements();
+}, [email, id]);
+
+
+
+
+
+    
   return (
     <>
     <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <AntDesign name="left" size={28} color={brand} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>       Détails consultation</Text>
-        <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
-          <Entypo name="dots-three-vertical" size={26} color={brand} />
-        </TouchableOpacity>
-      </View>
-    <KeyboardAvoidingWrapper>
-
-    <View style={styles.container} >
-      
-      <View style={styles.container2}>
-      <View style={styles.content}>
-      <Text style={styles.title}>Etat grippal</Text>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Type:  </Text>
-            <Text style={styles.sectionItem}>controle</Text>
-            </View>
-            <View style={styles.heelo}> 
-            <Text style={styles.sectionItem2}>Date:</Text>
-            <Text style={styles.sectionItem}>1 mars 2023</Text>
-            </View>          
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Médecin:  </Text>
-            <Text style={styles.sectionItem}>Dr mokrani</Text>
-            </View>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>coût:           Remboursement:  </Text>
-            <Text style={styles.sectionItem3}>  60                                     0</Text>
-            </View>   
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Ordonnance(s): </Text>
-            </View>
-    <View style={styles.imageContainer}>
-    {consultationImages.map((image, index) => (
-        <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
-          <Image
-            source={{ uri: `data:${image.contentType};base64,${image.data}` }}
-            style={styles.thumbnail}
-          />
-        </TouchableOpacity>
-      ))}
+      {/* Back button */}
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <AntDesign name="left" size={28} color={brand} />
+      </TouchableOpacity>
+      {/* Title */}
+      <Text style={styles.headerTitle}>Détails consultation</Text>
+      {/* More options button */}
+      <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
+        <Entypo name="dots-three-vertical" size={26} color={brand} />
+      </TouchableOpacity>
     </View>
-    <Text style={styles.title}>                          Traitement</Text>
-    <View style={styles.heelo}>
-<Text style={styles.sectionItem2}>coût:           Remboursement:  </Text>
-<Text style={styles.sectionItem3}>  40                                     30</Text>
-</View>  
-<Text style={styles.title2}>Medicament 1</Text>
- 
-<View style={styles.heelo}>
-<Text style={styles.sectionItem2}>Nom du médicament:</Text>
-<Text style={styles.sectionItem}>                         Doliprane</Text>
+    <KeyboardAvoidingWrapper>
+      <View style={styles.container}>
+        <View style={styles.container2}>
+          <View style={styles.content}>
+            {/* Analyse details */}
+            <Text style={styles.title}>{selectedAnalyse.objet}</Text>
+            <View style={styles.heelo}>
+              <Text style={styles.sectionItem2}>Type: </Text>
+              <Text style={styles.sectionItem}>{selectedAnalyse.type}</Text>
+            </View>
+            <View style={styles.heelo}>
+              <Text style={styles.sectionItem2}>Date:</Text>
+              <Text style={styles.sectionItem}>{selectedAnalyse.date}</Text>
+            </View>
+            <View style={styles.heelo}>
+              <Text style={styles.sectionItem2}>Médecin: </Text>
+              <Text style={styles.sectionItem}>{selectedAnalyse.contact}</Text>
+            </View>
+            {/* cout  et remboursement*/}
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: 'row', marginRight: 70 }}>
+                <Text style={styles.sectionItem2}>Coût:</Text>
+                <Text style={{ fontSize: 18 }}>{selectedAnalyse.cout}</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.sectionItem2}>Remboursement:</Text>
+                <Text style={{ fontSize: 18 }}>{selectedAnalyse.remboursement}</Text>
+              </View>
+            </View>
+            {/* Ordonnances */}
+            <View style={styles.heelo}>
+              <Text style={styles.sectionItem2}>Ordonnance(s): </Text>
+            </View>
+            <View style={styles.imageContainer}>
+              {/* Render ordonnance images */}
+              {consultationImages.map((image, index) => (
+                <TouchableOpacity key={index} onPress={() => handleImageClick(image)}>
+                  <Image
+                    source={{ uri: `data:${image.contentType};base64,${image.data}` }}
+                    style={styles.thumbnail}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+            
+            <>
+    <Text style={{ alignSelf: 'center', fontWeight: 'bold', fontSize: 20, marginBottom: 20 }}>
+      Traitement(s)
+    </Text>
+    {traitements.map((traitement, index) => (
+  <View style={styles.traitementContainer} key={index}>
+    <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', marginRight: 70 }}>
+        <Text style={styles.sectionItem2}>Coût:</Text>
+        <Text style={{ fontSize: 18 }}>{traitement.cout}</Text>
+      </View>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={styles.sectionItem2}>Remboursement:</Text>
+        <Text style={{ fontSize: 18 }}>{traitement.remboursement}</Text>
+      </View>
+    </View>
+    {traitement.medicaments && traitement.medicaments.length > 0 ? (
+      traitement.medicaments.map((medicament, medicamentIndex) => (
+        <View style={styles.medicamentContainer} key={medicamentIndex}>
+          <Text style={styles.medicamentTitle}>Médicament {medicamentIndex + 1}</Text>
+          <View style={styles.medicamentInfoContainer}>
+            <Text style={styles.sectionItem2}>Nom du médicament: </Text>
+            <Text style={styles.medicamentInfoText}>{medicament.nommedicament}</Text>
+          </View>
+          <View style={styles.medicamentInfoContainer}>
+            <Text style={styles.sectionItem2}>Date de commencement: </Text>
+            <Text style={styles.medicamentInfoText}>{medicament.dateDeCommencement}</Text>
+          </View>
+          <View style={styles.medicamentInfoContainer}>
+                <View style={styles.foisContainer}>
+                  <Text style={styles.sectionItem2}>A prendre </Text>
+                  <Text style={{ fontSize: 18 ,fontWeight: 'bold', }}>{medicament.nbrfois}</Text>
+                  <Text style={styles.sectionItem2}> fois </Text>
+                  <Text style={styles.sectionItem2}>pendant </Text>
+                  <Text  style={{fontWeight: 'bold' , fontSize: 18}}>{medicament.nbrJours}</Text>
+                  <Text style={styles.sectionItem2}>jours</Text>
+                </View>
+              </View>
 </View>
-<View style={styles.heelo}> 
-<Text style={styles.sectionItem2}>Date de commancement:</Text>
-<Text style={styles.sectionItem}>                         1 mars 2023</Text>
-</View>          
-<View style={styles.heelo}>
-<Text style={styles.sectionItem2}>A apprendre        fois pendant       jours  </Text>
-<Text style={styles.sectionItem3}>              2                            5</Text>
-</View>
-</View>
-
+      ))
+    ) : (
+      <Text>Aucun traitement trouvé</Text>
+    )}
   </View>
+))}
+
+  </>
+          </View>
+        </View>
       <MessageModalImage2
       modalVisible={modalVisible} 
       buttonHandler={buttonHandler} 
@@ -210,7 +280,6 @@ const handleModify = () => {
     </ModalPressableContainer>
 
   </Modal>
-
       {imageModal && imageModal.contentType && imageModal.data && (
   <Modal visible={!!imageModal} animationType="fade" transparent={true}>
     <View style={styles.imageModalContainer}>
@@ -384,6 +453,74 @@ const styles = StyleSheet.create({
     height: 120, // Ajustez la hauteur selon vos besoins
     borderRadius: 6,
     marginHorizontal: 5, // Ajoutez une valeur de marge horizontale
+  },
+
+  listContainer: {
+    flex: 1,
+    marginTop: 20,
+  },
+  listContentContainer: {
+    paddingBottom: 20,
+  },
+  traitementContainer: {
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+    marginBottom: 20,
+  },
+  coutRemboursementContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  coutRemboursementText: {
+    fontSize: 18,
+  },
+  medicamentContainer: {
+    marginTop: 10,
+  },
+  medicamentTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  medicamentInfoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  medicamentInfoText: {
+    fontSize: 16,
+    marginRight: 10,
+  },
+  foisContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  foisText: {
+    fontSize: 16,
+    marginRight: 5,
+  },
+  traitementContainer: {
+    marginBottom: 20,
+    padding: 10,
+    backgroundColor: '#f2f2f2',
+    borderRadius: 5,
+  },
+  medicamentContainer: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 5,
+  },
+  grayCube: {
+    backgroundColor: 'gray',
+    padding: 10,
+    borderRadius: 5,
+  },
+  grayCubeText: {
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 5,
   },
 });
 export default AfficheConsultation
