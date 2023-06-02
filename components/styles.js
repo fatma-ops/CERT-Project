@@ -302,7 +302,7 @@ padding:15px;
 padding-left:55px;
 border-radius: 20px;
 font-size:16px;
-height:190px;
+height:70px;
 margin-vertical:3px;
 margin-bottom:10px;
 color:${tertiary};

@@ -147,7 +147,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Modifier un contact</Text>
+        <Text style={styles.headerTitle}>    Modifier un contact</Text>
       </View>
     
     
@@ -184,13 +184,13 @@ const  ModifyMedecin = ({navigation , route}) =>  {
           <MyTextInput
            label="Nom du médecin"
            icon="person"
+           etoile="*"
            placeholder="Analyse"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('nom')}
            onBlur={handleBlur('nom')}
            value={values.nom}
-                              
-                          />
+          />
          
          <Text style={styles.label}>Spécialité</Text>
              
@@ -201,12 +201,9 @@ const  ModifyMedecin = ({navigation , route}) =>  {
   onSelect={(selectedItem, index) => {
     setFieldValue('specialite', selectedItem);
   }}
-  buttonTextAfterSelection={(selectedItem, index) => {
-    return selectedItem;
-  }}
-  rowTextForSelection={(item, index) => {
-    return item;
-  }}
+  renderDropdownIcon={() => (
+    <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+  )} 
   buttonStyle={styles.dropdownButton}
   buttonTextStyle={styles.dropdownButtonText}
   dropdownStyle={styles.dropdown}
@@ -372,50 +369,54 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
    
       dropdownContainer: {
         backgroundColor: secondary,
-        padding:15,
-        paddingLeft:55,
+        padding: 15,
+        paddingLeft: 55,
         borderRadius: 20,
-        height:60,
-        marginVertical:3,
-        marginBottom:10,
-        color:tertiary,
-        shadowOpacity:0.25,
-        shadowOffset:2,
-        shadowRadius:1,
-        marginLeft:-10,
-        marginRight:-10
-     
-       },
-       dropdownButton: {
-         backgroundColor: secondary,
-         alignItems:'center',
-         marginTop:-10,
-         
-         
-       },
-       dropdownButtonText: {
-         fontSize: 16,
-         color: '#333',
-       
-       },
-       dropdown: {
-         borderWidth: 1,
-         borderColor: '#ccc',
-         borderRadius: 20,
-         backgroundColor: '#fafafa',
-         justifyContent:'center'
-       },
-       dropdownRow: {
-         paddingVertical: 10,
-         paddingHorizontal: 5,
-       },
-       dropdownRowText: {
-         fontSize: 16,
-         color: '#333',
-       },
-       selectedValue: {
-         fontSize: 18,
-         marginTop: 20,
-       },
+        height: 60,
+        marginVertical: 3,
+        marginBottom: 10,
+        color: tertiary,
+        marginLeft: -10,
+        marginRight: -10
+    
+      },
+      dropdownButton: {
+        backgroundColor: secondary,
+        alignItems:'center',
+        borderRadius:20,
+        padding:15,
+        //paddingLeft:55,
+        paddingRight:0,
+        height:50,
+        marginVertical:-7,
+        marginBottom:10, 
+       marginLeft:-10,
+        marginRight:-10,
+      },
+      dropdownButtonText: {
+        fontSize: 16,
+        color: brand,
+        //paddingHorizontal:-50,
+        paddingRight:-90,
+      },
+      dropdown: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        backgroundColor: '#fafafa',
+        justifyContent: 'center'
+      },
+      dropdownRow: {
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+      },
+      dropdownRowText: {
+        fontSize: 16,
+        color: '#333',
+      },
+      selectedValue: {
+        fontSize: 18,
+        marginTop: 20,
+      },
   });
   export default ModifyMedecin; 

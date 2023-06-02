@@ -9,6 +9,5 @@ const UpdateTraitement = () => {
   )
 }
 
-export default UpdateTraitement
-
+export default UpdateTraitement 
 const styles = StyleSheet.create({})

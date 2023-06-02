@@ -176,7 +176,16 @@ const  AddMedecin = ({navigation}) =>  {
             defaultButtonText="Choisir la spécialité"
           />
           </SelectDropdownStyle>
-          
+          <MyTextInput
+           label="Adresse"
+           icon="location"
+           placeholder="Analyse"
+           placeholderTextColor={darkLight}
+           onChangeText={handleChange('adresse')}
+           onBlur={handleBlur('adresse')}
+           value={values.adresse}
+                              
+                          />
           <MyTextInput
            label="Numero"
            icon2="call-outline"
@@ -188,11 +197,6 @@ const  AddMedecin = ({navigation}) =>  {
            keyboardType="phone-pad"
            />
            
-           
-
-
-           
-
           <Text style={styles.label}>Commentaire</Text>               
             <TextInput style={styles.comentaire}
           //label="Commenataire"

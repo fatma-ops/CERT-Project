@@ -313,7 +313,6 @@ const ModifyConsultation = ({ navigation ,route }) => {
                 <MyTextInput
                   label="Objet"
                   etoile="*"
-
                   icon="id-badge"
                   placeholder=""
                   placeholderTextColor={darkLight}
