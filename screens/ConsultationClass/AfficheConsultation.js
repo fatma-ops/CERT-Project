@@ -122,23 +122,32 @@ const handleModify = () => {
       
       <View style={styles.container2}>
       <View style={styles.content}>
-      <Text style={styles.title}>Etat grippal</Text>
+      <Text style={styles.title}>{selectedAnalyse.objet}</Text>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Type:  </Text>
-            <Text style={styles.sectionItem}>controle</Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.type}</Text>
             </View>
             <View style={styles.heelo}> 
             <Text style={styles.sectionItem2}>Date:</Text>
-            <Text style={styles.sectionItem}>1 mars 2023</Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.date}</Text>
             </View>          
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Médecin:  </Text>
-            <Text style={styles.sectionItem}>Dr mokrani</Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.contact}</Text>
             </View>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>coût:           Remboursement:  </Text>
-            <Text style={styles.sectionItem3}>  60                                     0</Text>
-            </View>   
+            <View style={{ flexDirection: 'row' }}>
+  <View style={{ flexDirection: 'row', marginRight: 70 }}>
+    <Text style={styles.sectionItem2}>coût:</Text>
+    <Text style={{      fontSize: 18}}>{selectedAnalyse.cout}</Text>
+  </View>
+  <View style={{ flexDirection: 'row' }}>
+    <Text style={styles.sectionItem2}>remboursement:</Text>
+    <Text style={{      fontSize: 18}}>{selectedAnalyse.remboursement}</Text>
+  </View>
+</View>
+
+
+
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Ordonnance(s): </Text>
             </View>

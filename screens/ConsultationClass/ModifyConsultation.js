@@ -263,7 +263,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
 
       console.log(response.data);
       
-      navigation.navigate('AfficheConsultation')
+      navigation.navigate('UpdateTraitement')
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
@@ -434,7 +434,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
                 <View style={{ justifyContent: 'center' }}>
                   {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
                     <ButtonText>
-                      Modifier
+                      Suivant
                     </ButtonText>
                   </RegularButton>}
 
