@@ -31,8 +31,10 @@ const ModifierAnalyse = ({ navigation, route }) => {
     const [messageType, setMessageType] = useState();
     const { email } = storedCredentials;
     const { title, dateAnalyse, contact, cout, remboursement, id , images } = route.params;
-   console.log(cout)
-    // image
+    const type = [
+      "Analyse",
+      "Radiologie",
+    ];    // image
 
     const addImageHandler = async (setFieldValue, values) => {
       const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -219,6 +221,8 @@ const ModifierAnalyse = ({ navigation, route }) => {
         setSubmitting(true);
         const formData = new FormData();
         formData.append('title', values.title);
+        formData.append('type', values.type);
+
         formData.append('date', dob);
         formData.append('contact', values.contact);
         formData.append('cout', values.cout);
@@ -282,11 +286,12 @@ const ModifierAnalyse = ({ navigation, route }) => {
                   date: dateAnalyse,
                   contact: contact,
                   cout: cout,
+                  type:'',
                   remboursement: remboursement,
                   images: [],
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  if (values.title === '' || values.images === '') {
+                  if (values.title === '' || values.images === ''|| values.type === '') {
                     handleMessage('Veuillez remplir tous les champs obligatoires');
                     setSubmitting(false);
                   } else {
@@ -297,7 +302,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
                 {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
                   <StyledFormArea>
                     <MyTextInput
-                      label="Nom de l'analyse"
+                      label="Objet"
                       icon="id-badge"
                       etoile="*"
                       placeholder="Analyse"
@@ -306,6 +311,34 @@ const ModifierAnalyse = ({ navigation, route }) => {
                       onBlur={handleBlur('title')}
                       value={values.title}
                     />
+                    <View>
+          <Text style={styles.label}>Type <Text style={{ color: 'red' }}>*</Text></Text> 
+          <SelectDropdownStyle>              
+         <SelectDropdown
+            label="Type"
+            data={type}
+            onSelect={(selectedItem, index) => {
+              setFieldValue('type', selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            renderDropdownIcon={() => (
+              <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+            )} 
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText="Choisir le type"
+          />
+          </SelectDropdownStyle>
+              
+      </View> 
   
                     <View>
                       <Text style={styles.label}>Médecin</Text>

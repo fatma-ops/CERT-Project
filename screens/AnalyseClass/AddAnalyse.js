@@ -30,6 +30,10 @@ const { storedCredentials, setStoredCredentials } = useContext(CredentialsContex
 const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
+const type = [
+  "Analyse",
+  "Radiologie",
+];
 
 //image
 
@@ -121,6 +125,8 @@ const onChange = (event , selectedDate) => {
     setSubmitting(true);
     const formData = new FormData();
     formData.append('title', values.title);
+    formData.append('type', values.type);
+
     formData.append('date', dob);
     formData.append('contact', values.contact);
     formData.append('cout', values.cout);
@@ -178,9 +184,9 @@ const onChange = (event , selectedDate) => {
         
      <InnerContainer>  
     <Formik
-      initialValues={{ title: '', date: '',contact:'',cout:'', remboursement:'', images: [] }}
+      initialValues={{ title: '', date: '',contact:'',type:'',cout:'', remboursement:'', images: [] }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.title == '' ||values.images == ''  ) {
+        if (values.title == '' ||values.images == '' ||values.type == ''  ) {
             handleMessage('Veuillez remplir tous les champs obligatoires');
             setSubmitting(false);
         } else {
@@ -193,7 +199,7 @@ const onChange = (event , selectedDate) => {
       {({ handleChange, handleBlur, handleSubmit, setFieldValue, values , isSubmitting }) => (
         <StyledFormArea>
           <MyTextInput
-           label="Nom de l'analyse"
+           label="Objet"
            icon="id-badge"
            etoile="*"
            placeholder="Analyse"
@@ -201,7 +207,35 @@ const onChange = (event , selectedDate) => {
            onChangeText={handleChange('title')}
            onBlur={handleBlur('title')}
            value={values.title}
-          />               
+          /> 
+          <View>
+          <Text style={styles.label}>Type <Text style={{ color: 'red' }}>*</Text></Text> 
+          <SelectDropdownStyle>              
+         <SelectDropdown
+            label="Type"
+            data={type}
+            onSelect={(selectedItem, index) => {
+              setFieldValue('type', selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+            renderDropdownIcon={() => (
+              <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+            )} 
+            buttonStyle={styles.dropdownButton}
+            buttonTextStyle={styles.dropdownButtonText}
+            dropdownStyle={styles.dropdown}
+            rowStyle={styles.dropdownRow}
+            rowTextStyle={styles.dropdownRowText}
+            defaultButtonText="Choisir le type"
+          />
+          </SelectDropdownStyle>
+              
+      </View>              
           <View>
           <Text style={styles.label}>Médecin</Text> 
           <SelectDropdownStyle>
