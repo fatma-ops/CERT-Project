@@ -30,7 +30,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
     const { email } = storedCredentials;
-    const { title, dateAnalyse, contact, cout, remboursement, id , images } = route.params;
+    const { title, dateAnalyse, contact, cout, remboursement, id ,typeAnalyse, images } = route.params;
     const type = [
       "Analyse",
       "Radiologie",
