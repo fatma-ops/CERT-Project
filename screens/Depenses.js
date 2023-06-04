@@ -32,7 +32,7 @@ const [totalRemboursementConsultations, setTotalRemboursementConsultations] = us
 // Fetch data for analyses
 useEffect(() => {
   axios
-    .get(`${ngrokLink}/api/v1/analyse/${email}?cache_bust=123456789`)
+    .get(`${ngrokLink}analyse/${email}?cache_bust=123456789`)
     .then(response => {
       const analysesData = response.data;
 
@@ -54,7 +54,7 @@ useEffect(() => {
 // Fetch data for traitements
 useEffect(() => {
   axios
-    .get(`${ngrokLink}/api/v1/traitement/traitements/${email}?cache_bust=123456789`)
+    .get(`${ngrokLink}traitement/traitements/${email}?cache_bust=123456789`)
     .then(response => {
       const traitementsData = response.data;
 
@@ -76,7 +76,7 @@ useEffect(() => {
 // Fetch data for consultations
 useEffect(() => {
   axios
-    .get(`${ngrokLink}/api/v1/consultation/${email}?cache_bust=123456789`)
+    .get(`${ngrokLink}consultation/${email}?cache_bust=123456789`)
     .then(response => {
       const consultationsData = response.data;
 

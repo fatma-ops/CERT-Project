@@ -89,7 +89,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
             setSubmitting(true);
       
         try {
-          const response = await fetch(`${ngrokLink}/api/v1/medecin/put/${id}`, {
+          const response = await fetch(`${ngrokLink}medecin/put/${id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'

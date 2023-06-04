@@ -1,129 +1,201 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet,screenHeight } from 'react-native';
+import { View, Text, Image, StyleSheet,screenHeight, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import { TouchableOpacity } from 'react-native';
 import { Colors } from '../../components/styles';
 import { StatusBarHeight } from '../../components/shared';
-import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import SearchBar from '../../components/SearchBar';
-import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+import { MaterialIcons} from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
 import { Dimensions } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Swipeable } from 'react-native-gesture-handler';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
+import RoundIconBtn from '../../components/RoundIconBtn';
+import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
+import AddDossierModal from '../../components/Modals/UpdateDossierModal';
+import UpdateDossierModal from '../../components/Modals/UpdateDossierModal'
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
  
 const ListeDossier = ({ navigation }) => {
   const [dossier, setDossier] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState('');
+
+
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   //const screenHeight = Dimensions.get('window').height;
 
   const { email } = storedCredentials;
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
+    setIsLoading(true);
     try {
-      const response = await fetch(`${ngrokLink}/api/v1/dossier/delete/${id}`, {
+      const response = await fetch(`${ngrokLink}dossier/delete/${id}`, {
         method: 'DELETE'
       });
       const data = await response.json();
       setResult(data);
-      //navigation.navigate('ListeVaccin');
-
+      navigation.navigate('ListeDossier');
     } catch (err) {
       console.error(err);
       setResult('Erreur');
+    } finally {
+      setIsLoading(false);
     }
   };
+  
+  
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filteredRappels, setFilteredRappels] = useState([]);
   
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/dossier/${email}?cache_bust=123456789`)
+    axios.get(`${ngrokLink}dossier/dossiers/${email}?cache_bust=${Date.now()}`)
       .then(response => setDossier(response.data))
       .catch(error => console.log(error));
-  }, [email]);
+  }, [email])
 
-  return (
-    
-
-    <View style={[styles.analyseContainer2]}>
-                    <StatusBar style="white" />
-        <View style={styles.headingContainer}>
-        <Text style={styles.headerTitle}>Mes dossiers</Text>
-    </View>
-
-    <FlatList
-  style={styles.item}
-  data={dossier}
-  keyExtractor={(item, index) => String(index)}
-  renderItem={({ item, index }) => (
-    <Swipeable
-      renderRightActions={(progress, dragX) => (
-        <View style={{flexDirection:'row',marginTop:2,marginRight:-135,justifyContent: 'flex-end',}}>
-          <TouchableOpacity
-            onPress={() => handleUpdate(index)}
-            style={[
-              styles.updateButton,
-              { transform: [{ translateX: dragX }] },
-            ]}
-          >
-            <MaterialIcons name="edit" size={37} color='white'/>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => handleDelete(index)}
-            style={[
-              styles.deleteButton,
-              { transform: [{ translateX: dragX }] },
-            ]}
-          >
-            <MaterialIcons name="delete" size={37} color='white'/>
-          </TouchableOpacity>
-        </View>
-      )}
-    >
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("UpdateDossier", {
-            selectedDossier: item,
-          })
-        }
-        style={styles.liste}
-      >
-        <View style={styles.itemContainer}>
-          <Image
-            source={require('../../assets/img/dossier.png')}
-            style={styles.image}
-          />
-          <View style={styles.textContainer}>
-            <Text style={styles.title}></Text>
-          </View>
-          
-        </View>
-        
-      </TouchableOpacity>
-    </Swipeable>
-    
-  )}
-/>
+  const [modalVisibleAdd, setModalVisibleAdd] = useState(false);
 
 
+  const handleAddDossier = async (nom) => {
+    try {
+      const response = await fetch(`${ngrokLink}dossier/Add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nom, userEmail: storedCredentials.email }),
+      });
+      const data = await response.json();
+      console.log('Dossier ajouté:', data);
+      setModalVisibleAdd(false);
+    } catch (err) {
+      console.error(err);
+      // Gérer les erreurs de requête
+    }
+  };
+  
+
+  const closeModalAdd = () => {
+    setModalVisibleAdd(false);
+  };
 
 
+  const [modalVisibleUpdate, setModalVisibleUpdate] = useState(false);
+const [selectedDossierId, setSelectedDossierId] = useState(null);
 
-
-
-</View>
-
-  );
-
+const handleUpdate = async (id, newNom) => {
+  setIsLoading(true);
+  try {
+    const response = await fetch(`${ngrokLink}dossier/update/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nom: newNom }), // Pass the new name in the request body
+    });
+    const data = await response.json();
+    setResult(data);
+    navigation.navigate('ListeDossier');
+  } catch (err) {
+    console.error(err);
+    setResult('Erreur');
+  } finally {
+    setIsLoading(false);
+    setModalVisibleUpdate(false); // Close the update modal
+  }
 };
+  
+  
+  return (
+    <View style={[styles.analyseContainer2]}>
+      <StatusBar style="light" />
+      <View style={styles.headingContainer}>
+        <Text style={styles.headerTitle}>Mes dossiers</Text>
+      </View>
+  
+      {isLoading ? (
+        <ActivityIndicator size="small" color="blue" />
+      ) : (
+        <FlatList
+          style={styles.item}
+          data={dossier}
+          keyExtractor={(item, index) => String(index)}
+          renderItem={({ item, index }) => (
+            <Swipeable
+              renderRightActions={(progress, dragX) => (
+                <View style={{ flexDirection: 'row', marginTop: 2, marginRight: -135, justifyContent: 'flex-end' }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectedDossierId(item._id);
+                      setModalVisibleUpdate(true);
+                    }}
+                    style={[
+                      styles.updateButton,
+                      { transform: [{ translateX: dragX }] },
+                    ]}
+                  >
+                    <MaterialIcons name="edit" size={37} color='white' />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => handleDelete(item._id)}
+                    style={[
+                      styles.deleteButton,
+                      { transform: [{ translateX: dragX }] },
+                    ]}
+                  >
+                    <MaterialIcons name="delete" size={37} color='white' />
+                  </TouchableOpacity>
+                </View>
+              )}
+            >
+  
+              <TouchableOpacity
+               
+                style={styles.liste}
+              >
+                <View style={styles.itemContainer}>
+                  <Image
+                    source={require('../../assets/img/dossierbleu.png')}
+                    style={styles.image}
+                  />
+  
+                  <View style={styles.textContainer}>
+                    <Text style={styles.title}>{item.nom}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </Swipeable>
+          )}
+          
+        />
+      )}
+  
+      <UpdateDossierModal
+        visible={modalVisibleUpdate}
+        onClose={() => setModalVisibleUpdate(false)}
+        onUpdate={(newNom) => handleUpdate(selectedDossierId, newNom)}
+        oldNom={selectedDossierId ? dossier.find(item => item._id === selectedDossierId)?.nom : ''}
+      />
+  
+      <View style={styles.addButtonContainer}>
+        <AddDossierModal
+          visible={modalVisibleAdd}
+          onClose={closeModalAdd}
+          onAdd={handleAddDossier}
+        />
+        <TouchableOpacity onPress={() => setModalVisibleAdd(true)}>
+          <RoundIconBtn
+            onPress={() => setModalVisibleAdd(true)}
+            antIconName='addfolder'
+            style={styles.addBtn}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+  };
 
 const styles = StyleSheet.create({
   analyseContainer:{
@@ -138,10 +210,7 @@ const styles = StyleSheet.create({
 },
 analyseContainer2:{
 
-  //marginBottom:70,
-  //opacity:1,
-  //justifyContent:'space-between',
-  //height:1000
+ 
 },
 header2: {
   flexDirection: 'row',
@@ -165,11 +234,12 @@ header: {
   marginLeft:10,
 },
 headerTitle: {
-  fontWeight: '500',
-  fontSize: 35,
+  fontWeight: '400',
+  fontSize: 30,
   color:'white',
-  marginLeft:90,
-  // alignContent :'center'
+  marginLeft:110,
+  marginRight:50,
+ //alignContent :'center'
 },
 backButton: {
   marginRight: 10,
@@ -207,7 +277,6 @@ date: {
   //marginTop:-25
   },
   title: {
-    fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 5,
     marginTop:5,
@@ -302,24 +371,7 @@ delete:{
     fontSize:15
 },
 
-searchContainer:{
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'space-between',
-    marginVertical:8,
-},
-searchButton:{
-    alignItems:"center",
-    justifyContent:'center',
-    width:60,
-    borderRadius:5,
-    height:40
-},
-searchButtonText:{
-    color:"#fff",
-    fontWeight:'700',
-    fontSize:12,
-},
+
 emptyAnalyseContainer:{
     alignItems:'center',
     marginTop:140,
@@ -393,6 +445,18 @@ deleteButton: {
     shadowRadius:2,
     elevation:5,
   },
+  addBtn: {
+    position: 'absolute',
+    right: 15,
+    bottom:-35,
+    zIndex: 1, 
+    borderRadius: 50,
+
+  },
+  addButtonContainer: {
+    position: 'relative',
+    zIndex: 1,
+  }
 
 }) 
 

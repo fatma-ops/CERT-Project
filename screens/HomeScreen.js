@@ -52,7 +52,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.text}>Mes consultations</Text>
         </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('ListeTraitement')}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Traitement')}>
         <Image style={styles.avatar} source={require('./../assets/img/pills.png')}/>
         <Text style={styles.text}>Mes traitements</Text>
       </TouchableOpacity>

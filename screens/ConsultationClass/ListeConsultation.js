@@ -34,7 +34,7 @@ const ListeConsultation = ({ navigation }) => {
 
   //Affiche les consultation enregistré dana la base de donnés____________________________________________________  
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/consultation/${email}?cache_bust=123456789`)
+    axios.get(`${ngrokLink}consultation/${email}?cache_bust=123456789`)
       .then(response => setConsultations(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -53,7 +53,7 @@ const ListeConsultation = ({ navigation }) => {
           <AntDesign name="left" size={25} color='white' />
         </TouchableOpacity>
         <View>
-          <Text style={styles.headerTitle}>Mes consultation </Text></View>
+          <Text style={styles.headerTitle}>Mes consultations </Text></View>
        </View>
       <View style={{width:280 , paddingHorizontal:12 , height:170 }}>
       <StatusBar style="Light" />
@@ -107,9 +107,9 @@ const ListeConsultation = ({ navigation }) => {
       <View  key={index}>
       <View style={styles.liste}>
 
-          <Text style={styles.text}>{item.type}</Text>
+          <Text style={styles.text}>{item.objet}</Text>
           <Text style={styles.dateContainer}>{item.date}</Text> 
-          <Text style={styles.text2}>{item.contact}</Text>
+          <Text style={styles.text2}>{item.type}</Text>
           </View>
       </View>
     

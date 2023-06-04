@@ -3,12 +3,12 @@ import { Alert, View, Text, Button, Image, TextInput, StatusBar, TouchableOpacit
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
-import { Fontisto, Octicons, Ionicons, AntDesign, Entypo } from '@expo/vector-icons';
+import { Fontisto, Octicons, Ionicons, AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import MessageModal from '../../components/Modals/MessageModal';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer, Colors, LeftIcon,  StyledFormArea, MsgBox, ButtonText,  ViewImage, TextLink, ExtraView, TextLinkContent,  StyledInputLabel2, SubTitle, SelectDropdownStyle, StyledTextInput } from '../../components/styles';
+import { InnerContainer, StyledContainer, Colors, LeftIcon,  StyledFormArea, MsgBox, ButtonText,  ViewImage, TextLink, ExtraView, TextLinkContent,  StyledInputLabel2, SubTitle, SelectDropdownStyle, StyledTextInput, StyledEtoile } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -17,6 +17,8 @@ import RegularButton2 from '../../components/Buttons/RegularButton2';
 import RegularButton from '../../components/Buttons/RegularButton';
 import SelectDropdown from 'react-native-select-dropdown';
 import { ngrokLink } from '../../config';
+import RowContainer2 from '../../components/Containers/RowContainer2';
+import RowContainer from '../../components/Containers/RowContainer';
 
 const { brand, darkLight, primary, secondary, tertiary } = Colors;
 
@@ -255,7 +257,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
     try {
-      const response = await axios.put(`${ngrokLink}/api/v1/consultation/modifier/${id}`, formData, {
+      const response = await axios.put(`${ngrokLink}consultation/modifier/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -358,7 +360,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
   />
               
                 </View>
-                <Text style={styles.label}>Médecin <Text style={{ color: 'red' }}>*</Text></Text>
+                <Text style={styles.label}>Médecin</Text>
 
                 <SelectDropdownStyle>
                   <SelectDropdown
@@ -407,7 +409,11 @@ const ModifyConsultation = ({ navigation ,route }) => {
 
 
                 <Text style={styles.label}>Dépenses</Text>
-                <Text style={styles.label2}>Coût                                    Remboursement</Text>
+                <RowContainer>
+                <Text style={styles.label2}>Coût</Text>
+                <Text style={styles.label2}>Remboursement</Text>
+                </RowContainer>
+                <View style ={{marginLeft:10}}>
             <TextInput
             style={styles.cout}
             placeholder="100.0"
@@ -425,7 +431,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
             value={values.remboursement ? remboursement.toString() : ''} // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
-
+          </View>
 
                 <MsgBox type={messageType}>
                   {message}
@@ -461,21 +467,32 @@ const ModifyConsultation = ({ navigation ,route }) => {
   );
 }
 
-const MyTextInput = ({ label, icon, icon2,  ...props }) => {
+const MyTextInput = ({ label,etoile,icon3,  icon,icon2, ...props }) => {
   return (
-    <View>
-      <StyledInputLabel2> {label}</StyledInputLabel2>
-      <LeftIcon>
-        <Octicons name={icon} size={24} color={brand} />
-      </LeftIcon>
-      <LeftIcon>
-        <Fontisto name={icon2} size={25} color={brand} marginTop='10' />
-      </LeftIcon>
+      <View>
+          <LeftIcon>
+              <Octicons name={icon} size={24} color={brand} />
 
-          <StyledTextInput  {...props} />
-      
+          </LeftIcon>
+          <LeftIcon>
+              <FontAwesome5 name={icon2} size={24} color={brand} />
 
-    </View>
+          </LeftIcon>
+          <LeftIcon>
+              <Fontisto name={icon3} size={25} color={brand} marginTop='10' />
+          </LeftIcon>
+          
+          <RowContainer2>
+        <StyledInputLabel2> {label}  </StyledInputLabel2>
+        <StyledEtoile> {etoile}  </StyledEtoile>
+        </RowContainer2>
+              
+                  
+                  <StyledTextInput  {...props} />
+                  
+
+
+      </View>
   );
 
 }

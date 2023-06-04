@@ -81,7 +81,7 @@ const AddRappel = ({ navigation , route }) => {
   };
  const handleDelete = async () => {
       try {
-        const response = await fetch(`${ngrokLink}/api/v1/rappel/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}rappel/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();

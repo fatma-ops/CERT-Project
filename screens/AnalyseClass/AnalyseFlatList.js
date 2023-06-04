@@ -36,7 +36,7 @@ const AnalyseFlatList = ({ navigation }) => {
       setFilteredAnalyses(filtered);
     };
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/analyse/${email}?cache_bust=123456789`)
+    axios.get(`${ngrokLink}analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -111,7 +111,7 @@ style={styles.image}
 <View style={styles.textContainer}>
 <Text style={styles.title}>{item.title}</Text>
 <Text style={styles.dateContainer}>{item.date}</Text>
-<Text style={styles.text2}>{item.contact}</Text>
+<Text style={styles.text2}>{item.type}</Text>
 </View>
 </View>
 </TouchableOpacity>

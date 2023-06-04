@@ -75,7 +75,7 @@ const buttonHandler = () => {
         setSubmitting(true);
       
         try {
-          const response = await fetch(`${ngrokLink}/api/v1/user/${_id}`, {
+          const response = await fetch(`${ngrokLink}user/${_id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json'

@@ -116,7 +116,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
 
 
     try {
-      const response = await axios.post(`${ngrokLink}/api/v1/vaccin/add/multiple`, formData, {
+      const response = await axios.post(`${ngrokLink}vaccin/add/multiple`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

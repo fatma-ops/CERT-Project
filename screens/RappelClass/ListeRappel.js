@@ -28,7 +28,7 @@ const ListeRappel = ({ navigation }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${ngrokLink}/api/v1/rappel/delete/${id}`, {
+      const response = await fetch(`${ngrokLink}rappel/delete/${id}`, {
         method: 'DELETE'
       });
       const data = await response.json();
@@ -54,7 +54,7 @@ const ListeRappel = ({ navigation }) => {
       setFilteredRappels(filtered);
     };
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/rappel/${email}?cache_bust=123456789`)
+    axios.get(`${ngrokLink}rappel/${email}?cache_bust=123456789`)
       .then(response => setRappels(response.data))
       .catch(error => console.log(error));
   }, [email]);

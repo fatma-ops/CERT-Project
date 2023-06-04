@@ -1,14 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import colors from '../misc/colors';
 
-const RoundIconBtn = ({ antIconName, size, color, style, onPress }) => {
+const RoundIconBtn = ({ antIconName, size, color ,  style, onPress }) => {
   return (
     <AntDesign
-      name={antIconName}
+      name={'addfolder'}
       size={size || 24}
-      color={color || colors.LIGHT}
+      color= {color ||'#034c81'}
       style={[styles.icon, { ...style }]}
       onPress={onPress}
     />
@@ -17,10 +16,13 @@ const RoundIconBtn = ({ antIconName, size, color, style, onPress }) => {
 
 const styles = StyleSheet.create({
   icon: {
-    backgroundColor: colors.PRIMARY,
+    backgroundColor:'white',
     padding: 15,
     borderRadius: 50,
     elevation: 5,
+    shadowOpacity:0.25,
+    shadowOffset:{width:0.75, height:1},
+    shadowRadius:2,
   },
 });
 

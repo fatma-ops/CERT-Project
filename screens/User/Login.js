@@ -43,7 +43,7 @@ import { CredentialsContext } from '../../components/CredentialsContext';
 import RowContainer2 from '../../components/Containers/RowContainer2';
 //API URL_________________________________________________________________________________
 
-const API_URL = `${ngrokLink}/api/v1/user/`;
+const API_URL = `${ngrokLink}user/`;
 
 //__________________________________________________________________________________
 const Login = ({navigation}) => {

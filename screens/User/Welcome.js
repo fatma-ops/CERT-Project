@@ -20,22 +20,7 @@ const Welcome = ({navigation}) => {
     const {nom,prenom,email ,groupeSanguin,allergie ,token , _id} = storedCredentials;
     console.log(storedCredentials._id)
     
-    const clearLogin = async () =>{
-      
-     AsyncStorage.removeItem('DossierMedicaleCredentials').then(() => {
-      setStoredCredentials("");
-     }).catch((error) => console.log(error))
-    
-    }
-
-    const handleEditProfile = () => {
-      setModalVisible(true);
-    };
-  
-    const handleCloseModal = () => {
-      setModalVisible(false);
-    };
-
+   
 
 
   const [modalVisible , setModalVisible] = useState(false);

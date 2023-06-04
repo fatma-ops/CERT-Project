@@ -87,7 +87,7 @@ const  AddMedecin = ({navigation}) =>  {
         
           try {
             const response = await axios.post(
-              `${ngrokLink}/api/v1/medecin/add`,
+              `${ngrokLink}medecin/add`,
               data,
               {
                 headers: {

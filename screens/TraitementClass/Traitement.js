@@ -5,6 +5,7 @@ import React, {useState , useEffect} from 'react';
 
 
 import UpdateTraitement from '../../screens/TraitementClass/UpdateTraitement'
+import ListeTraitement from "./ListeTraitement";
 
 const Stack = createNativeStackNavigator();
   
@@ -16,6 +17,7 @@ export default function Traitement (){
 
       
 
+        <Stack.Screen name="Liste Traitement" component={ListeTraitement}/>
 
         <Stack.Screen name="Modifier Traitement" component={UpdateTraitement}/>
 

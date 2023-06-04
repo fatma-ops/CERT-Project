@@ -124,7 +124,7 @@ const UpdateVaccin = async (values ,setSubmitting) => {
 
 
   try {
-    const response = await axios.put(`${ngrokLink}/api/v1/vaccin/modifier/${id}`, formData, {
+    const response = await axios.put(`${ngrokLink}vaccin/modifier/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

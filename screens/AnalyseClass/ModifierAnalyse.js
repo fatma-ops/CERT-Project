@@ -240,7 +240,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
         formData.append('userEmail', email);
       
         try {
-          const response = await axios.put(`${ngrokLink}/api/v1/analyse/modifier/analyse/${id}`, formData, {
+          const response = await axios.put(`${ngrokLink}analyse/modifier/analyse/${id}`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }

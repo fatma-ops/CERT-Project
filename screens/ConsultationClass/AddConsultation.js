@@ -19,6 +19,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { ngrokLink } from '../../config';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import RowContainer2 from '../../components/Containers/RowContainer2';
+import RowContainer from '../../components/Containers/RowContainer';
 
 const { brand, darkLight, primary, secondary, tertiary } = Colors;
 
@@ -30,7 +31,7 @@ const AddConsultation = ({ navigation }) => {
   // Fetch the list of contacts from the database____________________________________________________________
   const [contacts, setContacts] = useState([]);
   useEffect(() => {
-    fetch(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+    fetch(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
       .then(response => response.json())
       .then(data => setContacts(data))
       .catch(error => console.error(error));
@@ -93,28 +94,7 @@ const AddConsultation = ({ navigation }) => {
     setCancelButtonText(cancelButtonText);
     setModalVisible(true);
   };
-  //Delete_______________________________________________________________________________________________
- const handleDelete = async () => {
-  try {
-    const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
-      method: 'DELETE'
-    });
-    const data = await response.json();
-    setResult(data);
-    navigation.navigate('ListeVaccin');
-  } catch (err) {
-    console.error(err);
-    setResult('Erreur');
-  }
-};
-
-//Modifier______________________________________________________________________________________________
-const handleModify = () => {
-setShowModal(false);
-navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
- };
-  //________________________________________________________________________________________________
-
+ 
   //Image______________________________________________________________________________________________
   const takeImageHandler = async (index, setFieldValue, values) => {
     const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -200,7 +180,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
     try {
-      const response = await axios.post(`${ngrokLink}/api/v1/consultation/add`, formData, {
+      const response = await axios.post(`${ngrokLink}consultation/add`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -295,6 +275,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
               
                 </View>
                 <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
+             
                 <DateTimePicker
     style={styles.date}
     value={date}
@@ -304,7 +285,6 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
     locale="fr"
     onPress={handleShowDatePicker}
   />
-              
                 <Text style={styles.label}>Médecin <Text style={{ color: 'red' }}>*</Text></Text>
 
                 <SelectDropdownStyle>
@@ -351,14 +331,18 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
       </View>
       
     </>
-                <Text style={styles.label}>Dépenses</Text>
-                <Text style={styles.label2}>Coût                                    Remboursement</Text>
+    <Text style={styles.label}>Dépenses</Text>
+                <RowContainer>
+                <Text style={styles.label2}>Coût</Text>
+                <Text style={styles.label2}>Remboursement</Text>
+                </RowContainer>
+                <View style ={{marginLeft:10}}>
             <TextInput
             style={styles.cout}
             placeholder="100.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('cout')}
-            value={values.cout}
+            value={values.cout } // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
 
@@ -367,10 +351,10 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
             placeholder="70.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('remboursement')}
-            value={values.remboursement}
+            value={values.remboursement} // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
-
+          </View>
 
                 <MsgBox type={messageType}>
                   {message}

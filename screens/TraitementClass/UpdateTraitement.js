@@ -91,7 +91,7 @@ const UpdateTraitement = ({ navigation , route  }) => {
   
     try {
       const response = await axios.post(
-        `${ngrokLink}/api/v1/traitement/add`,
+        `${ngrokLink}traitement/add`,
         data,
         {
           headers: {
