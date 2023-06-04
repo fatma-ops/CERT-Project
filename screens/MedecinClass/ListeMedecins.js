@@ -39,7 +39,7 @@ const ListeMedecins = ({ navigation  }) => {
 
 
     useEffect(() => {
-      axios.get(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+      axios.get(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
         .then(response => setMedecins(response.data))
         .catch(error => console.log(error));
     }, [email]);
@@ -66,7 +66,7 @@ const ListeMedecins = ({ navigation  }) => {
       <View style={styles.headingContainer}>
         <View style ={{flexDirection:'column'}}>
         <View style={styles.header2}>
-          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color='white' />
         </TouchableOpacity>
         <View>
@@ -148,13 +148,15 @@ const styles = StyleSheet.create({
     paddingHorizontal:15,
     paddingBottom:200,
     opacity:0.9,
-    justifyContent:'space-between',
-
+    justifyContent:'space-between'
+   
 },
 analyseContainer2:{
   marginBottom:70,
   opacity:1,
   justifyContent:'space-between',
+ 
+
 
 },
 headingContainer:{

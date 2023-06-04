@@ -30,7 +30,7 @@ const ListeTraitement = ({ navigation }) => {
       setFilteredTraitements(filtered);
     };
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/traitement/traitements/${email}?cache_bust=123456789}`)
+    axios.get(`${ngrokLink}traitement/traitements/${email}?cache_bust=123456789}`)
       .then(response => setTraitements(response.data))
       .catch(error => console.log(error));
   }, [email]);
@@ -53,46 +53,46 @@ const ListeTraitement = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.Container2}>
-          <FlatList
-            style={styles.listContainer}
-            contentInset={{ bottom: 400 }}
-            data={traitements}
-            keyExtractor={(item, index) => String(index)}
-            renderItem={({ item }) => (
-              <View style={styles.traitementContainer}>
-                <Text style={styles.treatmentTitle}>Traitement</Text>
-                <Text style={styles.coutRemboursement}>
-                Cout: {item.cout} | Remboursement: {item.remboursement}
-                </Text>
-                {item.medicaments && item.medicaments.length > 0 ? (
-                  item.medicaments.map((medicament, medicamentIndex) => (
-                    <View
-                      style={styles.subTreatmentContainer}
-                    >
-                      <Image
-                        source={require('../../assets/img/med.jpg')}
-                        style={styles.image}
-                      />
-                      <View style={styles.fois}>
-                        <Text style={styles.title}>{medicament.nommedicament}</Text>
-                        <View style={styles.nbrJoursContainer}>
-                          <Text style={styles.nbrJours}>
-                            {medicament.nbrfois}X{medicament.nbrJours}
-                          </Text>
-                        </View>
-                        <Text style={styles.dateContainer}>
-                          25 mai 2023
-                        </Text>
-                      </View>
-                    </View>
-                  ))
-                ) : (
-                  <Text>Aucun sous-traitement trouvé</Text>
-                )}
+        <FlatList
+    style={styles.listContainer}
+    contentInset={{ bottom: 400 }}
+    data={traitements}
+    keyExtractor={(item, index) => String(index)}
+    renderItem={({ item }) => (
+      <View style={styles.traitementContainer}>
+        <Text style={styles.treatmentTitle}>Traitement</Text>
+        <Text style={styles.coutRemboursement}>
+          Cout: {item.cout} | Remboursement: {item.remboursement}
+        </Text>
+        {item.medicaments && item.medicaments.length > 0 ? (
+          item.medicaments.map((medicament, medicamentIndex) => (
+            <View
+              key={medicamentIndex}
+              style={styles.subTreatmentContainer}
+            >
+              <Image
+                source={require('../../assets/img/med.jpg')}
+                style={styles.image}
+              />
+              <View style={styles.fois}>
+                <Text style={styles.title}>{medicament.nommedicament}</Text>
+                <View style={styles.nbrJoursContainer}>
+                  <Text style={styles.nbrJours}>
+                    {medicament.nbrfois}X{medicament.nbrJours}
+                  </Text>
+                </View>
+                <Text style={styles.dateContainer}>
+                1 mars 2020                </Text>
               </View>
-            )}
-          />
-        </View>
+            </View>
+          ))
+        ) : (
+          <Text>Aucun sous-traitement trouvé</Text>
+        )}
+      </View>
+    )}
+  />
+</View>
       </View>
     );
     
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
     //marginTop:-30,
-    //backgroundColor:'white',
+    //backgroundColor:tertiary,
 
 },
 Container:{
@@ -120,11 +120,16 @@ Container:{
   borderRadius: 8,
   opacity:1,
   justifyContent:'space-between',
+  
+
+
+
 },
 header2: {
   alignSelf: 'center',
   justifyContent: 'center', 
-  //paddingLeft:75, 
+  //paddingLeft:75,
+ 
   marginTop:StatusBarHeight,
 },
 headerTitle: {
@@ -172,7 +177,6 @@ fois:{
 dateContainer2:{
    marginLeft:190,
    marginTop:-20,
-   //color: brand,
    fontWeight: '500',
    fontSize:17,
 
@@ -199,7 +203,6 @@ dateContainer:{
     fontWeight: '600',
     marginBottom: 5,
     marginTop:25,
-    marginLeft:-10,
   },
   subTreatmentContainer: {
     marginBottom:5,

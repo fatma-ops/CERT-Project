@@ -141,7 +141,7 @@ const groupesanguin = [
             setSubmitting(true);
 
             axios
-              .post(`${ngrokLink}/api/v1/user/signup`, credentials)
+              .post(`${ngrokLink}user/signup`, credentials)
               .then((response) => {
                 const { status, data } = response;
                 if (status === 200) {

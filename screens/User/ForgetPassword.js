@@ -44,7 +44,7 @@ const ForgetPassword = ({ navigation }) => {
             handleMessage(null);
             setSubmitting(true);
       
-            const response = await axios.post(`${ngrokLink}/api/v1/forget_password`, { email: credentials.email });
+            const response = await axios.post(`${ngrokLink}forget_password`, { email: credentials.email });
       
             setSubmitting(false);
       

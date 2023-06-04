@@ -86,7 +86,7 @@ const handleShowDatePicker = () => {
 //Delete_______________________________________________________________________________________________
  const handleDelete = async () => {
       try {
-        const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}traitement/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();
@@ -117,7 +117,7 @@ const submitRappel = async (values, setSubmitting) => {
     medicament: selectedTraitement.medicament
   };
   try {
-    const response = await axios.post(`${ngrokLink}/api/v1/rappel/add`, data, { headers: { 'Content-Type': 'application/json' } });
+    const response = await axios.post(`${ngrokLink}rappel/add`, data, { headers: { 'Content-Type': 'application/json' } });
     // Schedule notifications for each rappel time
     const rappels = response.data.rappels;
     await scheduleNotifications(rappels);

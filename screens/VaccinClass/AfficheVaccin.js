@@ -51,7 +51,7 @@ const [vaccinImages, setVaccinImages] = useState([]);
 
   const fetchVaccinImages = async () => {
     try {
-      const response = await axios.get(`${ngrokLink}/api/v1/vaccin/imagesVaccin/${id}`);
+      const response = await axios.get(`${ngrokLink}vaccin/imagesVaccin/${id}`);
       const images = response.data.images;
       setVaccinImages(images);
     } catch (error) {
@@ -81,7 +81,7 @@ const [vaccinImages, setVaccinImages] = useState([]);
 //Delete_______________________________________________________________________________________________
  const handleDelete = async () => {
       try {
-        const response = await fetch(`${ngrokLink}/api/v1/vaccin/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}vaccin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();

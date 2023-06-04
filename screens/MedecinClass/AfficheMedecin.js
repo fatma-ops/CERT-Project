@@ -56,7 +56,7 @@ const ShowModal = (type, headerText, message, confirmButtonText, cancelButtonTex
 //Delete_______________________________________________________________________________________________
 const handleDelete = async () => {
       try {
-        const response = await fetch(`${ngrokLink}/api/v1/medecin/delete/${id}`, {
+        const response = await fetch(`${ngrokLink}medecin/delete/${id}`, {
           method: 'DELETE'
         });
         const data = await response.json();

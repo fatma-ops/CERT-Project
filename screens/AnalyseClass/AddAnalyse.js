@@ -8,7 +8,6 @@ import MessageModal from '../../components/Modals/MessageModal';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { KeyboardAvoidingView } from 'react-native-web';
 import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledEtoile} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
@@ -21,6 +20,7 @@ import { SelectDropdownStyle } from '../../components/styles';
 import SelectDropdown from 'react-native-select-dropdown';
 import RegularButton from '../../components/Buttons/RegularButton';
 import RowContainer2 from '../../components/Containers/RowContainer2';
+import RowContainer from '../../components/Containers/RowContainer';
 
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
@@ -91,7 +91,7 @@ const type = [
   // Fetch the list of contacts from the database
   const [contacts, setContacts] = useState([]);
   useEffect(() => {
-    fetch(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+    fetch(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
       .then(response => response.json())
       .then(data => setContacts(data))
       .catch(error => console.error(error));
@@ -144,7 +144,7 @@ const onChange = (event , selectedDate) => {
     formData.append('userEmail', email);
   
     try {
-      const response = await axios.post(`${ngrokLink}/api/v1/analyse/add/multiple`, formData, {
+      const response = await axios.post(`${ngrokLink}analyse/add/multiple`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -294,24 +294,30 @@ const onChange = (event , selectedDate) => {
       </View>
       
     </>
-            <Text style={styles.label}>Dépenses</Text>
-            <Text style={styles.label2}>Coût                                    Remboursement</Text>
+    <Text style={styles.label}>Dépenses</Text>
+                <RowContainer>
+                <Text style={styles.label2}>Coût</Text>
+                <Text style={styles.label2}>Remboursement</Text>
+                </RowContainer>
+                <View style ={{marginLeft:10}}>
+            <TextInput
+            style={styles.cout}
+            placeholder="100.0"
+            placeholderTextColor={darkLight}
+            onChangeText={handleChange('cout')}
+            value={values.cout } // Convert to string if not null or undefined
+            keyboardType="phone-pad"
+          />
 
-                  <TextInput style={styles.cout}
-                placeholder="100.0"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('cout')}
-                onBlur={handleBlur('cout')}
-                value={values.cout}
-                keyboardType="phone-pad"/>
-
-                 <TextInput style={styles.remboursement}
-                placeholder="70.0"
-                placeholderTextColor={darkLight}
-                onChangeText={handleChange('remboursement')}
-                onBlur={handleBlur('remboursement')}
-                value={values.remboursement}
-                keyboardType="phone-pad"/>
+          <TextInput
+            style={styles.remboursement}
+            placeholder="70.0"
+            placeholderTextColor={darkLight}
+            onChangeText={handleChange('remboursement')}
+            value={values.remboursement} // Convert to string if not null or undefined
+            keyboardType="phone-pad"
+          />
+          </View>
 
 
           <MsgBox type={messageType}>
@@ -390,7 +396,6 @@ const MyTextInput = ({ label, icon, etoile, isPassword, hidePassword, isDate, sh
       },
       label2: {
         fontSize: 15,
-        fontWeight: 'bold',
        // marginBottom: 1,
        color:brand,
         marginTop:5,
@@ -423,7 +428,7 @@ const MyTextInput = ({ label, icon, etoile, isPassword, hidePassword, isDate, sh
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 20,
-        marginTop:5
+        marginTop:20
       },
       imageContainer: {
         width: 100,

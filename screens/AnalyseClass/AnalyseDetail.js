@@ -50,7 +50,7 @@ const AnalyseDetail = ({ route , navigation }) => {
 
   const fetchAnalyseImages = async () => {
     try {
-      const response = await axios.get(`${ngrokLink}/api/v1/analyse/imagesAnalyse/${id}`);
+      const response = await axios.get(`${ngrokLink}analyse/imagesAnalyse/${id}`);
       const images = response.data.images;
       setAnalyseImages(images);
     } catch (error) {
@@ -81,7 +81,7 @@ const AnalyseDetail = ({ route , navigation }) => {
   //Delete_______________________________________________________________________________________________
  const handleDelete = async () => {
   try {
-    const response = await fetch(`${ngrokLink}/api/v1/analyse/delete/${id}`, {
+    const response = await fetch(`${ngrokLink}analyse/delete/${id}`, {
       method: 'DELETE'
     });
     const data = await response.json();
@@ -183,17 +183,17 @@ const handleModify = () => {
      <View style={styles.modalContent}>
        <TouchableOpacity onPress={handleModify}>
         <View style={[styles.modalButton]}>
-          <Text style={{  color: '#007AFF',fontSize:'20',marginBottom:15 }}>  Modifier  </Text>
+          <Text style={{  color: '#007AFF',marginBottom:15 }}>  Modifier  </Text>
         </View>
        </TouchableOpacity>
        <TouchableOpacity onPress={openModal}>
         <View style={[styles.modalButton]}>
-          <Text style={{  color: red ,fontSize:'20',marginBottom:15, }}>Supprimer  </Text>
+          <Text style={{  color: red ,marginBottom:15, }}>Supprimer  </Text>
         </View>
        </TouchableOpacity>
        <TouchableOpacity onPress={() => setShowModal(false)}>
         <View style={[styles.modalCancelButton]}>
-          <Text style={{ color: '#007AFF', fontSize:'18',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
+          <Text style={{ color: '#007AFF',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
         </View>
         </TouchableOpacity>
       </View>

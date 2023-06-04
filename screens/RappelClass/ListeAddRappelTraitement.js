@@ -33,7 +33,7 @@ const ListeAddRappelTraitement = ({ navigation }) => {
       setFilteredTraitements(filtered);
     };
   useEffect(() => {
-    axios.get(`${ngrokLink}/api/v1/traitement/traitements/${email}?cache_bust=123456789}`)
+    axios.get(`${ngrokLink}traitement/traitements/${email}?cache_bust=123456789}`)
       .then(response => setTraitements(response.data))
       .catch(error => console.log(error));
   }, [email]);
