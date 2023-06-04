@@ -59,27 +59,36 @@ const ListeRappel = ({ navigation }) => {
       .catch(error => console.log(error));
   }, [email]);
 
-  return (
+  return ( 
     <GestureHandlerRootView style={{ flex: 1 }}>
-
+ 
     <View style={[styles.analyseContainer2]}>
                     <StatusBar style="white" />
 
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
-        <Text style={styles.headerTitle}>              Mes rappels</Text>
+        <Text style={styles.headerTitle}>                     Mes rappels</Text>
       </View>
-      <View style={{width:320 , paddingHorizontal:5 , top:-5,left:10}}>
+      <View style={{width:280 , paddingHorizontal:12 , top:-10 ,left:10}}>
       <StatusBar style="Light" />
       <SearchBar
            value={searchQuery}
             onChangeText={handleOnSearchInput}
-            containerStyle={{ marginVertical: 45, marginTop:0}}
+            containerStyle={{ marginVertical: 15, marginTop:25}}
             />
   
+    </View> 
     </View>
-    </View>
+    <View >
+        <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => navigation.navigate('ListeAddRappelTraitement')}
+        >
+          <MaterialIcons name="add" size={25} color='white' />
+          <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
+        </TouchableOpacity>
+        </View>
     </View>
     <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
@@ -106,7 +115,7 @@ const ListeRappel = ({ navigation }) => {
         >
           <MaterialIcons name="delete" size={37} color='white'/>
         </TouchableOpacity>
-      )}
+      )} 
     >
       <TouchableOpacity
         onPress={() =>
@@ -123,8 +132,7 @@ const ListeRappel = ({ navigation }) => {
           />
           <View style={styles.textContainer}>
             <Text style={styles.text2}>{item.medicament}</Text>
-            <Text style={styles.title}>{item.rappels.map(rappel => rappel.heure).join(' - ')}</Text>
-
+            <Text style={styles.title}>{item.rappel}</Text>
             <Text style={styles.date}>{item.dateDeCommencement}</Text>
           </View>
         </View>

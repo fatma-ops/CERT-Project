@@ -170,8 +170,6 @@ const [currentImageData, setCurrentImageData] = useState(null);
         <StatusBar style="light" />
         
      <InnerContainer>  
-    
-                    <SubTitle></SubTitle>
     <Formik
       initialValues={{ title: title,maladieCible: maladieCible, date: dateVaccin,commentaire: commentaire, images:[images]  }}
       onSubmit={(values, { setSubmitting }) => {
@@ -192,7 +190,6 @@ const [currentImageData, setCurrentImageData] = useState(null);
           <MyTextInput
            label="Vaccin"
            etoile="*"
-
            icon3="injection-syringe"
            placeholder="Pfizer dose 1"
            placeholderTextColor={darkLight}
@@ -435,6 +432,8 @@ const MyTextInput = ({ label,etoile,icon3,  icon,icon2, ...props }) => {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+    marginTop:10,
+
   },
   placeholder: {
     width: 100,

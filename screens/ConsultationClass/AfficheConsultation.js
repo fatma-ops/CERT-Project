@@ -154,7 +154,7 @@ useEffect(() => {
       <View style={styles.container}>
         <View style={styles.container2}>
           <View style={styles.content}>
-            {/* Analyse details */}
+            {/* Analyse details */}  
             <Text style={styles.title}>{selectedAnalyse.objet}</Text>
             <View style={styles.heelo}>
               <Text style={styles.sectionItem2}>Type: </Text>

@@ -200,7 +200,7 @@ const UpdateTraitement = ({ navigation , route  }) => {
 
                />
                       <View style={styles.inputContainer}>
-      <Text style={styles.label}>Apprendre</Text>
+      <Text style={styles.label}>A prendre</Text>
 
         <TextInput
           style={[styles.input]}

@@ -202,7 +202,7 @@ const onChange = (event , selectedDate) => {
            label="Objet"
            icon="id-badge"
            etoile="*"
-           placeholder="Analyse"
+           placeholder=""
            placeholderTextColor={darkLight}
            onChangeText={handleChange('title')}
            onBlur={handleBlur('title')}
@@ -247,7 +247,7 @@ const onChange = (event , selectedDate) => {
         renderDropdownIcon={() => (
           <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
         )}      
-        defaultButtonText="Choisir votre médecin"
+        defaultButtonText="Choisir médecin"
         buttonStyle={styles.dropdownButton}
         buttonTextStyle={styles.dropdownButtonText}
         dropdownStyle={styles.dropdown}
@@ -434,6 +434,7 @@ const MyTextInput = ({ label, icon, etoile, isPassword, hidePassword, isDate, sh
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
+        marginTop:10,
       },
       placeholder: {
         width: 100,
@@ -447,7 +448,7 @@ const MyTextInput = ({ label, icon, etoile, isPassword, hidePassword, isDate, sh
     shadowOffset:{width:2, height:4},
     shadowRadius:1,
     elevation:5,
-    marginTop:-15
+    //marginTop:-15
       },
       placeholderText: {
         color: brand ,
@@ -537,20 +538,21 @@ dropdownButton: {
     backgroundColor: secondary,
     alignItems:'center',
     borderRadius:20,
-    padding:15,
-    //paddingLeft:55,
-    paddingRight:0,
+    //padding:15,
+    //paddingLeft:40,
+    //paddingRight:-50,
     height:50,
     marginVertical:-7,
     marginBottom:10, 
-   marginLeft:-10,
+   //marginLeft:-10,
     marginRight:-10,
+    //paddingRight:-30,
   },
   dropdownButtonText: {
     fontSize: 16,
     color: brand,
     //paddingHorizontal:-50,
-    paddingRight:-90,
+    margingRight:-90,
   },
   dropdown: {
     borderWidth: 1,

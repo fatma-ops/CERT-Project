@@ -15,11 +15,6 @@ const Depenses = ({ navigation }) => {
   const [analyses, setAnalyses] = useState([]);
   const [consultations, setConsultations] = useState([]);
   const [traitements, setTraitements] = useState([]);
-
-
-  
-
-
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const { email } = storedCredentials;
   const [filteredAnalyses, setFilteredAnalyses] = useState([]);
@@ -76,7 +71,7 @@ useEffect(() => {
       setTotalRemboursementTraitements(totalRemboursement);
     })
     .catch(error => console.error(error));
-}, [email, id]);
+}, [email]);
 
 // Fetch data for consultations
 useEffect(() => {

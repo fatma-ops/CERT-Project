@@ -103,9 +103,7 @@ const AddRappel = ({ navigation , route }) => {
       setSubmitting(true);
     
       const data = {
-        
         rappels: values.rappels,
-
         userEmail: email,
         idTraitement: selectedTraitement._id,
         dateDeCommencement:selectedTraitement.dateDeCommencement,
@@ -168,9 +166,9 @@ const AddRappel = ({ navigation , route }) => {
             <Text style={styles.sectionItem3}>{selectedTraitement.dateDeCommencement}</Text>
             </View>
             <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>À apprendre  </Text>
+            <Text style={styles.sectionItem2}>À prendre  </Text>
             <Text style={styles.sectionItem3}>{selectedTraitement.nbrfois}</Text>
-            <Text style={styles.sectionItem2}>  fois tous les  </Text>
+            <Text style={styles.sectionItem2}>  fois pendant  </Text>
             <Text style={styles.sectionItem3}>{selectedTraitement.nbrJours}</Text>
             <Text style={styles.sectionItem2}>  jours</Text>
             </View>

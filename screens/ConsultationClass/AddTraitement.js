@@ -200,7 +200,7 @@ console.log('ID' , consultationId)
 
                />
                       <View style={styles.inputContainer}>
-      <Text style={styles.label}>Apprendre</Text>
+      <Text style={styles.label}>A prendre</Text>
 
         <TextInput
           style={[styles.input]}
@@ -270,7 +270,7 @@ console.log('ID' , consultationId)
     </View>
     <Text style={styles.sectionTitleP}>Le medecin ne vous a donné aucun traitement?</Text>
                 <ExtraView>
-<TextLink onPress={() => navigation.navigate(ListeConsultation)}>
+<TextLink onPress={() => navigation.navigate('ListeConsultation')}>
   <TextLinkContent style={styles.ignor}>
   Ignorer l'etape
   </TextLinkContent>
@@ -318,101 +318,81 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    //color:brand,
-    // marginBottom: 0,
+    color: 'brand', // Replace 'brand' with the desired color value
+    marginBottom: 0,
     marginTop: 5,
   },
   label4: {
     fontSize: 16,
-fontWeight:'bold',
-    // marginBottom: 1,
-    //color: brand,
+    fontWeight: 'bold',
+    color: 'brand', // Replace 'brand' with the desired color value
+    marginBottom: 1,
     marginTop: 8,
   },
   label2: {
     fontSize: 16,
     fontWeight: 'bold',
-    //marginBottom: 10,
-    //color: brand,
+    color: 'brand', // Replace 'brand' with the desired color value
+    marginBottom: 10,
     marginTop: -5,
   },
   label3: {
     fontSize: 20,
     marginBottom: 5,
-    color: brand,
-    //marginTop: 5,
-    fontWeight:'600',
-    marginLeft:-25,
-    marginTop:35,
-  
+    color: 'brand', // Replace 'brand' with the desired color value
+    marginTop: 5,
+    fontWeight: '600',
+    marginLeft: -25,
+    marginTop: 35,
   },
-  ignor:{
-    //backgroundColor:'white',
-    marginTop:-20,
-    //fontWeight:'500',
-    fontSize:16,
-    //shadowOpacity: 0.25,
-    //shadowOffset: { width: 0, height: 2 },
-    //shadowRadius: 1,
-    //elevation: 5,
-    padding:10,
-    marginBottom:15,
-    //borderWidth:0.2,
-    //borderColor:darkLight
-    //color:'white'
+  ignor: {
+    backgroundColor: 'white',
+    marginTop: -20,
+    fontSize: 16,
+    padding: 10,
+    marginBottom: 15,
   },
   sectionTitleP: {
     fontSize: 17,
     fontWeight: '400',
     marginBottom: 10,
-   // color: tertiary,
-    marginTop:30,
-    marginLeft:-35,
-    marginRight:-35,
-    //backgroundColor:'white',
-    //shadowOpacity: 0.25,
-    //shadowOffset: { width: 0, height: 2 },
+    color: 'tertiary', // Replace 'tertiary' with the desired color value
+    marginTop: 30,
+    marginLeft: -35,
+    marginRight: -35,
     shadowRadius: 1,
     elevation: 5,
-    borderRadius:3,
-    //padding:4
+    borderRadius: 3,
   },
   date: {
-    //flex:1,
-    //padding:25,
-    //paddingLeft:55,
-    height:90,
-    marginVertical:-10,
-    marginBottom:7,
-    marginHorizontal:-15,
+    height: 90,
+    marginVertical: -10,
+    marginBottom: 7,
+    marginHorizontal: -15,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    //justifyContent:'space-between',
     marginTop: 25,
     paddingBottom: 15,
     borderBottomWidth: 0.25,
-    borderBottomColor: darkLight,
+    borderBottomColor: 'darkLight', // Replace 'darkLight' with the desired color value
     marginLeft: -25,
     marginRight: -25,
-
   },
   headerTitle: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: brand,
-    alignItems:'center'
-
+    color: 'brand', // Replace 'brand' with the desired color value
+    alignItems: 'center',
   },
   backButton: {
     marginRight: 60,
     marginLeft: ScreenWidth - 350,
   },
 
-  imageContainer:
-  {
-    backgroundColor: secondary,
+  imageContainer: {
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     padding: 15,
     paddingLeft: 55,
     borderRadius: 20,
@@ -420,7 +400,7 @@ fontWeight:'bold',
     height: 150,
     marginVertical: 3,
     marginBottom: 10,
-    color: tertiary,
+    color: 'tertiary', // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -430,19 +410,18 @@ fontWeight:'bold',
   },
   depense: {
     flexDirection: 'row',
-    alignContent: 'space-between'
+    alignContent: 'space-between',
   },
   cout: {
-    backgroundColor: secondary,
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     padding: 15,
     paddingLeft: 25,
-    //paddingRight:75,
     borderRadius: 20,
     fontSize: 16,
     height: 60,
     marginVertical: 3,
     marginBottom: 15,
-    color: tertiary,
+    color: 'tertiary', // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -451,16 +430,15 @@ fontWeight:'bold',
     marginRight: 165,
   },
   remboursement: {
-    backgroundColor: secondary,
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     padding: 15,
     paddingLeft: 25,
-    //paddingRight:75,
     borderRadius: 20,
     fontSize: 16,
     height: 60,
     marginVertical: 3,
     marginBottom: 0,
-    color: tertiary,
+    color: 'tertiary', // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -471,8 +449,7 @@ fontWeight:'bold',
   },
 
   comentaire: {
-    //flex:1,
-    backgroundColor: secondary,
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     padding: 25,
     paddingLeft: 55,
     borderRadius: 20,
@@ -480,7 +457,7 @@ fontWeight:'bold',
     height: 80,
     marginVertical: 3,
     marginBottom: 10,
-    color: tertiary,
+    color: 'tertiary', // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -489,24 +466,22 @@ fontWeight:'bold',
     marginRight: -10,
   },
   dropdownContainer: {
-    backgroundColor: secondary,
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     padding: 15,
     paddingLeft: 55,
     borderRadius: 20,
     height: 60,
     marginVertical: 3,
     marginBottom: 10,
-    color: tertiary,
+    color: 'tertiary', // Replace 'tertiary' with the desired color value
     marginLeft: -10,
-    marginRight: -10
-
+    marginRight: -10,
   },
   dropdownButton: {
-    backgroundColor: secondary,
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     alignItems: 'center',
     borderRadius: 20,
     padding: 15,
-    //paddingLeft:55,
     paddingRight: 0,
     height: 50,
     marginVertical: -7,
@@ -517,7 +492,6 @@ fontWeight:'bold',
   dropdownButtonText: {
     fontSize: 16,
     color: '#333',
-    //paddingHorizontal:-50,
     paddingRight: -90,
   },
   dropdown: {
@@ -525,7 +499,7 @@ fontWeight:'bold',
     borderColor: '#ccc',
     borderRadius: 20,
     backgroundColor: '#fafafa',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   dropdownRow: {
     paddingVertical: 10,
@@ -540,8 +514,7 @@ fontWeight:'bold',
     marginTop: 20,
   },
   dateContainer: {
-    //flex:1,
-    backgroundColor: secondary,
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     padding: 25,
     paddingLeft: 55,
     borderRadius: 20,
@@ -549,7 +522,7 @@ fontWeight:'bold',
     height: 60,
     marginVertical: 3,
     marginBottom: 10,
-    color: tertiary,
+    color: 'tertiary', // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -558,14 +531,10 @@ fontWeight:'bold',
     marginRight: -10,
   },
   date: {
-    //flex:1,
-    //padding:25,
-    //paddingLeft:55,
     height: 90,
     marginVertical: 4,
     marginBottom: 7,
     marginHorizontal: -15,
-
   },
 
   container2: {
@@ -580,17 +549,16 @@ fontWeight:'bold',
     marginBottom: 10,
   },
   input: {
-    backgroundColor: secondary,
+    backgroundColor: 'secondary', // Replace 'secondary' with the desired color value
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 5,
     textAlign: 'center',
     shadowOpacity: 0.25,
-    shadowOffset: 2,
+    shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
     elevation: 5,
   },
-
 });
   export default AddTraitement;  

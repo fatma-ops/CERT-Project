@@ -210,7 +210,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
       console.log(response.data);
       consultationIdRef.current = response.data._id; 
       console.log(consultationIdRef);
-      navigation.navigate('AddTraitement', { consultationId: response.data._id })
+      navigation.navigate('AddTraitement', { consultationId:response.data._id })
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
@@ -246,7 +246,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
           <Formik
             initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', images: [] }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.contact == '' || values.objet=='' || values.date==''|| values.images=='') {
+              if (values.contact == '' || values.objet=='' || values.images=='') {
                 handleMessage('Veuillez remplir  les champs obligatoires');
                 setSubmitting(false);
               } else {
@@ -316,7 +316,7 @@ navigation.navigate('ModifyVaccin' , {nom: selectedAnalyse.nom, specialite: sele
                     renderDropdownIcon={() => (
                       <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
                     )} 
-                    defaultButtonText="Choisir votre médecin"
+                    defaultButtonText="Choisir médecin"
 
                     buttonStyle={styles.dropdownButton}
                     buttonTextStyle={styles.dropdownButtonText}
@@ -685,6 +685,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+    marginTop:10,
+
   },
   placeholder: {
     width: 100,

@@ -10,7 +10,6 @@ import { StatusBar } from 'react-native';
 import SearchBar from '../../components/SearchBar';
 import { ngrokLink } from '../../config';
 import { AntDesign, Entypo } from '@expo/vector-icons';
-
 const { brand, green,red,darkLight, primary,secondary,tertiary } = Colors;
 //________________________________________________________________________________
 const ListeAddRappelTraitement = ({ navigation }) => {
@@ -80,7 +79,7 @@ const ListeAddRappelTraitement = ({ navigation }) => {
           )) 
         ) : (
           <Text>Aucun sous-traitement trouvé</Text>
-        )}
+  )}
       </View>
   )}
 /> 
