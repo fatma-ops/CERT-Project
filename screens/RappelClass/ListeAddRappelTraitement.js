@@ -67,8 +67,7 @@ const ListeAddRappelTraitement = ({ navigation }) => {
           item.traitements.map((sousTraitement, sousTraitementIndex) => (
             <TouchableOpacity
               key={sousTraitementIndex}
-              onPress={() => {navigation.navigate("AddRappel", {
-              selectedTraitement: sousTraitement,})}}style={styles.subTreatmentContainer}
+              
             >
               <View style={styles.fois}>
               <Text style={styles.title}>{sousTraitement.medicament}</Text>

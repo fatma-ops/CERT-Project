@@ -25,9 +25,6 @@ background-color:rgba(0,0,0,0.7);
 justify-content:center;
 `;
 const AddRappel = ({ navigation , route }) => {
-  const { selectedTraitement } = route.params;
-  const id = selectedTraitement._id
-  console.log("id" , id);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const { email } = storedCredentials;
   const [modalVisible , setModalVisible] = useState(false);
@@ -79,24 +76,7 @@ const AddRappel = ({ navigation , route }) => {
     setCancelButtonText(cancelButtonText);
     setModalVisible(true);
   };
- const handleDelete = async () => {
-      try {
-        const response = await fetch(`${ngrokLink}rappel/delete/${id}`, {
-          method: 'DELETE'
-        });
-        const data = await response.json();
-        setResult(data);
-        navigation.navigate('ListeRappel');
-
-      } catch (err) {
-        console.error(err);
-        setResult('Erreur');
-      }
-    };
-    /*const handleModify = () => {
-      setShowModal(false);
-      navigation.navigate('ModifyRappel' , {nom: selectedAnalyse.nom, specialite: selectedAnalyse.specialite, adresse:selectedAnalyse.adresse, numero: selectedAnalyse.numero, commentaire: selectedAnalyse.commentaire , id: selectedAnalyse._id})   
-     };*/
+ 
 
      const submitRappel = async (values, setSubmitting) => {
       handleMessage(null);
@@ -104,10 +84,14 @@ const AddRappel = ({ navigation , route }) => {
     
       const data = {
         rappels: values.rappels,
+<<<<<<< Updated upstream
         userEmail: email,
         idTraitement: selectedTraitement._id,
         dateDeCommencement:selectedTraitement.dateDeCommencement,
         medicament:selectedTraitement.medicament
+=======
+
+>>>>>>> Stashed changes
       };
     
       try {
@@ -158,6 +142,7 @@ const AddRappel = ({ navigation , route }) => {
               <StyledFormArea>
 
       <View style={styles.content}>
+<<<<<<< Updated upstream
       <Text style={styles.title}>{selectedTraitement.medicament}</Text>
 
         <View style={styles.sectionContent}>
@@ -178,6 +163,9 @@ const AddRappel = ({ navigation , route }) => {
   <Text style={{ color:'black', marginLeft:-10, fontSize:18,fontWeight:'500', marginTop:30}}>Ajouter L'heure des rappels</Text>
 </View>
             </View>
+=======
+      
+>>>>>>> Stashed changes
             <View>
           <FieldArray
             name="rappels"
@@ -253,17 +241,17 @@ const AddRappel = ({ navigation , route }) => {
      <View style={styles.modalContent}>
        <TouchableOpacity /*onPress={handleModify}*/>
         <View style={[styles.modalButton]}>
-          <Text style={{  color: '#007AFF',fontSize:'20',marginBottom:15 }}>  Modifier  </Text>
+          <Text style={{  color: '#007AFF',marginBottom:15 }}>  Modifier  </Text>
         </View>
        </TouchableOpacity>
        <TouchableOpacity onPress={openModal}>
         <View style={[styles.modalButton]}>
-          <Text style={{  color: red ,fontSize:'20',marginBottom:15, }}>Supprimer  </Text>
+          <Text style={{  color: red ,marginBottom:15, }}>Supprimer  </Text>
         </View>
        </TouchableOpacity>
        <TouchableOpacity onPress={() => setShowModal(false)}>
         <View style={[styles.modalCancelButton]}>
-          <Text style={{ color: '#007AFF', fontSize:'18',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
+          <Text style={{ color: '#007AFF',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
         </View>
         </TouchableOpacity>
       </View>

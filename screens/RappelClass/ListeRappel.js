@@ -65,6 +65,7 @@ const ListeRappel = ({ navigation }) => {
     <View style={[styles.analyseContainer2]}>
                     <StatusBar style="white" />
 
+<<<<<<< Updated upstream
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
@@ -89,6 +90,42 @@ const ListeRappel = ({ navigation }) => {
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
+=======
+                    <View style={styles.headingContainer}>
+<View style ={{flexDirection:'column'}}>
+<View style={styles.header2}>
+<TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
+<AntDesign name="left" size={25} color='white' />
+</TouchableOpacity>
+<View>
+<Text style={styles.headerTitle}>Mes rappels</Text></View>
+</View>
+<View style={{width:280 , paddingHorizontal:12 , height:170 }}>
+<StatusBar style="Light" />
+<SearchBar
+value={searchQuery}
+onChangeText={handleOnSearchInput}
+containerStyle={{ marginVertical: 15, marginTop:25}}
+/>
+
+</View>
+</View>
+
+<View >
+<TouchableOpacity
+style={[styles.button]}
+onPress={() => navigation.navigate('AddRappel')}
+>
+<MaterialIcons name="add" size={25} color='white' />
+<Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
+</TouchableOpacity>
+</View>
+
+
+
+
+
+>>>>>>> Stashed changes
     </View>
     <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
@@ -173,12 +210,10 @@ analyseContainer2:{
 },
 header2: {
   flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center', // To center the header
-  marginHorizontal:-10 , // To remove the left and right padding
-  paddingHorizontal: 10, // To add the padding back
-  marginTop:StatusBarHeight ,
-
+alignItems: 'center',
+paddingLeft: 10,
+backgroundColor:brand,
+marginTop:90,
 },
 header: {
   flexDirection: 'row',
@@ -195,12 +230,12 @@ header: {
 headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
-  color:'white'
+  color:'white',
+  marginLeft:85
 
 },
 backButton: {
-  marginRight: 10,
-  marginLeft: -9,
+
 },
 
 divider:{
@@ -242,8 +277,7 @@ date: {
   },
 item:{ 
   marginTop:-5,
-    marginLeft:10,
-    marginRight:10,
+   borderRadius:10,
     //alignItems:'center',
     marginBottom:15,
 },
@@ -254,7 +288,7 @@ liste:{
   marginTop:15,
   shadowOpacity:0.25,
   shadowOffset:{width:0.75, height:2},
-  shadowRadius:2,
+  shadowRadius:20,
   elevation:5,
   backgroundColor:'white',
   borderRadius:5,
@@ -275,14 +309,14 @@ headingContainer2:{
 
 },
 headingContainer:{
-   flexDirection:'row',
-   justifyContent:'space-between',
-   alignItems:'center',
-   backgroundColor:brand,
-   height:150
-   
-   
-},
+  flexDirection:'row',
+  justifyContent:'space-between',
+  alignItems:'center',
+  backgroundColor:brand,
+  height:150
+  
+  
+  },
 button:{
     width:50,
     borderRadius:100,

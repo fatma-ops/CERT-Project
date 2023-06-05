@@ -286,7 +286,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
                   date: dateAnalyse,
                   contact: contact,
                   cout: cout,
-                  type:'',
+                  type:typeAnalyse,
                   remboursement: remboursement,
                   images: [],
                 }}
@@ -334,7 +334,8 @@ const ModifierAnalyse = ({ navigation, route }) => {
             dropdownStyle={styles.dropdown}
             rowStyle={styles.dropdownRow}
             rowTextStyle={styles.dropdownRowText}
-            defaultButtonText="Choisir le type"
+            defaultButtonText={typeAnalyse || "Choisir le type"} // Utilisation de typeAnalyse comme valeur par défaut
+
           />
           </SelectDropdownStyle>
               
@@ -365,17 +366,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
                     <Text style={styles.label}>
                       Date
                     </Text>
-                    <DateTimePicker
-    style={styles.date}
-    value={date}
-    mode="date"
-    display="spinner"
-    onChange={onChange}
-    locale="fr"
-    onPress={handleShowDatePicker}
-  />
-  
-                    <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
+                      <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
                     <>
       <View style={styles.imageRow}>
         {images.map((image, index) => (
@@ -434,7 +425,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
                       placeholderTextColor={darkLight}
                       onChangeText={handleChange('remboursement')}
                       onBlur={handleBlur('remboursement')}
-                      value={values.remboursement ? remboursement.toString() : ''} // Convert to string if not null or undefined
+                      value={values.remboursement ? values.remboursement.toString() : ''} // Convert to string if not null or undefined
                     />
   
                     <MsgBox type={messageType}>{message}</MsgBox>
