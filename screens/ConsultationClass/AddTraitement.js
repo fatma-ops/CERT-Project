@@ -5,7 +5,7 @@ import { Formik , FieldArray } from 'formik';
 import { Fontisto, Octicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer, Colors, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle, Line, ExtraText } from '../../components/styles';
+import { InnerContainer, StyledContainer, Colors, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle, Line, ExtraText, StyledEtoile } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -15,6 +15,7 @@ import RegularButton from '../../components/Buttons/RegularButton';
 import { ngrokLink } from '../../config';
 import ListeConsultation from './ListeConsultation';
 import RowContainer from '../../components/Containers/RowContainer';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 
 
 const { brand, green,darkLight, primary, secondary,tertiary,red } = Colors;
@@ -177,10 +178,11 @@ console.log('ID' , consultationId)
               <View>
                 {values.medicaments.map((medicament, index) => (
                   <View key={index}>
-                    <Text style={styles.label3}>Médicament {index + 1}:</Text>
+                    <Text style={styles.label3}>Médicament {index + 1}: </Text>
                     <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>
                         <MyTextInput
                         label="Médicament"
+                        etoile="*"
                         icon='medical-bag'
                           onChangeText={(value) =>
                             arrayHelpers.replace(index, {
@@ -190,7 +192,7 @@ console.log('ID' , consultationId)
                           }
                           value={medicament.nommedicament}
                         />
-                        <Text style={styles.label}>Date de commencement</Text>
+                        <Text style={styles.label}>Date de commencement <Text style={{ color: 'red' }}>*</Text></Text>
                         <DateTimePicker style={styles.date}
               value={date}
               mode="date"
@@ -299,10 +301,9 @@ console.log('ID' , consultationId)
   );
 }
 //TExtInput Modal _______________________________________________________________
-const MyTextInput = ({ label, icon, icon2,  ...props }) => {
+const MyTextInput = ({ label,etoile, icon, icon2,  ...props }) => {
   return (
     <View>
-      <StyledInputLabel2> {label}</StyledInputLabel2>
       <LeftIcon>
         <MaterialCommunityIcons name={icon} size={24} color={brand} />
       </LeftIcon>
@@ -310,7 +311,13 @@ const MyTextInput = ({ label, icon, icon2,  ...props }) => {
         <Fontisto name={icon2} size={25} color={brand} marginTop='10' />
       </LeftIcon>
      
-          <StyledTextInput  {...props} />
+      <RowContainer2>
+        <StyledInputLabel2> {label}  </StyledInputLabel2>
+        <StyledEtoile> {etoile}  </StyledEtoile>
+        </RowContainer2>
+              
+                  
+                  <StyledTextInput  {...props} />
        
      
 
@@ -327,29 +334,32 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 16, 
     fontWeight: 'bold',
-    color: brand, // Replace 'brand' with the desired color value
+    color: 'black', // Replace 'brand' with the desired color value
     marginBottom: 0,
     marginTop: 5,
   },
   label4: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: brand, // Replace 'brand' with the desired color value
+    color: brand, 
     marginBottom: 1,
     marginTop: 8,
   },
   label2: {
     fontSize: 16,
-    color: brand, // Replace 'brand' with the desired color value
+    color: brand, 
     marginBottom: 10,
+    fontWeight: 'bold',
+
     marginTop: -5,
   },
   label3: {
     fontSize: 20,
     marginBottom: 5,
-    color: brand, // Replace 'brand' with the desired color value
+    color: brand,
+    fontWeight: 'bold',
     fontWeight: '600',
     marginLeft: -25,
     marginTop: 55,

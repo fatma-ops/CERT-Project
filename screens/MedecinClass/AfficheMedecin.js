@@ -109,7 +109,7 @@ return (
             <Text style={styles.sectionItem}>{selectedAnalyse.adresse}</Text>
             </View>
             <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Numero: </Text>
+            <Text style={styles.sectionItem2}>Numéro: </Text>
             <Text style={styles.sectionItem}>+216 {selectedAnalyse.numero}</Text>
             </View>
             <View style={styles.heelo}>
@@ -124,17 +124,17 @@ return (
      <View style={styles.modalContent}>
        <TouchableOpacity onPress={handleModify}>
         <View style={[styles.modalButton]}>
-          <Text style={{  color: '#007AFF',fontSize:'20',marginBottom:15 }}>  Modifier  </Text>
+          <Text style={{  color: '#007AFF',marginBottom:15 }}>  Modifier  </Text>
         </View>
        </TouchableOpacity>
        <TouchableOpacity onPress={openModal}>
         <View style={[styles.modalButton]}>
-          <Text style={{  color: red ,fontSize:'20',marginBottom:15, }}>Supprimer  </Text>
+          <Text style={{  color: red ,marginBottom:15, }}>Supprimer  </Text>
         </View>
        </TouchableOpacity>
        <TouchableOpacity onPress={() => setShowModal(false)}>
         <View style={[styles.modalCancelButton]}>
-          <Text style={{ color: '#007AFF', fontSize:'18',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
+          <Text style={{ color: '#007AFF',marginBottom:15, fontWeight:'bold'}}>Annuler</Text>
         </View>
         </TouchableOpacity>
       </View>

@@ -83,15 +83,9 @@ const AddRappel = ({ navigation , route }) => {
       setSubmitting(true);
     
       const data = {
+        
         rappels: values.rappels,
-<<<<<<< Updated upstream
-        userEmail: email,
-        idTraitement: selectedTraitement._id,
-        dateDeCommencement:selectedTraitement.dateDeCommencement,
-        medicament:selectedTraitement.medicament
-=======
 
->>>>>>> Stashed changes
       };
     
       try {
@@ -142,30 +136,7 @@ const AddRappel = ({ navigation , route }) => {
               <StyledFormArea>
 
       <View style={styles.content}>
-<<<<<<< Updated upstream
-      <Text style={styles.title}>{selectedTraitement.medicament}</Text>
-
-        <View style={styles.sectionContent}>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Date De Commencement: </Text>
-            <Text style={styles.sectionItem3}>{selectedTraitement.dateDeCommencement}</Text>
-            </View>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>À prendre  </Text>
-            <Text style={styles.sectionItem3}>{selectedTraitement.nbrfois}</Text>
-            <Text style={styles.sectionItem2}>  fois pendant  </Text>
-            <Text style={styles.sectionItem3}>{selectedTraitement.nbrJours}</Text>
-            <Text style={styles.sectionItem2}>  jours</Text>
-            </View>
-            </View>          
-            <View >
-           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-  <Text style={{ color:'black', marginLeft:-10, fontSize:18,fontWeight:'500', marginTop:30}}>Ajouter L'heure des rappels</Text>
-</View>
-            </View>
-=======
       
->>>>>>> Stashed changes
             <View>
           <FieldArray
             name="rappels"

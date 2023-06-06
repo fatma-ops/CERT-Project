@@ -65,7 +65,6 @@ const ListeRappel = ({ navigation }) => {
     <View style={[styles.analyseContainer2]}>
                     <StatusBar style="white" />
 
-<<<<<<< Updated upstream
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
@@ -90,42 +89,6 @@ const ListeRappel = ({ navigation }) => {
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
         </TouchableOpacity>
         </View>
-=======
-                    <View style={styles.headingContainer}>
-<View style ={{flexDirection:'column'}}>
-<View style={styles.header2}>
-<TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
-<AntDesign name="left" size={25} color='white' />
-</TouchableOpacity>
-<View>
-<Text style={styles.headerTitle}>Mes rappels</Text></View>
-</View>
-<View style={{width:280 , paddingHorizontal:12 , height:170 }}>
-<StatusBar style="Light" />
-<SearchBar
-value={searchQuery}
-onChangeText={handleOnSearchInput}
-containerStyle={{ marginVertical: 15, marginTop:25}}
-/>
-
-</View>
-</View>
-
-<View >
-<TouchableOpacity
-style={[styles.button]}
-onPress={() => navigation.navigate('AddRappel')}
->
-<MaterialIcons name="add" size={25} color='white' />
-<Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
-</TouchableOpacity>
-</View>
-
-
-
-
-
->>>>>>> Stashed changes
     </View>
     <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>

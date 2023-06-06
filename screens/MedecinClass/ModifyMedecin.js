@@ -3,11 +3,12 @@ import { View,  StatusBar, TouchableOpacity, Text } from 'react-native';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
+import CountryPicker from 'react-native-country-picker-modal';
 
 import MessageModal from '../../components/Modals/MessageModal';
 
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle} from '../../components/styles';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle, StyledEtoile, StyledTextInputContainercountry, StyledTextInputcountry} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -16,6 +17,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { ngrokLink } from '../../config';
 import RegularButton from '../../components/Buttons/RegularButton';
+import RowContainer2 from '../../components/Containers/RowContainer2';
 
 const { brand, darkLight, primary , secondary , tertiary } = Colors;
 
@@ -132,7 +134,20 @@ const  ModifyMedecin = ({navigation , route}) =>  {
       };
          
       
-
+      const [countryCode, setCountryCode] = useState('TN');
+      const [countryCallingCode, setCountryCallingCode] = useState('+216');
+      const [phoneNumber, setPhoneNumber] = useState('');
+    
+      const handleCountrySelect = (country) => {
+        setCountryCode(country.cca2);
+        setCountryCallingCode(country.callingCode[0]);
+        setPhoneNumber('');
+      };
+    
+      const handlePhoneNumberChange = (text) => {
+        setPhoneNumber(text);
+      };
+  
 
 
   const handleMessage = (message, type = 'FAILED') => {
@@ -147,7 +162,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>    Modifier un contact</Text>
+        <Text style={styles.headerTitle}>    Modifier un  médecin </Text>
       </View>
     
     
@@ -167,8 +182,8 @@ const  ModifyMedecin = ({navigation , route}) =>  {
     <Formik
       initialValues={{ nom: nom, id:id ,email:email, adresse: adresse, specialite: specialite, numero:numero , commentaire:commentaire }}
       onSubmit={(values, { setSubmitting }) => {
-        if (values.nom == ''||values.adresse == ''||values.specialite == ''||values.numero == '' ) {
-            handleMessage('Veuillez remplir  les champs');
+        if (values.nom == ''||values.specialite == '' ) {
+            handleMessage('Veuillez remplir tous les champs obligatoires');
             setSubmitting(false);
         } else {
             ModifyMedecin(values, setSubmitting);
@@ -185,18 +200,18 @@ const  ModifyMedecin = ({navigation , route}) =>  {
            label="Nom du médecin"
            icon="person"
            etoile="*"
-           placeholder="Analyse"
+           placeholder="Dr "
            placeholderTextColor={darkLight}
            onChangeText={handleChange('nom')}
            onBlur={handleBlur('nom')}
            value={values.nom}
           />
          
-         <Text style={styles.label}>Spécialité</Text>
+         <Text style={styles.label}>Spécialité <Text style={{ color: 'red' }}>*</Text></Text>
              
          <SelectDropdownStyle>          
           <SelectDropdown
-  label="Specialité"
+  label="Spécialité"
   data={specialities}
   onSelect={(selectedItem, index) => {
     setFieldValue('specialite', selectedItem);
@@ -209,7 +224,8 @@ const  ModifyMedecin = ({navigation , route}) =>  {
   dropdownStyle={styles.dropdown}
   rowStyle={styles.dropdownRow}
   rowTextStyle={styles.dropdownRowText}
-  defaultButtonText="Choisir la spécialité"
+  defaultButtonText={values.specialite ? values.specialite : 'Choisir la spécialité  '}
+
 />
 </SelectDropdownStyle>
 
@@ -217,27 +233,38 @@ const  ModifyMedecin = ({navigation , route}) =>  {
                            <MyTextInput
            label="Adresse"
            icon="location"
-           placeholder="Analyse"
+           placeholder="Bizerte , Tunisie"
            placeholderTextColor={darkLight}
            onChangeText={handleChange('adresse')}
            onBlur={handleBlur('adresse')}
            value={values.adresse}
                               
                           />
-                           <MyTextInput
-           label="numero"
-           icon2="call-outline"
-           placeholder="+216 *** *** *** ** "
-           placeholderTextColor={darkLight}
-           onChangeText={handleChange('numero')}
-           onBlur={handleBlur('numero')}
-           value={values.numero}
-           keyboardType="phone-pad"
-           
-                              
-                          />
+                           <Text style={styles.label}>
+  Numéro
+</Text>
+          <StyledTextInputContainercountry>
+      <CountryPicker
+        withFilter
+        withCallingCode
+        onSelect={handleCountrySelect}
+        countryCode={countryCode}
+        style={{left:15,
+          top:38,
+          position:'absolute',
+          zindex : 1}}
+      />
+      <StyledTextInputcountry
+        placeholder={`${countryCallingCode} ${phoneNumber}`}
+        value={values.numero}
+        onChangeText={handleChange('numero')}
+        onBlur={handleBlur('numero')}
+
+        keyboardType="phone-pad"
+      />
+    </StyledTextInputContainercountry>
                            <MyTextInput2
-           label="commenataire"
+           label="Commentaire"
           
            placeholder=""
            placeholderTextColor={darkLight}
@@ -289,29 +316,32 @@ const  ModifyMedecin = ({navigation , route}) =>  {
   );
 }
 
-const MyTextInput = ({ label, icon,icon2, ...props }) => {
-    return (
-        <View>
-            <LeftIcon>
-                <Octicons name={icon} size={24} color={brand} />
-  
-            </LeftIcon>
-            <LeftIcon>
-                <Ionicons name={icon2} size={24} color={brand} />
-  
-            </LeftIcon>
-            
-            <StyledInputLabel2> {label}</StyledInputLabel2>
-                
-                    
-                    <StyledTextInput  {...props} />
-                    
-            
-  
-        </View>
-    );
-  
-  }
+const MyTextInput = ({ label,etoile, icon,icon2, ...props }) => {
+  return (
+      <View>
+          <LeftIcon>
+              <Octicons name={icon} size={24} color={brand} />
+
+          </LeftIcon>
+          <LeftIcon>
+              <Ionicons name={icon2} size={24} color={brand} />
+
+          </LeftIcon>
+          
+          <RowContainer2>
+        <StyledInputLabel2> {label}  </StyledInputLabel2>
+        <StyledEtoile> {etoile}  </StyledEtoile>
+        </RowContainer2>
+              
+                  
+                  <StyledTextInput  {...props} />
+                  
+
+
+      </View>
+  );
+
+}
   const MyTextInput2 = ({ label, icon,icon2, ...props }) => {
     return (
         <View>
@@ -364,7 +394,7 @@ const MyTextInput = ({ label, icon,icon2, ...props }) => {
       },
       backButton: {
         marginRight: 50,
-        marginLeft: ScreenWidth - 350,
+        marginLeft: ScreenWidth - 380,
       },
    
       dropdownContainer: {

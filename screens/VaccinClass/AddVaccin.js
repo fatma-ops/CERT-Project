@@ -231,7 +231,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     </>
 
             <MyTextInput style={styles.comentaire}
-          label="Commenataire"
+          label="Commentaire"
            placeholder="..."
            placeholderTextColor={darkLight}
            multiline={true}
@@ -338,7 +338,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
       },
       backButton: {
         marginRight: 50,
-        marginLeft: ScreenWidth - 350,
+        marginLeft: ScreenWidth - 380,
       },
 
    

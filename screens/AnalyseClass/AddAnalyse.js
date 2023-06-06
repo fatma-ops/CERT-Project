@@ -260,15 +260,7 @@ const onChange = (event , selectedDate) => {
       <Text style={styles.label}>
     Date
   </Text>
-  <DateTimePicker
-    style={styles.date}
-    value={date}
-    mode="date"
-    display="spinner"
-    onChange={onChange}
-    locale="fr"
-    onPress={handleShowDatePicker}
-  />
+  
   
            <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
            <>

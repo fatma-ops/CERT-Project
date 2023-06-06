@@ -16,6 +16,49 @@ export const Colors = {
   black:'#111111'
 };
 const { primary, secondary, tertiary, darkLight, brand, green, red,black } = Colors;
+
+
+export const StyledTextInputContainercountry = styled.View`
+  flex-direction: row;
+  align-items: center;
+  background-color: ${secondary};
+  border-radius: 20px;
+  padding: 10px;
+  height:60px;
+  width:106%;
+  margin-vertical:3px;
+margin-bottom:15px;
+shadow-Opacity:0.25;
+shadow-offset:2px;
+shadow-radius:1px;
+elevation:5;
+margin-left:-10px;
+margin-right:-10px;
+
+`;
+
+export const StyledTextInputcountry = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  left:15px  
+
+`;
+
+export const CountryPickerContainer = styled.View`
+  position: relative;
+  margin-right: 10px;
+`;
+
+export const CountryPickerFlag = styled.View`
+  position: absolute;
+  left: 10px;
+  top: 50%;
+`;
+
+
+
+
+
 export const StyledContainer = styled.View`
 padding: 25px;
 padding-top: ${StatusBarHeight  }px;

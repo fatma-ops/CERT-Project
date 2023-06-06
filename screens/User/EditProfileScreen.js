@@ -12,18 +12,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import RowContainer from '../../components/Containers/RowContainer'
 import { ngrokLink } from '../../config';
+import SelectDropdown from 'react-native-select-dropdown';
+import { RadioButton } from 'react-native-paper';
+
 
 
 import
   
-    {Colors , StyledInputLabel, StyledTextInput,LeftIcon, StyledContainer, InnerContainer, StyledFormArea, PageSignup, SubTitle, Editprofile, MsgBox, ButtonText, StyledButton, StyledContainer2, ExtraView, ExtraText, TextLink, TextLinkContent, StyledContainerRestPassword, StyledEtoile
+    {Colors , StyledInputLabel, StyledTextInput,LeftIcon,    SelectDropdownStyle ,
+      StyledContainer, InnerContainer, StyledFormArea, PageSignup, SubTitle, Editprofile, MsgBox, ButtonText, StyledButton, StyledContainer2, ExtraView, ExtraText, TextLink, TextLinkContent, StyledContainerRestPassword, StyledEtoile
   
 
 
 } from '../../components/styles';
 import IconHeader from '../../components/Icons/IconHeader';
 import RowContainer2 from '../../components/Containers/RowContainer2';
-const { brand, darkLight, primary , green, red} = Colors;
+const { brand, darkLight, primary , tertiary , secondary} = Colors;
 
 const EditProfileScreen = ({navigation , route}) => {
 
@@ -31,6 +35,8 @@ const EditProfileScreen = ({navigation , route}) => {
     const [nom, setNom] = useState(route.params.nom);
     const [prenom, setPrenom] = useState(route.params.prenom);
     const [email, setEmail] = useState(route.params.email);
+    const [genre, setGenre] = useState(route.params.genre);
+
     const [allergie, setAllergie] = useState(route.params.allergie);
     const [groupeSanguin, setGroupeSanguin] = useState(route.params.groupeSanguin);
     const {storedCredentials , setStoredCredentials}=useContext(CredentialsContext);
@@ -48,7 +54,10 @@ const [headerText , setHeaderText]= useState('');
 const [modalMessage , setModalMessage] = useState('');
 const [buttonText , setButtonText] = useState('');
 
-
+const groupesanguin = [
+  'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'
+  
+];
 const buttonHandler = () => {
     if(modalMessageType === 'success'){
         //do something
@@ -85,7 +94,9 @@ const buttonHandler = () => {
               nom: credentials.nom,
               prenom: credentials.prenom,
               allergie: credentials.allergie,
-              groupeSanguin: credentials.groupeSanguin
+              groupeSanguin: credentials.groupeSanguin,
+              genre: credentials.genre
+
             })
           });
       
@@ -98,6 +109,8 @@ const buttonHandler = () => {
             setPrenom(data.prenom);
             setAllergie(data.allergie);
             setGroupeSanguin(data.groupeSanguin);
+            setGenre(data.genre);
+
             AsyncStorage.setItem('DossierMedicaleCredentials', JSON.stringify(credentials))
             .then(() => {
               setStoredCredentials(credentials);
@@ -112,7 +125,7 @@ const buttonHandler = () => {
         } catch (error) {
           console.error(error);
           // Show an error message to the user
-          handleMessage('Server error. Please try again later.', 'FAILED');
+          handleMessage('Erreur.', 'FAILED');
         } finally {
           setSubmitting(false);
         }
@@ -128,7 +141,7 @@ const buttonHandler = () => {
       <InnerContainer>
      
           <Formik
-              initialValues={{_id:_id, prenom: prenom , nom: nom,email:email ,groupeSanguin:groupeSanguin , allergie:allergie  }}
+              initialValues={{_id:_id, prenom: prenom , nom: nom,email:email ,groupeSanguin:groupeSanguin , allergie:allergie,genre:genre  }}
               onSubmit={(values, { setSubmitting }) => {
                   if (values.prenom == '' ||values.nom == '' ) {
                     handleMessage('Veuillez remplir tous les champs obligatoires');
@@ -142,7 +155,7 @@ const buttonHandler = () => {
                   }
               }}
           >
-              {({ handleChange, handleBlur, handleSubmit, values, isSubmitting }) => (
+              {({ handleChange, handleBlur,setFieldValue, handleSubmit, values, isSubmitting }) => (
                   <StyledFormArea>
                       <MyTextInput
                           label="Nom"
@@ -166,18 +179,57 @@ const buttonHandler = () => {
                           value={values.prenom}
 
                       />
+                     <Text style={styles.label}>Genre <Text style={{ color: 'red' }}>*</Text></Text> 
+        <View style={{ flexDirection: 'row', marginLeft:50 , alignItems:'center' }}>
+
+        <RadioButton
+          value='Homme'
+          status={values.genre === 'Homme' ? 'checked' : 'unchecked'}
+          onPress={() => setFieldValue('genre', 'Homme')} // Update genre field value
+        />
+        <Text style={{ fontSize: 14 }}>Homme </Text>
+        <RadioButton
+          value='Femme'
+          status={values.genre === 'Femme' ? 'checked' : 'unchecked'}
+          onPress={() => setFieldValue('genre', 'Femme')} // Update genre field value
+        />
+        <Text style={{ fontSize: 14 }}>Femme </Text>
+        </View>  
+        <Text style={styles.label}>Groupe sanguin</Text> 
+
+                     <SelectDropdownStyle>    
+                
+                <SelectDropdown
+                   label="Groupe sanguin"
+                  
+                   
+                   data={groupesanguin}
+       
+                   onSelect={(selectedItem, index) => {
+                     setFieldValue('groupeSanguin', selectedItem);
+                   }}
+                   buttonTextAfterSelection={(selectedItem, index) => {
+                     return selectedItem;
+                   }}
+                   rowTextForSelection={(item, index) => {
+                     return item;
+                   }}
+                   renderDropdownIcon={() => (
+                       <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+                     )}
+                   buttonStyle={styles.dropdownButton}
+                   buttonTextStyle={styles.dropdownButtonText}
+                   dropdownStyle={styles.dropdown}
+                   rowStyle={styles.dropdownRow}
+                   rowTextStyle={styles.dropdownRowText}
+                   defaultButtonText={values.groupeSanguin ? values.groupeSanguin : 'Choisir votre groupe sanguin '}
+                   >
+                        
+                              
+                       
+                       </SelectDropdown>
                      
-                      <MyTextInput2
-                          label="Groupe Sanguin"
-                          icon="blood-bag"
-                          placeholder="Entrer votre groupe sanguin"
-                          placeholderTextColor={darkLight}
-                          onChangeText={handleChange('groupeSanguin')}
-                          onBlur={handleBlur('groupeSanguin')}
-                          value={values.groupeSanguin}
-                          
-                          
-                      />
+                 </SelectDropdownStyle>
                       <MyTextInput2
                           label="Allergie"
                           icon="allergy"
@@ -268,78 +320,89 @@ const MyTextInput2 = ({ label, icon, isPassword, hidePassword, setHidePassword, 
 
 export default EditProfileScreen; 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      
-    },
-    header: {
-      alignItems: 'center',
-      justifyContent: 'center',
-     
-     
-    },
-    avatar: {
-      marginTop: StatusBarHeight + 30,
-      width: 200,
-      height: 150,
-      
-    },
-    name: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginTop: 16,
-      color:brand
-    },
-    subtitle: {
-      fontSize: 16,
-      color: '#666',
-      marginTop: 8,
-    },
-    body: {
-      padding: 20,
-    },
-    button: {
-      backgroundColor: brand,
-      padding: 10,
-      borderRadius: 20,
-      marginTop: 10,
-    },
-    buttonText: {
-      color: '#fff',
-      textAlign: 'center',
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    section: {
-      marginTop: 20,
-      
-    },
-    sectionTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 10,
-    },
-    sectionContent: {
-      backgroundColor: '#f0f0f0',
-      padding: 10,
-      borderRadius: 20,
-    },
-    sectionItem: {
-      fontSize: 16,
-      marginBottom: 5,
-     
-      
-     
-    },
-    sectionItem2: {
-      fontSize: 16,
-      marginBottom: 5,
-      fontWeight: 'bold',
-      
-     
-    },
+   
    heelo:{
     flexDirection:'row'
-   }
+   },
+   label: {
+    fontSize: 13,
+    marginBottom: 5,
+    color:tertiary
+  },
+  
+
+
+
+
+dropdownButtonText: {
+  fontSize: 17,
+  color: '#333',
+
+},
+dropdown: {
+  borderWidth: 1,
+  borderColor: '#ccc',
+  padding: 10,
+  width: '100%',
+  marginBottom: 20,
+},
+
+dropdownContainer: {
+backgroundColor: secondary,
+padding:15,
+paddingLeft:55,
+borderRadius: 20,
+height:60,
+marginVertical:3,
+marginBottom:10,
+color:tertiary,
+shadowOpacity:0.25,
+shadowOffset:2,
+shadowRadius:1,
+marginLeft:-10,
+marginRight:-10
+
+},
+dropdownButton: {
+backgroundColor: secondary,
+alignSelf:"center",
+marginTop: -10,
+
+width: '97%', // Ajoutez cette ligne pour définir la largeur du bouton à 100%
+},
+dropdownButtonText: {
+ fontSize: 17,
+ color: brand ,
+ alignItems:'center',
+
+ marginLeft: -27, // Espace à gauche de l'icône
+
+
+
+},
+dropdownIcon: {
+left:15,
+position:'absolute',
+zIndex:1,     
+
+},
+dropdown: {
+ borderWidth: 1,
+ borderColor: '#ccc',
+ borderRadius: 20,
+ backgroundColor: '#fafafa',
+ justifyContent:'center'
+},
+dropdownRow: {
+ paddingVertical: 10,
+ paddingHorizontal: 5,
+},
+dropdownRowText: {
+ fontSize: 16,
+ color: '#333',
+},
+selectedValue: {
+ fontSize: 18,
+ marginTop: 20,
+},
   });
