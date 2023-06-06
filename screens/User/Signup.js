@@ -389,15 +389,9 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         color:tertiary
       },
-      
-    
-   
-   
-   
     dropdownButtonText: {
       fontSize: 17,
       color: '#333',
-    
     },
     dropdown: {
       borderWidth: 1,

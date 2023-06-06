@@ -118,7 +118,7 @@ const handleModify = () => {
     <View style={styles.sectionContent}>
     <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Type: </Text>
-            <Text style={styles.sectionItem}>Radiologie</Text>
+            <Text style={styles.sectionItem}>{selectedAnalyse.type}</Text>
             </View>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Medecin: </Text>

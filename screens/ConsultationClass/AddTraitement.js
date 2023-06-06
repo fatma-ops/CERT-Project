@@ -129,7 +129,7 @@ console.log('ID' , consultationId)
      <View style={styles.header}>
           <View  style={styles.backButton}>
           </View>
-          <Text style={styles.headerTitle}>Ajouter votre traitement</Text>
+          <Text style={styles.headerTitle}>    Ajouter votre traitement</Text>
         </View>
     
     <KeyboardAvoidingWrapper>
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: brand, // Replace 'brand' with the desired color value
+    //color: brand, // Replace 'brand' with the desired color value
     marginBottom: 0,
     marginTop: 5,
   },
@@ -342,9 +342,10 @@ const styles = StyleSheet.create({
   },
   label2: {
     fontSize: 16,
-    color: brand, // Replace 'brand' with the desired color value
+    //color: brand, // Replace 'brand' with the desired color value
     marginBottom: 10,
     marginTop: -5,
+    fontWeight:'bold'
   },
   label3: {
     fontSize: 20,

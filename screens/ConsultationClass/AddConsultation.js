@@ -180,7 +180,7 @@ const AddConsultation = ({ navigation }) => {
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
     try {
-      const response = await axios.post(`${ngrokLink}consultation/add`, formData, {
+      const response = await axios.post(`${ngrokLink}consultation/add/multiple`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

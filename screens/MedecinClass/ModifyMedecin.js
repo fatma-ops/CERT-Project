@@ -147,7 +147,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>    Modifier un contact</Text>
+        <Text style={styles.headerTitle}>    Modifier un médecin</Text>
       </View>
     
     

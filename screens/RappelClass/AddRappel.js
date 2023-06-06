@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, Image, Modal,Button,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal,Button,TouchableOpacity, TextInput } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
-import { Colors } from '../../components/styles';
-import { useState , useContext } from 'react';
+import { useState , useContext, useEffect } from 'react';
 import { CredentialsContext } from '../../components/CredentialsContext';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import axios from 'axios';
@@ -11,10 +10,11 @@ import styled from 'styled-components';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import { Formik , FieldArray } from 'formik';
-import { InnerContainer, StyledContainer2, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
+import { InnerContainer, StyledContainer, Colors, LeftIcon,  StyledFormArea, MsgBox, ButtonText,  ViewImage, TextLink, ExtraView, TextLinkContent,  StyledInputLabel2, SubTitle, SelectDropdownStyle, StyledTextInput, StyledEtoile } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton3 from '../../components/Buttons/RegularButton3';
+import SelectDropdown from 'react-native-select-dropdown';
 
 
 const { brand, green, darkLight, primary, red, tertiary,secondary } = Colors;
@@ -39,6 +39,16 @@ const AddRappel = ({ navigation , route }) => {
   const [showModal, setShowModal] = useState(false);
   const [result, setResult] = useState('');
   const [formCount, setFormCount] = useState(1);
+
+    // Fetch the list of contacts from the database____________________________________________________________
+    const [contacts, setContacts] = useState([]);
+    useEffect(() => {
+      fetch(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
+        .then(response => response.json())
+        .then(data => setContacts(data))
+        .catch(error => console.error(error));
+    }, []);
+    const options = contacts.map(contact => contact.nom);
 
 
 //date________________________________________
@@ -84,14 +94,6 @@ const AddRappel = ({ navigation , route }) => {
     
       const data = {
         rappels: values.rappels,
-<<<<<<< Updated upstream
-        userEmail: email,
-        idTraitement: selectedTraitement._id,
-        dateDeCommencement:selectedTraitement.dateDeCommencement,
-        medicament:selectedTraitement.medicament
-=======
-
->>>>>>> Stashed changes
       };
     
       try {
@@ -127,10 +129,8 @@ const AddRappel = ({ navigation , route }) => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={28} color={brand} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>              Ajouter rappel        </Text>
-        <TouchableOpacity onPress={() => setShowModal(true)} style={styles.moreButton}>
-          <Entypo name="dots-three-vertical" size={26} color={brand} />
-        </TouchableOpacity>
+        <Text style={styles.headerTitle}>                   Ajouter rappel        </Text>
+
       </View>
           <Formik style={styles.container}
            initialValues={{rappels: [{ heure: ""}]}}
@@ -142,31 +142,58 @@ const AddRappel = ({ navigation , route }) => {
               <StyledFormArea>
 
       <View style={styles.content}>
-<<<<<<< Updated upstream
-      <Text style={styles.title}>{selectedTraitement.medicament}</Text>
+        
+                <Text style={styles.label}>Rappel pour médicament:<Text style={{ color: 'red' }}>*</Text></Text>
 
-        <View style={styles.sectionContent}>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>Date De Commencement: </Text>
-            <Text style={styles.sectionItem3}>{selectedTraitement.dateDeCommencement}</Text>
-            </View>
-            <View style={styles.heelo}>
-            <Text style={styles.sectionItem2}>À prendre  </Text>
-            <Text style={styles.sectionItem3}>{selectedTraitement.nbrfois}</Text>
-            <Text style={styles.sectionItem2}>  fois pendant  </Text>
-            <Text style={styles.sectionItem3}>{selectedTraitement.nbrJours}</Text>
-            <Text style={styles.sectionItem2}>  jours</Text>
-            </View>
-            </View>          
-            <View >
-           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-  <Text style={{ color:'black', marginLeft:-10, fontSize:18,fontWeight:'500', marginTop:30}}>Ajouter L'heure des rappels</Text>
-</View>
-            </View>
-=======
-      
->>>>>>> Stashed changes
+                <SelectDropdownStyle>
+                  <SelectDropdown
+                    data={options}
+                    onSelect={(selectedItem, index) => {
+                      setFieldValue('contact', selectedItem);
+                    }} 
+                    renderDropdownIcon={() => (
+                      <AntDesign name="caretdown" size={16} color={brand} style={styles.dropdownIcon} />
+                    )} 
+                    defaultButtonText="Choisir médicament"
+
+                    buttonStyle={styles.dropdownButton}
+                    buttonTextStyle={styles.dropdownButtonText}
+                    dropdownStyle={styles.dropdown}
+                    rowStyle={styles.dropdownRow}
+                    rowTextStyle={styles.dropdownRowText}
+                    buttonTextAfterSelection={(selectedItem, index) => contacts[index].nom}
+                  />
+                </SelectDropdownStyle>
+                 <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
+             
+                <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
+  <View style={{flexDirection:'row', marginTop:10, marginBottom:25}}>
+      <Text style={styles.label}>Repeter pendant   </Text>
+
+        <TextInput
+          style={[styles.input]}
+          placeholder="1"
+          keyboardType="phone-pad"
+          onChangeText={(value) =>
+            arrayHelpers.replace(index, {
+              ...medicament,
+              nbrfois: value
+            })
+          }
+          //value={medicament.nbrfois}
+          />
+        <Text style={styles.label}>     jours</Text>
+      </View>
             <View>
+<Text style={styles.label}>Heure<Text style={{ color: 'red' }}>*</Text></Text> 
           <FieldArray
             name="rappels"
             render={(arrayHelpers) => (
@@ -178,7 +205,7 @@ const AddRappel = ({ navigation , route }) => {
             source={require('../../assets/img/clock.jpg')}
             style={styles.image}
           />    
-           <DateTimePicker style={styles.date}
+           <DateTimePicker style={styles.time}
               value={date}
               mode="time"
               //is24Hour={true}
@@ -227,11 +254,18 @@ const AddRappel = ({ navigation , route }) => {
                       Enregister
                     </ButtonText>
                   </RegularButton3>}
+                
 
                   {isSubmitting && <RegularButton3 disabled={true}>
                     <ActivityIndicator size="large" color={primary} />
                   </RegularButton3>}
+                  <TextLink onPress={() => navigation.goBack()}>
+                    <TextLinkContent style={{ paddingRight:-40, }} >
+                      Annuler
+                    </TextLinkContent>
+                  </TextLink>
                 </View>
+                  
       
 
       <Modal visible={showModal} animationType="slide" transparent={true}>
@@ -286,6 +320,34 @@ const styles = StyleSheet.create({
     opacity:1,
     paddingBottom:300
     //justifyContent:'space-between',
+
+  },
+    label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    // marginBottom: 0,
+    marginTop: 5,
+  },
+  input: {
+    backgroundColor: secondary , // Replace 'secondary' with the desired color value
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginHorizontal: 5,
+    textAlign: 'center',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 2, height: 4 },
+    shadowRadius: 1,
+    elevation: 5,
+  },
+    date: {
+    //flex:1,
+    //padding:25,
+    //paddingLeft:55,
+    height: 90,
+    marginVertical: 4,
+    marginBottom: 7,
+    marginHorizontal: -15,
 
   },
   header: {
@@ -464,19 +526,70 @@ modalCancelButton: {
     height: 50, // Adjust the height as needed
     marginRight: 10, // Adjust the margin as needed
     resizeMode: 'contain', 
-    marginLeft:30, 
+    //marginLeft:30, 
     marginTop:10
   },
-  date: {
+  time: {
     //flex:1,
     //padding:25,
     //paddingLeft:55,
     height:90,
     marginVertical:-65,
-    marginLeft:80,
+    marginLeft:50,
     //marginTop:-65,
-    marginRight:70,
+    marginRight:50,
     marginBottom:-3,
+  },
+  dropdownContainer: {
+    backgroundColor: secondary,
+    padding: 15,
+    paddingLeft: 55,
+    borderRadius: 20,
+    height: 60,
+    marginVertical: 3,
+    marginBottom: 10,
+    color: tertiary,
+    marginLeft: -10,
+    marginRight: -10
+
+  },
+  dropdownButton: {
+    backgroundColor: secondary,
+    alignItems:'center',
+    borderRadius:20,
+    padding:15,
+    //paddingLeft:55,
+    paddingRight:0,
+    height:50,
+    marginVertical:-7,
+    marginBottom:10, 
+   marginLeft:-10,
+    marginRight:-10,
+  },
+  dropdownButtonText: {
+    fontSize: 16,
+    color: brand,
+    //paddingHorizontal:-50,
+    paddingRight:-90,
+  },
+  dropdown: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    backgroundColor: '#fafafa',
+    justifyContent: 'center'
+  },
+  dropdownRow: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+  },
+  dropdownRowText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  selectedValue: {
+    fontSize: 18,
+    marginTop: 20,
   },
 });
 

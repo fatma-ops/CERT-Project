@@ -128,7 +128,7 @@ const UpdateTraitement = ({ navigation , route  }) => {
      <View style={styles.header}>
           <View  style={styles.backButton}>
           </View>
-          <Text style={styles.headerTitle}> Modifier votre traitement</Text>
+          <Text style={styles.headerTitle}>   Modifier votre traitement</Text>
         </View>
     
     <KeyboardAvoidingWrapper>
@@ -145,7 +145,7 @@ const UpdateTraitement = ({ navigation , route  }) => {
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-         <View style={{paddingBottom:200, marginTop:-50}}>
+         <View style={{paddingBottom:200, marginTop:-40}}>
          <Text style={styles.label3}>Dépenses du traitement: </Text>
          <Text style={styles.label4}>Coût                                 Remboursement</Text>
             <TextInput

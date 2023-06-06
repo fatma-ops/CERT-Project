@@ -65,32 +65,6 @@ const ListeRappel = ({ navigation }) => {
     <View style={[styles.analyseContainer2]}>
                     <StatusBar style="white" />
 
-<<<<<<< Updated upstream
-         <View style={styles.headingContainer}>
-         <View style ={{flexDirection:'column'}}>
-         <View style={styles.header2}>
-        <Text style={styles.headerTitle}>                     Mes rappels</Text>
-      </View>
-      <View style={{width:280 , paddingHorizontal:12 , top:-10 ,left:10}}>
-      <StatusBar style="Light" />
-      <SearchBar
-           value={searchQuery}
-            onChangeText={handleOnSearchInput}
-            containerStyle={{ marginVertical: 15, marginTop:25}}
-            />
-  
-    </View> 
-    </View>
-    <View >
-        <TouchableOpacity
-          style={[styles.button]}
-          onPress={() => navigation.navigate('ListeAddRappelTraitement')}
-        >
-          <MaterialIcons name="add" size={25} color='white' />
-          <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
-        </TouchableOpacity>
-        </View>
-=======
                     <View style={styles.headingContainer}>
 <View style ={{flexDirection:'column'}}>
 <View style={styles.header2}>
@@ -125,14 +99,13 @@ onPress={() => navigation.navigate('AddRappel')}
 
 
 
->>>>>>> Stashed changes
     </View>
     <View style={{ flexDirection: 'row', alignContent: 'center', marginTop:5 , paddingHorizontal:12}}>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand}}>
         Totale:
       </Text>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
-        {rappels ? rappels.length : 0}
+        4
       </Text>
     </View>
 
@@ -168,13 +141,16 @@ onPress={() => navigation.navigate('AddRappel')}
             style={styles.image} 
           />
           <View style={styles.textContainer}>
-            <Text style={styles.text2}>{item.medicament}</Text>
-            <Text style={styles.title}>{item.rappel}</Text>
-            <Text style={styles.date}>{item.dateDeCommencement}</Text>
+            <Text style={styles.text2}>Doliprane</Text>
+            <Text style={styles.title}>8:00</Text>
+            <Text style={styles.date}>5 mai 2023</Text>
           </View>
         </View>
+        
       </TouchableOpacity>
+      
     </Swipeable>
+    
   )}
 />
 
@@ -288,7 +264,7 @@ liste:{
   marginTop:15,
   shadowOpacity:0.25,
   shadowOffset:{width:0.75, height:2},
-  shadowRadius:20,
+  shadowRadius:2,
   elevation:5,
   backgroundColor:'white',
   borderRadius:5,
@@ -411,12 +387,12 @@ textContainer: {
 deleteButton: {
     backgroundColor: 'red',
     justifyContent: 'center',
-    paddingLeft: 5,
+    paddingLeft: 12,
     paddingRight: 20,
     height: '84%',
     width:'30%',
     //margingleft:900,
-    marginRight:-82,
+    marginRight:-86,
     marginTop:15,
     //marginBottom:15,
     borderRadius:5,
