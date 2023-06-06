@@ -72,9 +72,9 @@ const Login = ({navigation}) => {
         setSubmitting(false);
       }
   
-      const { token, status, message, nom, email, prenom,groupeSanguin,allergie,_id } = await response.json();
+      const { token, status, message, nom, email, prenom,groupeSanguin,allergie,genre,_id } = await response.json();
   
-      persistLogin(token, message, status, nom, email, prenom,groupeSanguin,allergie,_id);
+      persistLogin(token, message, status, nom, email, prenom,groupeSanguin,allergie,genre,_id);
       setSubmitting(false);
   
       // Navigate to the home screen
@@ -88,8 +88,8 @@ const Login = ({navigation}) => {
 
    
 //Fonction Enregistrer les donnés dans asyncStorage____________________________________
-const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,allergie,_id) => {
-    const credentials = { token, nom, email, prenom,groupeSanguin,allergie,_id };
+const persistLogin = (token, message, status, nom, email, prenom,groupeSanguin,genre , allergie,_id) => {
+    const credentials = { token, nom, email, prenom,groupeSanguin,genre ,allergie,_id };
     AsyncStorage.setItem('DossierMedicaleCredentials', JSON.stringify(credentials))
       .then(() => {
         handleMessage(message, status);

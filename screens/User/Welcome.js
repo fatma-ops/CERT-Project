@@ -1,4 +1,4 @@
-import React , {useContext,useState}  from 'react';
+import React , {useContext,useState , useEffect}  from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
@@ -6,7 +6,7 @@ import { TextInput } from 'react-native';
 import EditProfileScreen from './EditProfileScreen';
 import { Modal } from 'react-native';
 import { StatusBarHeight } from '../../components/shared';
-import {  Octicons, AntDesign, Fontisto , Entypo , MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import {  AntDesign, Fontisto , Entypo , MaterialCommunityIcons, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
 import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import {Colors,} from '../../components/styles';
@@ -17,7 +17,7 @@ import { CredentialsContext } from '../../components/CredentialsContext';
 const Welcome = ({navigation}) => {
 //context
     const {storedCredentials , setStoredCredentials}=useContext(CredentialsContext);
-    const {nom,prenom,email ,groupeSanguin,allergie ,token , _id} = storedCredentials;
+    const {nom,prenom,email ,groupeSanguin,allergie ,token ,genre, _id} = storedCredentials;
     console.log(storedCredentials._id)
     
    
@@ -54,6 +54,33 @@ const Welcome = ({navigation}) => {
       setCancelButtonText(cancelButtonText);
       setModalVisible(true);
     };
+
+    const [profileData, setProfileData] = useState(null);
+    console.log(profileData)
+
+    useEffect(() => {
+      fetchUserProfile();
+    }, []);
+  
+    const fetchUserProfile = async () => {
+      try {
+        const response = await fetch(`${ngrokLink}/user/${email}/?cache_bust=${Date.now()}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération du profil utilisateur');
+        }
+  
+        const data = await response.json();
+        setProfileData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
   
     return (
         <KeyboardAvoidingWrapper>
@@ -80,7 +107,7 @@ const Welcome = ({navigation}) => {
        <View style={{flexDirection:'row'}}>
        <Text style={styles.sectionTitleName}>{nom} {prenom}</Text>
        <TouchableOpacity onPress={openModal}>
-       <View style={{ marginLeft:20 , marginTop:StatusBarHeight - 25 }}>
+       <View style={{ marginLeft:20 , marginTop:StatusBarHeight - 10 }}>
        <MaterialIcons name='logout' size={35} color='white'/>
        </View>
        </TouchableOpacity>
@@ -101,7 +128,7 @@ const Welcome = ({navigation}) => {
         
         
         <Text style={styles.sectionTitle}>Informations personnelles</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen', {nom: nom, prenom: prenom, email: email, allergie: allergie, groupeSanguin: groupeSanguin})}>
+        <TouchableOpacity onPress={() => navigation.navigate('EditProfileScreen', {nom:profileData?.nom, prenom: profileData?.prenom, email: email, allergie: profileData?.allergie, groupeSanguin: profileData?.groupeSanguin , genre:profileData?.genre})}>
        <View style={{ marginLeft:300 , marginTop:-40}}>
        <MaterialCommunityIcons name='account-edit' size={35} color={brand}/>
        </View>
@@ -115,6 +142,10 @@ const Welcome = ({navigation}) => {
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Prénom: </Text>
             <Text style={styles.sectionItem}>{prenom}</Text>
+            </View>
+            <View style={styles.heelo}>
+            <Text style={styles.sectionItem2}>Genre: </Text>
+            <Text style={styles.sectionItem}>{genre}</Text>
             </View>
             <View style={styles.heelo}>
             <Text style={styles.sectionItem2}>Email: </Text>
@@ -266,7 +297,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginBottom: 20,
       color: 'white',
-      marginTop:StatusBarHeight-25,
+      marginTop:StatusBarHeight-10,
       alignItems:'center'
     },
     sectionContent: {
@@ -289,6 +320,6 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
    heelo:{
-    flexDirection:'row'
+    flexDirection:'row',
    }
   });

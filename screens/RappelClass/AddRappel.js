@@ -93,6 +93,7 @@ const AddRappel = ({ navigation , route }) => {
       setSubmitting(true);
     
       const data = {
+        
         rappels: values.rappels,
       };
     

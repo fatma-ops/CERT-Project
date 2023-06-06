@@ -216,7 +216,7 @@ const AddConsultation = ({ navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <AntDesign name="left" size={25} color={brand} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Ajouter votre consultation</Text>
+          <Text style={styles.headerTitle}>  Ajouter votre consultation</Text>
         </View>
     <KeyboardAvoidingWrapper>
       <StyledContainer>
@@ -226,7 +226,7 @@ const AddConsultation = ({ navigation }) => {
           <Formik
             initialValues={{ objet:'',type: '', date: '', contact: '', cout: '', remboursement: '', images: [] }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.contact == '' || values.objet=='' || values.images=='') {
+              if (values.contact == '' || values.objet=='' || values.images=='' || values.type=='') {
                 handleMessage('Veuillez remplir  les champs obligatoires');
                 setSubmitting(false);
               } else {
@@ -247,7 +247,7 @@ const AddConsultation = ({ navigation }) => {
                   value={values.objet}
                 />
                 <View >
-                <Text style={styles.label}>Type de consultation</Text> 
+                <Text style={styles.label}>Type de consultation <Text style={{ color: 'red' }}>*</Text></Text> 
          <SelectDropdownStyle>              
          <SelectDropdown
             label="Specialité"
@@ -274,7 +274,7 @@ const AddConsultation = ({ navigation }) => {
           </SelectDropdownStyle>
               
                 </View>
-                <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
+                <Text style={styles.label}>Date</Text> 
              
                 <DateTimePicker
     style={styles.date}
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: 40,
-    marginLeft: ScreenWidth - 340,
+    marginLeft: ScreenWidth - 380,
   },
 
   imageContainer:

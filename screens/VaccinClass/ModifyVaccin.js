@@ -247,7 +247,7 @@ const [currentImageData, setCurrentImageData] = useState(null);
     </>
 
             <MyTextInput style={styles.comentaire}
-          label="Commenataire"
+          label="Commentaire"
            placeholder="..."
            placeholderTextColor={darkLight}
            multiline={true}
@@ -352,7 +352,7 @@ const MyTextInput = ({ label,etoile,icon3,  icon,icon2, ...props }) => {
       },
       backButton: {
         marginRight: 50,
-        marginLeft: ScreenWidth - 350,
+        marginLeft: ScreenWidth - 380,
       },
 
     imageContainer:

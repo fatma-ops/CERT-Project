@@ -193,7 +193,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
     // Fetch the list of contacts from the database
     const [contacts, setContacts] = useState([]);
     useEffect(() => {
-      fetch(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+      fetch(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
         .then((response) => response.json())
         .then((data) => setContacts(data))
         .catch((error) => console.error(error));

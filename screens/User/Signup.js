@@ -44,12 +44,15 @@ import {
 
 } from '../../components/styles';
 import RowContainer2 from '../../components/Containers/RowContainer2';
+import { RadioButton } from 'react-native-paper';
 const { green, brand, darkLight, primary , secondary , tertiary } = Colors;
 
 
 //________________________________________________________________________________
 const Signup = ({ navigation }) => {
     const [hidePassword, setHidePassword] = useState(true);
+      const [checked, setChecked] = useState('Homme');
+
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
     const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -208,9 +211,9 @@ const groupesanguin = [
                     <PageSignup> Bienvenue ! </PageSignup>
                     <SubTitle>S'inscrire</SubTitle>
                     <Formik
-                        initialValues={{ prenom: '' , nom: '', email: '', groupeSanguin:'' , allergie:'', password: '', confirmPassword: '' }}
+                        initialValues={{ prenom: '' , nom: '', email: '',genre:'', groupeSanguin:'' , allergie:'', password: '', confirmPassword: '' }}
                         onSubmit={(values, { setSubmitting }) => {
-                            if (values.prenom == '' ||values.nom == '' || values.email == '' || values.password == '' || values.confirmPassword == '') {
+                            if (values.prenom == '' ||values.nom == '' || values.email == '' || values.password == '' || values.confirmPassword == ''|| values.genre == '') {
                                 handleMessage('Veuillez remplir tous les champs obligatoires');
                                 setSubmitting(false);
                             } else if (values.password !== values.confirmPassword) {
@@ -258,6 +261,23 @@ const groupesanguin = [
 
                                     keyboardType="email-address"
                                 />
+
+        <Text style={styles.label}>Genre <Text style={{ color: 'red' }}>*</Text></Text> 
+        <View style={{ flexDirection: 'row', marginLeft:50 , alignItems:'center' }}>
+
+        <RadioButton
+          value='Homme'
+          status={values.genre === 'Homme' ? 'checked' : 'unchecked'}
+          onPress={() => setFieldValue('genre', 'Homme')} // Update genre field value
+        />
+        <Text style={{ fontSize: 14 }}>Homme </Text>
+        <RadioButton
+          value='Femme'
+          status={values.genre === 'Femme' ? 'checked' : 'unchecked'}
+          onPress={() => setFieldValue('genre', 'Femme')} // Update genre field value
+        />
+        <Text style={{ fontSize: 14 }}>Femme </Text>
+        </View>              
       
          <Text style={styles.label}>Groupe Sanguin</Text> 
          

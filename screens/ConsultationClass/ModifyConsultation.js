@@ -27,12 +27,12 @@ const ModifyConsultation = ({ navigation ,route }) => {
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
 
-  const {objet , type , ordonnances , contact ,dateConsultation, id , cout , remboursement }= route.params
+  const {objet , type , ordonnances , contact ,dateConsultation, id , cout , remboursement , traitements }= route.params
 
   // Fetch the list of contacts from the database____________________________________________________________
   const [contacts, setContacts] = useState([]);
   useEffect(() => {
-    fetch(`${ngrokLink}/api/v1/medecin/${email}?cache_bust=123456789`)
+    fetch(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
       .then(response => response.json())
       .then(data => setContacts(data))
       .catch(error => console.error(error));
@@ -265,7 +265,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
 
       console.log(response.data);
       
-      navigation.navigate('UpdateTraitement')
+      navigation.navigate('UpdateTraitement' , { consultationId:response.data._id , traitements: traitements })
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
@@ -302,7 +302,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
           <Formik
             initialValues={{ objet:objet,type: type, date: dateConsultation, contact: contact, cout: cout, remboursement: remboursement, images: [ordonnances] }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.contact == '' || values.objet=='' || values.date==''|| values.images=='') {
+              if (values.contact == '' || values.objet=='' || values.type==''|| values.images=='') {
                 handleMessage('Veuillez remplir  les champs obligatoire');
                 setSubmitting(false);
               } else {
@@ -323,7 +323,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
                   value={values.objet}
                 />
                 <View >
-                <Text style={styles.label}>Type de consultation</Text> 
+                <Text style={styles.label}>Type de consultation <Text style={{ color: 'red' }}>*</Text></Text> 
          <SelectDropdownStyle>              
          <SelectDropdown
             label="Specialité"
@@ -348,7 +348,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
             defaultButtonText={values.type ? values.type : 'Choisir le type '}
             />
           </SelectDropdownStyle>
-          <Text style={styles.label}>Date<Text style={{ color: 'red' }}>*</Text></Text> 
+          <Text style={styles.label}>Date</Text> 
           <DateTimePicker
     style={styles.date}
     value={date}
@@ -360,7 +360,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
   />
               
                 </View>
-                <Text style={styles.label}>Médecin</Text>
+                <Text style={styles.label}>Médecin<Text style={{ color: 'red' }}>*</Text></Text>
 
                 <SelectDropdownStyle>
                   <SelectDropdown
@@ -428,7 +428,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
             placeholder="70.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('remboursement')}
-            value={values.remboursement ? remboursement.toString() : ''} // Convert to string if not null or undefined
+            value={values.remboursement ? values.remboursement.toString() : ''} // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
           </View>

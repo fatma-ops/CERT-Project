@@ -113,7 +113,8 @@ const { email } = storedCredentials;
 //Modifier______________________________________________________________________________________________
 const handleModify = () => {
     setShowModal(false);
-    navigation.navigate('ModifyConsultation' , {objet: selectedAnalyse.objet, type: selectedAnalyse.type, dateConsultation:selectedAnalyse.date, contact: selectedAnalyse.contact , id: selectedAnalyse._id , cout:selectedAnalyse.cout,remboursement: selectedAnalyse.remboursement , ordonnances:consultationImages })    
+    navigation.navigate('ModifyConsultation' , {objet: selectedAnalyse.objet, type: selectedAnalyse.type, dateConsultation:selectedAnalyse.date, contact: selectedAnalyse.contact , id: selectedAnalyse._id , cout:selectedAnalyse.cout,remboursement: selectedAnalyse.remboursement , ordonnances:consultationImages
+    ,traitements: traitements })    
      };
 //affiche Traitement__________________________________________________________________
 const [traitements, setTraitements] = useState([]);
@@ -430,6 +431,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     marginBottom: 20,
+    flexDirection:'row'
     
   },
   imageModalContainer: {

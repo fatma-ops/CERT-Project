@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import {  View, Text, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
-import { Fontisto, Octicons, AntDesign } from '@expo/vector-icons';
+import { Fontisto, Octicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScreenWidth, StatusBarHeight } from '../../components/shared';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer, Colors, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle } from '../../components/styles';
+import { InnerContainer, StyledContainer, Colors, LeftIcon, StyledInputLabel, StyledTextInput, StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, SelectDropdownStyle, Line, ExtraText, StyledEtoile } from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -13,17 +13,20 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import RegularButton2 from '../../components/Buttons/RegularButton2';
 import RegularButton from '../../components/Buttons/RegularButton';
 import { ngrokLink } from '../../config';
-import ListeConsultation from '../ConsultationClass/AfficheConsultation';
-
-
+import RowContainer from '../../components/Containers/RowContainer';
+import ListeConsultation from '../../screens/ConsultationClass/ListeConsultation'
+import RowContainer2 from '../../components/Containers/RowContainer2';
+     
 const { brand, green,darkLight, primary, secondary,tertiary,red } = Colors;
 
 const UpdateTraitement = ({ navigation , route  }) => {
- 
+  
 
  //take consultationId from route ___________________________________________________ 
-//const consultationId = route.params.consultationId
-//console.log('ID' , consultationId)
+const consultationId = route.params.consultationId
+const traitements=route.params.traitements
+console.log('ID' , consultationId)
+console.log('traitements' , traitements)
 
 //take email from storedCredentials__________________________________________________
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -90,8 +93,8 @@ const UpdateTraitement = ({ navigation , route  }) => {
     };
   
     try {
-      const response = await axios.post(
-        `${ngrokLink}traitement/add`,
+      const response = await axios.put(
+        `${ngrokLink}traitement/modifier/${traitements._id}`,
         data,
         {
           headers: {
@@ -137,33 +140,57 @@ const UpdateTraitement = ({ navigation , route  }) => {
        
         <InnerContainer>
           <Formik
-            initialValues={{cout: '', remboursement: '', medicaments: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", nommedicament: "" }]
+            initialValues={{cout: traitements.cout, remboursement: traitements.remboursement, medicaments: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", nommedicament: "" }]
              }}
             onSubmit={(values, { setSubmitting }) => {
-              submitTraitement(values, setSubmitting);
-            }}
+              // Vérifier si les champs obligatoires sont vides
+              const hasEmptyFields = values.medicaments.some(
+                (medicament) =>
+                  medicament.nommedicament === '' || medicament.dateDeCommencement === ''
+              );
+              
+
+              if (values.medicaments.length === 0) {
+                handleMessage('Veuillez ajouter au moins un médicament');
+                setSubmitting(false);
+              } else if (hasEmptyFields) {
+                handleMessage('Veuillez remplir les champs obligatoires');
+                setSubmitting(false);
+              } else {
+                submitTraitement(values, setSubmitting);
+              }
+              
+              
+  }}
+          
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
          <View style={{paddingBottom:200, marginTop:-40}}>
          <Text style={styles.label3}>Dépenses du traitement: </Text>
-         <Text style={styles.label4}>Coût                                 Remboursement</Text>
+         <RowContainer>
+                <Text style={styles.label2}>Coût</Text>
+                <Text style={styles.label2}>Remboursement</Text>
+                </RowContainer>
+                <View style ={{marginLeft:10}}>
             <TextInput
             style={styles.cout}
             placeholder="100.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('cout')}
-            value={values.cout}
+            value={values.cout } // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
+
           <TextInput
             style={styles.remboursement}
             placeholder="70.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('remboursement')}
-            value={values.remboursement}
+            value={values.remboursement} // Convert to string if not null or undefined
             keyboardType="phone-pad"
           />
+          </View>
           <FieldArray
             name="medicaments"
             render={(arrayHelpers) => (
@@ -174,6 +201,8 @@ const UpdateTraitement = ({ navigation , route  }) => {
                     <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>
                         <MyTextInput
                         label="Médicament"
+                        etoile="*"
+                        icon='medical-bag'
                           onChangeText={(value) =>
                             arrayHelpers.replace(index, {
                               ...medicament,
@@ -182,8 +211,8 @@ const UpdateTraitement = ({ navigation , route  }) => {
                           }
                           value={medicament.nommedicament}
                         />
-                        <Text style={styles.label}>Date de commencement</Text>
-           <DateTimePicker style={styles.date}
+                        <Text style={styles.label}>Date de commencement <Text style={{ color: 'red' }}>*</Text></Text>
+                        <DateTimePicker style={styles.date}
               value={date}
               mode="date"
               //is24Hour={true}
@@ -199,6 +228,7 @@ const UpdateTraitement = ({ navigation , route  }) => {
       //style={{ position: 'absolute', bottom: 0, left: 0 }}
 
                />
+          
                       <View style={styles.inputContainer}>
       <Text style={styles.label}>A prendre</Text>
 
@@ -262,15 +292,17 @@ const UpdateTraitement = ({ navigation , route  }) => {
   <MsgBox type={messageType}>{message}</MsgBox>
     <View style={{ justifyContent: 'center' }}>
       {!isSubmitting && <RegularButton onPress={handleSubmit} style={{ justifyContent: 'center', alignSelf: 'center' }}>
-          <ButtonText>Ajouter</ButtonText>
+          <ButtonText>Enregistrer</ButtonText>
         </RegularButton>}
       {isSubmitting && <RegularButton disabled={true}>
           <ActivityIndicator size="large" color={primary} />
          </RegularButton>}
     </View>
+    <Line />
+
     <Text style={styles.sectionTitleP}>Le medecin ne vous a donné aucun traitement?</Text>
                 <ExtraView>
-<TextLink onPress={() => navigation.navigate(ListeConsultation)}>
+<TextLink onPress={() => navigation.navigate('ListeConsultation')}>
   <TextLinkContent style={styles.ignor}>
   Ignorer l'etape
   </TextLinkContent>
@@ -288,18 +320,23 @@ const UpdateTraitement = ({ navigation , route  }) => {
   );
 }
 //TExtInput Modal _______________________________________________________________
-const MyTextInput = ({ label, icon, icon2,  ...props }) => {
+const MyTextInput = ({ label,etoile, icon, icon2,  ...props }) => {
   return (
     <View>
-      <StyledInputLabel2> {label}</StyledInputLabel2>
       <LeftIcon>
-        <Octicons name={icon} size={24} color={brand} />
+        <MaterialCommunityIcons name={icon} size={24} color={brand} />
       </LeftIcon>
       <LeftIcon>
         <Fontisto name={icon2} size={25} color={brand} marginTop='10' />
       </LeftIcon>
      
-          <StyledTextInput  {...props} />
+      <RowContainer2>
+        <StyledInputLabel2> {label}  </StyledInputLabel2>
+        <StyledEtoile> {etoile}  </StyledEtoile>
+        </RowContainer2>
+              
+                  
+                  <StyledTextInput  {...props} />
        
      
 
@@ -318,131 +355,95 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    //color:brand,
-    // marginBottom: 0,
+    color: 'black', // Replace 'brand' with the desired color value
+    marginBottom: 0,
     marginTop: 5,
   },
   label4: {
     fontSize: 16,
-fontWeight:'bold',
-    // marginBottom: 1,
-    //color: brand,
+    fontWeight: 'bold',
+    color: brand, // Replace 'brand' with the desired color value
+    marginBottom: 1,
     marginTop: 8,
   },
   label2: {
     fontSize: 16,
-    fontWeight: 'bold',
-    //marginBottom: 10,
-    //color: brand,
+    color: brand, // Replace 'brand' with the desired color value
+    marginBottom: 10,
     marginTop: -5,
+    fontWeight:'bold'
   },
   label3: {
     fontSize: 20,
     marginBottom: 5,
-    color: brand,
-    //marginTop: 5,
-    fontWeight:'600',
-    marginLeft:-25,
-    marginTop:25,
-  
+    color: brand, // Replace 'brand' with the desired color value
+    fontWeight: '600',
+    marginLeft: -25,
+    marginTop: 55,
   },
-  ignor:{
-    //backgroundColor:'white',
-    marginTop:-20,
-    //fontWeight:'500',
-    fontSize:16,
-    //shadowOpacity: 0.25,
-    //shadowOffset: { width: 0, height: 2 },
-    //shadowRadius: 1,
-    //elevation: 5,
-    padding:10,
-    marginBottom:15,
-    //borderWidth:0.2,
-    //borderColor:darkLight
-    //color:'white'
+  ignor: {
+    backgroundColor: 'white',
+    marginTop: -20,
+    fontSize: 16,
+    padding: 10,
+    marginBottom: 15,
   },
   sectionTitleP: {
     fontSize: 17,
     fontWeight: '400',
     marginBottom: 10,
-   // color: tertiary,
-    marginTop:30,
-    marginLeft:-35,
-    marginRight:-35,
-    //backgroundColor:'white',
-    //shadowOpacity: 0.25,
-    //shadowOffset: { width: 0, height: 2 },
+    color: tertiary, // Replace 'tertiary' with the desired color value
+    marginTop: 30,
+    marginLeft: -35,
+    marginRight: -35,
     shadowRadius: 1,
     elevation: 5,
-    borderRadius:3,
-    //padding:4
+    borderRadius: 3,
+    alignSelf:'center'
   },
   date: {
-    //flex:1,
-    //padding:25,
-    //paddingLeft:55,
-    height:90,
-    marginVertical:-10,
-    marginBottom:7,
-    marginHorizontal:-15,
+    height: 90,
+    marginVertical: -10,
+    marginBottom: 7,
+    marginHorizontal: -15,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    //justifyContent:'space-between',
     marginTop: 25,
     paddingBottom: 15,
     borderBottomWidth: 0.25,
-    borderBottomColor: darkLight,
+    borderBottomColor: darkLight , // Replace 'darkLight' with the desired color value
     marginLeft: -25,
     marginRight: -25,
-
   },
   headerTitle: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: brand,
-    alignItems:'center'
-
+    color: brand , // Replace 'brand' with the desired color value
+    alignItems: 'center',
+    alignSelf:'center'
   },
   backButton: {
     marginRight: 60,
     marginLeft: ScreenWidth - 350,
   },
 
-  imageContainer:
-  {
-    backgroundColor: secondary,
-    padding: 15,
-    paddingLeft: 55,
-    borderRadius: 20,
-    fontSize: 16,
-    height: 150,
-    marginVertical: 3,
-    marginBottom: 10,
-    color: tertiary,
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 1,
-    elevation: 5,
-    marginLeft: -10,
-    marginRight: -10,
-  },
+  
   depense: {
     flexDirection: 'row',
-    alignContent: 'space-between'
+    alignContent: 'space-between',
   },
   cout: {
-    backgroundColor: secondary,
+    backgroundColor: secondary , // Replace 'secondary' with the desired color value
     padding: 15,
     paddingLeft: 25,
-    //paddingRight:75,
     borderRadius: 20,
     fontSize: 16,
     height: 60,
     marginVertical: 3,
     marginBottom: 15,
-    color: tertiary,
+    color: tertiary , // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -451,16 +452,15 @@ fontWeight:'bold',
     marginRight: 165,
   },
   remboursement: {
-    backgroundColor: secondary,
+    backgroundColor: secondary, // Replace 'secondary' with the desired color value
     padding: 15,
     paddingLeft: 25,
-    //paddingRight:75,
     borderRadius: 20,
     fontSize: 16,
     height: 60,
     marginVertical: 3,
-    marginBottom: 10,
-    color: tertiary,
+    marginBottom: 0,
+    color: tertiary, // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -470,78 +470,13 @@ fontWeight:'bold',
     marginTop: -75,
   },
 
-  comentaire: {
-    //flex:1,
-    backgroundColor: secondary,
-    padding: 25,
-    paddingLeft: 55,
-    borderRadius: 20,
-    fontSize: 16,
-    height: 80,
-    marginVertical: 3,
-    marginBottom: 10,
-    color: tertiary,
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 1,
-    elevation: 5,
-    marginLeft: -10,
-    marginRight: -10,
-  },
-  dropdownContainer: {
-    backgroundColor: secondary,
-    padding: 15,
-    paddingLeft: 55,
-    borderRadius: 20,
-    height: 60,
-    marginVertical: 3,
-    marginBottom: 10,
-    color: tertiary,
-    marginLeft: -10,
-    marginRight: -10
-
-  },
-  dropdownButton: {
-    backgroundColor: secondary,
-    alignItems: 'center',
-    borderRadius: 20,
-    padding: 15,
-    //paddingLeft:55,
-    paddingRight: 0,
-    height: 50,
-    marginVertical: -7,
-    marginBottom: 10,
-    marginLeft: -10,
-    marginRight: -10,
-  },
-  dropdownButtonText: {
-    fontSize: 16,
-    color: '#333',
-    //paddingHorizontal:-50,
-    paddingRight: -90,
-  },
-  dropdown: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 20,
-    backgroundColor: '#fafafa',
-    justifyContent: 'center'
-  },
-  dropdownRow: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-  },
-  dropdownRowText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  selectedValue: {
-    fontSize: 18,
-    marginTop: 20,
-  },
+  
+  
+  
+  
+  
   dateContainer: {
-    //flex:1,
-    backgroundColor: secondary,
+    backgroundColor: secondary, // Replace 'secondary' with the desired color value
     padding: 25,
     paddingLeft: 55,
     borderRadius: 20,
@@ -549,7 +484,7 @@ fontWeight:'bold',
     height: 60,
     marginVertical: 3,
     marginBottom: 10,
-    color: tertiary,
+    color: tertiary, // Replace 'tertiary' with the desired color value
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -558,14 +493,10 @@ fontWeight:'bold',
     marginRight: -10,
   },
   date: {
-    //flex:1,
-    //padding:25,
-    //paddingLeft:55,
     height: 90,
     marginVertical: 4,
     marginBottom: 7,
     marginHorizontal: -15,
-
   },
 
   container2: {
@@ -580,17 +511,17 @@ fontWeight:'bold',
     marginBottom: 10,
   },
   input: {
-    backgroundColor: secondary,
+    backgroundColor: secondary , // Replace 'secondary' with the desired color value
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginHorizontal: 5,
     textAlign: 'center',
     shadowOpacity: 0.25,
-    shadowOffset: 2,
+    shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
     elevation: 5,
   },
-
 });
+
   export default UpdateTraitement; 
