@@ -329,170 +329,17 @@ const MyTextInput = ({ label,etoile, icon, icon2,  ...props }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    backgroundColor: '#fff',
+    opacity:1,
+    paddingBottom:300
+    //justifyContent:'space-between',
+
   },
-  label: {
-    fontSize: 16, 
+    label: {
+    fontSize: 16,
     fontWeight: 'bold',
-    color: 'black', // Replace 'brand' with the desired color value
-    marginBottom: 0,
+    // marginBottom: 0,
     marginTop: 5,
-  },
-  label4: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: brand, 
-    marginBottom: 1,
-    marginTop: 8,
-  },
-  label2: {
-    fontSize: 16,
-    color: brand, 
-    marginBottom: 10,
-    fontWeight: 'bold',
-
-    marginTop: -5,
-    fontWeight:'bold'
-  },
-  label3: {
-    fontSize: 20,
-    marginBottom: 5,
-    color: brand,
-    fontWeight: 'bold',
-    fontWeight: '600',
-    marginLeft: -25,
-    marginTop: 55,
-  },
-  ignor: {
-    backgroundColor: 'white',
-    marginTop: -20,
-    fontSize: 16,
-    padding: 10,
-    marginBottom: 15,
-  },
-  sectionTitleP: {
-    fontSize: 17,
-    fontWeight: '400',
-    marginBottom: 10,
-    color: tertiary, // Replace 'tertiary' with the desired color value
-    marginTop: 30,
-    marginLeft: -35,
-    marginRight: -35,
-    shadowRadius: 1,
-    elevation: 5,
-    borderRadius: 3,
-    alignSelf:'center'
-  },
-  date: {
-    height: 90,
-    marginVertical: -10,
-    marginBottom: 7,
-    marginHorizontal: -15,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 25,
-    paddingBottom: 15,
-    borderBottomWidth: 0.25,
-    borderBottomColor: darkLight , // Replace 'darkLight' with the desired color value
-    marginLeft: -25,
-    marginRight: -25,
-  },
-  headerTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: brand , // Replace 'brand' with the desired color value
-    alignItems: 'center',
-    alignSelf:'center'
-  },
-  backButton: {
-    marginRight: 60,
-    marginLeft: ScreenWidth - 350,
-  },
-
-  
-  depense: {
-    flexDirection: 'row',
-    alignContent: 'space-between',
-  },
-  cout: {
-    backgroundColor: secondary , // Replace 'secondary' with the desired color value
-    padding: 15,
-    paddingLeft: 25,
-    borderRadius: 20,
-    fontSize: 16,
-    height: 60,
-    marginVertical: 3,
-    marginBottom: 15,
-    color: tertiary , // Replace 'tertiary' with the desired color value
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 1,
-    elevation: 5,
-    marginLeft: -10,
-    marginRight: 165,
-  },
-  remboursement: {
-    backgroundColor: secondary, // Replace 'secondary' with the desired color value
-    padding: 15,
-    paddingLeft: 25,
-    borderRadius: 20,
-    fontSize: 16,
-    height: 60,
-    marginVertical: 3,
-    marginBottom: 0,
-    color: tertiary, // Replace 'tertiary' with the desired color value
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 1,
-    elevation: 5,
-    marginLeft: 155,
-    marginRight: -10,
-    marginTop: -75,
-  },
-
-  
-  
-  
-  
-  
-  dateContainer: {
-    backgroundColor: secondary, // Replace 'secondary' with the desired color value
-    padding: 25,
-    paddingLeft: 55,
-    borderRadius: 20,
-    fontSize: 16,
-    height: 60,
-    marginVertical: 3,
-    marginBottom: 10,
-    color: tertiary, // Replace 'tertiary' with the desired color value
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 2, height: 4 },
-    shadowRadius: 1,
-    elevation: 5,
-    marginLeft: -10,
-    marginRight: -10,
-  },
-  date: {
-    height: 90,
-    marginVertical: 4,
-    marginBottom: 7,
-    marginHorizontal: -15,
-  },
-
-  container2: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 10,
   },
   input: {
     backgroundColor: secondary , // Replace 'secondary' with the desired color value
@@ -505,6 +352,257 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
     elevation: 5,
+  },
+    date: {
+    //flex:1,
+    //padding:25,
+    //paddingLeft:55,
+    height: 90,
+    marginVertical: 4,
+    marginBottom: 7,
+    marginHorizontal: -15,
+
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    //justifyContent:'space-between',
+    marginTop: 20,
+    paddingBottom: 15,
+    borderBottomWidth: 0.25,
+    borderBottomColor: darkLight,
+    marginLeft: -25,
+    marginRight: -25,
+
+  },
+  headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: brand,
+    alignItems:'center'
+
+  },
+  backButton: {
+    marginLeft: ScreenWidth - 350,
+  },
+  moreButton: {
+    marginLeft:50,
+    alignItems:'center'
+  },
+  sectionContent: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    //paddingRight:10,
+    borderRadius: 20,
+    shadowOpacity:0.25,
+    shadowOffset:{width:0.5,height:2},
+    shadowRadius:1,
+    elevation:5,
+    marginLeft: -40,
+    marginRight:-40,
+    alignItems: 'center',
+},
+heelo:{
+  flexDirection:'row',
+  marginRight:5,
+  marginLeft:5,
+  //marginBottom:10,
+  alignContent:'center'
+},
+heelo2:{
+  flexDirection:'row',
+  borderBottomColor:secondary,
+  alignContent:'center',
+  marginTop:30,
+  //marginLeft:30,
+  alignSelf:'center'
+},
+   title: {
+    //fontWeight: 'bold',
+    fontSize: 25,
+    marginBottom: 20,
+    alignSelf:'center',
+    fontWeight:'500',
+    //color:green,
+  },
+   sectionItem: {
+    fontSize: 20,
+    marginBottom: 15,
+    //fontWeight:'bold',
+    //alignItems:'center',
+    color:brand,
+
+
+  },
+  sectionItem3: {
+    fontSize: 18,
+    marginBottom: 15,
+    fontWeight:'250',
+    color:brand
+
+    //alignItems:'center',
+  },
+  sectionItem2: {
+    fontSize: 18,
+   //marginLeft:-10,
+   marginBottom: 15,
+    fontWeight: '400',
+   alignSelf: 'center',
+
+   //color:brand
+  },
+ 
+  modalContainer: {
+    //flex: 1,
+    backgroundColor:primary,
+    justifyContent: 'center',
+    //alignItems: 'center',
+    borderRadius:20,
+    width: '100%',
+    //padding:35,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+  height: '30%',
+
+  },
+  modalContent: {
+    justifyContent: 'center',
+    alignItems: 'center',   
+},
+modalButton: {
+  paddingHorizontal:115,
+  borderBottomWidth:0.6,
+  borderColor:darkLight,
+  marginTop:15,
+
+},
+modalCancelButton: {
+
+  paddingHorizontal: 125,
+  marginTop: 15,
+},
+  content: {
+    flex: 1,
+    //alignItems: 'center',
+    padding: 20,
+    marginLeft:30,
+  },
+  infoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+ 
+  specialite: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 5,
+  },
+  adresse: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 5,
+  },
+  numero: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 5,
+  },
+  commentaire: {
+    fontSize: 18,
+    color: darkLight,
+    marginBottom: 20,
+  },
+  actions: {
+    flexDirection: 'row',
+  },
+  editButton: {
+    backgroundColor: primary,
+    padding: 10,
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  deleteButton: {
+    backgroundColor: 'transparent',
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: red,
+  },
+  image: {
+    width: 50, // Adjust the width as needed
+    height: 50, // Adjust the height as needed
+    marginRight: 10, // Adjust the margin as needed
+    resizeMode: 'contain', 
+    //marginLeft:30, 
+    marginTop:10
+  },
+  time: {
+    //flex:1,
+    //padding:25,
+    //paddingLeft:55,
+    height:90,
+    marginVertical:-65,
+    marginLeft:50,
+    //marginTop:-65,
+    marginRight:50,
+    marginBottom:-3,
+  },
+  dropdownContainer: {
+    backgroundColor: secondary,
+    padding: 15,
+    paddingLeft: 55,
+    borderRadius: 20,
+    height: 60,
+    marginVertical: 3,
+    marginBottom: 10,
+    color: tertiary,
+    marginLeft: -10,
+    marginRight: -10
+
+  },
+  dropdownButton: {
+    backgroundColor: secondary,
+    alignItems:'center',
+    borderRadius:20,
+    padding:15,
+    //paddingLeft:55,
+    paddingRight:0,
+    height:50,
+    marginVertical:-7,
+    marginBottom:10, 
+   marginLeft:-10,
+    marginRight:-10,
+  },
+  dropdownButtonText: {
+    fontSize: 16,
+    color: brand,
+    //paddingHorizontal:-50,
+    paddingRight:-90,
+  },
+  dropdown: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    backgroundColor: '#fafafa',
+    justifyContent: 'center'
+  },
+  dropdownRow: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+  },
+  dropdownRowText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  selectedValue: {
+    fontSize: 18,
+    marginTop: 20,
   },
 });
 

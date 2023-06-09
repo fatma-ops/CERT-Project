@@ -240,7 +240,7 @@ const AddConsultation = ({ navigation }) => {
                   label="Objet"
                   etoile="*"
                   icon="id-badge"
-                  placeholder=""
+                  placeholder="Consultation "
                   placeholderTextColor={darkLight}
                   onChangeText={handleChange('objet')}
                   onBlur={handleBlur('objet')}
