@@ -68,9 +68,6 @@ const ListeRappel = ({ navigation }) => {
                     <View style={styles.headingContainer}>
 <View style ={{flexDirection:'column'}}>
 <View style={styles.header2}>
-<TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
-<AntDesign name="left" size={25} color='white' />
-</TouchableOpacity>
 <View>
 <Text style={styles.headerTitle}>Mes rappels</Text></View>
 </View>
@@ -142,8 +139,9 @@ onPress={() => navigation.navigate('AddRappel')}
           />
           <View style={styles.textContainer}>
             <Text style={styles.text2}>Doliprane</Text>
-            <Text style={styles.title}>8:00</Text>
+            <Text style={styles.title}>8:00 - 16:00</Text>
             <Text style={styles.date}>5 mai 2023</Text>
+
           </View>
         </View>
         
@@ -153,6 +151,8 @@ onPress={() => navigation.navigate('AddRappel')}
     
   )}
 />
+
+
 
 
 
@@ -207,8 +207,9 @@ headerTitle: {
   fontWeight: 'bold',
   fontSize: 20,
   color:'white',
-  marginLeft:85
-
+alignSelf:'center',
+justifyContent:'center',
+marginLeft:130
 },
 backButton: {
 
@@ -247,6 +248,12 @@ date: {
   title: {
     fontWeight: 'bold',
     fontSize: 18,
+    marginBottom: 5,
+    marginTop:5,
+    
+  },
+  title2: {
+    fontSize: 16,
     marginBottom: 5,
     marginTop:5,
     

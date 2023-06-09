@@ -14,10 +14,10 @@ import ListeRappel from '../screens/RappelClass/ListeRappel'
 import HomeNavigation from './HomeNavigation'
 import Notification from '../screens/TraitementClass/Notification'
 import AddConsultation from '../screens/ConsultationClass/AddConsultation'
-import ListeAddRappelTraitement from '../screens/RappelClass/ListeAddRappelTraitement'
 import ListeDossier from '../screens/DossierClass/ListeDossier'
 import AfficheConsultation from '../screens/ConsultationClass/AfficheConsultation'
 import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
+import Medecin from '../screens/MedecinClass/Medecin'
 
 const { darkLight, brand , red } = Colors;
 const Tab = createBottomTabNavigator();
@@ -65,8 +65,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="UpdateTraitement"
-                component={UpdateTraitement}
+            <Tab.Screen name="Medecin"
+                component={Medecin}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
