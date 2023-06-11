@@ -70,8 +70,8 @@ const type = [
         text: 'Ouvrir la caméra',
         onPress: async () => {
           let result = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
-            aspect: [24, 9],
+            allowsEditing: false,
+            aspect: [16, 9],
             base64: true,
             quality: 0.5,
           });
@@ -172,7 +172,7 @@ const onChange = (event , selectedDate) => {
   return (
     <>
     <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>   Ajouter votre analyse  </Text>
@@ -260,15 +260,7 @@ const onChange = (event , selectedDate) => {
       <Text style={styles.label}>
     Date
   </Text>
-  <DateTimePicker
-    style={styles.date}
-    value={date}
-    mode="date"
-    display="spinner"
-    onChange={onChange}
-    locale="fr"
-    onPress={handleShowDatePicker}
-  />
+  
   
            <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
            <>

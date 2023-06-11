@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, StyleSheet,screenHeight } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { FlatList } from 'react-native';
 import { CredentialsContext } from '../../components/CredentialsContext';
@@ -10,10 +10,7 @@ import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SearchBar from '../../components/SearchBar';
-import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
-import { Dimensions } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
 import { Swipeable } from 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -21,43 +18,94 @@ const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 const ListeRappel = ({ navigation }) => {
   const [rappels, setRappels] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   //const screenHeight = Dimensions.get('window').height;
+  const [result, setResult] = useState('');
 
   const { email } = storedCredentials;
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
+    setIsLoading(true);
+
     try {
       const response = await fetch(`${ngrokLink}rappel/delete/${id}`, {
         method: 'DELETE'
       });
       const data = await response.json();
-      setResult(data);
-      //navigation.navigate('ListeVaccin');
+      setIsLoading(false);
 
+      setResult(data);
+      navigation.navigate('ListeRappel');
+ 
     } catch (err) {
       console.error(err);
+      setIsLoading(false);
       setResult('Erreur');
     }
   };
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredRappels, setFilteredRappels] = useState([]);
+  const [filteredRappels, setFilteredRappels] = useState(rappels);
+
   const handleOnSearchInput = (text) => {
     setSearchQuery(text);
+  
+    if (text.trim() === '') {
+      setFilteredRappels(rappels);
+    } else {
       const filtered = rappels.filter(
         (item) =>
           item &&
-          item.medicament &&
-          item.medicament.toLowerCase().includes(text.toLowerCase())
+          item.nommedicament &&
+          item.nommedicament.toLowerCase().includes(text.toLowerCase())
       );
       setFilteredRappels(filtered);
-    };
+    }
+  };
+  
+  
+    
+  
+  
+  
+  
+
+
+
+
+
   useEffect(() => {
     axios.get(`${ngrokLink}rappel/${email}?cache_bust=123456789`)
       .then(response => setRappels(response.data))
       .catch(error => console.log(error));
   }, [email]);
+
+  function formatTime(dateTimeString) {
+    const date = new Date(dateTimeString);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${twoDigits(hours)}:${twoDigits(minutes)}`;
+  }function formatTime(dateTimeString) {
+    const date = new Date(dateTimeString);
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Convertit 0 en 12 (format 12 heures)
+    return `${twoDigits(hours)}:${twoDigits(minutes)} ${ampm}`;
+  }
+  
+  
+  function twoDigits(value) {
+    return value.toString().padStart(2, '0');
+  }
+  
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  }
 
   return ( 
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -102,19 +150,23 @@ onPress={() => navigation.navigate('AddRappel')}
         Totale:
       </Text>
       <Text style={{ fontWeight: '700', fontSize: 18, color: brand }}>
-        4
+      {rappels ? rappels.length : 0}
       </Text>
     </View>
 
-    <FlatList
+    {isLoading ? (
+        <ActivityIndicator size="small" color="blue" />
+      ) : (
+
+  <FlatList
   style={styles.item}
-  data={rappels}
+  data={searchQuery ? filteredRappels : rappels}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
     <Swipeable
       renderRightActions={(progress, dragX) => (
         <TouchableOpacity
-          onPress={() => handleDelete(index)}
+          onPress={() => handleDelete(item._id)}
           style={[
             styles.deleteButton,
             { transform: [{ translateX: dragX }] },
@@ -138,9 +190,9 @@ onPress={() => navigation.navigate('AddRappel')}
             style={styles.image} 
           />
           <View style={styles.textContainer}>
-            <Text style={styles.text2}>Doliprane</Text>
-            <Text style={styles.title}>8:00 - 16:00</Text>
-            <Text style={styles.date}>5 mai 2023</Text>
+            <Text style={styles.text2}>{item.nommedicament}</Text>
+            <Text style={styles.title}>{formatTime(item.morningDateTime)}-{formatTime(item.noonDateTime)}-{formatTime(item.eveningDateTime)}</Text>
+            <Text style={styles.date}>{formatDate(item.startDate)}</Text>
 
           </View>
         </View>
@@ -150,7 +202,8 @@ onPress={() => navigation.navigate('AddRappel')}
     </Swipeable>
     
   )}
-/>
+/>  
+ )}
 
 
 

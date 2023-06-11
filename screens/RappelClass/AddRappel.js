@@ -13,7 +13,6 @@ import { CredentialsContext } from '../../components/CredentialsContext';
 import axios from "axios";
 import { ngrokLink } from "../../config";
 import { AntDesign } from "@expo/vector-icons";
-import RowContainer from "../../components/Containers/RowContainer";
 import RegularButton from "../../components/Buttons/RegularButton";
 const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 

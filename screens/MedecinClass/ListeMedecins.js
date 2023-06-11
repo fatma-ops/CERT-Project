@@ -20,20 +20,24 @@ const ListeMedecins = ({ navigation  }) => {
   const { email } = storedCredentials;
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredAnalyses, setFilteredAnalyses] = useState([]);
+  const [filteredMedecins, setFilteredMedecins] = useState([]);
   
   
   const handleOnSearchInput = (text) => {
-
     setSearchQuery(text);
+  
+    if (text.trim() === '') {
+      setFilteredMedecins(medecins);
+    } else {
       const filtered = medecins.filter(
         (item) =>
           item &&
           item.nom &&
           item.nom.toLowerCase().includes(text.toLowerCase())
       );
-      setFilteredAnalyses(filtered);
-    };
+      setFilteredMedecins(filtered);
+    }
+  };
 
 
 
@@ -106,7 +110,7 @@ const ListeMedecins = ({ navigation  }) => {
     <FlatList
   style={styles.scrollView}
   showsVerticalScrollIndicator={false}
-  data={medecins}
+  data={searchQuery ? filteredMedecins : medecins}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
     <TouchableOpacity

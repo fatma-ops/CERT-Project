@@ -6,7 +6,10 @@ import { StatusBarHeight } from '../components/shared';
 const {brand , secondary , darkLight , red} = Colors
 
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation , route }) {
+  
+  const idDossier = route.params;
+  console.log(idDossier)
   const handleCubePress = (screenName) => {
     navigation.navigate(screenName);
   };
@@ -44,7 +47,7 @@ export default function HomeScreen({ navigation }) {
           <View  style={styles.container}>
           <View style={styles.row}>
       
-        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Consultation')}>
+        <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Consultation' , {idDossier:idDossier})}>
         <Image
           style={styles.avatar}
           source={require('./../assets/img/consultation.png')}
@@ -52,30 +55,30 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.text}>Mes consultations</Text>
         </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Traitement')}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Traitement',{idDossier:idDossier})}>
         <Image style={styles.avatar} source={require('./../assets/img/pills.png')}/>
         <Text style={styles.text}>Mes traitements</Text>
       </TouchableOpacity>
    </View>
 
    <View style={styles.row}>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Analyse')}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Analyse',{idDossier:idDossier})}>
         <Image style={styles.avatar} source={require('./../assets/img/medical-history.png')} />
           <Text style={styles.text}>Mes analyses</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Medecin')}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Medecin',{idDossier:idDossier})}>
         <Image style={styles.avatar} source={require('./../assets/img/doctor.png')}/>
         <Text style={styles.text}>Mes médecins</Text>
       </TouchableOpacity>
    </View>
 
     <View style={styles.row}>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin')}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin',{idDossier:idDossier})}>
         <Image style={styles.avatar} source={require('./../assets/img/bleuVaccin.png')}/>
         <Text style={styles.text}>Mes Vaccins</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Depenses')}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Depenses' , {idDossier:idDossier})}>
         <Image style={styles.avatar} source={require('./../assets/img/treatment.png')}/>
         <Text style={styles.text}>Mes dépenses</Text>
       </TouchableOpacity>

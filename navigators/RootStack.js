@@ -45,6 +45,7 @@ import ListeTraitement from '../screens/TraitementClass/ListeTraitement';
 import AfficheTraitement from '../screens/TraitementClass/AfficheTraitement';
 import Notification from '../screens/TraitementClass/Notification';
 import ModifierAnalyse from '../screens/AnalyseClass/ModifierAnalyse';
+import dossier from '../screens/DossierClass/dossier'
 
 const Stack = createNativeStackNavigator();
 const RootStack = () => {
@@ -101,6 +102,8 @@ const RootStack = () => {
                 <Stack.Screen name="AfficheTraitement" component={AfficheTraitement} />
                 <Stack.Screen name="Notification" component={Notification} />
                 <Stack.Screen name="ModifierAnalyse" component={ModifierAnalyse} />
+                <Stack.Screen name="dossier" component={dossier} />
+
 </>
               : <>
                 <Stack.Screen name="Login" component={Login} />

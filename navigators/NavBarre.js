@@ -8,16 +8,12 @@ import Welcome from '../screens/User/Welcome'
 import Vaccin from '../screens/VaccinClass/Vaccin'
 import Depenses from '../screens/Depenses'
 //import AddAnalyse from '../screens/AddAnalyse'
-import AddTraitement from '../screens/ConsultationClass/AddTraitement'
-import ListeTraitement from '../screens/TraitementClass/ListeTraitement'
+
 import ListeRappel from '../screens/RappelClass/ListeRappel'
 import HomeNavigation from './HomeNavigation'
-import Notification from '../screens/TraitementClass/Notification'
-import AddConsultation from '../screens/ConsultationClass/AddConsultation'
-import ListeDossier from '../screens/DossierClass/ListeDossier'
-import AfficheConsultation from '../screens/ConsultationClass/AfficheConsultation'
-import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
+
 import Medecin from '../screens/MedecinClass/Medecin'
+import dossier from '../screens/DossierClass/dossier'
 
 const { darkLight, brand , red } = Colors;
 const Tab = createBottomTabNavigator();
@@ -40,8 +36,8 @@ export default function NavBarre() {
 
         <Tab.Navigator screenOptions={screenOptions}>
             <Tab.Screen
-                name="ListeDossier"
-                component={ListeDossier}
+                name="dossier"
+                component={dossier}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => {

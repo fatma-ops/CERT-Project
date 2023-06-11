@@ -77,8 +77,8 @@ const takeImageHandler = async (index, setFieldValue, values) => {
       text: 'Ouvrir la caméra',
       onPress: async () => {
         let result = await ImagePicker.launchCameraAsync({
-          allowsEditing: true,
-          aspect: [24, 9],
+          allowsEditing: false ,
+          aspect: [16, 9],
           base64: true,
           quality: 0.5,
         });
