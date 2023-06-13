@@ -46,6 +46,9 @@ import AfficheTraitement from '../screens/TraitementClass/AfficheTraitement';
 import Notification from '../screens/TraitementClass/Notification';
 import ModifierAnalyse from '../screens/AnalyseClass/ModifierAnalyse';
 import Plus from '../screens/plus';
+import ListeDossier from '../screens/DossierClass/ListeDossier';
+import dossier from '../screens/DossierClass/dossier'
+
 
 
 const Stack = createNativeStackNavigator();

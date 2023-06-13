@@ -14,6 +14,9 @@ import HomeNavigation from './HomeNavigation'
 
 import Medecin from '../screens/MedecinClass/Medecin'
 import Plus from '../screens/plus'
+import ListeDossier from '../screens/DossierClass/ListeDossier'
+import dossier from '../screens/DossierClass/dossier'
+
 
 
 const { darkLight, brand , red } = Colors;
