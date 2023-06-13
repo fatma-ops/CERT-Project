@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState , useEffect} from 'react';
 import {  View, Text, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { Formik , FieldArray } from 'formik';
@@ -24,9 +24,8 @@ const UpdateTraitement = ({ navigation , route  }) => {
 
  //take consultationId from route ___________________________________________________ 
 const consultationId = route.params.consultationId
-const traitements=route.params.traitements
 console.log('ID' , consultationId)
-console.log('traitements' , traitements)
+
 
 //take email from storedCredentials__________________________________________________
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -114,10 +113,31 @@ console.log('traitements' , traitements)
       }
     }
   };
+
+  const [traitementActuel, setTraitementActuel] = useState({});
+  const [traitements, setTraitements] = useState([]);
+
+  useEffect(() => {
+    const fetchTraitements = async () => {
+      try {
+        const response = await axios.get(`${ngrokLink}traitement/traitements/${email}/${consultationId}`);
+        setTraitements(response.data);
+        if (response.data.length > 0) {
+          setTraitementActuel(response.data[0]);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
   
-  
-  
-  
+    fetchTraitements();
+  }, [email, consultationId]);
+  console.log(traitementActuel.cout);
+  console.log(traitementActuel.remboursement)
+  console.log(traitementActuel.medicaments)
+
+
+
   //Message________________________________________________________________________________
   const handleMessage = (message, type = 'FAILED') => {
     setMessage(message);
@@ -140,13 +160,21 @@ console.log('traitements' , traitements)
        
         <InnerContainer>
           <Formik
-            initialValues={{cout: traitements.cout, remboursement: traitements.remboursement, medicaments: [{ dateDeCommencement: "", nbrfois: "", nbrJours: "", nommedicament: "" }]
-             }}
+            initialValues={{
+             cout: traitementActuel && traitementActuel.cout !== undefined ? traitementActuel.cout : "",
+  remboursement: traitementActuel && traitementActuel.remboursement !== undefined ? traitementActuel.remboursement : "",
+  medicaments: traitementActuel && traitementActuel.medicaments ? traitementActuel.medicaments.map((medicament) => ({
+    ...medicament,
+    nbrfois: medicament.nbrfois || "",
+    nbrJours: medicament.nbrJours || "",
+    dateDeCommencement: medicament.dateDeCommencement || "",
+  })) : [],
+            }}
             onSubmit={(values, { setSubmitting }) => {
               // Vérifier si les champs obligatoires sont vides
               const hasEmptyFields = values.medicaments.some(
                 (medicament) =>
-                  medicament.nommedicament === '' || medicament.dateDeCommencement === ''
+                  medicament.nommedicament === '' 
               );
               
 
@@ -178,8 +206,10 @@ console.log('traitements' , traitements)
             placeholder="100.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('cout')}
-            value={values.cout } // Convert to string if not null or undefined
+            value={values.cout ? values.cout.toString() : traitementActuel.cout ? traitementActuel.cout.toString() : ''}
             keyboardType="phone-pad"
+            onBlur={handleBlur('cout')}
+
           />
 
           <TextInput
@@ -187,7 +217,7 @@ console.log('traitements' , traitements)
             placeholder="70.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('remboursement')}
-            value={values.remboursement} // Convert to string if not null or undefined
+            value={values.remboursement ? values.remboursement.toString() : traitementActuel.remboursement ? traitementActuel.remboursement.toString() : ''}
             keyboardType="phone-pad"
           />
           </View>
@@ -195,7 +225,7 @@ console.log('traitements' , traitements)
             name="medicaments"
             render={(arrayHelpers) => (
               <View>
-                {values.medicaments.map((medicament, index) => (
+                {traitementActuel.medicaments && traitementActuel.medicaments.map((medicament, index) => (
                   <View key={index}>
                     <Text style={styles.label3}>Médicament {index + 1}:</Text>
                     <View style={{ flexDirection: "column", marginTop:5, marginBottom:30 }}>
@@ -242,7 +272,7 @@ console.log('traitements' , traitements)
               nbrfois: value
             })
           }
-          value={medicament.nbrfois}
+          value={medicament.nbrfois ? medicament.nbrfois.toString() : ''}
           />
         <Text style={styles.label}>fois pendant</Text>
         <TextInput
@@ -255,7 +285,7 @@ console.log('traitements' , traitements)
               nbrJours: value
             })
           }
-          value={medicament.nbrJours}
+          value={medicament.nbrJours ? medicament.nbrJours.toString() : ''}
 
         />
         <Text style={styles.label}>jours</Text>
@@ -300,7 +330,7 @@ console.log('traitements' , traitements)
     </View>
     <Line />
 
-    <Text style={styles.sectionTitleP}>Le medecin ne vous a donné aucun traitement?</Text>
+    <Text style={styles.sectionTitleP}>Le médecin ne vous a donné aucun traitement?</Text>
                 <ExtraView>
 <TextLink onPress={() => navigation.navigate('ListeConsultation')}>
   <TextLinkContent style={styles.ignor}>

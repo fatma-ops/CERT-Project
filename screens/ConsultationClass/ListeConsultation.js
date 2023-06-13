@@ -14,8 +14,7 @@ import { ngrokLink } from '../../config';
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
 const ListeConsultation = ({ navigation , route }) => {
-  const idDossier = route.params;
-  console.log(idDossier)
+ 
 
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const { email } = storedCredentials;
@@ -51,7 +50,7 @@ const ListeConsultation = ({ navigation , route }) => {
          <View style={styles.headingContainer}>
          <View style ={{flexDirection:'column'}}>
          <View style={styles.header2}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeNavigation')} style={styles.backButton}>
           <AntDesign name="left" size={25} color='white' />
         </TouchableOpacity>
         <View>

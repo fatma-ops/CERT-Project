@@ -27,7 +27,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
 
-  const {objet , type , ordonnances , contact ,dateConsultation, id , cout , remboursement , traitements }= route.params
+  const {objet , type , ordonnances , contact ,dateConsultation, id , cout , remboursement  }= route.params
 
   // Fetch the list of contacts from the database____________________________________________________________
   const [contacts, setContacts] = useState([]);
@@ -57,11 +57,11 @@ const ModifyConsultation = ({ navigation ,route }) => {
   const [dob, setDob] = useState();
   const [show, setShow] = useState(false);
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || new Date(); // Use current date if selectedDate is undefined
     setShow(false);
     setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
-  }
+    setDob(currentDate.toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' }));
+  };
   const handleShowDatePicker = () => {
     setShow(true);
   };
@@ -87,104 +87,9 @@ const ModifyConsultation = ({ navigation ,route }) => {
     setButtonText(buttonText);
     setModalVisible(true);
   }
-  //________________________________________________________________________________________________
-  const addImageHandler = async (setFieldValue, values) => {
-    const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+ 
   
-    if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-      alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
-      return;
-    }
   
-    Alert.alert('Ajouter une image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-      {
-        text: 'Depuis la galerie',
-        onPress: async () => {
-          let result = await ImagePicker.launchImageLibraryAsync({
-            aspect: [16, 9],
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            base64: true,
-            quality: 1,
-          });
-  
-          if (!result.canceled) {
-            const newImage = { uri: result.assets[0].uri };
-            const updatedImages = [...values.images, newImage];
-            setFieldValue('images', updatedImages);
-          }
-        },
-      },
-      {
-        text: 'Ouvrir la caméra',
-        onPress: async () => {
-          let result = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
-            aspect: [24, 9],
-            base64: true,
-            quality: 0.5,
-          });
-  
-          if (!result.canceled) {
-            const newImage = { uri: result.assets[0].uri };
-            const updatedImages = [...values.images, newImage];
-            setFieldValue('images', updatedImages);
-          }
-        },
-      },
-      { text: 'Annuler', style: 'cancel' },
-    ]);
-  };
-  
-    
-  const editImageHandler = async (index, setFieldValue, values) => {
-    const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-  
-    if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-      alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
-      return;
-    }
-  
-    Alert.alert('Modifier Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-      {
-        text: 'Depuis la galerie',
-        onPress: async () => {
-          let result = await ImagePicker.launchImageLibraryAsync({
-            aspect: [16, 9],
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            base64: true,
-            quality: 1,
-            allowsEditing: true,
-          });
-  
-          if (!result.canceled) {
-            const updatedImages = [...values.images];
-            updatedImages[index].uri = result.assets[0].uri;
-            setFieldValue('images', updatedImages);
-          }
-        },
-      },
-      {
-        text: 'Ouvrir la caméra',
-        onPress: async () => {
-          let result = await ImagePicker.launchCameraAsync({
-            allowsEditing: true,
-            aspect: [24, 9],
-            base64: true,
-            quality: 0.5,
-          });
-  
-          if (!result.canceled) {
-            const updatedImages = [...values.images];
-            updatedImages[index].uri = result.assets[0].uri;
-            setFieldValue('images', updatedImages);
-          }
-        },
-      },
-      { text: 'Annuler', style: 'cancel' },
-    ]);
-  };
   //image____________________________________________________________________________________________________
   const takeImageHandler = async (index, setFieldValue, values) => {
     const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -234,7 +139,9 @@ const ModifyConsultation = ({ navigation ,route }) => {
       { text: 'Annuler', style: 'cancel' },
     ]);
   };
+ 
 
+ 
 
   // Fonction Add Consultation _____________________________________________________________________      
   const UpdateConsultation = async (values, setSubmitting) => {
@@ -243,8 +150,11 @@ const ModifyConsultation = ({ navigation ,route }) => {
     const formData = new FormData();
     formData.append('objet', values.objet);
     formData.append('type', values.type);
-    formData.append('date', dob);
-    formData.append('contact', values.contact);
+
+   
+      formData.append('date', dob);
+   
+     formData.append('contact', values.contact);
      // Ajouter une boucle pour parcourir les images
      values.images.forEach((image, index) => {
       formData.append('ordonnance', {
@@ -265,7 +175,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
 
       console.log(response.data);
       
-      navigation.navigate('UpdateTraitement' , { consultationId:response.data._id , traitements: traitements })
+      navigation.navigate('UpdateTraitement' , { consultationId:response.data._id})
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
@@ -300,7 +210,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
         <InnerContainer>
           <SubTitle></SubTitle>
           <Formik
-            initialValues={{ objet:objet,type: type, date: dateConsultation, contact: contact, cout: cout, remboursement: remboursement, images: [ordonnances] }}
+            initialValues={{ objet:objet,type: type, date: dateConsultation, contact: contact, cout: cout, remboursement: remboursement, images: [] }}
             onSubmit={(values, { setSubmitting }) => {
               if (values.contact == '' || values.objet=='' || values.type==''|| values.images=='') {
                 handleMessage('Veuillez remplir  les champs obligatoire');
@@ -348,7 +258,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
             defaultButtonText={values.type ? values.type : 'Choisir le type '}
             />
           </SelectDropdownStyle>
-          <Text style={styles.label}>Date</Text> 
+          <Text style={styles.label}>Date</Text>
           <DateTimePicker
     style={styles.date}
     value={date}
@@ -357,7 +267,8 @@ const ModifyConsultation = ({ navigation ,route }) => {
     onChange={onChange}
     locale="fr"
     onPress={handleShowDatePicker}
-  />
+  /> 
+          
               
                 </View>
                 <Text style={styles.label}>Médecin<Text style={{ color: 'red' }}>*</Text></Text>
@@ -383,8 +294,16 @@ const ModifyConsultation = ({ navigation ,route }) => {
 
                 <Text style={styles.label}>Ordonnance(s) <Text style={{ color: 'red' }}>*</Text></Text>
                 <>
-      <View style={styles.imageRow}>
-        
+                <View style={styles.imageRow}>
+        {values.images.map((image, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => takeImageHandler(index, setFieldValue, values)}
+            style={styles.imageContainer}
+          >
+            <Image source={{ uri: image.uri }} style={styles.image} />
+          </TouchableOpacity>
+        ))}
         {values.images.length < 3 && (
           <TouchableOpacity
             style={styles.placeholder}
@@ -397,9 +316,6 @@ const ModifyConsultation = ({ navigation ,route }) => {
       </View>
       
     </>
-
-
-
                 <Text style={styles.label}>Dépenses</Text>
                 <RowContainer>
                 <Text style={styles.label2}>Coût</Text>

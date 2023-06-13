@@ -30,109 +30,15 @@ const ModifierAnalyse = ({ navigation, route }) => {
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
     const { email } = storedCredentials;
-    const { title, dateAnalyse, contact, cout, remboursement, id ,typeAnalyse, images } = route.params;
+    const { title, dateAnalyse, contact, cout, remboursement, id ,typeAnalyse } = route.params;
     const type = [
       "Analyse",
       "Radiologie",
     ];    // image
 
-    const addImageHandler = async (setFieldValue, values) => {
-      const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-    
-      if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-        alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
-        return;
-      }
-    
-      Alert.alert('Ajouter une image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-        {
-          text: 'Depuis la galerie',
-          onPress: async () => {
-            let result = await ImagePicker.launchImageLibraryAsync({
-              aspect: [16, 9],
-              mediaTypes: ImagePicker.MediaTypeOptions.Images,
-              base64: true,
-              quality: 1,
-            });
-    
-            if (!result.canceled) {
-              const newImage = { uri: result.assets[0].uri };
-              const updatedImages = [...values.images, newImage];
-              setFieldValue('images', updatedImages);
-            }
-          },
-        },
-        {
-          text: 'Ouvrir la caméra',
-          onPress: async () => {
-            let result = await ImagePicker.launchCameraAsync({
-              allowsEditing: true,
-              aspect: [24, 9],
-              base64: true,
-              quality: 0.5,
-            });
-    
-            if (!result.canceled) {
-              const newImage = { uri: result.assets[0].uri };
-              const updatedImages = [...values.images, newImage];
-              setFieldValue('images', updatedImages);
-            }
-          },
-        },
-        { text: 'Annuler', style: 'cancel' },
-      ]);
-    };
     
       
-    const editImageHandler = async (index, setFieldValue, values) => {
-      const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
     
-      if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-        alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
-        return;
-      }
-    
-      Alert.alert('Modifier Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-        {
-          text: 'Depuis la galerie',
-          onPress: async () => {
-            let result = await ImagePicker.launchImageLibraryAsync({
-              aspect: [16, 9],
-              mediaTypes: ImagePicker.MediaTypeOptions.Images,
-              base64: true,
-              quality: 1,
-              allowsEditing: true,
-            });
-    
-            if (!result.canceled) {
-              const updatedImages = [...values.images];
-              updatedImages[index].uri = result.assets[0].uri;
-              setFieldValue('images', updatedImages);
-            }
-          },
-        },
-        {
-          text: 'Ouvrir la caméra',
-          onPress: async () => {
-            let result = await ImagePicker.launchCameraAsync({
-              allowsEditing: true,
-              aspect: [24, 9],
-              base64: true,
-              quality: 0.5,
-            });
-    
-            if (!result.canceled) {
-              const updatedImages = [...values.images];
-              updatedImages[index].uri = result.assets[0].uri;
-              setFieldValue('images', updatedImages);
-            }
-          },
-        },
-        { text: 'Annuler', style: 'cancel' },
-      ]);
-    };
       
       
       const takeImageHandler = async (index, setFieldValue, values) => {
@@ -246,8 +152,8 @@ const ModifierAnalyse = ({ navigation, route }) => {
             }
           });
           console.log(response.data);
-          navigation.navigate('AnalyseFlatList');
-      
+          navigation.goBack()
+          navigation.goBack()      
           setSubmitting(false);
         } catch (error) {
           setSubmitting(false);
@@ -367,9 +273,17 @@ const ModifierAnalyse = ({ navigation, route }) => {
                       Date
                     </Text>
                       <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
-                    <>
+                      <>
       <View style={styles.imageRow}>
-       
+        {values.images.map((image, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => takeImageHandler(index, setFieldValue, values)}
+            style={styles.imageContainer}
+          >
+            <Image source={{ uri: image.uri }} style={styles.image} />
+          </TouchableOpacity>
+        ))}
         {values.images.length < 3 && (
           <TouchableOpacity
             style={styles.placeholder}
@@ -382,7 +296,6 @@ const ModifierAnalyse = ({ navigation, route }) => {
       </View>
       
     </>
-
 
 
 

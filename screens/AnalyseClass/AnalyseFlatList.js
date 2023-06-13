@@ -103,10 +103,12 @@ keyExtractor={(item, index) => String(index)}
 renderItem={({ item, index }) => (
 <TouchableOpacity
 onPress={() =>
-navigation.navigate("AnalyseDetail", {
-selectedAnalyse: item,
-})
+  navigation.navigate("AnalyseDetail", {
+    selectedAnalyse: item,
+  })
 }
+
+
 style={styles.item}
 >
 <View style={styles.itemContainer}>
