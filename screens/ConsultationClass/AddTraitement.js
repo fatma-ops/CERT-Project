@@ -102,7 +102,8 @@ console.log('ID' , consultationId)
         }
       );
       console.log(response.data);
-      navigation.navigate('ListeConsultation')
+      navigation.goBack()
+      navigation.goBack()
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
@@ -130,7 +131,7 @@ console.log('ID' , consultationId)
      <View style={styles.header}>
           <View  style={styles.backButton}>
           </View>
-          <Text style={styles.headerTitle}>    Ajouter votre traitement</Text>
+          <Text style={styles.headerTitle}>               Ajouter votre traitement</Text>
         </View>
     
     <KeyboardAvoidingWrapper>
@@ -147,7 +148,7 @@ console.log('ID' , consultationId)
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-         <View style={{paddingBottom:200, marginTop:-50}}>
+         <View style={{paddingBottom:200, marginTop:5}}>
          <Text style={styles.label3}>Dépenses du traitement: </Text>
          <RowContainer>
                 <Text style={styles.label2}>Coût</Text>
@@ -283,7 +284,7 @@ console.log('ID' , consultationId)
 
     <Text style={styles.sectionTitleP}>Le medecin ne vous a donné aucun traitement?</Text>
                 <ExtraView>
-<TextLink onPress={() => navigation.navigate('ListeConsultation')}>
+<TextLink onPress={() => {navigation.goBack(), navigation.goBack()}}>
   <TextLinkContent style={styles.ignor}>
   Ignorer l'etape
   </TextLinkContent>
@@ -335,11 +336,35 @@ const styles = StyleSheet.create({
     //justifyContent:'space-between',
 
   },
+  sectionTitleP:{
+    fontSize:15,
+    marginLeft:-20,
+    marginRight:-15,
+    marginTop:5,
+  },
     label: {
     fontSize: 16,
     fontWeight: 'bold',
     // marginBottom: 0,
     marginTop: 5,
+  },
+  label2: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    // marginBottom: 0,
+    marginTop: 5,
+    //color:brand,
+  },
+  label3: {
+    fontSize: 19,
+    fontWeight: 'bold',
+    // marginBottom: 0,
+    marginTop: 5,
+    color:brand,
+
+  },
+  inputContainer:{
+    flexDirection:'row'
   },
   input: {
     backgroundColor: secondary , // Replace 'secondary' with the desired color value
@@ -603,6 +628,43 @@ modalCancelButton: {
   selectedValue: {
     fontSize: 18,
     marginTop: 20,
+  },
+  cout: {
+    backgroundColor: secondary,
+    padding: 15,
+    paddingLeft: 25,
+    //paddingRight:75,
+    borderRadius: 20,
+    fontSize: 16,
+    height: 60,
+    marginVertical: 3,
+    marginBottom: 15,
+    color: tertiary,
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 2, height: 4 },
+    shadowRadius: 1,
+    elevation: 5,
+    marginLeft: -10,
+    marginRight: 165,
+  },
+  remboursement: {
+    backgroundColor: secondary,
+    padding: 15,
+    paddingLeft: 25,
+    //paddingRight:75,
+    borderRadius: 20,
+    fontSize: 16,
+    height: 60,
+    marginVertical: 3,
+    marginBottom: 15,
+    color: tertiary,
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 2, height: 4 },
+    shadowRadius: 1,
+    elevation: 5,
+    marginLeft: 155,
+    marginRight: -10,
+    marginTop: -75,
   },
 });
 

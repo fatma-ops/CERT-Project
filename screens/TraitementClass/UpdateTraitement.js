@@ -166,7 +166,7 @@ console.log('traitements' , traitements)
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-         <View style={{paddingBottom:200, marginTop:-40}}>
+         <View style={{paddingBottom:200, marginTop:-30}}>
          <Text style={styles.label3}>Dépenses du traitement: </Text>
          <RowContainer>
                 <Text style={styles.label2}>Coût</Text>
@@ -355,20 +355,20 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black', // Replace 'brand' with the desired color value
+    color: 'black', 
     marginBottom: 0,
     marginTop: 5,
   },
   label4: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: brand, // Replace 'brand' with the desired color value
+    color: brand, 
     marginBottom: 1,
     marginTop: 8,
   },
   label2: {
     fontSize: 16,
-    color: brand, // Replace 'brand' with the desired color value
+    //color: brand, 
     marginBottom: 10,
     marginTop: -5,
     fontWeight:'bold'
@@ -376,10 +376,10 @@ const styles = StyleSheet.create({
   label3: {
     fontSize: 20,
     marginBottom: 5,
-    color: brand, // Replace 'brand' with the desired color value
+    color: brand, 
     fontWeight: '600',
     marginLeft: -25,
-    marginTop: 55,
+    marginTop: 25,
   },
   ignor: {
     backgroundColor: 'white',
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     marginBottom: 10,
-    color: tertiary, // Replace 'tertiary' with the desired color value
+    color: tertiary, 
     marginTop: 30,
     marginLeft: -35,
     marginRight: -35,
@@ -413,14 +413,14 @@ const styles = StyleSheet.create({
     marginTop: 25,
     paddingBottom: 15,
     borderBottomWidth: 0.25,
-    borderBottomColor: darkLight , // Replace 'darkLight' with the desired color value
+    borderBottomColor: darkLight , 
     marginLeft: -25,
     marginRight: -25,
   },
   headerTitle: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: brand , // Replace 'brand' with the desired color value
+    color: brand , 
     alignItems: 'center',
     alignSelf:'center'
   },
@@ -435,15 +435,14 @@ const styles = StyleSheet.create({
     alignContent: 'space-between',
   },
   cout: {
-    backgroundColor: secondary , // Replace 'secondary' with the desired color value
-    padding: 15,
+    backgroundColor: secondary , 
     paddingLeft: 25,
     borderRadius: 20,
     fontSize: 16,
     height: 60,
     marginVertical: 3,
     marginBottom: 15,
-    color: tertiary , // Replace 'tertiary' with the desired color value
+    color: tertiary , 
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -452,15 +451,14 @@ const styles = StyleSheet.create({
     marginRight: 165,
   },
   remboursement: {
-    backgroundColor: secondary, // Replace 'secondary' with the desired color value
-    padding: 15,
+    backgroundColor: secondary, 
     paddingLeft: 25,
     borderRadius: 20,
     fontSize: 16,
     height: 60,
     marginVertical: 3,
     marginBottom: 0,
-    color: tertiary, // Replace 'tertiary' with the desired color value
+    color: tertiary, 
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,
@@ -470,13 +468,8 @@ const styles = StyleSheet.create({
     marginTop: -75,
   },
 
-  
-  
-  
-  
-  
   dateContainer: {
-    backgroundColor: secondary, // Replace 'secondary' with the desired color value
+    backgroundColor: secondary, 
     padding: 25,
     paddingLeft: 55,
     borderRadius: 20,
@@ -484,7 +477,7 @@ const styles = StyleSheet.create({
     height: 60,
     marginVertical: 3,
     marginBottom: 10,
-    color: tertiary, // Replace 'tertiary' with the desired color value
+    color: tertiary, 
     shadowOpacity: 0.25,
     shadowOffset: { width: 2, height: 4 },
     shadowRadius: 1,

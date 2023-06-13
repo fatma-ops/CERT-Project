@@ -130,8 +130,8 @@ const UpdateVaccin = async (values ,setSubmitting) => {
       }
     });
     console.log(response.data);
-    navigation.navigate('ListeVaccin')
-
+    navigation.goBack()
+    navigation.goBack()
     setSubmitting(false);
 
   } catch (error) {

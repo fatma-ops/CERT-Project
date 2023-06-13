@@ -216,7 +216,7 @@ const AddConsultation = ({ navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <AntDesign name="left" size={25} color={brand} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>  Ajouter votre consultation</Text>
+          <Text style={styles.headerTitle}>      Ajouter votre consultation</Text>
         </View>
     <KeyboardAvoidingWrapper>
       <StyledContainer>
