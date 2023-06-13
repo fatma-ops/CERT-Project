@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { NavigationContainer, useRoute  } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from 'react';
+import ListeDossier from "../screens/DossierClass/ListeDossier";
+
 //Consultation _____________________________________________________________________
 import AfficheConsultation from "../screens/ConsultationClass/AfficheConsultation";
 import ModifyConsultation from "../screens/ConsultationClass/ModifyConsultation";
@@ -87,6 +89,10 @@ export default function HomeNavigation (){
         <Stack.Screen name="ListeTraitement" component={ListeTraitement} />
         <Stack.Screen name="AfficheTraitement" component={AfficheTraitement}  />
         <Stack.Screen name="Depenses" component={Depenses}  />
+
+        <Stack.Screen name="ListeDossier" component={ListeDossier}  />
+
+
 
 
 

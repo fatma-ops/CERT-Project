@@ -27,6 +27,10 @@ const AnalyseFlatList = ({ navigation }) => {
   const [filteredAnalyses, setFilteredAnalyses] = useState([]);
   const handleOnSearchInput = (text) => {
     setSearchQuery(text);
+  
+    if (text.trim() === '') {
+      setFilteredAnalyses(analyses);
+    } else {
       const filtered = analyses.filter(
         (item) =>
           item &&
@@ -34,7 +38,8 @@ const AnalyseFlatList = ({ navigation }) => {
           item.title.toLowerCase().includes(text.toLowerCase())
       );
       setFilteredAnalyses(filtered);
-    };
+    }
+  };
   useEffect(() => {
     axios.get(`${ngrokLink}analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
@@ -92,7 +97,7 @@ Totale:
 <FlatList
 style={styles.liste}
 ///contentInset={{ bottom:160 }}
-data={analyses}
+data={searchQuery ? filteredAnalyses : analyses}
 keyExtractor={(item, index) => String(index)}
 renderItem={({ item, index }) => (
 <TouchableOpacity

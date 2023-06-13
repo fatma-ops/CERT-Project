@@ -21,14 +21,20 @@ const ListeTraitement = ({ navigation }) => {
   const [filteredTraitements, setFilteredTraitements] = useState([]);
   const handleOnSearchInput = (text) => {
     setSearchQuery(text);
-      const filtered = traitements.filter(
-        (item) =>
-          item &&
-          item.medicament &&
-          item.medicament.toLowerCase().includes(text.toLowerCase())
+
+    if (text.trim() === '') {
+      setFilteredTraitements(traitements);
+    } else {
+      const filtered = traitements.filter((traitement) =>
+        traitement.medicaments.some(
+          (medicament) =>
+            medicament.nommedicament.toLowerCase().includes(text.toLowerCase())
+        )
       );
       setFilteredTraitements(filtered);
-    };
+    }
+  };
+  
   useEffect(() => {
     axios.get(`${ngrokLink}traitement/traitements/${email}?cache_bust=123456789}`)
       .then(response => setTraitements(response.data))
@@ -56,7 +62,7 @@ const ListeTraitement = ({ navigation }) => {
         <FlatList
     style={styles.listContainer}
     contentInset={{ bottom: 400 }}
-    data={traitements}
+    data={searchQuery ? filteredTraitements : traitements}
     keyExtractor={(item, index) => String(index)}
     renderItem={({ item }) => (
       <View style={styles.traitementContainer}>
@@ -82,12 +88,12 @@ const ListeTraitement = ({ navigation }) => {
                   </Text>
                 </View>
                 <Text style={styles.dateContainer}>
-                1 mars 2020                </Text>
+                {medicament.dateDeCommencement}                </Text>
               </View>
             </View>
           ))
         ) : (
-          <Text>Aucun sous-traitement trouvé</Text>
+          <Text>Aucun traitement trouvé</Text>
         )}
       </View>
     )}

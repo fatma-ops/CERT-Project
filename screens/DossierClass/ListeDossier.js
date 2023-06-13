@@ -9,16 +9,13 @@ import { StatusBarHeight } from '../../components/shared';
 import { StatusBar } from 'react-native';
 import { MaterialIcons} from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
-import { Dimensions } from 'react-native';
-import { SwipeListView } from 'react-native-swipe-list-view';
 import { Swipeable } from 'react-native-gesture-handler';
 import RoundIconBtn from '../../components/RoundIconBtn';
-import MessageModalImage2 from '../../components/Modals/MessageModalImage2';
 import AddDossierModal from '../../components/Modals/UpdateDossierModal';
 import UpdateDossierModal from '../../components/Modals/UpdateDossierModal'
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
  
-const ListeDossier = ({ navigation }) => {
+const ListeDossier = ({ navigation , route }) => {
   const [dossier, setDossier] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState('');
@@ -93,7 +90,7 @@ const handleUpdate = async (id, newNom) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nom: newNom }), // Pass the new name in the request body
+      body: JSON.stringify({ nom: newNom }), 
     });
     const data = await response.json();
     setResult(data);
@@ -103,7 +100,7 @@ const handleUpdate = async (id, newNom) => {
     setResult('Erreur');
   } finally {
     setIsLoading(false);
-    setModalVisibleUpdate(false); // Close the update modal
+    setModalVisibleUpdate(false); 
   }
 };
   
@@ -118,6 +115,7 @@ const handleUpdate = async (id, newNom) => {
       {isLoading ? (
         <ActivityIndicator size="small" color="blue" />
       ) : (
+
         <FlatList
           style={styles.item}
           data={dossier}
@@ -152,7 +150,9 @@ const handleUpdate = async (id, newNom) => {
             >
   
               <TouchableOpacity
-               
+                onPress={() => {                    
+                navigation.navigate('HomeScreen', {idDossier:item._id }) }}
+
                 style={styles.liste}
               >
                 <View style={styles.itemContainer}>

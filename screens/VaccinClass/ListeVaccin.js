@@ -28,6 +28,10 @@ const ListeVaccin = ({ navigation }) => {
   const [filteredVaccins, setFilteredVaccins] = useState([]);
   const handleOnSearchInput = (text) => {
     setSearchQuery(text);
+  
+    if (text.trim() === '') {
+      setFilteredVaccins(vaccins);
+    } else {
       const filtered = vaccins.filter(
         (item) =>
           item &&
@@ -35,7 +39,8 @@ const ListeVaccin = ({ navigation }) => {
           item.title.toLowerCase().includes(text.toLowerCase())
       );
       setFilteredVaccins(filtered);
-    };
+    }
+  };
   useEffect(() => {
     axios.get(`${ngrokLink}vaccin/user/${email}?cache_bust=123456789`)
       .then(response => setVaccins(response.data))
@@ -90,7 +95,7 @@ const ListeVaccin = ({ navigation }) => {
     <FlatList
   style={styles.liste}
   ///contentInset={{ bottom:160 }}
-  data={vaccins}
+  data={searchQuery ? filteredVaccins : vaccins}
   keyExtractor={(item, index) => String(index)}
   renderItem={({ item, index }) => (
     <TouchableOpacity

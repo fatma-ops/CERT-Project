@@ -84,8 +84,8 @@ const takeImageHandler = async (index, setFieldValue, values) => {
       text: 'Ouvrir la caméra',
       onPress: async () => {
         let result = await ImagePicker.launchCameraAsync({
-          allowsEditing: true,
-          aspect: [24, 9],
+          allowsEditing: false,
+          aspect: [14, 9],
           base64: true,
           quality: 0.5,
         });
@@ -224,15 +224,7 @@ const [currentImageData, setCurrentImageData] = useState(null);
            <Text style={styles.label}>Preuve de vaccination <Text style={{ color: 'red' }}>*</Text></Text>
   <>
       <View style={styles.imageRow}>
-        {images.map((image, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => takeImageHandler(index, setFieldValue, values)}
-            style={styles.imageContainer}
-          >
-            <Image source={{ uri: `data:${image.contentType};base64,${image.data}` }} style={styles.image} />
-          </TouchableOpacity>
-        ))}
+       
         {values.images.length < 3 && (
           <TouchableOpacity
             style={styles.placeholder}
