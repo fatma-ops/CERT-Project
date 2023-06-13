@@ -35,6 +35,7 @@ const ListeDossier = ({ navigation , route }) => {
       });
       const data = await response.json();
       setResult(data);
+      setReloadList(true);
       navigation.navigate('ListeDossier');
     } catch (err) {
       console.error(err);
@@ -66,7 +67,7 @@ const ListeDossier = ({ navigation , route }) => {
         body: JSON.stringify({ nom, userEmail: storedCredentials.email }),
       });
       const data = await response.json();
-      setReloadList();
+      setReloadList(true);
       console.log('Dossier ajouté:', data);
       setModalVisibleAdd(false);
     } catch (err) {
@@ -96,7 +97,8 @@ const handleUpdate = async (id, newNom) => {
     });
     const data = await response.json();
     setResult(data);
-    navigation.navigate('ListeDossier');
+    setReloadList(true);
+
   } catch (err) {
     console.error(err);
     setResult('Erreur');
@@ -186,6 +188,7 @@ const handleUpdate = async (id, newNom) => {
           visible={modalVisibleAdd}
           onClose={closeModalAdd}
           onAdd={handleAddDossier}
+
         />
         <TouchableOpacity onPress={() => setModalVisibleAdd(true)}>
           <RoundIconBtn

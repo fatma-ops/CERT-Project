@@ -183,13 +183,6 @@ const ModifierAnalyse = ({ navigation, route }) => {
           { text: 'Annuler', style: 'cancel' },
         ]);
       };
-      
-    
-      
-      
-      
-      
-  
     // Fetch the list of contacts from the database
     const [contacts, setContacts] = useState([]);
     useEffect(() => {
@@ -222,12 +215,10 @@ const ModifierAnalyse = ({ navigation, route }) => {
         const formData = new FormData();
         formData.append('title', values.title);
         formData.append('type', values.type);
-
         formData.append('date', dob);
         formData.append('contact', values.contact);
         formData.append('cout', values.cout);
         formData.append('remboursement', values.remboursement);
-      
         // Ajouter une boucle pour parcourir les images
         values.images.forEach((image, index) => {
           formData.append('images', {
@@ -236,9 +227,7 @@ const ModifierAnalyse = ({ navigation, route }) => {
             type: 'image/png'
           });
         });
-      
         formData.append('userEmail', email);
-      
         try {
           const response = await axios.put(`${ngrokLink}analyse/modifier/analyse/${id}`, formData, {
             headers: {
@@ -246,8 +235,9 @@ const ModifierAnalyse = ({ navigation, route }) => {
             }
           });
           console.log(response.data);
-          navigation.navigate('AnalyseFlatList');
-      
+          navigation.goBack();
+          navigation.goBack();
+
           setSubmitting(false);
         } catch (error) {
           setSubmitting(false);
@@ -382,22 +372,10 @@ const ModifierAnalyse = ({ navigation, route }) => {
       </View>
       
     </>
-
-
-
-
-
-
-
 <View>
  
 </View>
 
-
-
-
-      
-  
                     <Text style={styles.label}>Dépenses</Text>
                     <Text style={styles.label2}>Coût                                    Remboursement</Text>
   

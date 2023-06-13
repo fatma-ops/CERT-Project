@@ -178,7 +178,7 @@ console.log('traitements' , traitements)
             placeholder="100.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('cout')}
-            value={values.cout } // Convert to string if not null or undefined
+            value={values.cout } 
             keyboardType="phone-pad"
           />
 
@@ -187,7 +187,7 @@ console.log('traitements' , traitements)
             placeholder="70.0"
             placeholderTextColor={darkLight}
             onChangeText={handleChange('remboursement')}
-            value={values.remboursement} // Convert to string if not null or undefined
+            value={values.remboursement} 
             keyboardType="phone-pad"
           />
           </View>
@@ -225,8 +225,6 @@ console.log('traitements' , traitements)
               }
                 locale="fr"
       onPress={handleShowDatePicker}
-      //style={{ position: 'absolute', bottom: 0, left: 0 }}
-
                />
           
                       <View style={styles.inputContainer}>
@@ -302,7 +300,7 @@ console.log('traitements' , traitements)
 
     <Text style={styles.sectionTitleP}>Le medecin ne vous a donné aucun traitement?</Text>
                 <ExtraView>
-<TextLink onPress={() => navigation.navigate('ListeConsultation')}>
+<TextLink onPress={() => {navigation.goBack(),navigation.goBack(),navigation.goBack()}}>
   <TextLinkContent style={styles.ignor}>
   Ignorer l'etape
   </TextLinkContent>
@@ -368,18 +366,17 @@ const styles = StyleSheet.create({
   },
   label2: {
     fontSize: 16,
-    //color: brand, 
     marginBottom: 10,
     marginTop: -5,
     fontWeight:'bold'
   },
   label3: {
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 5,
     color: brand, 
     fontWeight: '600',
     marginLeft: -25,
-    marginTop: 25,
+    marginTop: 15,
   },
   ignor: {
     backgroundColor: 'white',
@@ -504,7 +501,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    backgroundColor: secondary , // Replace 'secondary' with the desired color value
+    backgroundColor: secondary , 
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,

@@ -328,7 +328,7 @@ const MyTextInput = ({ label,etoile, icon,icon2, ...props }) => {
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        marginLeft: -15,
+        marginLeft: 15,
         marginRight: -25,
     
       },

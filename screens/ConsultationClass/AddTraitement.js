@@ -131,7 +131,7 @@ console.log('ID' , consultationId)
      <View style={styles.header}>
           <View  style={styles.backButton}>
           </View>
-          <Text style={styles.headerTitle}>               Ajouter votre traitement</Text>
+          <Text style={styles.headerTitle}>                Ajouter votre traitement</Text>
         </View>
     
     <KeyboardAvoidingWrapper>
@@ -148,7 +148,7 @@ console.log('ID' , consultationId)
           >
             {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, isSubmitting }) => (
               <StyledFormArea>
-         <View style={{paddingBottom:200, marginTop:5}}>
+         <View style={{paddingBottom:200, marginTop:-5}}>
          <Text style={styles.label3}>Dépenses du traitement: </Text>
          <RowContainer>
                 <Text style={styles.label2}>Coût</Text>
@@ -361,6 +361,8 @@ const styles = StyleSheet.create({
     // marginBottom: 0,
     marginTop: 5,
     color:brand,
+    marginLeft: -25,
+
 
   },
   inputContainer:{

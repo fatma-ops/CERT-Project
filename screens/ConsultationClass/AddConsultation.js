@@ -216,7 +216,7 @@ const AddConsultation = ({ navigation }) => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
             <AntDesign name="left" size={25} color={brand} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>      Ajouter votre consultation</Text>
+          <Text style={styles.headerTitle}>Ajouter votre consultation</Text>
         </View>
     <KeyboardAvoidingWrapper>
       <StyledContainer>
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     borderBottomWidth: 0.25,
     borderBottomColor: darkLight,
-    marginLeft: -25,
+    marginLeft: 15,
     marginRight: -25,
 
   },

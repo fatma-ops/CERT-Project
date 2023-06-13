@@ -298,7 +298,6 @@ const ModifyConsultation = ({ navigation ,route }) => {
         <StatusBar style="light" />
         
         <InnerContainer>
-          <SubTitle></SubTitle>
           <Formik
             initialValues={{ objet:objet,type: type, date: dateConsultation, contact: contact, cout: cout, remboursement: remboursement, images: [ordonnances] }}
             onSubmit={(values, { setSubmitting }) => {
@@ -441,7 +440,7 @@ const ModifyConsultation = ({ navigation ,route }) => {
                 </View>
                 <ExtraView>
 
-                  <TextLink onPress={() => navigation.goBack()}>
+                  <TextLink onPress={() => {navigation.goBack(),navigation.goBack()}}>
                     <TextLinkContent style={{ justifyContent: 'center', alignContent: 'center', alignSelf: 'center' }} >
                       Annuler
                     </TextLinkContent>

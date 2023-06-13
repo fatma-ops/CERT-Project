@@ -5,10 +5,13 @@ import { CredentialsContext } from './../components/CredentialsContext';
 import { StatusBarHeight } from '../components/shared';
 const {brand , secondary , darkLight , red} = Colors
 
-const Plus = ({ navigation  }) => {
-    const handleCubePress = (screenName) => {
-        navigation.navigate(screenName);
-      };
+const Plus = ({ navigation,route  }) => {
+  const [reloadList, setReloadList] = useState(false);
+
+  const handleCubePress = (screenName1) => {
+    navigation.navigate(screenName1);
+  };
+  
   return (
     
 <View style={styles.page}>
@@ -30,15 +33,15 @@ const Plus = ({ navigation  }) => {
         <Text style={styles.text}>Ajouter consultation</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AddMedecin')}>
+      <TouchableOpacity style={styles.cube} onPress={() => navigation.navigate('AddMedecin', { setReloadList: () => setReloadList(true) })}>
         <Text style={styles.text}>Ajouter médecin</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AddAnalyse')}>
+      <TouchableOpacity style={styles.cube} onPress={() => navigation.navigate('AddAnalyse', { setReloadList: () => setReloadList(true) })}>
           <Text style={styles.text}>Ajouter analyse</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AddVaccin')}>
+      <TouchableOpacity style={styles.cube} onPress={() => navigation.navigate('AddVaccin', { setReloadList: () => setReloadList(true) })}>
         <Text style={styles.text}>Ajouter vaccin</Text>
       </TouchableOpacity>
 

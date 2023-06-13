@@ -108,9 +108,7 @@ const ListeRappel = ({ navigation }) => {
                     <View style={styles.headingContainer}>
 <View style ={{flexDirection:'column'}}>
 <View style={styles.header2}>
-<View>
 <Text style={styles.headerTitle}>Mes rappels</Text></View>
-</View>
 <View style={{width:280 , paddingHorizontal:12 , height:170 }}>
 <StatusBar style="Light" />
 <SearchBar
@@ -254,7 +252,7 @@ headerTitle: {
   color:'white',
 alignSelf:'center',
 justifyContent:'center',
-marginLeft:130
+marginLeft:120
 },
 backButton: {
 
