@@ -20,7 +20,7 @@ justify-content:center;
 const AnalyseDetail = ({ route , navigation }) => {
   const { selectedAnalyse } = route.params;
   const id = selectedAnalyse._id
-  console.log(id)
+  console.log(selectedAnalyse)
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
   const [headerText , setHeaderText]= useState('');

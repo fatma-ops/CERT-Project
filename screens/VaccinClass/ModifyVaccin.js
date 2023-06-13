@@ -124,7 +124,7 @@ const UpdateVaccin = async (values ,setSubmitting) => {
 
 
   try {
-    const response = await axios.put(`${ngrokLink}vaccin/modifier/${id}`, formData, {
+    const response = await axios.put(`${ngrokLink}vaccin/modifier/vaccin/${id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -171,7 +171,7 @@ const [currentImageData, setCurrentImageData] = useState(null);
         
      <InnerContainer>  
     <Formik
-      initialValues={{ title: title,maladieCible: maladieCible, date: dateVaccin,commentaire: commentaire, images:[images]  }}
+      initialValues={{ title: title,maladieCible: maladieCible, date: dateVaccin,commentaire: commentaire, images:[]  }}
       onSubmit={(values, { setSubmitting }) => {
         if (values.title == ''|| values.maladieCible ==''||values.images =='' ) {
             handleMessage('Veuillez remplir  les champs obligatoire');
@@ -211,20 +211,20 @@ const [currentImageData, setCurrentImageData] = useState(null);
                               
                           />
            <Text style={styles.label}>Date</Text>
-           <DateTimePicker
-    style={styles.date}
-    value={date}
-    mode="date"
-    display="spinner"
-    onChange={onChange}
-    locale="fr"
-    onPress={handleShowDatePicker}
-  />
+     
            
            <Text style={styles.label}>Preuve de vaccination <Text style={{ color: 'red' }}>*</Text></Text>
-  <>
+           <>
       <View style={styles.imageRow}>
-       
+        {values.images.map((image, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => takeImageHandler(index, setFieldValue, values)}
+            style={styles.imageContainer}
+          >
+            <Image source={{ uri: image.uri }} style={styles.image} />
+          </TouchableOpacity>
+        ))}
         {values.images.length < 3 && (
           <TouchableOpacity
             style={styles.placeholder}
@@ -259,9 +259,9 @@ const [currentImageData, setCurrentImageData] = useState(null);
                                     </ButtonText>
                                 </RegularButton>}
 
-                                {isSubmitting && <RegularButton2 disabled={true}>
+                                {isSubmitting && <RegularButton disabled={true}>
                                     <ActivityIndicator size="large" color={primary} />
-                                </RegularButton2>}
+                                </RegularButton>}
                                 </View>
                                 <ExtraView>
                              

@@ -55,30 +55,30 @@ export default function HomeScreen({ navigation , route }) {
           <Text style={styles.text}>Mes consultations</Text>
         </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Traitement',{idDossier:idDossier})}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Traitement')}>
         <Image style={styles.avatar} source={require('./../assets/img/pills.png')}/>
         <Text style={styles.text}>Mes traitements</Text>
       </TouchableOpacity>
    </View>
 
    <View style={styles.row}>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Analyse',{idDossier:idDossier})}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Analyse')}>
         <Image style={styles.avatar} source={require('./../assets/img/medical-history.png')} />
           <Text style={styles.text}>Mes analyses</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Medecin',{idDossier:idDossier})}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Medecin')}>
         <Image style={styles.avatar} source={require('./../assets/img/doctor.png')}/>
         <Text style={styles.text}>Mes médecins</Text>
       </TouchableOpacity>
    </View>
 
     <View style={styles.row}>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin',{idDossier:idDossier})}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Vaccin')}>
         <Image style={styles.avatar} source={require('./../assets/img/bleuVaccin.png')}/>
         <Text style={styles.text}>Mes Vaccins</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Depenses' , {idDossier:idDossier})}>
+      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('Depenses' )}>
         <Image style={styles.avatar} source={require('./../assets/img/treatment.png')}/>
         <Text style={styles.text}>Mes dépenses</Text>
       </TouchableOpacity>

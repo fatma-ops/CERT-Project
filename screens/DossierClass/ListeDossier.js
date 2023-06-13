@@ -155,7 +155,7 @@ const handleUpdate = async (id, newNom) => {
   
               <TouchableOpacity
                 onPress={() => {                    
-                navigation.navigate('HomeScreen', {idDossier:item._id }) }}
+                navigation.navigate('HomeScreen') }}
 
                 style={styles.liste}
               >

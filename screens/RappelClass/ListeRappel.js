@@ -13,6 +13,8 @@ import SearchBar from '../../components/SearchBar';
 import { ngrokLink } from '../../config';
 import { Swipeable } from 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as Notifications from "expo-notifications";
+
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
@@ -27,10 +29,11 @@ const ListeRappel = ({ navigation }) => {
 
   const { email } = storedCredentials;
 
-  const handleDelete = async (id) => {
-    setIsLoading(true);
-
+   const handleDelete = async (id) => {
     try {
+      // Annuler la notification avant de supprimer le rappel
+      await Notifications.cancelScheduledNotificationAsync(id);
+  
       const response = await fetch(`${ngrokLink}rappel/delete/${id}`, {
         method: 'DELETE'
       });
@@ -44,8 +47,7 @@ const ListeRappel = ({ navigation }) => {
  
     } catch (err) {
       console.error(err);
-      setIsLoading(false);
-      setResult('Erreur');
+      throw new Error('Erreur lors de la suppression du rappel');
     }
   };
 
