@@ -45,6 +45,8 @@ import ListeTraitement from '../screens/TraitementClass/ListeTraitement';
 import AfficheTraitement from '../screens/TraitementClass/AfficheTraitement';
 import Notification from '../screens/TraitementClass/Notification';
 import ModifierAnalyse from '../screens/AnalyseClass/ModifierAnalyse';
+import Plus from '../screens/plus';
+
 
 const Stack = createNativeStackNavigator();
 const RootStack = () => {
@@ -67,7 +69,6 @@ const RootStack = () => {
             <>
               <Stack.Screen   name="NavBarre" component={NavBarre} />
               <Stack.Screen   name="HomeNavigation" component={HomeNavigation} />
-
               <Stack.Screen  name="Welcome" component={Welcome} />
               <Stack.Screen  name="AddAnalyse" component={AddAnalyse} />
               <Stack.Screen  name="AnalyseDetail" component={AnalyseDetail}  />
@@ -75,32 +76,34 @@ const RootStack = () => {
               <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
               <Stack.Screen name="EditPasswordScreen" component={EditPasswordScreen} />
               <Stack.Screen name="Vaccin" component={Vaccin} />
-                <Stack.Screen name="ListeVaccin" component={ListeVaccin} />
-                <Stack.Screen name="AddVaccin" component={AddVaccin} />
-                <Stack.Screen name="AfficheVaccin" component={AfficheVaccin} />
-                <Stack.Screen name="ModifyVaccin" component={ModifyVaccin} />
-                <Stack.Screen name="Analyse" component={Analyse} />
-                <Stack.Screen name="Medecin" component={Medecin} />
-                <Stack.Screen name="ListeMedecin" component={ListeMedecin} />
-                <Stack.Screen name="AddMedecin" component={AddMedecin} />
-                <Stack.Screen name="AfficheMedecin" component={AfficheMedecin} />
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                <Stack.Screen name="ModifyMedecin" component={ModifyMedecin} />
-                <Stack.Screen name="Consultation" component={Consultation} />
-                <Stack.Screen name="ListeConsultation" component={ListeConsultation} />
-                <Stack.Screen name="AddConsultation" component={AddConsultation} />
-                <Stack.Screen name="AfficheConsultation" component={AfficheConsultation} />
-                <Stack.Screen name="ModifyConsultation" component={ModifyConsultation} />
-                <Stack.Screen name="Depenses" component={Depenses} />
-                <Stack.Screen name="Traitement" component={Traitement} />
-                <Stack.Screen name="AddTraitement" component={AddTraitement} />
-                <Stack.Screen name="UpdateTraitement" component={UpdateTraitement} />
-                <Stack.Screen name="AddRappel" component={AddRappel} />
-                <Stack.Screen name="ListeRappel" component={ListeRappel} />
-                <Stack.Screen name="ListeTraitement" component={ListeTraitement} />
-                <Stack.Screen name="AfficheTraitement" component={AfficheTraitement} />
-                <Stack.Screen name="Notification" component={Notification} />
-                <Stack.Screen name="ModifierAnalyse" component={ModifierAnalyse} />
+              <Stack.Screen name="ListeVaccin" component={ListeVaccin} />
+              <Stack.Screen name="AddVaccin" component={AddVaccin} />
+              <Stack.Screen name="AfficheVaccin" component={AfficheVaccin} />
+              <Stack.Screen name="ModifyVaccin" component={ModifyVaccin} />
+              <Stack.Screen name="Analyse" component={Analyse} />
+              <Stack.Screen name="Medecin" component={Medecin} />
+              <Stack.Screen name="ListeMedecin" component={ListeMedecin} />
+              <Stack.Screen name="AddMedecin" component={AddMedecin} />
+              <Stack.Screen name="AfficheMedecin" component={AfficheMedecin} />
+              <Stack.Screen name="HomeScreen" component={HomeScreen} />
+              <Stack.Screen name="ModifyMedecin" component={ModifyMedecin} />
+              <Stack.Screen name="Consultation" component={Consultation} />
+              <Stack.Screen name="ListeConsultation" component={ListeConsultation} />
+              <Stack.Screen name="AddConsultation" component={AddConsultation} />
+              <Stack.Screen name="AfficheConsultation" component={AfficheConsultation} />
+              <Stack.Screen name="ModifyConsultation" component={ModifyConsultation} />
+              <Stack.Screen name="Depenses" component={Depenses} />
+              <Stack.Screen name="Traitement" component={Traitement} />
+              <Stack.Screen name="AddTraitement" component={AddTraitement} />
+              <Stack.Screen name="UpdateTraitement" component={UpdateTraitement} />
+              <Stack.Screen name="AddRappel" component={AddRappel} />
+              <Stack.Screen name="ListeRappel" component={ListeRappel} />
+              <Stack.Screen name="ListeTraitement" component={ListeTraitement} />
+              <Stack.Screen name="AfficheTraitement" component={AfficheTraitement} />
+              <Stack.Screen name="Notification" component={Notification} />
+              <Stack.Screen name="ModifierAnalyse" component={ModifierAnalyse} />
+              <Stack.Screen name="Plus" component={Plus} />
+
 </>
               : <>
                 <Stack.Screen name="Login" component={Login} />

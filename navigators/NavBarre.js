@@ -18,6 +18,8 @@ import ListeDossier from '../screens/DossierClass/ListeDossier'
 import AfficheConsultation from '../screens/ConsultationClass/AfficheConsultation'
 import UpdateTraitement from '../screens/TraitementClass/UpdateTraitement'
 import Medecin from '../screens/MedecinClass/Medecin'
+import Plus from '../screens/plus'
+
 
 const { darkLight, brand , red } = Colors;
 const Tab = createBottomTabNavigator();
@@ -65,8 +67,8 @@ export default function NavBarre() {
                     }
                 }} />
 
-            <Tab.Screen name="Medecin"
-                component={Medecin}
+            <Tab.Screen name="Plus"
+                component={Plus}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
