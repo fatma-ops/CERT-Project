@@ -16,6 +16,7 @@ import { ngrokLink } from '../../config';
 const ListeMedecins = ({ navigation  }) => {
   const [medecins, setMedecins] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
+  const [reloadList, setReloadList] = useState(false);
 
   const { email } = storedCredentials;
 
@@ -42,11 +43,12 @@ const ListeMedecins = ({ navigation  }) => {
 
 
 
-    useEffect(() => {
-      axios.get(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
-        .then(response => setMedecins(response.data))
-        .catch(error => console.log(error));
-    }, [email]);
+  useEffect(() => {
+    axios.get(`${ngrokLink}medecin/${email}?cache_bust=123456789`)
+      .then(response => setMedecins(response.data))
+      .catch(error => console.log(error));
+  }, [email, reloadList]);
+  
     
 
   const renderAnalyse = ({ item }) => {
@@ -90,7 +92,7 @@ const ListeMedecins = ({ navigation  }) => {
     <View>
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('AddMedecin')}
+          onPress={() => navigation.navigate('AddMedecin', { setReloadList: () => setReloadList(true) })}
         >
           <MaterialIcons name="add" size={25} color='white' />
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>

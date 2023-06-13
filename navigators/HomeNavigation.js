@@ -85,6 +85,8 @@ export default function HomeNavigation (){
         <Stack.Screen name="AfficheMedecin" component={AfficheMedecin}  />
         <Stack.Screen name="ModifyMedecin" component={ModifyMedecin}  />
 
+
+
         <Stack.Screen name="Traitement" component={Traitement} />
         <Stack.Screen name="ListeTraitement" component={ListeTraitement} />
         <Stack.Screen name="AfficheTraitement" component={AfficheTraitement}  />

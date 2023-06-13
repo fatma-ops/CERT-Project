@@ -9,7 +9,7 @@ const {brand , secondary , darkLight , red} = Colors
 export default function HomeScreen({ navigation , route }) {
   
   const idDossier = route.params;
-  console.log(idDossier)
+ // console.log(idDossier)
   const handleCubePress = (screenName) => {
     navigation.navigate(screenName);
   };

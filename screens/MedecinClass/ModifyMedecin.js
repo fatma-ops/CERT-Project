@@ -28,6 +28,7 @@ const  ModifyMedecin = ({navigation , route}) =>  {
   const [selectedValue, setSelectedValue] = useState('option1');
   const [nom, setNom] = useState(route.params.nom);
   const [id, setId] = useState(route.params.id);
+  const { setReloadList } = route.params;
 
     const [adresse, setAdresse] = useState(route.params.adresse);
     const [specialite, setSpecialite] = useState(route.params.specialite);
@@ -69,7 +70,8 @@ const  ModifyMedecin = ({navigation , route}) =>  {
   const buttonHandler = () => {
     if(modalMessageType === 'success'){
         //do something
-        navigation.navigate('ListeMedecin');
+        setReloadList();
+        navigation.goBack();
     }
     
         setModalVisible(false);
@@ -119,7 +121,9 @@ const  ModifyMedecin = ({navigation , route}) =>  {
             setCommenataire(data.commenataire);
             // Show a success message to the user
            // ShowModal('success', "Contact mis à jour", "Votre contact a été mis à jour avec succès !", 'OK');
-           navigation.navigate('ListeMedecin')
+           navigation.goBack()
+           navigation.goBack()
+
           } else {
             // Show an error message to the user
             handleMessage(data.message, 'FAILED');

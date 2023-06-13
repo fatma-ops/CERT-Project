@@ -19,6 +19,7 @@ const AnalyseFlatList = ({ navigation }) => {
   const [analyses, setAnalyses] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [imageData, setImageData] = useState(null);
+  const [reloadList, setReloadList] = useState(false);
 
   const { email } = storedCredentials;
 
@@ -44,7 +45,7 @@ const AnalyseFlatList = ({ navigation }) => {
     axios.get(`${ngrokLink}analyse/${email}?cache_bust=123456789`)
       .then(response => setAnalyses(response.data))
       .catch(error => console.log(error));
-  }, [email]);
+  }, [email, reloadList]);
 
   
 
@@ -76,7 +77,7 @@ containerStyle={{ marginVertical: 15, marginTop:25}}
 <View >
 <TouchableOpacity
 style={[styles.button]}
-onPress={() => navigation.navigate('AddAnalyse')}
+onPress={() => navigation.navigate('AddAnalyse',{ setReloadList: () => setReloadList(true) })}
 >
 <MaterialIcons name="add" size={25} color='white' />
 <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>

@@ -19,6 +19,7 @@ const { brand, darkLight, primary,secondary,tertiary } = Colors;
 const ListeRappel = ({ navigation }) => {
   const [rappels, setRappels] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [reloadList, setReloadList] = useState(false);
 
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   //const screenHeight = Dimensions.get('window').height;
@@ -38,6 +39,8 @@ const ListeRappel = ({ navigation }) => {
 
       setResult(data);
       navigation.navigate('ListeRappel');
+      setReloadList();
+
  
     } catch (err) {
       console.error(err);
@@ -65,22 +68,11 @@ const ListeRappel = ({ navigation }) => {
     }
   };
   
-  
-    
-  
-  
-  
-  
-
-
-
-
-
   useEffect(() => {
     axios.get(`${ngrokLink}rappel/${email}?cache_bust=123456789`)
       .then(response => setRappels(response.data))
       .catch(error => console.log(error));
-  }, [email]);
+  }, [email, reloadList]);
 
   function formatTime(dateTimeString) {
     const date = new Date(dateTimeString);
@@ -133,7 +125,7 @@ containerStyle={{ marginVertical: 15, marginTop:25}}
 <View >
 <TouchableOpacity
 style={[styles.button]}
-onPress={() => navigation.navigate('AddRappel')}
+onPress={() => navigation.navigate('AddRappel',{ setReloadList: () => setReloadList(true) })}
 >
 <MaterialIcons name="add" size={25} color='white' />
 <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>

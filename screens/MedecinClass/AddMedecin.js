@@ -21,10 +21,11 @@ const { brand, darkLight, primary , secondary, tertiary} = Colors;
 
 
 
-const  AddMedecin = ({navigation}) =>  {
+const  AddMedecin = ({navigation, route}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [checked, setChecked] = useState('Blue');
+  const { setReloadList } = route.params;
 
   const [messageType, setMessageType] = useState();
   const [selectedValue, setSelectedValue] = useState('option1');
@@ -101,7 +102,9 @@ const  AddMedecin = ({navigation}) =>  {
               }
             );
             console.log(response.data);
-            navigation.navigate('ListeMedecin');
+            setReloadList();
+
+            navigation.goBack()
 
             setSubmitting(false);
           } catch (error) {

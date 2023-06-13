@@ -25,7 +25,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function AddRappel({navigation}) {
+export default function AddRappel({navigation,route}) {
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -33,6 +33,8 @@ export default function AddRappel({navigation}) {
   const responseListener = useRef();
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 const { email } = storedCredentials;
+const { setReloadList } = route.params;
+
 
 
   useEffect(() => {
@@ -186,8 +188,10 @@ const { email } = storedCredentials;
   
       console.log(response.data);
       setSubmitting(false);
+      setReloadList();
 
-      navigation.navigate('ListeRappel');
+      navigation.goBack();
+
     } catch (error) {
       setSubmitting(false);
 
@@ -214,7 +218,7 @@ const { email } = storedCredentials;
     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
       <AntDesign name="left" size={25} color={brand} />
     </TouchableOpacity>
-    <Text style={styles.headerTitle}>  Ajouter un Rappel</Text>
+    <Text style={styles.headerTitle}>     Ajouter un Rappel</Text>
   </View>
 
       <KeyboardAvoidingWrapper>
@@ -272,6 +276,8 @@ const { email } = storedCredentials;
 
             
               <DateTimePicker
+              style={[styles.date]}
+ 
               onPress={() => setFieldValue("showStartDateDateTimePicker", true)}
                 value={values.startDate}
                 mode="date"
@@ -294,7 +300,7 @@ value={values.nombreJours}
 <Text style={styles.label}>  jours</Text></View>
 
 
-<Text style={{ color: brand, fontSize:17 , fontWeight:'bold' }}>Choisir les heures du rappel </Text>
+<Text style={{ color: brand, fontSize:17 , fontWeight:'bold' }}>Choisisez les heures du rappel </Text>
 <View style={{ height: 20 }} />
 
 
@@ -440,12 +446,23 @@ const styles = StyleSheet.create({
   date: {
     //flex:1,
     //padding:25,
-    //paddingLeft:55,
+    paddingLeft:55,
     height:90,
-    marginVertical:-65,
-    marginLeft:50,
-    //marginTop:-65,
-    marginRight:50,
+    marginVertical:-5,
+    //marginLeft:50,
+    //marginTop:15,
+    marginRight:-10,
+    marginBottom:-3,
+  },
+  time: {
+    //flex:1,
+    //padding:25,
+    paddingLeft:55,
+    height:90,
+    marginVertical:-5,
+    //marginLeft:50,
+    //marginTop:15,
+    marginRight:-10,
     marginBottom:-3,
   },
   header: {

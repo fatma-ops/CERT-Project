@@ -25,11 +25,13 @@ import RowContainer from '../../components/Containers/RowContainer';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
-const  AddAnalyse = ({navigation}) =>  {
+const  AddAnalyse = ({navigation,route}) =>  {
 const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
+const { setReloadList } = route.params;
+
 const type = [
   "Analyse",
   "Radiologie",
@@ -150,8 +152,8 @@ const onChange = (event , selectedDate) => {
         }
       });
       console.log(response.data);
-      navigation.navigate('Analyse');
-  
+      setReloadList();
+      navigation.goBack()  
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);

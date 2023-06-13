@@ -21,6 +21,7 @@ const ListeVaccin = ({ navigation }) => {
   const [vaccins, setVaccins] = useState([]);
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   //const screenHeight = Dimensions.get('window').height;
+  const [reloadList, setReloadList] = useState(false);
 
   const { email } = storedCredentials;
 
@@ -45,7 +46,7 @@ const ListeVaccin = ({ navigation }) => {
     axios.get(`${ngrokLink}vaccin/user/${email}?cache_bust=123456789`)
       .then(response => setVaccins(response.data))
       .catch(error => console.log(error));
-  }, [email]);
+  }, [email, reloadList]);
 
   return (
     <View style={[styles.analyseContainer2]}>
@@ -74,7 +75,7 @@ const ListeVaccin = ({ navigation }) => {
     <View >
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('AddVaccin')}
+          onPress={() => navigation.navigate('AddVaccin', { setReloadList: () => setReloadList(true) })}
         >
           <MaterialIcons name="add" size={25} color='white' />
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>

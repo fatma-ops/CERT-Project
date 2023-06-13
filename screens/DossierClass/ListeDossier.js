@@ -11,7 +11,7 @@ import { MaterialIcons} from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
 import { Swipeable } from 'react-native-gesture-handler';
 import RoundIconBtn from '../../components/RoundIconBtn';
-import AddDossierModal from '../../components/Modals/UpdateDossierModal';
+import AddDossierModal from '../../components/Modals/AddDossierModal';
 import UpdateDossierModal from '../../components/Modals/UpdateDossierModal'
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
  
@@ -19,6 +19,7 @@ const ListeDossier = ({ navigation , route }) => {
   const [dossier, setDossier] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState('');
+  const [reloadList, setReloadList] = useState(false);
 
 
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
@@ -50,7 +51,7 @@ const ListeDossier = ({ navigation , route }) => {
     axios.get(`${ngrokLink}dossier/dossiers/${email}?cache_bust=${Date.now()}`)
       .then(response => setDossier(response.data))
       .catch(error => console.log(error));
-  }, [email])
+  }, [email, reloadList])
 
   const [modalVisibleAdd, setModalVisibleAdd] = useState(false);
 
@@ -65,6 +66,7 @@ const ListeDossier = ({ navigation , route }) => {
         body: JSON.stringify({ nom, userEmail: storedCredentials.email }),
       });
       const data = await response.json();
+      setReloadList();
       console.log('Dossier ajouté:', data);
       setModalVisibleAdd(false);
     } catch (err) {

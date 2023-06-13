@@ -20,11 +20,13 @@ import RowContainer2 from '../../components/Containers/RowContainer2';
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
 
-const  AddVaccin = ({navigation}) =>  {
+const  AddVaccin = ({navigation,route}) =>  {
 const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
+const { setReloadList } = route.params;
+
 //console.log(email);
 //date 
 const [date , setDate] = useState(new Date());
@@ -122,7 +124,10 @@ const takeImageHandler = async (index, setFieldValue, values) => {
         }
       });
       console.log(response.data);
-      navigation.navigate('ListeVaccin')
+      setReloadList();
+
+      navigation.goBack()
+
 
       setSubmitting(false);
 
