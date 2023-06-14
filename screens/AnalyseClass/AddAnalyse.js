@@ -22,7 +22,7 @@ import RegularButton from '../../components/Buttons/RegularButton';
 import RowContainer2 from '../../components/Containers/RowContainer2';
 import RowContainer from '../../components/Containers/RowContainer';
 import { ImageManipulator } from 'expo-image-manipulator';
-
+import { getReloadListFunction } from '../../navigators/NavigationService';
 
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
@@ -32,7 +32,9 @@ const { storedCredentials, setStoredCredentials } = useContext(CredentialsContex
 const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
-const setReloadList = route.params?.setReloadList;
+//const setReloadList = route.params?.setReloadList;
+const setReloadList = getReloadListFunction();
+
 
 const type = [
   "Analyse",
@@ -111,17 +113,14 @@ const [showDatePicker, setShowDatePicker] = useState(false);
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
 
-const onChange = (event, selectedDate) => {
-  const currentDate = selectedDate || date;
+
+const onChange = (event , selectedDate) => {
+  const currentDate = selectedDate || date ;
   setShowDatePicker(false);
   setDate(currentDate);
-  const formattedDate = currentDate.toLocaleDateString('fr-FR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  setFieldValue('date', formattedDate); // Set the formatted date to the form field
-};
+  setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+
+ }
 
    const handleShowDatePicker = () => {
     setShowDatePicker(true);

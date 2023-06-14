@@ -25,7 +25,7 @@ const { storedCredentials, setStoredCredentials } = useContext(CredentialsContex
 const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
-const setReloadList = route.params?.setReloadList;
+const { setReloadList } = route.params;
 
 //console.log(email);
 //date 
@@ -34,17 +34,13 @@ const [showDatePicker, setShowDatePicker] = useState(false);
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
 
-const onChange = (event, selectedDate) => {
-  const currentDate = selectedDate || date;
-  setShowDatePicker(false);
-  setDate(currentDate);
-  const formattedDate = currentDate.toLocaleDateString('fr-FR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  setFieldValue('date', formattedDate); // Set the formatted date to the form field
-};
+const onChange = (event , selectedDate) => {
+    const currentDate = selectedDate || date ;
+    setShowDatePicker(false);
+    setDate(currentDate);
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+
+   }
    const handleShowDatePicker = () => {
     setShowDatePicker(true);
   };  
@@ -107,15 +103,14 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     const formData = new FormData();
     formData.append('title', values.title);
     formData.append('maladieCible', values.maladieCible);
-    // Check if date is empty
-    if (values.date === '') {
-      const today = new Date();
-      const formattedDate = today.toISOString().split('T')[0];
-      formData.append('date', formattedDate);
-    } else {
-      formData.append('date', values.date);
-    }  
-    // Ajouter une boucle pour parcourir les images
+ // Check if date is empty
+ if (values.date === '') {
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  formData.append('date', formattedDate);
+} else {
+  formData.append('date', values.date);
+}      // Ajouter une boucle pour parcourir les images
     values.images.forEach((image, index) => {
       formData.append('images', {
         uri: image.uri,
@@ -340,7 +335,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
         paddingBottom: 15,
         borderBottomWidth: 0.25,
         borderBottomColor: darkLight,
-        marginLeft: 15,
+        marginLeft: -15,
         marginRight: -25,
     
       },

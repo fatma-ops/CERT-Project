@@ -42,12 +42,13 @@ console.log('ID' , consultationId)
   const [date, setDate] = useState(new Date());
   const [dob, setDob] = useState();
   const [show, setShow] = useState(false);
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
+  const onChange = (event , selectedDate) => {
+    const currentDate = selectedDate || date ;
+    setShowDatePicker(false);
     setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
-  }
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+
+   }
   const handleShowDatePicker = () => {
     setShow(true);
   };

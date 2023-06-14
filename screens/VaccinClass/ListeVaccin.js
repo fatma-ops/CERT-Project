@@ -75,13 +75,7 @@ const ListeVaccin = ({ navigation }) => {
     <View >
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => {
-            navigation.setOptions({
-              setReloadList: setReloadList
-            });
-            navigation.navigate('AddVaccin');
-            
-          }}
+          onPress={() => navigation.navigate('AddVaccin', { setReloadList: () => setReloadList(true) })}
         >
           <MaterialIcons name="add" size={25} color='white' />
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>

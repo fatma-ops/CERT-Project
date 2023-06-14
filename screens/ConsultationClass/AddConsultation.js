@@ -55,17 +55,13 @@ const AddConsultation = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [dob, setDob] = useState();
   const [show, setShow] = useState(false);
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+  const onChange = (event , selectedDate) => {
+    const currentDate = selectedDate || date ;
     setShowDatePicker(false);
     setDate(currentDate);
-    const formattedDate = currentDate.toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-    setFieldValue('date', formattedDate); // Set the formatted date to the form field
-  };
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+
+   }
   const handleShowDatePicker = () => {
     setShow(true);
   };
