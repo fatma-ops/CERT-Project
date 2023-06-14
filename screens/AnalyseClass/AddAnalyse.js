@@ -106,82 +106,78 @@ const takeImageHandler = async (index, setFieldValue, values) => {
 
  // console.log(email);
 //date
-const [date , setDate] = useState(new Date());
+const [date, setDate] = useState(new Date());
 const [showDatePicker, setShowDatePicker] = useState(false);
-const [dob , setDob] = useState() ; 
-const [show , setShow] = useState(false);
+const [dob, setDob] = useState();
+const [show, setShow] = useState(false);
+const [formData, setFormData] = useState(new FormData()); // Initialize formData here
 
-
-const onChange = (event , selectedDate) => {
-  const currentDate = selectedDate || date ;
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
   setShowDatePicker(false);
   setDate(currentDate);
-  setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
-
- }
-
-   const handleShowDatePicker = () => {
-    setShowDatePicker(true);
-  };
-
-    
-
-  const submitAnalyse = async (values, setSubmitting) => {
-    handleMessage(null);
-    setSubmitting(true);
-    formData.append('title', values.title);
-    formData.append('type', values.type);
-
-      const formData = new FormData();
-
-    // Check if date is empty
-    // Check if date is empty
- if (values.date === '') {
-  const today = new Date();
-  const formattedDate = today.toISOString().split('T')[0];
-  formData.append('date', formattedDate);
-} else {
-  formData.append('date', values.date);
-}
-      formData.append('contact', values.contact);
-    formData.append('cout', values.cout);
-    formData.append('remboursement', values.remboursement);
-   
-    // Ajouter une boucle pour parcourir les images
-    values.images.forEach((image, index) => {
-      formData.append('images', {
-        uri: image.uri,
-        name: `image_${index}.png`,
-        type: 'image/png'
-      });
-    });
-  
-    formData.append('userEmail', email);
-  
-    try {
-      const response = await axios.post(`${ngrokLink}analyse/add/multiple`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      console.log(response.data);
-      setReloadList();
-      navigation.goBack()  
-      setSubmitting(false);
-    } catch (error) {
-      setSubmitting(false);
-      if (error.response && error.response.data && error.response.data.message) {
-        handleMessage(error.response.data.message);
-      } else {
-        handleMessage(error.message);
-      }
-    }
-  };
-  
-  const handleMessage = (message, type = 'FAILED') => {
-    setMessage(message);
-    setMessageType(type);
+  setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
 };
+
+const handleShowDatePicker = () => {
+  setShowDatePicker(true);
+};
+
+const submitAnalyse = async (values, setSubmitting) => {
+  handleMessage(null);
+  setSubmitting(true);
+  const newFormData = new FormData(); // Create a new FormData object
+
+  newFormData.append('title', values.title);
+  newFormData.append('type', values.type);
+
+  if (values.date === '') {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    newFormData.append('date', formattedDate);
+  } else {
+    newFormData.append('date', values.date);
+  }
+  newFormData.append('contact', values.contact);
+  newFormData.append('cout', values.cout);
+  newFormData.append('remboursement', values.remboursement);
+
+  // Ajouter une boucle pour parcourir les images
+  values.images.forEach((image, index) => {
+    newFormData.append('images', {
+      uri: image.uri,
+      name: `image_${index}.png`,
+      type: 'image/png'
+    });
+  });
+
+  newFormData.append('userEmail', email);
+
+  try {
+    const response = await axios.post(`${ngrokLink}analyse/add/multiple`, newFormData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    console.log(response.data);
+    setReloadList();
+    navigation.goBack();
+    setSubmitting(false);
+  } catch (error) {
+    setSubmitting(false);
+    if (error.response && error.response.data && error.response.data.message) {
+      handleMessage(error.response.data.message);
+    } else {
+      handleMessage(error.message);
+    }
+  }
+};
+
+const handleMessage = (message, type = 'FAILED') => {
+  setMessage(message);
+  setMessageType(type);
+};
+
 
 
   return (

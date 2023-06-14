@@ -105,7 +105,7 @@ const takeImageHandler = async (index, setFieldValue, values) => {
     formData.append('maladieCible', values.maladieCible);
  // Check if date is empty
  if (values.date === '') {
-  const today = new Date();
+  const today = new Date(); 
   const formattedDate = today.toISOString().split('T')[0];
   formData.append('date', formattedDate);
 } else {
