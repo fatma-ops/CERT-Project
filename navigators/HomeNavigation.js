@@ -40,6 +40,7 @@ import AfficheTraitement from "../screens/TraitementClass/AfficheTraitement";
 
 //
 import Depenses from "../screens/Depenses"
+import plus from"../screens/plus"
 
 
 const Stack = createNativeStackNavigator();
@@ -93,6 +94,8 @@ export default function HomeNavigation (){
         <Stack.Screen name="Depenses" component={Depenses}  />
 
         <Stack.Screen name="ListeDossier" component={ListeDossier}  />
+        <Stack.Screen name="plus" component={plus}  />
+
 
 
 

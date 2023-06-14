@@ -39,13 +39,17 @@ const [showDatePicker, setShowDatePicker] = useState(false);
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
 
-const onChange = (event , selectedDate) => {
-    const currentDate = selectedDate || date ;
-    setShowDatePicker(false);
-    setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
-
-   }
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setShowDatePicker(false);
+  setDate(currentDate);
+  const formattedDate = currentDate.toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  setFieldValue('date', formattedDate); // Set the formatted date to the form field
+};
    const handleShowDatePicker = () => {
     setShowDatePicker(true);
   };  
@@ -108,7 +112,14 @@ const UpdateVaccin = async (values ,setSubmitting) => {
   const formData = new FormData();
   formData.append('title', values.title);
   formData.append('maladieCible', values.maladieCible);
-  formData.append('date',dob);
+  // Check if date is empty
+  if (values.date === '') {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    formData.append('date', formattedDate);
+  } else {
+    formData.append('date', values.date);
+  }  
   
     // Ajouter une boucle pour parcourir les images
     values.images.forEach((image, index) => {
@@ -211,7 +222,15 @@ const [currentImageData, setCurrentImageData] = useState(null);
                               
                           />
            <Text style={styles.label}>Date</Text>
-     
+           <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
            
            <Text style={styles.label}>Preuve de vaccination <Text style={{ color: 'red' }}>*</Text></Text>
            <>

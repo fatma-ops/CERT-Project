@@ -57,10 +57,15 @@ const AddConsultation = ({ navigation }) => {
   const [show, setShow] = useState(false);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(false);
+    setShowDatePicker(false);
     setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
-  }
+    const formattedDate = currentDate.toLocaleDateString('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    setFieldValue('date', formattedDate); // Set the formatted date to the form field
+  };
   const handleShowDatePicker = () => {
     setShow(true);
   };
@@ -167,8 +172,15 @@ const AddConsultation = ({ navigation }) => {
     const formData = new FormData();
     formData.append('objet', values.objet);
     formData.append('type', values.type);
-    formData.append('date', dob);
-    formData.append('contact', values.contact);
+
+    // Check if date is empty
+    if (values.date === '') {
+      const today = new Date();
+      const formattedDate = today.toISOString().split('T')[0];
+      formData.append('date', formattedDate);
+    } else {
+      formData.append('date', values.date);
+    }      formData.append('contact', values.contact);
     values.images.forEach((image, index) => {
       formData.append('ordonnance', {
         uri: image.uri,

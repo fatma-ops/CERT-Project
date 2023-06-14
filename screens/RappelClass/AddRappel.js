@@ -19,8 +19,8 @@ const { brand, darkLight, primary, red, tertiary,secondary } = Colors;
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldShowAlert: true, 
+    shouldPlaySound: true,  
     shouldSetBadge: false,
   }),
 });
@@ -33,7 +33,6 @@ export default function AddRappel({navigation,route}) {
   const responseListener = useRef();
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 const { email } = storedCredentials;
-const { setReloadList } = route.params;
 
 
 
@@ -188,7 +187,6 @@ const { setReloadList } = route.params;
   
       console.log(response.data);
       setSubmitting(false);
-      setReloadList();
 
       navigation.goBack();
 

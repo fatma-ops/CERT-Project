@@ -92,7 +92,13 @@ const ListeMedecins = ({ navigation  }) => {
     <View>
         <TouchableOpacity
           style={[styles.button]}
-          onPress={() => navigation.navigate('AddMedecin', { setReloadList: () => setReloadList(true) })}
+          onPress={() => {
+            navigation.setOptions({
+              setReloadList: setReloadList
+            });
+            navigation.navigate('AddMedecin');
+            
+          }}
         >
           <MaterialIcons name="add" size={25} color='white' />
           <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>

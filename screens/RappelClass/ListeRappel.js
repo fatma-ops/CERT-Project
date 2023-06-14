@@ -28,28 +28,40 @@ const ListeRappel = ({ navigation }) => {
   const [result, setResult] = useState('');
 
   const { email } = storedCredentials;
-
-   const handleDelete = async (id) => {
-    try {
-      // Annuler la notification avant de supprimer le rappel
-      await Notifications.cancelScheduledNotificationAsync(id);
+       
   
-      const response = await fetch(`${ngrokLink}rappel/delete/${id}`, {
-        method: 'DELETE'
-      });
+  const handleDelete = async (id) => {
+    console.log(id)
+    try {
+      setIsLoading(true); // Set isLoading to true before making the API requests
+  
+      // Fetch the details of the reminder to get the scheduled notification IDs
+      const response = await fetch(`${ngrokLink}rappel/${id}`);
       const data = await response.json();
-      setIsLoading(false);
-
+      const { morningNotificationId, noonNotificationId, eveningNotificationId } = data;
+  
+      // Cancel the scheduled notifications
+      await Notifications.cancelScheduledNotificationAsync(morningNotificationId);
+      await Notifications.cancelScheduledNotificationAsync(noonNotificationId);
+      await Notifications.cancelScheduledNotificationAsync(eveningNotificationId);
+  
+      // Delete the reminder from the server
+      await fetch(`${ngrokLink}rappel/delete/${id}`, {
+        method: 'DELETE',
+      });
+  
+      setIsLoading(false); // Set isLoading to false after the API requests are completed
+  
       setResult(data);
       navigation.navigate('ListeRappel');
       setReloadList();
-
- 
     } catch (err) {
-      console.error(err);
+      console.error(err); 
+      setIsLoading(false); // Set isLoading to false in case of an error
       throw new Error('Erreur lors de la suppression du rappel');
     }
   };
+  
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredRappels, setFilteredRappels] = useState(rappels);
@@ -123,10 +135,13 @@ containerStyle={{ marginVertical: 15, marginTop:25}}
 </View>
 
 <View >
-<TouchableOpacity
+<TouchableOpacity 
 style={[styles.button]}
-onPress={() => navigation.navigate('AddRappel',{ setReloadList: () => setReloadList(true) })}
->
+onPress={() => {
+  
+  navigation.navigate('AddRappel');
+  
+}}>
 <MaterialIcons name="add" size={25} color='white' />
 <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>
 </TouchableOpacity>

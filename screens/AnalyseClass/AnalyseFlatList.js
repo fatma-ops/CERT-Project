@@ -12,7 +12,6 @@ import SearchBar from '../../components/SearchBar';
 import { StatusBar } from 'react-native';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ngrokLink } from '../../config';
-import NotFound from '../../components/NotFound';
 
 
 const AnalyseFlatList = ({ navigation }) => {
@@ -77,7 +76,13 @@ containerStyle={{ marginVertical: 15, marginTop:25}}
 <View >
 <TouchableOpacity
 style={[styles.button]}
-onPress={() => navigation.navigate('AddAnalyse',{ setReloadList: () => setReloadList(true) })}
+onPress={() => {
+  navigation.setOptions({
+    setReloadList: setReloadList
+  });
+  navigation.navigate('AddAnalyse');
+  
+}}
 >
 <MaterialIcons name="add" size={25} color='white' />
 <Text style={{ marginLeft: -15, color: 'white' }}> Ajouter</Text>

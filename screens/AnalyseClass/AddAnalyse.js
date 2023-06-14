@@ -21,6 +21,8 @@ import SelectDropdown from 'react-native-select-dropdown';
 import RegularButton from '../../components/Buttons/RegularButton';
 import RowContainer2 from '../../components/Containers/RowContainer2';
 import RowContainer from '../../components/Containers/RowContainer';
+import { ImageManipulator } from 'expo-image-manipulator';
+
 
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
@@ -30,7 +32,7 @@ const { storedCredentials, setStoredCredentials } = useContext(CredentialsContex
 const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
-const { setReloadList } = route.params;
+const setReloadList = route.params?.setReloadList;
 
 const type = [
   "Analyse",
@@ -40,54 +42,54 @@ const type = [
 //image
 
  
-  const takeImageHandler = async (index, setFieldValue, values) => {
-    const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
-  
-    if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
-      alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
-      return;
-    }
-  
-    Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
-      {
-        text: 'Depuis la galerie',
-        onPress: async () => {
-          let result = await ImagePicker.launchImageLibraryAsync({
-            aspect: [16, 9],
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            base64: true,
-            quality: 1,
-            allowsMultipleSelection: true,
-          });
-          if (!result.canceled) {
-            const newImages = result.assets.map((asset) => ({ uri: asset.uri }));
-            const updatedImages = [...values.images];
-            updatedImages[index] = newImages[0];
-            setFieldValue('images', updatedImages);
-          }
-        },
+const takeImageHandler = async (index, setFieldValue, values) => {
+  const { status: mediaLibraryStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+
+  if (mediaLibraryStatus !== 'granted' || cameraStatus !== 'granted') {
+    alert("Désolé, nous avons besoin d'autorisations d'accès à la pellicule de la caméra pour que cela fonctionne !");
+    return;
+  }
+
+  Alert.alert('Choisir Image', 'Choisissez une image depuis la galerie ou prenez une photo', [
+    {
+      text: 'Depuis la galerie',
+      onPress: async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          aspect: [16, 9],
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          base64: true,
+          quality: 1,
+          allowsMultipleSelection: true,
+        });
+        if (!result.canceled) {
+          const newImages = result.assets.map((asset) => ({ uri: asset.uri }));
+          const updatedImages = [...values.images];
+          updatedImages[index] = newImages[0];
+          setFieldValue('images', updatedImages);
+        }
       },
-      {
-        text: 'Ouvrir la caméra',
-        onPress: async () => {
-          let result = await ImagePicker.launchCameraAsync({
-            allowsEditing: false,
-            aspect: [16, 9],
-            base64: true,
-            quality: 0.5,
-          });
-          if (!result.canceled) {
-            const newImage = { uri: result.assets[0].uri };
-            const updatedImages = [...values.images];
-            updatedImages[index] = newImage;
-            setFieldValue('images', updatedImages);
-          }
-        },
+    },
+    {
+      text: 'Ouvrir la caméra',
+      onPress: async () => {
+        let result = await ImagePicker.launchCameraAsync({
+          allowsEditing: false ,
+          aspect: [16, 9],
+          base64: true,
+          quality: 0.5,
+        });
+        if (!result.canceled) {
+          const newImage = { uri: result.assets[0].uri };
+          const updatedImages = [...values.images];
+          updatedImages[index] = newImage;
+          setFieldValue('images', updatedImages);
+        }
       },
-      { text: 'Annuler', style: 'cancel' },
-    ]);
-  };
+    },
+    { text: 'Annuler', style: 'cancel' },
+  ]);
+};
   
 
   // Fetch the list of contacts from the database
@@ -109,13 +111,18 @@ const [showDatePicker, setShowDatePicker] = useState(false);
 const [dob , setDob] = useState() ; 
 const [show , setShow] = useState(false);
 
-const onChange = (event , selectedDate) => {
-    const currentDate = selectedDate || date ;
-    setShowDatePicker(false);
-    setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  setShowDatePicker(false);
+  setDate(currentDate);
+  const formattedDate = currentDate.toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+  setFieldValue('date', formattedDate); // Set the formatted date to the form field
+};
 
-   }
    const handleShowDatePicker = () => {
     setShowDatePicker(true);
   };
@@ -125,15 +132,23 @@ const onChange = (event , selectedDate) => {
   const submitAnalyse = async (values, setSubmitting) => {
     handleMessage(null);
     setSubmitting(true);
-    const formData = new FormData();
     formData.append('title', values.title);
     formData.append('type', values.type);
 
-    formData.append('date', dob);
-    formData.append('contact', values.contact);
+      const formData = new FormData();
+
+    // Check if date is empty
+    if (values.date === '') {
+      const today = new Date();
+      const formattedDate = today.toISOString().split('T')[0];
+      formData.append('date', formattedDate);
+    } else {
+      formData.append('date', values.date);
+    }  
+      formData.append('contact', values.contact);
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
-  
+   
     // Ajouter une boucle pour parcourir les images
     values.images.forEach((image, index) => {
       formData.append('images', {
@@ -174,7 +189,7 @@ const onChange = (event , selectedDate) => {
   return (
     <>
     <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={styles.backButton}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <AntDesign name="left" size={25} color={brand} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>   Ajouter votre analyse  </Text>
@@ -262,7 +277,15 @@ const onChange = (event , selectedDate) => {
       <Text style={styles.label}>
     Date
   </Text>
-  
+  <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
   
            <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
            <>

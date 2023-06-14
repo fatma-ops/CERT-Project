@@ -109,7 +109,12 @@ const ModifierAnalyse = ({ navigation, route }) => {
       const currentDate = selectedDate || date;
       setShowDatePicker(false);
       setDate(currentDate);
-      setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
+      const formattedDate = currentDate.toLocaleDateString('fr-FR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+      setFieldValue('date', formattedDate); // Set the formatted date to the form field
     };
     const handleShowDatePicker = () => {
       setShowDatePicker(true);
@@ -121,8 +126,15 @@ const ModifierAnalyse = ({ navigation, route }) => {
         const formData = new FormData();
         formData.append('title', values.title);
         formData.append('type', values.type);
-        formData.append('date', dob);
-        formData.append('contact', values.contact);
+
+        // Check if date is empty
+        if (values.date === '') {
+          const today = new Date();
+          const formattedDate = today.toISOString().split('T')[0];
+          formData.append('date', formattedDate);
+        } else {
+          formData.append('date', values.date);
+        }          formData.append('contact', values.contact);
         formData.append('cout', values.cout);
         formData.append('remboursement', values.remboursement);
         // Ajouter une boucle pour parcourir les images
@@ -261,6 +273,15 @@ const ModifierAnalyse = ({ navigation, route }) => {
                     <Text style={styles.label}>
                       Date
                     </Text>
+                    <DateTimePicker
+    style={styles.date}
+    value={date}
+    mode="date"
+    display="spinner"
+    onChange={onChange}
+    locale="fr"
+    onPress={handleShowDatePicker}
+  />
                       <Text style={styles.label}>les résultats d'analyse <Text style={{ color: 'red' }}>*</Text></Text>
                       <>
       <View style={styles.imageRow}>

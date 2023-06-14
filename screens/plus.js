@@ -11,6 +11,10 @@ const Plus = ({ navigation,route  }) => {
   const handleCubePress = (screenName1) => {
     navigation.navigate(screenName1);
   };
+  const handleAddMedecin = () => {
+    navigation.navigate('AddMedecin');
+    setReloadList(true);
+  };
   
   return (
     
@@ -29,19 +33,45 @@ const Plus = ({ navigation,route  }) => {
   </View>
           <View  style={styles.container}>
       
-      <TouchableOpacity style={styles.cube} onPress={() => handleCubePress('AddConsultation')}>
+      <TouchableOpacity style={styles.cube}  onPress={() => {
+    navigation.setOptions({
+      setReloadList: setReloadList
+    });
+    navigation.navigate('AddConsultation');
+    
+  }}>
         <Text style={styles.text}>Ajouter consultation</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.cube} onPress={() => navigation.navigate('AddMedecin', { setReloadList: () => setReloadList(true) })}>
+      <TouchableOpacity style={styles.cube}      onPress={() => {
+    navigation.setOptions({
+      setReloadList: setReloadList
+    });
+    navigation.navigate('AddMedecin');
+    
+  }}
+  
+>
         <Text style={styles.text}>Ajouter médecin</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube} onPress={() => navigation.navigate('AddAnalyse', { setReloadList: () => setReloadList(true) })}>
+      <TouchableOpacity style={styles.cube}  onPress={() => {
+    navigation.setOptions({
+      setReloadList: setReloadList
+    });
+    navigation.navigate('AddAnalyse');
+    
+  }}>
           <Text style={styles.text}>Ajouter analyse</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube} onPress={() => navigation.navigate('AddVaccin', { setReloadList: () => setReloadList(true) })}>
+      <TouchableOpacity style={styles.cube}  onPress={() => {
+    navigation.setOptions({
+      setReloadList: setReloadList
+    });
+    navigation.navigate('AddVaccin');
+    
+  }}>
         <Text style={styles.text}>Ajouter vaccin</Text>
       </TouchableOpacity>
 
