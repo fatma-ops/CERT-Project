@@ -33,45 +33,21 @@ const Plus = ({ navigation,route  }) => {
   </View>
           <View  style={styles.container}>
       
-      <TouchableOpacity style={styles.cube}  onPress={() => {
-    navigation.setOptions({
-      setReloadList: setReloadList
-    });
-    navigation.navigate('AddConsultation');
-    
-  }}>
+      <TouchableOpacity style={styles.cube}  onPress={() => navigation.navigate('AddConsultation', { setReloadList: () => setReloadList(true) })}>
         <Text style={styles.text}>Ajouter consultation</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.cube}      onPress={() => {
-    navigation.setOptions({
-      setReloadList: setReloadList
-    });
-    navigation.navigate('AddMedecin');
-    
-  }}
+      <TouchableOpacity style={styles.cube}      onPress={() => navigation.navigate('AddMedecin', { setReloadList: () => setReloadList(true) })}
   
 >
         <Text style={styles.text}>Ajouter médecin</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube}  onPress={() => {
-    navigation.setOptions({
-      setReloadList: setReloadList
-    });
-    navigation.navigate('AddAnalyse');
-    
-  }}>
+      <TouchableOpacity style={styles.cube}  onPress={() => navigation.navigate('AddAnalyse', { setReloadList: () => setReloadList(true) })}>
           <Text style={styles.text}>Ajouter analyse</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cube}  onPress={() => {
-    navigation.setOptions({
-      setReloadList: setReloadList
-    });
-    navigation.navigate('AddVaccin');
-    
-  }}>
+      <TouchableOpacity style={styles.cube}   onPress={() => navigation.navigate('AddVaccin', { setReloadList: () => setReloadList(true) })}>
         <Text style={styles.text}>Ajouter vaccin</Text>
       </TouchableOpacity>
 

@@ -21,8 +21,6 @@ import SelectDropdown from 'react-native-select-dropdown';
 import RegularButton from '../../components/Buttons/RegularButton';
 import RowContainer2 from '../../components/Containers/RowContainer2';
 import RowContainer from '../../components/Containers/RowContainer';
-import { ImageManipulator } from 'expo-image-manipulator';
-import { getReloadListFunction } from '../../navigators/NavigationService';
 
 
 const { brand, darkLight, primary,secondary,tertiary } = Colors;
@@ -33,7 +31,7 @@ const [message, setMessage] = useState();
 const [messageType, setMessageType] = useState();
 const { email } = storedCredentials;
 //const setReloadList = route.params?.setReloadList;
-const setReloadList = getReloadListFunction();
+const { setReloadList } = route.params;
 
 
 const type = [
@@ -137,13 +135,14 @@ const onChange = (event , selectedDate) => {
       const formData = new FormData();
 
     // Check if date is empty
-    if (values.date === '') {
-      const today = new Date();
-      const formattedDate = today.toISOString().split('T')[0];
-      formData.append('date', formattedDate);
-    } else {
-      formData.append('date', values.date);
-    }  
+    // Check if date is empty
+ if (values.date === '') {
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  formData.append('date', formattedDate);
+} else {
+  formData.append('date', values.date);
+}
       formData.append('contact', values.contact);
     formData.append('cout', values.cout);
     formData.append('remboursement', values.remboursement);
