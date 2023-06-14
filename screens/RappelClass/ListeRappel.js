@@ -29,22 +29,16 @@ const ListeRappel = ({ navigation }) => {
 
   const { email } = storedCredentials;
        
-  
+   
   const handleDelete = async (id) => {
     console.log(id)
-    try {
+    try { 
       setIsLoading(true); // Set isLoading to true before making the API requests
   
       // Fetch the details of the reminder to get the scheduled notification IDs
       const response = await fetch(`${ngrokLink}rappel/${id}`);
       const data = await response.json();
-      const { morningNotificationId, noonNotificationId, eveningNotificationId } = data;
-  
-      // Cancel the scheduled notifications
-      await Notifications.cancelScheduledNotificationAsync(morningNotificationId);
-      await Notifications.cancelScheduledNotificationAsync(noonNotificationId);
-      await Notifications.cancelScheduledNotificationAsync(eveningNotificationId);
-  
+     
       // Delete the reminder from the server
       await fetch(`${ngrokLink}rappel/delete/${id}`, {
         method: 'DELETE',
