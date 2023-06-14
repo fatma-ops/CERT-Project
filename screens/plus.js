@@ -11,10 +11,6 @@ const Plus = ({ navigation,route  }) => {
   const handleCubePress = (screenName1) => {
     navigation.navigate(screenName1);
   };
-  const handleAddMedecin = () => {
-    navigation.navigate('AddMedecin');
-    setReloadList(true);
-  };
   
   return (
     

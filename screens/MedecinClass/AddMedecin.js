@@ -1,11 +1,11 @@
-import React, { useContext , useState,useEffect } from 'react';
+import React, { useContext , useState } from 'react';
 import { View,  StatusBar, TouchableOpacity, Text, TextInput } from 'react-native';
 import axios from 'axios';
 import { Formik } from 'formik';
 import {  Octicons, Ionicons, AntDesign } from '@expo/vector-icons';
 import MessageModal from '../../components/Modals/MessageModal';
 import { CredentialsContext } from '../../components/CredentialsContext';
-import { InnerContainer, StyledContainer , Colors , LeftIcon  , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle, StyledEtoile, StyledTextInputContainercountry, StyledTextInputcountry} from '../../components/styles';
+import { InnerContainer, StyledContainer , Colors , LeftIcon , StyledInputLabel , StyledTextInput,StyledFormArea, MsgBox, ButtonText, StyledButton2, ViewImage, TextLink, ExtraView, TextLinkContent, StyledTextInput2, StyledInputLabel2, PageSignup, SubTitle, StyledTextCommentaire, SelectDropdownStyle, StyledEtoile, StyledTextInputContainercountry, StyledTextInputcountry} from '../../components/styles';
 import KeyboardAvoidingWrapper from '../../components/KeyboardAvoidingWrapper';
 import { ActivityIndicator } from 'react-native';
 import { StyleSheet } from 'react-native';
@@ -25,7 +25,7 @@ const  AddMedecin = ({navigation, route}) =>  {
   const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
   const [message, setMessage] = useState();
   const [checked, setChecked] = useState('Blue');
-  const setReloadList = route.params?.setReloadList;
+  const { setReloadList } = route.params;
 
   const [messageType, setMessageType] = useState();
   const [selectedValue, setSelectedValue] = useState('option1');
@@ -53,8 +53,6 @@ const  AddMedecin = ({navigation, route}) =>  {
        setShow(true);
    }
 
-
-  
 
   const [modalVisible , setModalVisible] = useState(false);
   const [modalMessageType , setModalMessageType] = useState('');
@@ -104,7 +102,8 @@ const  AddMedecin = ({navigation, route}) =>  {
               }
             );
             console.log(response.data);
-setReloadList?.();
+            setReloadList();
+
             navigation.goBack()
 
             setSubmitting(false);

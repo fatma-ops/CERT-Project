@@ -55,13 +55,12 @@ const AddConsultation = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [dob, setDob] = useState();
   const [show, setShow] = useState(false);
-  const onChange = (event , selectedDate) => {
-    const currentDate = selectedDate || date ;
-    setShowDatePicker(false);
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(false);
     setDate(currentDate);
-    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })); 
-
-   }
+    setDob(date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }));
+  }
   const handleShowDatePicker = () => {
     setShow(true);
   };
@@ -168,15 +167,15 @@ const AddConsultation = ({ navigation }) => {
     const formData = new FormData();
     formData.append('objet', values.objet);
     formData.append('type', values.type);
-
-    // Check if date is empty
-    if (values.date === '') {
-      const today = new Date();
-      const formattedDate = today.toISOString().split('T')[0];
-      formData.append('date', formattedDate);
-    } else {
-      formData.append('date', values.date);
-    }      formData.append('contact', values.contact);
+ // Check if date is empty
+ if (values.date === '') {
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+  formData.append('date', formattedDate);
+} else {
+  formData.append('date', values.date);
+}
+    formData.append('contact', values.contact);
     values.images.forEach((image, index) => {
       formData.append('ordonnance', {
         uri: image.uri,
