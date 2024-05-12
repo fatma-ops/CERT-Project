@@ -29,8 +29,8 @@ const ListeRappel = ({ navigation }) => {
 
   const { email } = storedCredentials;
        
-   
-  const handleDelete = async (id) => {
+     
+  const handleDelete = async (id) => { 
     console.log(id)
     try { 
       setIsLoading(true); // Set isLoading to true before making the API requests
